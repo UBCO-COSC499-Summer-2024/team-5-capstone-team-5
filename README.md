@@ -1,6 +1,6 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=15118895&assignment_repo_type=AssignmentRepo)
 # Project Description
-** Optically Marked Exam Management System **
+**Optically Marked Exam Management System**
 Project Goal: To create a responsive web application that supports the marking and management of optically marked exams.  The application will allow for the rapid construction, marking, analysis and return of optically marked exams.
 
 # Team Members
