@@ -1,39 +1,34 @@
-Weekly Log - [Week 1: May 19- May 25]
+# Weekly Log - [Week 1: May 19- May 25]
 
-Date: []
-Author: [Nathan Jacinto]
+### Date: May 21
+### Author: Nathan Jacinto
 
-Goals for the Week:
+#### Goals for the Week:
 - [Start on UI diagrams]
 - [Start on Kanban Board]
 - [Goal 3]
-...
-
-Accomplishments:
+#### Accomplishments:
 - [Accomplishment 1]
 - [Accomplishment 2]
 - [Accomplishment 3]
-...
 
-Challenges Faced:
+
+#### Challenges Faced:
 - [Challenge 1]
 - [Challenge 2]
 - [Challenge 3]
-...
 
-Plans for Next Week:
+#### Plans for Next Week:
 - [Plan 1]
 - [Plan 2]
 - [Plan 3]
-...
 
-Lessons Learned:
+#### Lessons Learned:
 - [Lesson 1]
 - [Lesson 2]
 - [Lesson 3]
-...
 
-Additional Notes:
+#### Additional Notes:
 - [Note 1]
 - [Note 2]
 - [Note 3]
