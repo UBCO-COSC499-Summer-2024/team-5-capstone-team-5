@@ -9,6 +9,7 @@ Project Goal: To create a responsive web application that supports the marking a
 - Oakley Pankratz - 35649318
 - Nic Kouwenhoven - 60504180
 - Jay Bhullar - 21474457
+- Jack Mathisen - 73490252     
 
 
 
