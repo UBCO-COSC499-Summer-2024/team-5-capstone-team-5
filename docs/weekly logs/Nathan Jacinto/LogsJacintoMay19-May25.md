@@ -3,32 +3,17 @@
 ### Date: May 21
 ### Author: Nathan Jacinto
 
-#### Goals for the Week:
-- [Start on UI diagrams]
-- [Start on Kanban Board]
-- [Goal 3]
-#### Accomplishments:
-- [Accomplishment 1]
-- [Accomplishment 2]
-- [Accomplishment 3]
+
+## Hour Breakdown
+
+**Approximate Hours: 25**
+
+Things Done
+Start of FIGMA FILES AND UML Diagrams
+Discussed Functionalities( Requirements) and System Architecture
+Creation of Kanban Board
+Creation and 80% of the Project Proposal
+Creation and 80% of the User Scenarios
 
 
-#### Challenges Faced:
-- [Challenge 1]
-- [Challenge 2]
-- [Challenge 3]
 
-#### Plans for Next Week:
-- [Plan 1]
-- [Plan 2]
-- [Plan 3]
-
-#### Lessons Learned:
-- [Lesson 1]
-- [Lesson 2]
-- [Lesson 3]
-
-#### Additional Notes:
-- [Note 1]
-- [Note 2]
-- [Note 3]
