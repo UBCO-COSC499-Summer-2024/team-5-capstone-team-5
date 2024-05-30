@@ -26,7 +26,7 @@ Jack Mathisen
 ![Burn Up](../logScreenshots/burnupWeek1.png)
 # Times for Team/Individual
 
-## Team: 
+## Team: 70.5hrs *Approximately
 
 ### Nathan: 25hrs
 
