@@ -32,7 +32,7 @@ Jack Mathisen
 
 ### Nicolaas: 10.5hrs
 
-### Jay: 10hrs
+### Jay: 15hrs
 
 ### Oakley: 10hrs
 
