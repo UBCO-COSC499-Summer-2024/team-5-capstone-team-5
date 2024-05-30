@@ -53,7 +53,7 @@ Examples: Department Heads, It Support
 ### 1.3 Usage Scenarios
 Use case scenarios illustrate the interaction between users (Instructors, Students, and Administrators) and the Optical Marking Management System, detailing the steps involved in common tasks to ensure smooth operation and user satisfaction.
 
-This is explained in detail in the use cases
+This is explained in detail in the [use cases](useCases.md)
 
 # 2. Requirements
 ***
