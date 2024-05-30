@@ -5,7 +5,7 @@
 
 ## Tasks:
 
-### Team Meeting (3hrs) (Small):
+### Team Meeting (3hrs) (Med):
 - Attended the initial team meeting to hash out ideas about the requirements of the project before the proposal began
 
 ### Project Proposal (7.5hrs) (Large):
@@ -21,4 +21,11 @@
 
 ## Work in Progress
 
-### UI Mockups in Figma (Med Size)
+### UI Mockups in Figma (Med)
+### UML Diagrams (Small)
+
+## Goal Recap
+
+My goals for this week were to get situated with the team dynamic and complete the weekly submission requirement of the project proposal and the proposal video. I think that the goals were adequately completed.
+
+My goals for next week are to get the UI mocked up in Figma and to get a basic outline in Docker going for our React.js front-end and Node.js backend
