@@ -29,3 +29,30 @@
 My goals for this week were to get situated with the team dynamic and complete the weekly submission requirement of the project proposal and the proposal video. I think that the goals were adequately completed.
 
 My goals for next week are to get the UI mocked up in Figma and to get a basic outline in Docker going for our React.js front-end and Node.js backend
+
+# May 29 - May 31
+## Date: May 31, 8:11 PM
+
+## Hours: 4.5
+
+## Tasks:
+
+### Team Meeting (2hrs) (Med):
+- Met with Dr. Lawrence, our client, regarding the project proposal - Took notes on the project and got a refined direction to move into
+- Discussed matters after the meeting regarding Dr. Lawrence's feedback - Planned tasks for the upcoming weekend
+
+### Figma UI Mocking (1hr) (Small):
+- Worked with Oakley on a general UI page layout
+
+### Set up outlines for team Github logging (1hr) (Small)
+
+## Work in Progress
+
+### UI Mockups in Figma (Med)
+### UML Diagrams (Small)
+### ER Diagram (Med)
+
+## Goal Recap
+
+My goals for next week are to get the UI mocked up in Figma and to get a basic outline in Docker going for our React.js front-end and Node.js backend
+Also creating the ER Diagram in Figma with Nathan
