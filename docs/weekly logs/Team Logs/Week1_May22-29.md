@@ -26,17 +26,17 @@ Jack Mathisen
 ![Burn Up](../logScreenshots/burnupWeek1.png)
 # Times for Team/Individual
 
-## Team: 70.5hrs *Approximately
+## Team: 12.5hrs *Approximately
 
-### Nathan: 25hrs
+### Nathan: 3hrs
 
-### Nicolaas: 10.5hrs
+### Nicolaas: 4.5hrs
 
-### Jay: 15hrs
+### Jay: 2hrs
 
-### Oakley: 10hrs
+### Oakley: 3hrs
 
-### Jack: 10hrs
+### Jack: 0hrs
 
 # Table of Completed Tasks:
 ![Completed Tasks](../logScreenshots/completedWeek1.png)
