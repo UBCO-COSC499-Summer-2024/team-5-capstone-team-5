@@ -6,6 +6,7 @@ import Contact from './components/Contact';
 import CourseDetails from './components/CourseDetails';
 import InstructorHome from './components/InstructorHome';
 import StudentHome from './components/StudentHome';
+import Login from './components/Login';
 import Navbar from './components/Navbar';
 import { UserProvider, useUser } from './contexts/UserContext';
 import './App.css';
@@ -24,13 +25,15 @@ function AppContent() {
   const location = useLocation();
   const { role } = useUser();
   const isCoursesPage = location.pathname === "/student/courses" || location.pathname === "/instructor/courses";
+  const showNavbar = location.pathname !== "/";
 
   return (
     <div className="flex">
-      <Navbar />
+      {showNavbar && <Navbar />}
       <div className={isCoursesPage ? "flex-grow" : "flex-grow p-8"}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           {role === 'student' && <Route path="/student/courses" element={<CourseDetails />} />}
           {role === 'instructor' && <Route path="/instructor/courses" element={<CourseDetails />} />}
