@@ -121,7 +121,7 @@ Use case scenarios illustrate the interaction between users (instructors, studen
         * User-submits-Response: A user can submit multiple responses. Each response is submitted by one user.
 
 
-## Course {#course}
+## Course 
 
 
 
@@ -138,7 +138,7 @@ Use case scenarios illustrate the interaction between users (instructors, studen
         * Student-enrolls-in-Course: Each course can have many students enrolled.
 
 
-## Exam {#exam}
+## Exam 
 
 
 
@@ -156,7 +156,7 @@ Use case scenarios illustrate the interaction between users (instructors, studen
         * **Student-Takes-Exam:** Each exam can be taken by many students. A student can only take one instance of that exam.
 
 
-## Question {#question}
+## Question 
 
 
 
@@ -173,7 +173,7 @@ Use case scenarios illustrate the interaction between users (instructors, studen
         * Question-has-Responses: A question can have multiple responses. Each response is related to one question.
 
 
-## Responses {#responses}
+## Responses 
 
 
 
