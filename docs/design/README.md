@@ -196,7 +196,7 @@ Level 0 is the highest-level Data Flow Diagram (DFD), which provides an overview
 Level 1 Data Flow Diagram (DFD). Each sub-process is depicted as a separate process on the level 1 Data Flow Diagram (DFD). The data flows and data stores associated with each sub-process are also shown.
 ![DFD Level 1](./diagrams/DFD_Level_1.png)
 
-#### **External Entities** {#external-entities}
+#### **External Entities** 
 
 
 
@@ -220,7 +220,7 @@ Administrators are responsible for the overall management and operation of the e
 * **Manage Accounts**: Administrators handle account management.
 
 
-#### **Processes** {#processes}
+#### **Processes** 
 
 
 
@@ -231,7 +231,7 @@ Administrators are responsible for the overall management and operation of the e
 5. **Manage Students**: This involves managing student information and their course enrollments.
 
 
-#### **Data Stores** {#data-stores}
+#### **Data Stores** 
 
 
 
@@ -242,7 +242,7 @@ Administrators are responsible for the overall management and operation of the e
     * **Question Data**: Contains questions for exams.
 
 
-#### **Specialized Processes** {#specialized-processes}
+#### **Specialized Processes** 
 
 
 
@@ -253,12 +253,12 @@ Administrators are responsible for the overall management and operation of the e
     * **Upload Student-Filled Bubble Sheet**: Students’ completed OMR sheets are uploaded for grading.
 
 
-# User Interface Design {#user-interface-design}
+# User Interface Design 
 
 [UI design Figma](https://www.figma.com/design/DJhTmGIrBQyYJCpbkCIhKU/UI-Brainstorming?node-id=0-1&t=GJObwQAol4qcn0Zc-1)
 
 
-#### **Aesthetics & Design Philosophy** {#aesthetics-&-design-philosophy}
+#### **Aesthetics & Design Philosophy** 
 
 
 
@@ -291,7 +291,7 @@ Our system is designed to be focused around the creation, marking and viewing of
 Our icons are chosen from a standard Google ‘Material Symbols’ plugin to allow for consistency in our design
 
 
-#### **Instructor View** {#instructor-view}
+#### **Instructor View** 
 
 
 
@@ -318,7 +318,7 @@ The instructor is able to view the list of students as a spreadsheet. The instru
 Searching and filtering is available to narrow the grade search to a specific student, and a ‘+’ button in the top right will allow the instructor to manually enter rows of student information in case they don’t want to utilize the CSV uploading.
 
 
-#### **Student View** {#student-view}
+#### **Student View** 
 
 
 
@@ -347,7 +347,7 @@ Each test will have basic information at a glance. This information includes the
 When a student interacts with a test object, it will display all of the questions related to the exam and. if the instructor has enabled it, the answers will be shown so the students can see where they went wrong on the exam.
 
 
-#### **Admin View** {#admin-view}
+#### **Admin View** 
 
 The admin view contains 3 main pages:
 
