@@ -100,7 +100,7 @@ Use case scenarios illustrate the interaction between users (instructors, studen
 
 # Database Design / ER Diagram
 ![ER Diagram](./diagrams/ER_Diagram.png)
-## User (General Entity) {#user-general-entity}
+## User (General Entity) 
 
 
 
