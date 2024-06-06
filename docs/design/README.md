@@ -256,6 +256,7 @@ Administrators are responsible for the overall management and operation of the e
 # User Interface Design 
 
 [UI design Figma](https://www.figma.com/design/DJhTmGIrBQyYJCpbkCIhKU/UI-Brainstorming?node-id=0-1&t=GJObwQAol4qcn0Zc-1)
+[UI prototypes Figma](https://www.figma.com/proto/DJhTmGIrBQyYJCpbkCIhKU/UI-Brainstorming?page-id=0%3A1&node-id=315-2377&viewport=1248%2C5898%2C0.5&t=XgW8DPoMXzwrESS2-1&scaling=min-zoom&starting-point-node-id=1%3A3&show-proto-sidebar=1)
 
 
 #### **Aesthetics & Design Philosophy** 
