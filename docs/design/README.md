@@ -96,6 +96,9 @@ Use case scenarios illustrate the interaction between users (instructors, studen
     2. Instructor: has a chance to edit original structure (date, questions, answers, visibility, time interval)
 5. Post Conditions: Exam is created and configured
 
+## Other Use Cases
+[Google Document](https://docs.google.com/document/d/1WE7EXHfUTALE_AgHnilFO0-UUh1g97v341OtwB4C79k/edit#heading=h.dikf1725sw8e)
+
 
 
 # Database Design / ER Diagram
