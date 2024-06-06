@@ -1,3 +1,61 @@
+# May 31 - June 5
+## Date: June 5, 11:19 PM
+
+## Hours: 10.5
+
+## Tasks:
+
+### Team Meeting (2hrs) (Med):
+- Attended class meetings
+- Met after class to discuss breakdown of requirements
+
+### Figma UI Mocking (7hrs) (Large):
+- Worked with Oakley on a general UI page layout
+- Worked on theming and styling for UI
+
+### Diagramming (1.5hrs) (Med)
+- Worked on the ER diagram
+
+## Work in Progress
+
+### UI Mockups in Figma (Med)
+### UML Diagrams (Small)
+### ER Diagram (Med)
+
+## Goal Recap
+
+My goals for this week were to get the UI mocked up and get a basic outline in Docker for our microservices as well as finishing the ER diagram
+I managed to get some UI work done and got the ER diagram mostly finished, but I was unable to get the Docker containers running for our microservice architecture
+
+My goals for the next phase is to finish off the UI flows, complete our design doc and associated diagrams, complete our design video, and set up Docker images for our different services
+
+# May 29 - May 31
+## Date: May 31, 8:11 PM
+
+## Hours: 4.5
+
+## Tasks:
+
+### Team Meeting (2hrs) (Med):
+- Met with Dr. Lawrence, our client, regarding the project proposal - Took notes on the project and got a refined direction to move into
+- Discussed matters after the meeting regarding Dr. Lawrence's feedback - Planned tasks for the upcoming weekend
+
+### Figma UI Mocking (1hr) (Small):
+- Worked with Oakley on a general UI page layout
+
+### Set up outlines for team Github logging (1hr) (Small)
+
+## Work in Progress
+
+### UI Mockups in Figma (Med)
+### UML Diagrams (Small)
+### ER Diagram (Med)
+
+## Goal Recap
+
+My goals for next week are to get the UI mocked up in Figma and to get a basic outline in Docker going for our React.js front-end and Node.js backend
+Also creating the ER Diagram in Figma with Nathan
+
 # May 22 - May 29
 ## Date: May 29, 8:11 PM
 
@@ -30,29 +88,5 @@ My goals for this week were to get situated with the team dynamic and complete t
 
 My goals for next week are to get the UI mocked up in Figma and to get a basic outline in Docker going for our React.js front-end and Node.js backend
 
-# May 29 - May 31
-## Date: May 31, 8:11 PM
 
-## Hours: 4.5
 
-## Tasks:
-
-### Team Meeting (2hrs) (Med):
-- Met with Dr. Lawrence, our client, regarding the project proposal - Took notes on the project and got a refined direction to move into
-- Discussed matters after the meeting regarding Dr. Lawrence's feedback - Planned tasks for the upcoming weekend
-
-### Figma UI Mocking (1hr) (Small):
-- Worked with Oakley on a general UI page layout
-
-### Set up outlines for team Github logging (1hr) (Small)
-
-## Work in Progress
-
-### UI Mockups in Figma (Med)
-### UML Diagrams (Small)
-### ER Diagram (Med)
-
-## Goal Recap
-
-My goals for next week are to get the UI mocked up in Figma and to get a basic outline in Docker going for our React.js front-end and Node.js backend
-Also creating the ER Diagram in Figma with Nathan
