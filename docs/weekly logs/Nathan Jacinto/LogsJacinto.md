@@ -77,8 +77,6 @@ My goals is finish our kanban assignments and touch up the databases
 
 My goals for this week were to get situated with the team dynamic and complete the weekly submission requirement of the project proposal and the proposal video. I think that the goals were adequately completed.
 
-My goals for next week are to get the UI mocked up in Figma and to get a basic outline in Docker going for our React.js front-end and Node.js backend
-
 
 
 
