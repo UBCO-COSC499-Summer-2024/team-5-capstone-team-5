@@ -46,6 +46,11 @@ Our system is split into sections to show containerization using Docker.
 
 # Use Case Models
 Use case scenarios illustrate the interaction between users (instructors, students, and Administrators) and the Optical Marking Management System, detailing the steps involved in common tasks to ensure smooth operation and user satisfaction.
+![Use Cases](./diagrams/Use_Cases_All.png)
+![Use Case 1](./diagrams/Use_Case_1.png)
+![Use Case 2](./diagrams/Use_Case_2.png)
+![Use Case 3](./diagrams/Use_Case_3.png)
+![Use Case 4](./diagrams/Use_Case_4.png)
 
 ## Main Use Cases
 **Use Case 1: User Creation and Authentication**
