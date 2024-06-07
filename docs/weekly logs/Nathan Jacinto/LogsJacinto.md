@@ -2,7 +2,7 @@
 June 5 - June 7
 ## Hours 6.5
 
-##Tasks:
+## Tasks:
 
 Team Meeting (2)
 Design Document (3.5)
@@ -11,7 +11,7 @@ Design Document Presention (1.5)
 
 
 
-##Work in Progress
+## Work in Progress
 Design Document Presentarion
 
 
