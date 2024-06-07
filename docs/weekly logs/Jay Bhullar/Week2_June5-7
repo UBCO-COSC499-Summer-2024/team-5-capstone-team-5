@@ -1,1 +1,20 @@
+# Week 2: June 5 - June 7
+
+### Date: June 7
+### Author: Jay Bhullar
+
+## Breakdown
+
+**Approximate Hours: 6.5**
+
+### Things worked on: ###
+
+- Docker setup (2 hours, medium). Set up Docker for the project, which involved configuring Docker images for the back end (Node.js / Express.js) and the database (PostgreSQL).
+
+- FrontEnd MockUI (4.5 hours, large). Created mockups for the front-end UI using Figma, following the use cases defined in the project.
+
+
+### Comments ###
+
+This week, I focused on setting up Docker and creating frontend UI mockups, which are critical for our development process. The Docker setup was challenging but essential for our application's infrastructure. I will continue refining the UI mockups and start working on the ER model and journey lines in the upcoming days.
 
