@@ -31,7 +31,7 @@ OMR service container should be started with a basic Clerk auth connected to a R
 
 ### Nicolaas: 9.75hrs
 
-### Jay: 6.5hrs
+### Jay: 6.5hrss
 
 ### Oakley: 13hrs
 
