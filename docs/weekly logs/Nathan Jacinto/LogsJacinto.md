@@ -1,3 +1,22 @@
+
+June 5 - June 7
+## Hours 6.5
+
+## Tasks:
+
+Team Meeting (2)
+Design Document (3.5)
+-worked on changes from wednesday meeting with the TA
+Design Document Presention (1.5)
+
+
+
+## Work in Progress
+Design Document Presentarion
+
+
+
+
 # May 31 - June 5
 ## Date: June 5, 11:19 PM
 
