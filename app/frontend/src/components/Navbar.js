@@ -25,12 +25,11 @@ const Navbar = () => {
             </>
           )}
           <li><Link to="/contact" className="text-xl hover:text-gray-300">Contact</Link></li>
-          <SignedOut>
-          <SignInButton />
-          </SignedOut>
-          <SignedIn>
-          <UserButton />
-          </SignedIn> {/* Add this line */}
+          <li>
+            <SignedIn>
+            <UserButton />
+            </SignedIn>
+          </li>
         </ul>
       </div>
     </div>

@@ -13,7 +13,7 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import { UserProvider, useUser } from './contexts/UserContext';
 import './App.css';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+
 
 
 
@@ -40,12 +40,6 @@ function AppContent() {
   return (
     <div className="flex">
       <Navbar />
-      <SignedOut>
-      <SignInButton />
-      </SignedOut>
-      <SignedIn>
-      <UserButton />
-      </SignedIn>
       <div className="flex-grow p-8">
         <Routes>
           <Route path="/" element={<Home />} />
