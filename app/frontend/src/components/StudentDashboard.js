@@ -14,7 +14,7 @@ const StudentDashboard = () => {
     <div className="bg-gray-900 text-white min-h-screen p-4">
       <header className="flex justify-between items-center mb-6">
         <div className="flex items-center">
-          <img src="../logo.svg" alt="Logo" className="h-8 mr-2" />
+          <img src="/gradeit.svg" alt="Logo" className="h-8 mr-2" />
           <h1 className="text-2xl font-bold">GradeIT OMR Technologies</h1>
         </div>
         <div>
