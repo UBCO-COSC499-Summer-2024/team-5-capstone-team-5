@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import Contact from './components/Contact';
@@ -31,29 +32,22 @@ function App() {
 function AppContent() {
   const { isLoaded, session, isSignedIn } = useSession();
   const { role } = useUser();
-  const [message, setMessage] = useState();
-  useEffect(() => {
-    fetch("/api/")
-      .then(res => res.json())
-      .then(res => setMessage(res.message))
-      .catch(console.error);
-  }, [setMessage]);
 
   return (
     <div className="flex">
       <Navbar />
       <div className="h-screen w-screen">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/" element={isSignedIn ? <Home /> : <Login />} />
+          <Route path="/about" element={isSignedIn ? <About /> : <Login />} />
           <Route path="/login" element={<Login />} />
-          {role === 'student' && <Route path="/student/courses" element={<CourseDetails />} />}
-          {role === 'student' && <Route path="/student/dashboard" element={<StudentDashboard />} />}
-          {role === 'instructor' && <Route path="/instructor/courses" element={<CourseDetails />} />}
-          {role === 'instructor' && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
-          <Route path="/contact" element={<Contact />} />
-          {role === 'student' && <Route path="/student" element={<StudentHome />} />}
-          {role === 'instructor' && <Route path="/instructor" element={<InstructorHome />} />}
+          {role === 'student' && <Route path="/student/courses" element={isSignedIn ? <CourseDetails /> :<Login />} />}
+          {role === 'student' && <Route path="/student/dashboard" element={isSignedIn ? <StudentDashboard /> : <Login />} />}
+          {role === 'instructor' && <Route path="/instructor/courses" element={isSignedIn ? <CourseDetails /> : <Login />} />}
+          {role === 'instructor' && <Route path="/instructor/dashboard" element={isSignedIn ? <InstructorDashboard /> : <Login />} />}
+          <Route path="/contact" element={isSignedIn ? <Contact /> : <Login />} />
+          {role === 'student' && <Route path="/student" element={isSignedIn ? <StudentHome /> : <Login />} />}
+          {role === 'instructor' && <Route path="/instructor" element={isSignedIn ? <InstructorHome /> : <Login />} />}
         </Routes>
       </div>
     </div>
