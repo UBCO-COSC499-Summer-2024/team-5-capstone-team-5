@@ -1,0 +1,57 @@
+services:
+  backend:
+    build:
+      context: backend
+      target: development
+    command: npm run start-watch
+    environment:
+      - DATABASE_DB=gradeIT
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=togo
+      - DATABASE_HOST=localhost
+      - NODE_ENV=development
+    ports:
+      - "5433:5433"
+      - "9229:9229"
+      - "9230:9230"
+    volumes:
+      - ./backend/src:/code/src
+      - ./backend/package.json:/code/package.json
+      - ./backend/package-lock.json:/code/package-lock.json
+    networks:
+      - public
+      - private
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - private
+    environment:
+      - POSTGRES_DB=gradeIT
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=togo
+
+  frontend:
+    build:
+      context: frontend
+      target: development
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend/src:/code/src
+    networks:
+      - public
+    depends_on:
+      - backend
+
+networks:
+  public:
+  private:
+
+volumes:
+  db-data:
