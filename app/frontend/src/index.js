@@ -5,8 +5,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ClerkProvider } from '@clerk/clerk-react'
 
-console.log(process.env.REACT_APP_API_KEY)
-
 ReactDOM.render(
   <React.StrictMode>
     <ClerkProvider publishableKey={process.env.REACT_APP_API_KEY}>
