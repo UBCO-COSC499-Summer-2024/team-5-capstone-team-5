@@ -13,6 +13,7 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import { UserProvider, useUser } from './contexts/UserContext';
 import './App.css';
+import { useSession } from "@clerk/clerk-react";
 
 
 
@@ -28,6 +29,7 @@ function App() {
 }
 
 function AppContent() {
+  const { isLoaded, session, isSignedIn } = useSession();
   const { role } = useUser();
   const [message, setMessage] = useState();
   useEffect(() => {
@@ -40,7 +42,7 @@ function AppContent() {
   return (
     <div className="flex">
       <Navbar />
-      <div className="flex-grow p-8">
+      <div className="h-screen w-screen">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

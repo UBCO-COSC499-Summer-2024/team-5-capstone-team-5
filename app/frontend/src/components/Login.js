@@ -17,10 +17,13 @@ const Login = () => {
   };
 
   return (
-    <div className="w-1/5 flex">
-      <SignedOut>
-      <SignInButton />
-      </SignedOut>
+    <div className="h-full content-center">
+      <div className="flex flex-col gap-16">
+      <img src="/gradeit.svg" alt="Logo" className="w-2/5 flex self-center mb-12" />
+        <SignedOut>
+        <SignInButton className="text-xl flex justify-center self-center border-2 border-slate-800 rounded-full py-2 px-8" />
+        </SignedOut>
+      </div>
     </div>
             
   );

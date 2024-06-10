@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, SignInButton, UserButton, useSession } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const { role } = useUser();
+  const { isLoaded, session, isSignedIn } = useSession();
+
 
   return (
-    <div className="navbar bg-blue-900 text-white h-screen p-4 flex flex-col">
+    <div className={"navbar bg-blue-900 text-white h-screen p-4 flex-col " + (isSignedIn ? 'flex' : 'hidden')}>
       <div className="mb-8">
         <ul className="space-y-4">
           <li><Link to="/" className="text-xl hover:text-gray-300">Home</Link></li>
