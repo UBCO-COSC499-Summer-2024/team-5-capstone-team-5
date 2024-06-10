@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const { role } = useUser();
@@ -24,7 +25,12 @@ const Navbar = () => {
             </>
           )}
           <li><Link to="/contact" className="text-xl hover:text-gray-300">Contact</Link></li>
-          <li><Link to="/login" className="text-xl hover:text-gray-300">Login</Link></li> {/* Add this line */}
+          <SignedOut>
+          <SignInButton />
+          </SignedOut>
+          <SignedIn>
+          <UserButton />
+          </SignedIn> {/* Add this line */}
         </ul>
       </div>
     </div>
