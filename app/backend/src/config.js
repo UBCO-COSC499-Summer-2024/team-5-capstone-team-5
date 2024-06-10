@@ -1,5 +1,5 @@
 const fs = require("fs");
-
+// import { clerkClient } from '@clerk/nextjs/server';
 const readFileSync = filename => fs.readFileSync(filename).toString("utf8");
 
 // Constants
@@ -18,3 +18,4 @@ module.exports = {
   // to prevent non-root permission problems with 80. Dockerfile is set to make this 80
   // because containers don't have that issue :)
 };
+
