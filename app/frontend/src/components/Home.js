@@ -11,8 +11,11 @@ function Home() {
   }, []);
 
   return (
-    <div>
-      <h1>{message}</h1>
+    <div className="h-full content-center">
+      <div className="flex flex-col gap-16">
+      <img src="/gradeit.svg" alt="Logo" className="w-2/5 flex self-center mb-12" />
+      <h1 className='flex self-center'>You are viewing the Home page</h1>
+      </div>
     </div>
   );
 }
