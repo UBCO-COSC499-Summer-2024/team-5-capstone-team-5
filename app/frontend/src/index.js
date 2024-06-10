@@ -3,10 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { ClerkProvider } from '@clerk/clerk-react'
+
+console.log(process.env.REACT_APP_API_KEY)
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ClerkProvider publishableKey={process.env.REACT_APP_API_KEY}>
+      <App />
+    </ClerkProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
