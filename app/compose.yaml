@@ -29,10 +29,7 @@ services:
     depends_on:
       - db
   db:
-    # We use a mariadb image which supports both amd64 & arm64 architecture
     image: postgres
-    # If you really want to use MySQL, uncomment the following line
-    #image: mysql:8.0.27
     restart: always
     secrets:
       - db-password
@@ -55,12 +52,27 @@ services:
       - public
     depends_on:
       - backend
+  adminer:
+    image: adminer
+    container_name: adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - "8080:8080"
+    networks:
+      - public
+      - private
+    depends_on:
+      - db
+
 networks:
   public:
   private:
+
 volumes:
   back-notused:
   db-data:
+
 secrets:
   db-password:
     file: db/password.txt
