@@ -10,6 +10,7 @@ import StudentHome from './components/StudentHome';
 import StudentDashboard from './components/StudentDashboard';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import RecentTests from './components/RecentTests';
 import { UserProvider, useUser } from './contexts/UserContext';
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 import './index.css';  // Make sure this file contains Tailwind directives and configurations
@@ -51,6 +52,7 @@ function AppContent() {
           {role === 'student' && <Route path="/student" element={<StudentHome />} />}
           {role === 'instructor' && <Route path="/instructor" element={<InstructorHome />} />}
           <Route path="/course/:courseId" element={<CourseDetails />} />
+          <Route path="/recent" element={<RecentTests />} />
         </Routes>
       </div>
     </div>
