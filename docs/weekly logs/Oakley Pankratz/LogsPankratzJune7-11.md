@@ -5,7 +5,7 @@
 
 ## Breakdown
 
-**Approximate Hours: 16**
+**Approximate Hours: 15**
 
 ### Things wored on: ###
 
