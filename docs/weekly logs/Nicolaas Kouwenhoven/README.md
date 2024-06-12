@@ -1,7 +1,7 @@
 # June 7 - June 11
 ## Date: June 11, 6:07 PM
 
-## Hours: 16.5hrs
+## Hours: 20hrs
 
 ## Tasks:
 
