@@ -1,5 +1,27 @@
+# June 7- 11
+## Hours: 16 Hours
+Team Meeting (2)Hrs
 
-June 5 - June 7
+## Hour Breakdown
+-Registered with Clerk Authentication but wasnt working(6hrs)
+-Set Up My Docker Compose (3hrs)
+-Look into admirer (2hrs) (dont know how to use it)
+- Look into PostgreSQL database and trying to incomporate into the database (3hrs)
+- Hit A Roadblock, my docker compose wasn't working with the ports and the front end
+
+## Work in Progress
+Trying to fix our environment
+docker-compose
+
+## Tasks: 
+
+docker-compose
+try to get the database working and user authentication
+
+
+
+
+# June 5 - June 7
 ## Hours 6.5
 
 ## Tasks:
