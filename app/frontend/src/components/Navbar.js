@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [setSignedIn, signedIn] = useState('');
+  const [signedIn, setSignedIn] = useState('');
   const { role } = useUser();
 
   const signOut = async () => {
@@ -21,16 +21,17 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
-      if(event === "SIGNED_IN") {
-        setSignedIn(true)
+    const checkSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if(data.session) {
+        setSignedIn(true);
       }
-    })
+      else {
+        setSignedIn(false);
+      }
     }
-  )
-
+    checkSession();
+  });
 
   return (
     <div className={"navbar bg-blue-900 text-white h-screen p-4 flex-col " + (signedIn ? 'flex' : 'hidden')}>

@@ -35,20 +35,25 @@ function AppContent() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.log("Error getting session:", error);
-        return;
+    const { data, error } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        console.log('SIGNED_OUT', session);
+        
+        // Clear local and session storage
+        [window.localStorage, window.sessionStorage].forEach((storage) => {
+          Object.entries(storage).forEach(([key]) => {
+            storage.removeItem(key);
+          });
+        });
       }
-      const session = data.session;
-      if (!session) {
-        navigate("/login");
+      if (event === 'SIGNED_IN') {
+        console.log('SIGNED_IN', session)
       }
-    };
+    });
+  }
+)
 
-    checkUser();
-  }, [navigate]);
+
 
   return (
     <div className="flex bg-[#1D1E21] text-white">
