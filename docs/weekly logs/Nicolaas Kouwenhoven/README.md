@@ -7,7 +7,7 @@
 
 tldr; I recorded audio with Jay for the design video and recorded the video. Then edited the video and submitted it via Canvas. I got the Docker images up and running using awesome-compose and merged Jay's work into the frontend image. I then got Clerk authentication working, but realized that the free tier is too prohibitive for our use case, so we are now switching to Supabase (tentatively)
 
-### React.js login, authentication and session logic (9hrs) (Large):
+### React.js login, authentication and session logic (12.5hrs) (Large):
 - Got a login going in React, then decided our auth service (Clerk) wasn't going to work.
 - Moved Jay's UI mockup React code into the Docker images
 
