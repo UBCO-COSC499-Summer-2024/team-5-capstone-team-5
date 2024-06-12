@@ -1,10 +1,7 @@
-// src/components/RecentTests.js
-
 import React from 'react';
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
 const RecentTests = () => {
-  // Dummy data for demonstration
   const recentTests = [
     { title: 'Final Exam', class: 'MATH 100-003', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
     { title: 'Final Exam', class: 'PHYS 101-001', grade: '77.2%', stats: 'Median: 71% Mean: 70.3% Max: 94.2% Min: 45%' },
@@ -12,7 +9,6 @@ const RecentTests = () => {
     { title: 'Final Exam', class: 'STAT 230-001', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
     { title: 'Final Exam', class: 'ENGL 153-002', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
     { title: 'Midterm 2', class: 'PHYS 101-001', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
-    // Add more dummy data as needed
   ];
 
   return (
