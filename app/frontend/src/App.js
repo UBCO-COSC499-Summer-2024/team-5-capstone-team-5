@@ -12,9 +12,10 @@ import StudentHome from './components/StudentHome';
 import StudentDashboard from './components/StudentDashboard';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import Authenticated from './components/Authenticated';
 import { UserProvider, useUser } from './contexts/UserContext';
-import './App.css';
-import { useSession } from "@clerk/clerk-react";
+import { useNavigate } from 'react-router-dom';
+import { supabase } from './hooks/supabaseConnection';
 
 
 
@@ -30,24 +31,41 @@ function App() {
 }
 
 function AppContent() {
-  const { isLoaded, session, isSignedIn } = useSession();
   const { role } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.log("Error getting session:", error);
+        return;
+      }
+      const session = data.session;
+      if (!session) {
+        navigate("/login");
+      }
+    };
+
+    checkUser();
+  }, [navigate]);
 
   return (
-    <div className="flex">
+    <div className="flex bg-[#1D1E21] text-white">
       <Navbar />
       <div className="h-screen w-screen">
         <Routes>
-          <Route path="/" element={isSignedIn ? <Home /> : <Login />} />
-          <Route path="/about" element={isSignedIn ? <About /> : <Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
-          {role === 'student' && <Route path="/student/courses" element={isSignedIn ? <CourseDetails /> :<Login />} />}
-          {role === 'student' && <Route path="/student/dashboard" element={isSignedIn ? <StudentDashboard /> : <Login />} />}
-          {role === 'instructor' && <Route path="/instructor/courses" element={isSignedIn ? <CourseDetails /> : <Login />} />}
-          {role === 'instructor' && <Route path="/instructor/dashboard" element={isSignedIn ? <InstructorDashboard /> : <Login />} />}
-          <Route path="/contact" element={isSignedIn ? <Contact /> : <Login />} />
-          {role === 'student' && <Route path="/student" element={isSignedIn ? <StudentHome /> : <Login />} />}
-          {role === 'instructor' && <Route path="/instructor" element={isSignedIn ? <InstructorHome /> : <Login />} />}
+          {role === 'student' && <Route path="/student/courses" element={<CourseDetails />} />}
+          {role === 'student' && <Route path="/student/dashboard" element={<StudentDashboard />} />}
+          {role === 'instructor' && <Route path="/instructor/courses" element={<CourseDetails />} />}
+          {role === 'instructor' && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
+          <Route path="/contact" element={<Contact />} />
+          {role === 'student' && <Route path="/student" element={<StudentHome />} />}
+          {role === 'instructor' && <Route path="/instructor" element={<InstructorHome />} />}
+          <Route path="/authenticated" element={<Authenticated />} />
         </Routes>
       </div>
     </div>

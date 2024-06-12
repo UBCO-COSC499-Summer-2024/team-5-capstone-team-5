@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { supabase } from '../hooks/supabaseConnection';
+import { useNavigate } from 'react-router-dom';
 
 
 function Home() {
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:80/')
-      .then(response => setMessage(response.data))
-      .catch(error => console.error(error));
-  }, []);
-
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if(event === "NOT_SIGNED_IN") {
+        navigate("/login");
+      }
+    })
+    }
+  )
   return (
     <div className="h-full content-center">
       <div className="flex flex-col gap-16">

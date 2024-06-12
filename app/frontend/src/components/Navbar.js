@@ -1,15 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { SignedIn, SignedOut, SignInButton, UserButton, useSession } from "@clerk/clerk-react";
+import { supabase } from '../hooks/supabaseConnection';
+import { useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const [setSignedIn, signedIn] = useState('');
   const { role } = useUser();
-  const { isLoaded, session, isSignedIn } = useSession();
+
+  const signOut = async () => {
+    const { error } = supabase.auth.signOut();
+    if(error) {
+      console.log("There was an error with the signout process: ", error);
+    }
+    else {
+      navigate("/login");
+    }
+  }
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if(event === "SIGNED_IN") {
+        setSignedIn(true)
+      }
+    })
+    }
+  )
 
 
   return (
-    <div className={"navbar bg-blue-900 text-white h-screen p-4 flex-col " + (isSignedIn ? 'flex' : 'hidden')}>
+    <div className={"navbar bg-blue-900 text-white h-screen p-4 flex-col " + (signedIn ? 'flex' : 'hidden')}>
       <div className="mb-8">
         <ul className="space-y-4">
           <li><Link to="/" className="text-xl hover:text-gray-300">Home</Link></li>
@@ -28,9 +52,7 @@ const Navbar = () => {
           )}
           <li><Link to="/contact" className="text-xl hover:text-gray-300">Contact</Link></li>
           <li>
-            <SignedIn>
-            <UserButton />
-            </SignedIn>
+          <button onClick={signOut} className="text-xl hover:text-gray-300">Sign Out</button>
           </li>
         </ul>
       </div>
