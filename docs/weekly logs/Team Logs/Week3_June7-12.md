@@ -66,7 +66,26 @@ try to get the database working and user authentication
 ### Work in Progress:
 
 ### Supabase Auth service
-## Jay: ??hrs
+## Jay Bhullar: 20hrs
+
+### Tasks Completed / Worked On:
+
+### Docker Setup (5hrs) (Large):
+- Dedicated time to setting up Docker for the project, including configuring Docker images for the backend and database.
+
+### Fixing Frontend (4hrs) (Large):
+- Spent considerable time fixing issues in the frontend code, ensuring the UI is functioning correctly.
+
+### Navbar and Course (8hrs) (Large):
+- Worked on setting up and styling the navigation bar for the frontend.
+- Spent time working on course-related functionalities and ensuring they integrate well with the rest of the application.
+
+### Awesome-Compose Setup (2hrs) (Medium):
+- Worked on the Awesome-Compose setup for Docker to ensure the smooth running of our project’s environment.
+
+### Voice Over for Presentation (1hr) (Small):
+- Created and recorded a voice-over for the presentation video.
+
 
 ## Oakley: 15hrs
 ### Worked on: ###
