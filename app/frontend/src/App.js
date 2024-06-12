@@ -1,7 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import Contact from './components/Contact';
@@ -14,10 +13,7 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Authenticated from './components/Authenticated';
 import { UserProvider, useUser } from './contexts/UserContext';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from './helpers/supabaseConnection';
-
-
 
 
 function App() {
@@ -34,11 +30,13 @@ function AppContent() {
   const { role } = useUser();
 
   useEffect(() => {
-    const { data, error } = supabase.auth.onAuthStateChange((event, session) => {
+    const { error } = supabase.auth.onAuthStateChange((event, session) => {
+      if(error) {
+        console.log("Error with AuthListener: ", error);
+      }
       if (event === 'SIGNED_OUT') {
         console.log('SIGNED_OUT', session);
         
-        // Clear local and session storage
         [window.localStorage, window.sessionStorage].forEach((storage) => {
           Object.entries(storage).forEach(([key]) => {
             storage.removeItem(key);

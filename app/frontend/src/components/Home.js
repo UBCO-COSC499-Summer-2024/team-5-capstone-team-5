@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../helpers/supabaseConnection';
 import { useNavigate } from 'react-router-dom';
 import useCheckSession from '../hooks/checkSession';
 

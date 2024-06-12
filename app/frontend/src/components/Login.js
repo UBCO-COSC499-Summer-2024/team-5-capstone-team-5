@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../helpers/supabaseConnection';
 import { Auth } from '@supabase/auth-ui-react';
 import { gradeItTheme } from '../constants/theme';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
+     supabase.auth.onAuthStateChange((event) => {
       if(event === "SIGNED_IN") {
         navigate("/authenticated")
       }
