@@ -13,7 +13,7 @@ export var gradeItTheme  = {
         inputBorder: "lightgray",
         inputBorderHover: "gray",
         inputBorderFocus: "gray",
-        inputText: "black",
+        inputText: "white",
         inputLabelText: "gray",
         inputPlaceholder: "darkgray",
         messageText: "#2b805a",
