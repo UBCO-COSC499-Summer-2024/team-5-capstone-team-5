@@ -13,7 +13,6 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Authenticated from './components/Authenticated';
 import { UserProvider, useUser } from './contexts/UserContext';
-import { supabase } from './helpers/supabaseConnection';
 
 
 function App() {
@@ -28,29 +27,6 @@ function App() {
 
 function AppContent() {
   const { role } = useUser();
-
-  useEffect(() => {
-    const { error } = supabase.auth.onAuthStateChange((event, session) => {
-      if(error) {
-        console.log("Error with AuthListener: ", error);
-      }
-      if (event === 'SIGNED_OUT') {
-        console.log('SIGNED_OUT', session);
-        
-        [window.localStorage, window.sessionStorage].forEach((storage) => {
-          Object.entries(storage).forEach(([key]) => {
-            storage.removeItem(key);
-          });
-        });
-      }
-      if (event === 'SIGNED_IN') {
-        console.log('SIGNED_IN', session)
-      }
-    });
-  }, []
-)
-
-
 
   return (
     <div className="flex bg-[#1D1E21] text-white">

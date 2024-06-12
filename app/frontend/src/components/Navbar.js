@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { supabase } from '../helpers/supabaseConnection';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -10,32 +9,11 @@ const Navbar = () => {
   const [signedIn, setSignedIn] = useState(null);
   const { role } = useUser();
 
-  const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if(error) {
-      console.log("There was an error with the signout process: ", error);
-    }
-    else {
-      setSignedIn(false);
-      navigate("/login");
-    }
+  const signOut = () => {
+    //Do something
   }
-  const checkSession = async () => {
-    const { data, error } = await supabase.auth.getSession();
-    if(error) {
-      console.log("Error getting session: ", error);
-    }
-    if(data.session) {
-      setSignedIn(true);
-    }
-    else {
-      setSignedIn(false);
-    }
-  }
-  useEffect(() => {
-    checkSession();
-  });
 
+  
   return (
     <div className={"navbar bg-blue-900 text-white h-screen p-4 flex-col " + (signedIn ? 'flex' : 'hidden')}>
       <div className="mb-8">
