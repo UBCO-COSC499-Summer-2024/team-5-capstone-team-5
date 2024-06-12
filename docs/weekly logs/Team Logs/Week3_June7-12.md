@@ -1,10 +1,10 @@
 # June 7 - June 12
-##### Team 5:
-Nathan Jacinto,
-Oakley Pankratz, 
-Nic Kouwenhoven, 
-Jay Bhullar, 
-Jack Mathisen
+### Team 5:
+- **Nathan Jacinto**,
+- **Oakley Pankratz**, 
+- **Nic Kouwenhoven**, 
+- **Jay Bhullar**, 
+- **Jack Mathisen**
 
 # Features of the Plan Cycle
 - ### Docker images up and running 
@@ -26,20 +26,73 @@ OMR service container should be started with a basic Clerk auth connected to a R
 
 # Burn-Up
 ![Burn Up](../logScreenshots/burnupWeek3.png)
-# Times for Team/Individual
 
-## Team: 54.5hrs approx.
+# Team: 54.5hrs approx.
 
-### Nathan: 16hrs
+## Nathan: 16hrs
+### Hour Breakdown
+-Registered with Clerk Authentication but wasnt working(6hrs)
+-Set Up My Docker Compose (3hrs)
+-Look into admirer (2hrs) (dont know how to use it)
+- Look into PostgreSQL database and trying to incomporate into the database (3hrs)
+- Hit A Roadblock, my docker compose wasn't working with the ports and the front end
 
+### Work in Progress
+Trying to fix our environment
+docker-compose
 
-### Nicolaas: 16.5hrs
+### Tasks: 
 
-### Jay: ??hrs
+docker-compose
+try to get the database working and user authentication
 
-### Oakley: 15hrs
+## Nicolaas: 20hrs
+### Tasks Completed / Worked On:
+### React.js login, authentication and session logic (12.5hrs) (Large):
+- Got a login going in React, then decided our auth service (Clerk) wasn't going to work.
+- Moved Jay's UI mockup React code into the Docker images
 
-### Jack: 7hrs
+### Awesome-compose docker setup and changing mySQL to Postgres (4.5hrs) (Med):
+- Cloned awesome-compose react-express-mysql docker image
+- Changed mysql image to postgres image
+- Lots of troubleshooting
+- Helped the rest of the team get the Docker image going
+
+### Design Presentation Video (3hrs) (Med):
+- Recorded audio for design video
+- Added clips to Google slides
+- Recorded design video and submitted it via Canva
+
+### Work in Progress:
+
+### Supabase Auth service
+## Jay: ??hrs
+
+## Oakley: 15hrs
+### Worked on: ###
+
+- Reviewing code (sm, 2 hours) I reviewed the design Docs, to make sure there weren't any typos, as well as Jay's code to try and understand it. Reviewing Jay's code took the bulk of this time.
+
+- Resolving a bug on my local machine to get Docker working (sm, 2 hours) My local machine was having a problem with running the backend. Nick and I worked to resolve this bug. 
+
+- Reviewing Tech (med, 3 hours) Since I have never taken a web development course, I have minimal understanding of the languages and frameworks in out tech stak. I reviewed HTML (3 hours), Javascript (3 hours) and React (4 hours.) 
+
+- Meeting (very small, 1 hour) met with teamates to discuss our branching and logging.
+
+ ### Work in Progress ###
+
+ - Front End Devlopment: Speciffically, I plan to work on the Header and Footer (issues 46 & 47 on the Kanban board)
+## Jack: 7hrs
+**Things Done**
+- learn yolo v3 
+- learn more about Node.js
+- learn more about React.js
+- Setup Docker 
+- create local enviornment to work on project 
+
+**In Progress**
+
+- add test user data to postgres image
 
 # Table of Completed Tasks:
 ![Completed Tasks](../logScreenshots/completedWeek3.png)
