@@ -1,28 +1,21 @@
-// src/components/Navbar.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/clerk-react";
 
 const Navbar = () => {
   return (
-    <div className="h-full w-64 bg-gray-800 text-white flex flex-col justify-between fixed">
+    <div className="h-screen w-64 bg-gray-800 text-white flex flex-col justify-between fixed">
       <div>
         <div className="p-4">
           <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-32 mx-auto" />
         </div>
         <nav className="px-4 mt-8">
-          <NavLink
-            to="/recent"
-            className={({ isActive }) => isActive ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"}
-          >
-            Recent
-          </NavLink>
           <div className="mt-8">
             <h2 className="text-lg font-bold text-gray-300">Courses</h2>
             <ul className="mt-4 space-y-4">
               <li>
                 <NavLink
-                  to="/course/1"
+                  to="/course/math-100-003"
                   className="block bg-gray-700 p-4 rounded-lg hover:bg-gray-600"
                 >
                   <h3 className="text-white font-bold">MATH 100-003</h3>
@@ -35,13 +28,27 @@ const Navbar = () => {
           </div>
         </nav>
       </div>
-      <div className="p-4">
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+      <div className="px-4 pb-4">
+        <NavLink
+          to="/about"
+          className={({ isActive }) => isActive ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"}
+        >
+          About
+        </NavLink>
+        <NavLink
+          to="/contact"
+          className={({ isActive }) => isActive ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"}
+        >
+          Contact
+        </NavLink>
+        <div className="pt-4 flex justify-end">
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </div>
       </div>
     </div>
   );
