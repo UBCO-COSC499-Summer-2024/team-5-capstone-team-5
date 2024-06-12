@@ -28,32 +28,36 @@ OMR service container should be started with a basic Clerk auth connected to a R
 ![Burn Up](../logScreenshots/burnupWeek3.png)
 # Times for Team/Individual
 
-## Team: 35.75hrs approx.
+## Team: 54.5hrs approx.
 
-### Nathan: 6.5hrs
+### Nathan: 16hrs
 
-### Nicolaas: 9.75hrs
 
-### Jay: 6.5hrss
+### Nicolaas: 16.5hrs
 
-### Oakley: 13hrs
+### Jay: ??hrs
 
-### Jack: ??hrs
+### Oakley: 15hrs
+
+### Jack: 7hrs
 
 # Table of Completed Tasks:
 ![Completed Tasks](../logScreenshots/completedWeek3.png)
 ### Tasks Completed This Cycle:
-1. Design Document Finished and Submitted
+1. Design video completed and submitted via Canvas
+2. Docker images working via awesome-compose
 # Table of WIP Tasks
 ![WIP Tasks](../logScreenshots/wipWeek3.png)
 ### Tasks still WIP This Cycle:
-1. Some UI mockup still needs to be completed (core features completed)
-2. Docker images need to be started
+1. Generate Postgres test data is not complete
+2. OMR container has not been started yet
+3. Authentication is still being worked on
+4. React pages layout is still being done
 
 # Task Write-Up
-We did a fair amount of work on Wednesday night to get our design document submitted on time. This left no time to work on getting the core Docker components for our system up, but we plan to have that done early in this upcoming cycle.
+We completed the design video. We got our Docker image up, had multiple team meetings where we discussed branching, logging, and the work we were going to complete for this cycle. We also moved some of Jay's React work into the Docker frontend in order to get an idea of page layouts.
 
-As well as that, we are in the process of making our design presentation in order to get our video submitted for Friday
+Nathan started work on some Postgres learning and is working on writing test user / course / exam data so we can create a dynamic React UI
 
 # Test report / status
 ### N/A

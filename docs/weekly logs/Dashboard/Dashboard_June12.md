@@ -7,15 +7,29 @@ Jay Bhullar,
 Jack Mathisen
 
 
+# Times for Team/Individual 
+(Will give Clockify logs when it is consolidated. We want to discuss this with Scott)
+
+## Team: 54.5hrs approx.
+
+### Nathan: 16hrs
+
+### Nicolaas: 16.5hrs
+
+### Jay: ??hrs
+
+### Oakley: 15hrs
+
+### Jack: 7hrs
 
 # Project Board Tasks
-![Kanban](../logScreenshots/kanbanWeek2.2.png)
+![Kanban](../logScreenshots/kanbanWeek3.png)
 
 # Burn-Up
-![Burn Up](../logScreenshots/burnupWeek2.2.png)
+![Burn Up](../logScreenshots/burnupWeek3.png)
 
 # Table of Completed Tasks:
-![Completed Tasks](../logScreenshots/completedWeek2.2.png)
+![Completed Tasks](../logScreenshots/completedWeek3.png)
 
 # Table of WIP Tasks
-![WIP Tasks](../logScreenshots/wipWeek2.2.png)
+![WIP Tasks](../logScreenshots/wipWeek3.png)
