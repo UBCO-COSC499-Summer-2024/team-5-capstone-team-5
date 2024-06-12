@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
@@ -12,8 +11,8 @@ import StudentDashboard from './components/StudentDashboard';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import { UserProvider, useUser } from './contexts/UserContext';
-import './App.css';
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import './index.css';  // Make sure this file contains Tailwind directives and configurations
 
 function App() {
   return (
@@ -28,6 +27,7 @@ function App() {
 function AppContent() {
   const { role } = useUser();
   const [message, setMessage] = useState();
+
   useEffect(() => {
     fetch("/api/")
       .then(res => res.json())
