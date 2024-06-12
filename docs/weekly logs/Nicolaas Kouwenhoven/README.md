@@ -1,3 +1,38 @@
+# June 7 - June 11
+## Date: June 11, 6:07 PM
+
+## Hours: 16.5hrs
+
+## Tasks:
+
+tldr; I recorded audio with Jay for the design video and recorded the video. Then edited the video and submitted it via Canvas. I got the Docker images up and running using awesome-compose and merged Jay's work into the frontend image. I then got Clerk authentication working, but realized that the free tier is too prohibitive for our use case, so we are now switching to Supabase (tentatively)
+
+### React.js login, authentication and session logic (9hrs) (Large):
+- Got a login going in React, then decided our auth service (Clerk) wasn't going to work.
+- Moved Jay's UI mockup React code into the Docker images
+
+### Awesome-compose docker setup and changing mySQL to Postgres (4.5hrs) (Med):
+- Cloned awesome-compose react-express-mysql docker image
+- Changed mysql image to postgres image
+- Lots of troubleshooting
+- Helped the rest of the team get the Docker image going
+
+### Design Presentation Video (3hrs) (Med):
+- Recorded audio for design video
+- Added clips to Google slides
+- Recorded design video and submitted it via Canva
+
+## Work in Progress
+
+### Supabase Auth service
+
+## Goal Recap
+
+My goals for last week were to complete the design video and setup the Docker images, get some code written for routing and get a general database design created in the Postgres image. I was able to complete the video and setup Docker. Jay set up some basic routing for React, and I was unable to get around to creating a test database for Postgres because Auth has taken a lot of time to understand and setup.
+
+My goals for this week are to get authentication working. Once that is done I will be working on putting test data into Postgres so we can make a dynamic UI with React. If I manage to complete both of those tasks, I will be setting up UI modules in React to get the teacher and student view modules working correctly.
+
+
 # June 5 - June 6
 ## Date: June 6, 8:13 PM
 
