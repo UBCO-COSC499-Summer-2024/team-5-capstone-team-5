@@ -1,35 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { supabase } from '../hooks/supabaseConnection';
+import { supabase } from '../helpers/supabaseConnection';
 import { useNavigate } from 'react-router-dom';
 
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [signedIn, setSignedIn] = useState('');
+  const [signedIn, setSignedIn] = useState(null);
   const { role } = useUser();
 
   const signOut = async () => {
-    const { error } = supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
     if(error) {
       console.log("There was an error with the signout process: ", error);
     }
     else {
+      setSignedIn(false);
       navigate("/login");
     }
   }
-
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if(data.session) {
-        setSignedIn(true);
-      }
-      else {
-        setSignedIn(false);
-      }
+  const checkSession = async () => {
+    const { data, error } = await supabase.auth.getSession();
+    if(error) {
+      console.log("Error getting session: ", error);
     }
+    if(data.session) {
+      setSignedIn(true);
+    }
+    else {
+      setSignedIn(false);
+    }
+  }
+  useEffect(() => {
     checkSession();
   });
 

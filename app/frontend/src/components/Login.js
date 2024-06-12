@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-import { supabase } from '../hooks/supabaseConnection';
+import { supabase } from '../helpers/supabaseConnection';
 import { Auth } from '@supabase/auth-ui-react';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { gradeItTheme } from '../constants/theme';
 
 const Login = () => {

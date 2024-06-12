@@ -15,7 +15,7 @@ import Login from './components/Login';
 import Authenticated from './components/Authenticated';
 import { UserProvider, useUser } from './contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from './hooks/supabaseConnection';
+import { supabase } from './helpers/supabaseConnection';
 
 
 
@@ -32,7 +32,6 @@ function App() {
 
 function AppContent() {
   const { role } = useUser();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const { data, error } = supabase.auth.onAuthStateChange((event, session) => {
@@ -50,7 +49,7 @@ function AppContent() {
         console.log('SIGNED_IN', session)
       }
     });
-  }
+  }, []
 )
 
 
