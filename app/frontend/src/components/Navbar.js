@@ -4,7 +4,7 @@ import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/clerk-reac
 
 const Navbar = () => {
   return (
-    <div className="h-screen w-64 bg-black text-white flex flex-col justify-between fixed">
+    <div className="h-screen w-64 bg-gray-800 text-white flex flex-col justify-between fixed">
       <div>
         <div className="p-4">
           <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-32 mx-auto" />
@@ -41,36 +41,7 @@ const Navbar = () => {
                   <p className="text-gray-500">Winter 2024</p>
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/course/math-100-003-2"
-                  className="block bg-gray-700 p-4 rounded-lg hover:bg-gray-600"
-                >
-                  <h3 className="text-white font-bold">MATH 100-003</h3>
-                  <p className="text-gray-400">Differential Calculus</p>
-                  <p className="text-gray-500">Winter 2024</p>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/course/math-100-003-3"
-                  className="block bg-gray-700 p-4 rounded-lg hover:bg-gray-600"
-                >
-                  <h3 className="text-white font-bold">MATH 100-003</h3>
-                  <p className="text-gray-400">Differential Calculus</p>
-                  <p className="text-gray-500">Winter 2024</p>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/course/math-100-003-4"
-                  className="block bg-gray-700 p-4 rounded-lg hover:bg-gray-600"
-                >
-                  <h3 className="text-white font-bold">MATH 100-003</h3>
-                  <p className="text-gray-400">Differential Calculus</p>
-                  <p className="text-gray-500">Winter 2024</p>
-                </NavLink>
-              </li>
+              {/* Add more courses as needed */}
             </ul>
           </div>
         </nav>
