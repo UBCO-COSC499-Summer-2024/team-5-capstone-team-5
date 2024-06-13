@@ -1,5 +1,4 @@
 import React from 'react';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
 const RecentTests = () => {
   const recentTests = [
@@ -25,14 +24,6 @@ const RecentTests = () => {
             </div>
           ))}
         </div>
-      </div>
-      <div className="mt-8">
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
       </div>
     </div>
   );

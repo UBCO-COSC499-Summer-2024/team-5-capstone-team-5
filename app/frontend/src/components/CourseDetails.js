@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -37,14 +36,6 @@ const CourseDetails = () => {
             </div>
           ))}
         </div>
-      </div>
-      <div className="mt-8">
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          
-        </SignedIn>
       </div>
     </div>
   );

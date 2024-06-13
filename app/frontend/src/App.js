@@ -40,13 +40,6 @@ function AppContent() {
     <div className="flex min-h-screen bg-black text-white">
       <Navbar />
       <div className="flex-grow flex flex-col ml-64">
-        <div className="w-full bg-gray-900 text-white flex justify-end items-center p-4">
-          <SignedIn>
-            <button className="text-red-500 hover:text-red-700" onClick={() => console.log("Logout")}>
-              Logout
-            </button>
-          </SignedIn>
-        </div>
         <div className="flex-grow p-8">
           <Routes>
             <Route path="/" element={<Home />} />
