@@ -1,31 +1,51 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-const courses = [
-  { id: 1, name: "Math 101", term: "Default Term" },
-  { id: 2, name: "Math 102", term: "2022W1" },
-  { id: 3, name: "Math 201", term: "2023W2" },
-  { id: 4, name: "Math 202", term: "2023W2" },
-  { id: 5, name: "Math 301", term: "2024S1-2" },
-  { id: 6, name: "Math 302", term: "2021W2" },
-  { id: 7, name: "Math 401", term: "2023W2" },
-  { id: 8, name: "Math 402", term: "Default Term" },
-];
+import { useParams } from 'react-router-dom';
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
 const CourseDetails = () => {
+  const { courseId } = useParams();
+  
+  // Dummy data for demonstration
+  const dummyData = {
+    "1": {
+      title: 'MATH 100-003 Tests',
+      averageGrade: '72.83%',
+      tests: [
+        { title: 'Final Exam', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
+        { title: 'Midterm 2', grade: '77.2%', stats: 'Median: 71% Mean: 70.3% Max: 94.2% Min: 45%' },
+        { title: 'Mid-Midterm 2', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
+        { title: 'Midterm 1', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
+        { title: 'Evaluation Quiz', grade: '15%', stats: 'Median: 100% Mean: 98.3% Max: 100% Min: 15%' },
+      ],
+    },
+    // Add more dummy data for other courses as needed
+  };
+
+  const courseData = dummyData[courseId] || dummyData["1"];
+
   return (
-    <div className="course-details p-4 bg-white h-screen">
-      <h1 className="text-2xl font-bold text-blue-900">Courses</h1>
-      <ul className="mt-4 space-y-2">
-        {courses.map(course => (
-          <li key={course.id}>
-            <Link to="#" className="text-blue-600 hover:underline">
-              {course.name}
-            </Link>
-            <span className="block text-gray-500 text-sm">{course.term}</span>
-          </li>
-        ))}
-      </ul>
+    <div className="p-4 flex flex-col min-h-screen">
+      <div className="flex-grow">
+        <h2 className="text-2xl font-bold">{courseData.title}</h2>
+        <p className="text-lg mt-2">Your Average Grade: {courseData.averageGrade}</p>
+        <div className="mt-4">
+          {courseData.tests.map((test, index) => (
+            <div key={index} className="p-4 mb-4 rounded-lg bg-gray-700 text-white">
+              <h3 className="text-xl font-bold">{test.title}</h3>
+              <p className="text-lg">{test.grade}</p>
+              <p className="text-sm text-gray-400">{test.stats}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-8">
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          
+        </SignedIn>
+      </div>
     </div>
   );
 };

@@ -1,45 +1,58 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useUser } from '../contexts/UserContext';
-import { useNavigate } from 'react-router-dom';
-
+// src/components/Navbar.js
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const [signedIn, setSignedIn] = useState(true);
-  const { role } = useUser();
-
-  const signOut = () => {
-    navigate("/login")
-  }
-
-  
   return (
-    <div className={"navbar bg-blue-900 text-white h-screen p-4 flex-col " + (signedIn ? 'flex' : 'hidden')}>
-      <div className="mb-8">
-        <ul className="space-y-4">
-          <li><Link to="/" className="text-xl hover:text-gray-300">Home</Link></li>
-          <li><Link to="/about" className="text-xl hover:text-gray-300">About</Link></li>
-          {role === 'student' && (
-            <>
-              <li><Link to="/student/dashboard" className="text-xl hover:text-gray-300">Dashboard</Link></li>
-              <li><Link to="/student/courses" className="text-xl hover:text-gray-300">Courses</Link></li>
-            </>
-          )}
-          {role === 'instructor' && (
-            <>
-              <li><Link to="/instructor/dashboard" className="text-xl hover:text-gray-300">Dashboard</Link></li>
-              <li><Link to="/instructor/courses" className="text-xl hover:text-gray-300">Manage Courses</Link></li>
-            </>
-          )}
-          <li><Link to="/contact" className="text-xl hover:text-gray-300">Contact</Link></li>
-          <li>
-          <button onClick={signOut} className="text-xl hover:text-gray-300">Sign Out</button>
-          </li>
-        </ul>
+    <div className="h-full w-64 bg-gray-800 text-white flex flex-col justify-between fixed">
+      <div>
+        <div className="p-4">
+          <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-32 mx-auto" />
+        </div>
+        <nav className="px-4 mt-8">
+          <NavLink
+            to="/recent"
+            className={({ isActive }) => isActive ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"}
+          >
+            Recent
+          </NavLink>
+          <div className="mt-8">
+            <h2 className="text-lg font-bold text-gray-300">Courses</h2>
+            <ul className="mt-4 space-y-4">
+              <li>
+                <NavLink
+                  to="/course/1"
+                  className="block bg-gray-700 p-4 rounded-lg hover:bg-gray-600"
+                >
+                  <h3 className="text-white font-bold">MATH 100-003</h3>
+                  <p className="text-gray-400">
+                  Differential Calculus</p>
+                  <p className="text-gray-500">Winter 2024</p>
+                </NavLink>
+              </li>
+              {/* Add more courses as needed */}
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div className="flex flex-col p-4">
+        <NavLink
+          to="/about"
+          className={({ isActive }) => isActive ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"}
+        >
+          About
+        </NavLink>
+        <NavLink
+          to="/contact"
+          className={({ isActive }) => isActive ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"}
+        >
+          Contact
+        </NavLink>
+        <div className="mt-auto">
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default Navbar;
