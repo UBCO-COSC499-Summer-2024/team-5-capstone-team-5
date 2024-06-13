@@ -41,6 +41,7 @@ services:
     networks:
       - private
     environment:
+      - POSTGRES_USER=gradeit
       - POSTGRES_PASSWORD=cosc499rocks
   pgadmin:
     image: dpage/pgadmin4
@@ -53,6 +54,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: cosc499rocks
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+    networks:
+    - private
   frontend:
     build:
       context: frontend
