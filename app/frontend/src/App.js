@@ -1,8 +1,34 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React from 'react';
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
+import About from './components/About';
+import Contact from './components/Contact';
+import CourseDetails from './components/CourseDetails';
+import InstructorHome from './components/InstructorHome';
+import InstructorDashboard from './components/InstructorDashboard';
+import StudentHome from './components/StudentHome';
+import StudentDashboard from './components/StudentDashboard';
+import Navbar from './components/Navbar';
+import Login from './components/Login';
+import { UserProvider, useUser } from './contexts/UserContext';
+import './App.css';
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+
+
 
 function App() {
+  return (
+    <UserProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </UserProvider>
+  );
+}
+
+function AppContent() {
+  const { role } = useUser();
   const [message, setMessage] = useState();
   useEffect(() => {
     fetch("/api/")
@@ -10,23 +36,30 @@ function App() {
       .then(res => setMessage(res.message))
       .catch(console.error);
   }, [setMessage]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{message || "Loading..."}</p>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex">
+      <Navbar />
+      <SignedOut>
+      <SignInButton />
+      </SignedOut>
+      <SignedIn>
+      <UserButton />
+      </SignedIn>
+      <div className="flex-grow p-8">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          {role === 'student' && <Route path="/student/courses" element={<CourseDetails />} />}
+          {role === 'student' && <Route path="/student/dashboard" element={<StudentDashboard />} />}
+          {role === 'instructor' && <Route path="/instructor/courses" element={<CourseDetails />} />}
+          {role === 'instructor' && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
+          <Route path="/contact" element={<Contact />} />
+          {role === 'student' && <Route path="/student" element={<StudentHome />} />}
+          {role === 'instructor' && <Route path="/instructor" element={<InstructorHome />} />}
+        </Routes>
+      </div>
     </div>
   );
 }
