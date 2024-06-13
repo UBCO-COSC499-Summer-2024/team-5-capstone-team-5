@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [signedIn, setSignedIn] = useState(null);
+  const [signedIn, setSignedIn] = useState(true);
   const { role } = useUser();
 
   const signOut = () => {
-    //Do something
+    navigate("/login")
   }
 
   
