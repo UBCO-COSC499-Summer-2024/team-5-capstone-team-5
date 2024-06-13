@@ -41,7 +41,18 @@ services:
     networks:
       - private
     environment:
-      - POSTGRES_PASSWORD=/run/secrets/db-password
+      - POSTGRES_PASSWORD=cosc499rocks
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@admin.org
+      PGADMIN_DEFAULT_PASSWORD: cosc499rocks
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
   frontend:
     build:
       context: frontend
