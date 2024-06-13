@@ -29,18 +29,17 @@ services:
     depends_on:
       - db
   db:
-    # We use a mariadb image which supports both amd64 & arm64 architecture
     image: postgres
-    # If you really want to use MySQL, uncomment the following line
-    #image: mysql:8.0.27
     restart: always
     secrets:
       - db-password
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - private
     environment:
+      - POSTGRES_DB=gradeit
       - POSTGRES_USER=gradeit
       - POSTGRES_PASSWORD=cosc499rocks
   pgadmin:

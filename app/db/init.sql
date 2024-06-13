@@ -1,7 +1,5 @@
 
-CREATE DATABASE IF  NOT EXISTS mydatabase ;
-use mydatabase;
-/**
+/*
  * This script creates the necessary tables for the application's database.
  * 
  * Table: USERS
@@ -37,10 +35,10 @@ use mydatabase;
  * - question_id: The foreign key referencing the QUESTIONS table.
  * - grade: The grade received for the response.
  */
+*/
 
 
-
-CREATE TABLE  USERS (
+CREATE TABLE IF NOT EXISTS USERS (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
     email VARCHAR(100),
@@ -48,7 +46,7 @@ CREATE TABLE  USERS (
 );
  
 
-create TABLE  COURSES (
+create TABLE IF NOT EXISTS COURSES (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
     description VARCHAR(100),
@@ -56,39 +54,38 @@ create TABLE  COURSES (
 );
 
 
-create  TABLE  EXAMS (
-id SERIAL PRIMARY KEY,
-name VARCHAR(50),
-DATE date,
-visibility BOOLEAN,
-course_id INT,
-FOREIGN KEY (course_id) REFERENCES COURSE(id)
+create  TABLE IF NOT EXISTS EXAMS (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    date DATE,
+    visibility BOOLEAN,
+    course_id INT,
+    FOREIGN KEY (course_id) REFERENCES COURSES(id) ON DELETE CASCADE
 );
 
 
 
-create TABLE  QUESTIONS ( 
+create TABLE IF NOT EXISTS QUESTIONS ( 
     id SERIAL PRIMARY KEY,
     num_options INT,
     correct_answer INT[],
-    notes blob,
-    weight float,
+    weight FLOAT,
     exam_id INT,
-    FOREIGN KEY (exam_id) REFERENCES EXAMS(id)
+    FOREIGN KEY (exam_id) REFERENCES EXAMS(id) ON DELETE CASCADE
 );
 
-create TABLE  RESPONSES (
+create TABLE IF NOT EXISTS RESPONSES (
     id SERIAL PRIMARY KEY,
     response int[],
     question_id INT,
     user_id INT,
-    grade float,
-    FOREIGN KEY (question_id) REFERENCES QUESTIONS(id),
-    FOREIGN KEY (user_id) REFERENCES USERS(id)
+    grade FLOAT,
+    FOREIGN KEY (question_id) REFERENCES QUESTIONS(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES USERS(id) ON DELETE CASCADE
 );
 
 
---insert sample data into courses table
+/*--insert sample data into courses table
 insert  COURSE (name, description, endDATE) values ('Mathematics', 'Introduction to Mathematics', '2021-12-31');
 insert  COURSE (name, description, endDATE) values ('Science', 'Introduction to Science', '2021-12-31');
 insert  COURSE (name, description, endDATE) values ('History', 'Introduction to History', '2021-12-31');
@@ -111,7 +108,7 @@ insert RESPONSES (response, question_id, user_id, grade) values ('1,2', 2, 1, 0.
 
 
 --insert  sample data into questions table
-
+*/
 
 
 
