@@ -29,19 +29,32 @@ services:
     depends_on:
       - db
   db:
-    # We use a mariadb image which supports both amd64 & arm64 architecture
     image: postgres
-    # If you really want to use MySQL, uncomment the following line
-    #image: mysql:8.0.27
     restart: always
     secrets:
       - db-password
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - private
     environment:
-      - POSTGRES_PASSWORD=/run/secrets/db-password
+      - POSTGRES_DB=gradeit
+      - POSTGRES_USER=gradeit
+      - POSTGRES_PASSWORD=cosc499rocks
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@admin.org
+      PGADMIN_DEFAULT_PASSWORD: cosc499rocks
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+    - private
   frontend:
     build:
       context: frontend
@@ -59,6 +72,7 @@ networks:
   public:
   private:
 volumes:
+  pgadmin-data:
   back-notused:
   db-data:
 secrets:
