@@ -1,7 +1,6 @@
 // src/components/Navbar.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
 const Navbar = () => {
   return (
@@ -50,12 +49,6 @@ const Navbar = () => {
           Contact
         </NavLink>
         <div className="mt-auto">
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
         </div>
       </div>
     </div>

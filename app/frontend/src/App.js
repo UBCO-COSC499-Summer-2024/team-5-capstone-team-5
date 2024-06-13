@@ -11,9 +11,9 @@ import StudentHome from './components/StudentHome';
 import StudentDashboard from './components/StudentDashboard';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import Authenticated from './components/Authenticated';
 import { UserProvider, useUser } from './contexts/UserContext';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-import './index.css';
+
 
 function App() {
   return (
