@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken');
 
 const authUser = async (email, password) => {
     try {
-       const user = await db.oneOrNone("SELECT id, role, password FROM users WHERE email = $1", [email]);
-        console.log(user)
+       const user = await db.oneOrNone("SELECT * FROM users WHERE email = $1", [email]);
         if(user.password == password) {
             const token = jwt.sign({userId: user.id}, "coscrules", {expiresIn: "12h"});
-            return { "id" : user.id, "role" : user.role, "token" : token };
+            return { "id" : user.id, "role" : user.role, "name" : `${user.first_name} ${user.last_name}`, "token" : token };
         } else {
+            console.log("Incorrect Credentials");
             return;
         }   
     } catch(error) {

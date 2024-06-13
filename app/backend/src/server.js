@@ -36,7 +36,7 @@ app.get("/healthz", function(req, res) {
 app.post("/api/auth/login", async (req,res) => {
   const auth = await authUser(req.body.email, req.body.password);
   console.log(auth);
-})
+});
 
 module.exports = app;
 
