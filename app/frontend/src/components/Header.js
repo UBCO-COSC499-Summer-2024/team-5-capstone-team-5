@@ -1,7 +1,6 @@
 // src/components/Header.js
 
 import React from 'react';
-import { SignedIn, UserButton } from "@clerk/clerk-react";
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -17,14 +16,11 @@ const Header = () => {
       <div className="flex items-center">
         <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-32" />
       </div>
-      <SignedIn>
         <div className="flex items-center">
           <button onClick={handleLogout} className="text-red-500 hover:text-red-700 mr-4">
             Logout
           </button>
-          <UserButton />
         </div>
-      </SignedIn>
     </div>
   );
 };
