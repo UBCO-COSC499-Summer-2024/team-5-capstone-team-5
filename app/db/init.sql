@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS users (
     id serial PRIMARY KEY,
     first_name text,
     last_name text,
-    email text,
+    email text NOT NULL UNIQUE,
     password text,
     role integer
 );
