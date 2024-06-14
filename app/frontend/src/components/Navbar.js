@@ -1,10 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../hooks/getCourseData';
+import validateUser from '../hooks/validateUser';
+
 
 const Navbar = () => {
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
+
   useEffect(() => {
+    const checkSession = async () => {
+      const session = await validateUser();
+      if (!session) {
+        navigate("/login");
+      }
+    };
+
+    checkSession();
+  }, [navigate]);
+
+  const Logout = () => {
+
+    //localStorage.clear()
+    console.log("Before logout: ",localStorage.getItem("token"));
+    localStorage.removeItem("token");
+    console.log("After logout: ",localStorage.getItem("token"));
+    navigate("/login");
+
+  }
+
+  useEffect( () => {
     const fetchData = async () => {
       const courseData = await getCourseData('1');
       console.log(courseData);
@@ -61,6 +86,7 @@ const Navbar = () => {
         >
           Contact
         </NavLink>
+        <button className={({ isActive }) => isActive ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"} onClick={Logout}>Logout</button>
         <div className="mt-auto">
         </div>
       </div>

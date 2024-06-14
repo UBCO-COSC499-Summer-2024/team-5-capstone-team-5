@@ -6,8 +6,8 @@ const authUser = async (email, password) => {
     try {
        const user = await db.oneOrNone("SELECT * FROM users WHERE email = $1", [email]);
         if(user.password == password) {
-            const token = jwt.sign({userId: user.id}, "coscrules", {expiresIn: "12h"});
-            return { "id" : user.id, "role" : user.role, "name" : `${user.first_name} ${user.last_name}`, "token" : token };
+            const token = jwt.sign({userId: user.id, role: user.role, name: user.first_name+" "+user.last_name}, "coscrules", {expiresIn: "12h"});
+            return { "token" : token };
         } else {
             console.log("Incorrect Credentials");
             return;
@@ -19,20 +19,25 @@ const authUser = async (email, password) => {
 
 const verifyUser = async (token) => {
     try {
+      const decoded = await new Promise((resolve, reject) => {
         jwt.verify(token, "coscrules", (err, decoded) => {
-            if(err) {
-                console.log("Invalid JWT")
-                // Handle invalid token
-            } else {
-                // Handle user information
-            }
-        })
-    } catch(error) {
-        console.error("Error occured during verification: ", error)
-        return;
+          if (err) {
+            reject(new Error("Invalid JWT"));
+          } else {
+            resolve(decoded);
+          }
+        });
+      });
+  
+      console.log(decoded.id);
+      return decoded;
+    } catch (error) {
+      console.error("Error occurred during verification: ", error.message);
+      return null;
     }
-}
+  };
 
 module.exports = {
-    authUser
+    authUser,
+    verifyUser
 }

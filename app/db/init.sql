@@ -106,7 +106,7 @@ INSERT INTO users (first_name, last_name, email, password, role) VALUES ('John',
 INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Alice', 'Johnson', 'alicejohnson@email.com', 'mypassword789', 1);
 INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Bob', 'Brown', 'bobbrown@email.com', 'qwerty987', 1);
 INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Jay', 'Bhullar', 'jb@email.com', 'ilovecapstone', 2);
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Nathan', 'JacINTO', 'nj@email.com', 'scottsthebest', 2);
+INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Nathan', 'Jacinto', 'nj@email.com', 'scottsthebest', 2);
 INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Jack', 'Mathisen', 'jm@email.com', 'ilovecosc499', 2);
 INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Oakley', 'Pankratz', 'op@email.com', 'math>cosc', 2);
 

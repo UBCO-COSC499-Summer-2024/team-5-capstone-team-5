@@ -14,13 +14,24 @@ const getCoursesByUserId = async (id) => {
 const getTestsByCourseId = async (id) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT exams.id, date_marked, exams.name, courses.name AS course_name FROM exams JOIN courses ON exams.course_id = courses.id WHERE course_id = $1', [id]
+            'SELECT exams.id, date_marked, exams.name, courses.name AS course_name FROM exams JOIN courses ON exams.course_id = courses.id WHERE course_id = $1 ORDER BY date_marked DESC', [id]
         );
         return response;
     } catch(error) {
         console.error(`Error getting course data for id ${id}`,error);
     };
 };
+
+const getRecentExamsByUserId = async (id) => {
+    try {
+        const response = await db.manyOrNone(
+            'SELECT exams.id, date_marked, exams.name, courses.name AS course_name FROM users INNER JOIN registration ON users.id = registration.user_id INNER JOIN courses ON registration.course_id = courses.id INNER JOIN exams ON courses.id = exams.course_id WHERE users.id = $1 ORDER BY date_marked DESC', [id]
+        );
+        return response;
+    } catch(error) {
+        console.log(`Error getting recent courses for user id ${id}`,error);
+    }
+}
 
 const addStudent = async (first, last, email, password) => {
     try {
@@ -66,9 +77,12 @@ const addQuestion = async (exam_id, num_options, correct_answer, weight) => {
     };
 };
 
+
+
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
+    getRecentExamsByUserId,
     addStudent,
     addCourse,
     addExam,

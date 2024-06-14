@@ -1,13 +1,13 @@
 const express = require('express');
-const { getCoursesByUserId, getTestsByCourseId } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId } = require('../controllers/userController');
 
 const router = express.Router();
 
 // url = localhost/api/users/courses/student_id
 router.get('/courses/:id', async (req, res) => {
     try {
-        const grades = await getCoursesByUserId(req.params.id);
-        res.status(200).json(grades);
+        const courses = await getCoursesByUserId(req.params.id);
+        res.status(200).json(courses);
     } catch(error) {
         res.status(404).json({ error: error.message });
     }
@@ -38,6 +38,15 @@ router.get('/responses/:qid&uid', async (req, res) => {
     } catch(error) {
         res.status(404).json({ error: error.message });
     }
+});
+
+router.get('/tests/recent/:id', async (req, res) => {
+    try {
+        const courses = await getRecentExamsByUserId(req.params.id);
+        res.status(200).json(courses);
+    } catch(error) {
+        res.status(404).json({ error: error.message })
+    };
 });
 
 module.exports = router;
