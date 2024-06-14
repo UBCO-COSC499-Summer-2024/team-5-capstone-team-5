@@ -19,20 +19,25 @@ const authUser = async (email, password) => {
 
 const verifyUser = async (token) => {
     try {
+      const decoded = await new Promise((resolve, reject) => {
         jwt.verify(token, "coscrules", (err, decoded) => {
-            if(err) {
-                console.log("Invalid JWT")
-                // Handle invalid token
-            } else {
-                // Handle user information
-            }
-        })
-    } catch(error) {
-        console.error("Error occured during verification: ", error)
-        return;
+          if (err) {
+            reject(new Error("Invalid JWT"));
+          } else {
+            resolve(decoded);
+          }
+        });
+      });
+  
+      console.log(decoded.id);
+      return decoded;
+    } catch (error) {
+      console.error("Error occurred during verification: ", error.message);
+      return null;
     }
-}
+  };
 
 module.exports = {
-    authUser
+    authUser,
+    verifyUser
 }
