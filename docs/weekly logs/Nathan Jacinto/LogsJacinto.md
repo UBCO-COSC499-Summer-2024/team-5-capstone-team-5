@@ -1,9 +1,12 @@
 # June 11-14
 ## Hours: 7 Hours
  Was working on with Nick and Jay to meet the expected deadlines of our milestonea
--User Authentication
--Creating Stuff
--Was attempting with the automatic testing with drone and wasnt't Working
+- User Authentication
+- Creating Stuff
+- Was attempting with the automatic testing with drone and wasnt't Working
+- We had to rework our entire framework because our user authentication (Clerk) had
+some paid features to allow us to authentications and there was quite a bit of discussion 
+with the current direction
 
 
 
