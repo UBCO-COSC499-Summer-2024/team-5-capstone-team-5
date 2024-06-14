@@ -1,3 +1,35 @@
+# June 12 - June 14
+## Date: June 14, 3:51 AM
+
+## Hours: 25.25hrs
+
+## Tasks:
+
+tldr; I wrote our authentication from 'scratch' using jwt because Scott mentioned we should have authentication running locally on our backend. I created a pgadmin Docker image for postgres database management and analysis / query building. I added backend routing with Express and tied it into the React components through a users API gateway in our Express.js server. I modified our Express backend to use a routes / controllers scheme for ease of understanding. Got student view working alright, but it is not tied into authentication yet.
+
+### Express.js and React.js authentication and session token storage (12.5hrs) (Large):
+- Created a login page and authentication service with jwt
+- Added session logic to boot the user out of any pages unless they are logged in (navigates them to the login page)
+
+### pgadmin Docker image setup (3hrs) (Med):
+- Added pgadmin to our Docker image and spent a while troubleshooting connection issues until it worked.
+- Helped the team get their Docker stuff running and understand the pgadmin stuff.
+
+### Backend Routing
+- Added various postgres queries on our backend and tied them into an api gateway that allows the user to pass in various details to retrieve course, exam, question, and response data (not finished)
+- Added authentication routing
+- Created a routes / controllers scheme for ease of understanding and maintenance
+
+## Work in Progress
+
+### Tying in auth to database with correct course identifications
+
+## Goal Recap
+
+My goals for the last cycle were to get authentication working and put test data into Postgres, then set up UI modules in React if the other two were successful. Overall, I think I completed my goals. The only thing I was unable to touch was a teacher view. The authentication and Postgres sample data is added, and React now shows the sample data from Postgres dynamically.
+
+My goals for this week are to finish the session handling with user verification and authentication, then to move onto adding all of the instructor features like adding exams, courses, student rosters, etc.
+
 # June 7 - June 11
 ## Date: June 11, 6:07 PM
 
