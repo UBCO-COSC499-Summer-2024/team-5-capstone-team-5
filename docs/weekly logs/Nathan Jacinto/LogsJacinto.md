@@ -1,3 +1,15 @@
+# June 11-14
+## Hours: 7 Hours
+ Was working on with Nick and Jay to meet the expected deadlines of our milestonea
+-User Authentication
+-Creating Stuff
+-Was attempting with the automatic testing with drone and wasnt't Working
+
+
+
+
+
+
 # June 7- 11
 ## Hours: 16 Hours
 Team Meeting (2)Hrs
