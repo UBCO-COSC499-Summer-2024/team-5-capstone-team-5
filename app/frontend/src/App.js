@@ -29,13 +29,6 @@ function AppContent() {
   const location = useLocation();
   const [message, setMessage] = useState();
 
-  useEffect(() => {
-    fetch("/api/")
-      .then(res => res.json())
-      .then(res => setMessage(res.message))
-      .catch(console.error);
-  }, [setMessage]);
-
   const isLoginPage = location.pathname === '/login';
 
   return (

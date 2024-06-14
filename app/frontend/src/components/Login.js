@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useUser } from '../contexts/UserContext';
 
 const Login = () => {
@@ -12,17 +11,31 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', { email, password }, { withCredentials: true });
+      const response = await fetch('http://localhost:80/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include'
+      });
+
+      if(!response.ok) {
+        const error = await response.text();
+        console.error('Server response:',error);
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
       setUser({
-        id: response.data.id,
-        role: response.data.role,
-        name: response.data.name,
-        token: response.data.token
+        id: data.id,
+        role: data.role,
+        name: data.name,
+        token: data.token
       });
       navigate('/'); // Navigating to home route after successful login
     } catch (error) {
       console.error('Login failed:', error);
-      alert('Login failed: ' + (error.response?.data?.error || error.message));
     }
   };
 

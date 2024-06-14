@@ -18,7 +18,6 @@ passport.use(new LocalStrategy({
       if (!isMatch) {
         return done(null, false, { message: 'Incorrect password.' });
       }
-
       return done(null, user);
     } catch (error) {
       return done(error);
@@ -27,15 +26,17 @@ passport.use(new LocalStrategy({
 ));
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  process.nextTick(function() {
+    return done(null, user.id);
+  })
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await db.oneOrNone("SELECT * FROM users WHERE id = $1", [id]);
     done(null, user);
-  } catch (error) {
-    done(error, null);
+  } catch (err) {
+    done(err);
   }
 });
 
