@@ -12,6 +12,7 @@ import { UserProvider, useUser } from './contexts/UserContext';
 import InstructorDashboard from './components/Instructor/InstructorDashboard';
 import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
+import StudentList from './components/Instructor/StudentList';
 import InstNavbar from './components/Instructor/InstNavbar';
 
 function App() {
@@ -43,7 +44,8 @@ function AppRoutes() {
       {role === 'student' && <Route path="/student/courses" element={<CourseDetails />} />}
       {role === 'student' && <Route path="/student/dashboard" element={<StudentDashboard />} />}
       {role === 'instructor' && <Route path="/instructor/courses" element={<InstructorCourseList />} />}
-      {role === 'instructor' && <Route path="/instructor/course/:courseId" element={<InstructorCourseDetails />} />}
+      {role === 'instructor' && <Route path="/instructor/course/:courseId/*" element={<InstructorCourseDetails />} />}
+      {role === 'instructor' && <Route path="/instructor/students" element={<StudentList />} />}
       {role === 'instructor' && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
       <Route path="/course/:courseId" element={<CourseDetails />} />
       <Route path="/recent" element={<RecentTests />} />
