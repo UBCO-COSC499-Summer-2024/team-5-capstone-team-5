@@ -30,17 +30,6 @@ const Navbar = () => {
           <div className="mt-4">
             <h2 className=" ml-4 text-lg font-bold text-gray-300">Courses</h2>
             <ul className="mt-4 space-y-4">
-              <li>
-                <NavLink
-                  to="/course/1"
-                  className={({ isActive }) => isActive ? "block bg-gray-700 p-4 mx-4 rounded-lg hover:bg-gray-600" : "block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600"}
-                >
-                  <h3 className="text-white font-bold">MATH 100-003</h3>
-                  <p className="text-gray-400">
-                  Differential Calculus</p>
-                  <p className="text-gray-500">Winter 2024</p>
-                </NavLink>
-              </li>
               {courses.map((course) => {
                 return (
                 <li key={course.course_id}>
