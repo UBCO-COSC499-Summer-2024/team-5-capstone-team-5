@@ -6,10 +6,7 @@ const passport = require('./passportConfig');
 
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,7 +33,4 @@ app.get('/api/auth/logout', (req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;
