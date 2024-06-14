@@ -1,3 +1,16 @@
+# June 12 - 13
+### Oakley Pankratz
+## Hours: 7.5
+### Worked on: ###
+
+ - Team meeting (sm, 1 hour) discussed some planning with team mates.
+ - Learning our tech stack (med, 5 hours) since I haven't taken COSC 360, I've had to teach myself web development through youtube, since it is essential for our prject. I've spent most of my time watching through the playlists found on an educational youtube vhannel called ["Bro Code"](https://www.youtube.com/@BroCodez/playlists).
+ - Team meeting and presentation creation (sm, 1.5 hours) Met with team mates to discuss our presentation for Friday, June 14th. 
+
+### Comments ###
+
+I'm feeling a little better after having reviewed some videos explaining the technology used in our tech stack. I'm more confortable with the different libraries and languages involed.
+
 # June 7 - June 11
 ### Oakley Pankratz
 ## Hours: 15 ##
