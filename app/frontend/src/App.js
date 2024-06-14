@@ -14,20 +14,13 @@ import InstructorDashboard from './components/Instructor/InstructorDashboard';
 import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
 import StudentList from './components/Instructor/StudentList';
-import InstNavbar from './components/Instructor/InstNavbar';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <UserProvider>
       <Router>
-        <div className="flex min-h-screen bg-black text-white">
-          <InstNavbar />
-          <div className="flex-grow flex flex-col ml-64">
-            <div className="flex-grow p-8">
-              <AppRoutes />
-            </div>
-          </div>
-        </div>
+        <AppRoutes />
       </Router>
     </UserProvider>
   );
@@ -53,7 +46,7 @@ function AppRoutes() {
             {role === 'instructor' && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
             <Route path="/contact" element={<Contact />} />
             {role === 'student' && <Route path="/student" element={<StudentHome />} />}
-            {role === 'instructor' && <Route path="/instructor" element={<InstructorHome />} />}
+            {/*role === 'instructor' && <Route path="/instructor" element={<InstructorHome />} />*/}
             <Route path="/course/:courseId" element={<CourseDetails />} />
             <Route path="/recent" element={<RecentTests />} />
           </Routes>
