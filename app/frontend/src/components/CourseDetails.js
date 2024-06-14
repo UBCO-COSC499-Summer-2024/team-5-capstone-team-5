@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import getTestData from '../hooks/getTestData';
 
 const CourseDetails = () => {
   const { courseId } = useParams();
+
+  const [tests, setTests] = useState([]);
+  useEffect( () => {
+    const fetchData = async () => {
+      const testData = await getTestData(courseId);
+      console.log(testData);
+      setTests(testData);
+    }
+    fetchData();
+  }, []);
   
   // Dummy data for demonstration
   const dummyData = {
@@ -17,6 +28,28 @@ const CourseDetails = () => {
         { title: 'Evaluation Quiz', grade: '15%', stats: 'Median: 100% Mean: 98.3% Max: 100% Min: 15%' },
       ],
     },
+    "2": {
+      title: 'PHYS 101-001 Tests',
+      averageGrade: '98.83%',
+      tests: [
+        { title: 'Final Exam', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
+        { title: 'Midterm 2', grade: '77.2%', stats: 'Median: 71% Mean: 70.3% Max: 94.2% Min: 45%' },
+        { title: 'Mid-Midterm 2', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
+        { title: 'Midterm 1', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
+        { title: 'Evaluation Quiz', grade: '15%', stats: 'Median: 100% Mean: 98.3% Max: 100% Min: 15%' },
+      ],
+    },
+    "3": {
+      title: 'CHEM 101-001 Tests',
+      averageGrade: '25.83%',
+      tests: [
+        { title: 'Final Exam', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
+        { title: 'Midterm 2', grade: '77.2%', stats: 'Median: 71% Mean: 70.3% Max: 94.2% Min: 45%' },
+        { title: 'Mid-Midterm 2', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
+        { title: 'Midterm 1', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
+        { title: 'Evaluation Quiz', grade: '15%', stats: 'Median: 100% Mean: 98.3% Max: 100% Min: 15%' },
+      ],
+    }
     // Add more dummy data for other courses as needed
   };
 
