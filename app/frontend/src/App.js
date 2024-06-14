@@ -27,14 +27,6 @@ function App() {
 
 function AppContent() {
   const { role } = useUser();
-  const [message, setMessage] = useState();
-
-  useEffect(() => {
-    fetch("/api/")
-      .then(res => res.json())
-      .then(res => setMessage(res.message))
-      .catch(console.error);
-  }, [setMessage]);
 
   return (
     <div className="flex min-h-screen bg-black text-white">

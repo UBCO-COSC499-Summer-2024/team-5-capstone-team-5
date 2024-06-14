@@ -14,7 +14,7 @@ const getCoursesByUserId = async (id) => {
 const getTestsByCourseId = async (id) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT * FROM exams WHERE course_id = $1', [id]
+            'SELECT exams.id, date_marked, exams.name, courses.name AS course_name FROM exams JOIN courses ON exams.course_id = courses.id WHERE course_id = $1', [id]
         );
         return response;
     } catch(error) {
@@ -26,5 +26,5 @@ const getTestsByCourseId = async (id) => {
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
-    
+
 }
