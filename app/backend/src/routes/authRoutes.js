@@ -8,7 +8,7 @@ router.post("/login", async (req,res) => {
     try {
         const auth = await authUser(email, password);
         if(auth) {
-            res.status(200).json(result);
+            res.status(200).json(auth);
         } else {
             res.status(401).json({message : "Incorrect Credentials" });
         }
@@ -18,9 +18,15 @@ router.post("/login", async (req,res) => {
   });
 
   router.get('/authenticate/:token', async (req, res) => {
+    if(req.params.token == null) {
+        res.status(401).json({ message: "Could not verify session "});
+    }
     const auth = await verifyUser(req.params.token);
-    console.log(auth);
-    res.json({message: auth});
+    if(auth) {
+        res.status(200).json(auth);
+    } else {
+        res.status(401).json({ message: "Could not verify session" });
+    }
   });
 
   module.exports = router;

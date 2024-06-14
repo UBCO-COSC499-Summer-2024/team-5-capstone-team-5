@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import Contact from './components/Contact';
@@ -27,10 +27,12 @@ function App() {
 
 function AppContent() {
   const { role } = useUser();
+  const location = useLocation();
+  const hideNavbarPaths = ['/login'];
 
   return (
     <div className="flex min-h-screen bg-black text-white">
-      <Navbar />
+      {!hideNavbarPaths.includes(location.pathname) && <Navbar />}
       <div className="flex-grow flex flex-col ml-64">
         <div className="flex-grow p-8">
           <Routes>

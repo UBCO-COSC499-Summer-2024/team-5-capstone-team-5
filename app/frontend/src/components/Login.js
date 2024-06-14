@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -22,7 +22,8 @@ const handleSubmit = async (e) => {
         console.log("Login request unsuccessful");
       } else {
         const data = await response.json();
-        console.log(data);
+        localStorage.setItem('token', data.token);
+        console.log("Login successful, token: ",data.toke);
         navigate('/'); // Navigating to home route after successful login
       }
       
