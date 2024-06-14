@@ -4,8 +4,17 @@ const { authUser, verifyUser } = require('../controllers/authController');
 const router = express.Router();
 
 router.post("/login", async (req,res) => {
-    const auth = await authUser(req.body.email, req.body.password);
-    console.log(auth);
+    const { email, password } = req.body;
+    try {
+        const auth = await authUser(email, password);
+        if(auth) {
+            res.status(200).json(result);
+        } else {
+            res.status(401).json({message : "Incorrect Credentials" });
+        }
+    } catch(error) {
+        res.status(500).json({ message : "Internal Server Error" });
+    }
   });
 
   router.get('/authenticate/:token', async (req, res) => {
