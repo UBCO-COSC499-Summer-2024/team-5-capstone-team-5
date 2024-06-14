@@ -28,8 +28,8 @@ app.use('/api/auth', authRoutes);
 
 app.get("/", function(req, res, next) {
   res.status(200).json({ message: `GradeIT OMR Technologies` });
-}
-    );
+  }
+);
 
 app.get("/healthz", function(req, res) {
   // do app logic here to determine if app is truly healthy

@@ -1,7 +1,17 @@
-import React, { useEffect } from 'react';
-import getCourseData from '../hooks/getCourseData';
+import React, { useEffect, useState } from 'react';
+import getRecentTests from '../hooks/getRecentTests';
+
 
 const RecentTests = () => {
+  const [tests, setTests] = useState([]);
+  useEffect( () => {
+    const fetchData = async () => {
+      const data = await getRecentTests('1');
+      console.log(data);
+      setTests(data);
+    }
+    fetchData();
+  }, []);
 
   const recentTests = [
     { title: 'Final Exam', class: 'MATH 100-003', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },
@@ -19,12 +29,11 @@ const RecentTests = () => {
       <div className="flex-grow">
         <h2 className="text-2xl font-bold">Recent Tests</h2>
         <div className="mt-4">
-          {recentTests.map((test, index) => (
+        {tests.map((test, index) => (
             <div key={index} className="p-4 mb-4 rounded-lg bg-gray-700 text-white">
-              <h3 className="text-xl font-bold">{test.title}</h3>
-              <p className="text-lg">{test.class}</p>
-              <p className="text-lg">{test.grade}</p>
-              <p className="text-sm text-gray-400">{test.stats}</p>
+              <h3 className="text-xl font-bold">{test.name}</h3>
+              <p className="text-lg">Date Marked: {test.date_marked.slice(0,10)}</p> 
+              <p className="text-lg">Course: {test.course_name}</p> 
             </div>
           ))}
         </div>
