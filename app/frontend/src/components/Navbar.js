@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../hooks/getCourseData';
@@ -57,16 +56,16 @@ const Navbar = () => {
             <ul className="mt-4 space-y-4">
               {courses.map((course) => {
                 return (
-                <li key={course.course_id}>
-                  <NavLink
-                  to={`/course/${course.course_id}`}
-                  className={({ isActive }) => isActive ? "block bg-gray-700 p-4 mx-4 rounded-lg hover:bg-gray-600" : "block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600"}
-                  > 
-                  <h3 className="text-white font-bold">{course.name}</h3>
-                  <p className="text-gray-400">{course.description}</p>
-                  <p className="text-gray-500">Ends: {course.end_date.slice(0,10)}</p>
-                  </NavLink>
-                </li>
+                  <li key={course.course_id}>
+                    <NavLink
+                      to={`/course/${course.course_id}`}
+                      className={({ isActive }) => isActive ? "block bg-gray-700 p-4 mx-4 rounded-lg hover:bg-gray-600" : "block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600"}
+                    >
+                      <h3 className="text-white font-bold">{course.name}</h3>
+                      <p className="text-gray-400">{course.description}</p>
+                      <p className="text-gray-500">Ends: {course.end_date.slice(0, 10)}</p>
+                    </NavLink>
+                  </li>
                 )
               })}
               {/* Add more courses as needed */}

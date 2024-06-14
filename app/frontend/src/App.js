@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './components/Home';
@@ -5,27 +6,34 @@ import About from './components/About';
 import Contact from './components/Contact';
 import CourseDetails from './components/CourseDetails';
 import RecentTests from './components/RecentTests';
-import InstructorHome from './components/InstructorHome';
-import InstructorDashboard from './components/InstructorDashboard';
 import StudentHome from './components/StudentHome';
 import StudentDashboard from './components/StudentDashboard';
-import Navbar from './components/Navbar';
 import Login from './components/Login';
-import Authenticated from './components/Authenticated';
 import { UserProvider, useUser } from './contexts/UserContext';
-
+import InstructorDashboard from './components/Instructor/InstructorDashboard';
+import InstructorCourseList from './components/Instructor/InstructorCourseList';
+import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
+import StudentList from './components/Instructor/StudentList';
+import InstNavbar from './components/Instructor/InstNavbar';
 
 function App() {
   return (
     <UserProvider>
       <Router>
-        <AppContent />
+        <div className="flex min-h-screen bg-black text-white">
+          <InstNavbar />
+          <div className="flex-grow flex flex-col ml-64">
+            <div className="flex-grow p-8">
+              <AppRoutes />
+            </div>
+          </div>
+        </div>
       </Router>
     </UserProvider>
   );
 }
 
-function AppContent() {
+function AppRoutes() {
   const { role } = useUser();
   const location = useLocation();
   const hideNavbarPaths = ['/login'];
