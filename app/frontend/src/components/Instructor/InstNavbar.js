@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import getCourseData from '../hooks/getCourseData';
+import getCourseData from '../../hooks/getCourseData'; // Ensure this is the correct path
+import InstructorCourseList from './InstructorCourseList'; // Import the InstructorCourseList component
 
-const Navbar = () => {
+const InstNavbar = () => {
   const [courses, setCourses] = useState([]);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
-      const courseData = await getCourseData('1');
-      console.log(courseData);
-      setCourses(courseData);
-    }
+      try {
+        const courseData = await getCourseData('instructor'); // Assume 'instructor' fetches instructor courses
+        setCourses(courseData || []);
+      } catch (error) {
+        setError(error);
+      }
+    };
     fetchData();
   }, []);
 
@@ -27,24 +33,7 @@ const Navbar = () => {
             </NavLink>
           </div>
           <div className="mt-4">
-            <h2 className=" ml-4 text-lg font-bold text-gray-300">Courses</h2>
-            <ul className="mt-4 space-y-4">
-              {courses.map((course) => {
-                return (
-                  <li key={course.course_id}>
-                    <NavLink
-                      to={`/course/${course.course_id}`}
-                      className={({ isActive }) => isActive ? "block bg-gray-700 p-4 mx-4 rounded-lg hover:bg-gray-600" : "block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600"}
-                    >
-                      <h3 className="text-white font-bold">{course.name}</h3>
-                      <p className="text-gray-400">{course.description}</p>
-                      <p className="text-gray-500">Ends: {course.end_date.slice(0, 10)}</p>
-                    </NavLink>
-                  </li>
-                )
-              })}
-              {/* Add more courses as needed */}
-            </ul>
+            <InstructorCourseList /> {/* Use the InstructorCourseList component */}
           </div>
         </nav>
       </div>
@@ -61,11 +50,10 @@ const Navbar = () => {
         >
           Contact
         </NavLink>
-        <div className="mt-auto">
-        </div>
+        <div className="mt-auto"></div>
       </div>
     </div>
   );
-}
+};
 
-export default Navbar;
+export default InstNavbar;
