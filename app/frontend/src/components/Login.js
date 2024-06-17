@@ -23,7 +23,7 @@ const handleSubmit = async (e) => {
       } else {
         const data = await response.json();
         localStorage.setItem('token', data.token);
-        console.log("Login successful, token: ",data.toke);
+        console.log("Login successful, token: ",data.token);
         navigate('/'); // Navigating to home route after successful login
       }
       

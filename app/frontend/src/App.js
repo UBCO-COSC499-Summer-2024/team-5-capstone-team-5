@@ -35,12 +35,14 @@ function AppRoutes() {
   const hideNavbarPaths = ['/login'];
 
   useEffect(() => {
-    const fetchData = async () => {
-      const user = await getUserInfo();
-      setRole(user.role);
-      setUserId(user.userId);
-      console.log(user.role);
-      console.log(user.userId);
+      const fetchData = async () => {
+        const user = await getUserInfo();
+        if(user) {
+        setRole(user.role);
+        setUserId(user.userId);
+        console.log(user.role);
+        console.log(user.userId);
+      };
     };
     fetchData();
   }, [location]);
