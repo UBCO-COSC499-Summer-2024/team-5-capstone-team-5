@@ -15,8 +15,10 @@ import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
+import getRole from './hooks/getRole';
 
 function App() {
+
   return (
     <UserProvider>
       <Router>
@@ -27,9 +29,18 @@ function App() {
 }
 
 function AppRoutes() {
-  const { role } = useUser();
+  const [role, setRole] = useState('');
   const location = useLocation();
   const hideNavbarPaths = ['/login'];
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      const userRole = await getRole();
+      setRole(userRole);
+    };
+    fetchRole();
+  }, [location]);
+
 
   return (
     <div className="flex min-h-screen bg-black text-white">
