@@ -4,8 +4,10 @@ import getCourseData from '../hooks/getCourseData';
 import validateUser from '../hooks/validateUser';
 
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const [userId, setUserId] = useState(props.id);
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,22 +23,25 @@ const Navbar = () => {
 
   const Logout = () => {
 
-    //localStorage.clear()
     console.log("Before logout: ",localStorage.getItem("token"));
     localStorage.removeItem("token");
     console.log("After logout: ",localStorage.getItem("token"));
     navigate("/login");
 
-  }
+  };
 
   useEffect( () => {
+    console.log(props.id);
     const fetchData = async () => {
-      const courseData = await getCourseData('1');
-      console.log(courseData);
-      setCourses(courseData);
+      if(props.id) {
+        const courseData = await getCourseData(props.id);
+        console.log(courseData);
+        setCourses(courseData);
+        setLoading(false);
+      }
     }
     fetchData();
-  }, []);
+  }, [props.id]);
 
   return (
     <div className="h-full w-64 bg-gray-800 text-white flex flex-col justify-between fixed overflow-scroll">

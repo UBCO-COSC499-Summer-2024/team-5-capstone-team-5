@@ -15,7 +15,7 @@ import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
-import getRole from './hooks/getRole';
+import getUserInfo from './hooks/getUserInfo';
 
 function App() {
 
@@ -30,21 +30,25 @@ function App() {
 
 function AppRoutes() {
   const [role, setRole] = useState('');
+  const [userId, setUserId] = useState('')
   const location = useLocation();
   const hideNavbarPaths = ['/login'];
 
   useEffect(() => {
-    const fetchRole = async () => {
-      const userRole = await getRole();
-      setRole(userRole);
+    const fetchData = async () => {
+      const user = await getUserInfo();
+      setRole(user.role);
+      setUserId(user.userId);
+      console.log(user.role);
+      console.log(user.userId);
     };
-    fetchRole();
+    fetchData();
   }, [location]);
 
 
   return (
     <div className="flex min-h-screen bg-black text-white">
-      {!hideNavbarPaths.includes(location.pathname) && <Navbar />}
+      {!hideNavbarPaths.includes(location.pathname) && <Navbar id={userId} />}
       <div className="flex-grow flex flex-col ml-64">
         <div className="flex-grow p-8">
           <Routes>
@@ -59,7 +63,7 @@ function AppRoutes() {
             {role === 'student' && <Route path="/student" element={<StudentHome />} />}
             {/*role === 'instructor' && <Route path="/instructor" element={<InstructorHome />} />*/}
             <Route path="/course/:courseId" element={<CourseDetails />} />
-            <Route path="/recent" element={<RecentTests />} />
+            <Route path="/recent" element={<RecentTests id={userId} />} />
           </Routes>
         </div>
       </div>

@@ -1,4 +1,4 @@
-const getRole = async () => {
+const getUserInfo = async () => {
     const token = localStorage.getItem("token");
   
     try {
@@ -6,7 +6,7 @@ const getRole = async () => {
   
       if (response.ok) {
         const user = await response.json();
-        return user.role
+        return user
       } else {
         return null;
       };
@@ -16,4 +16,4 @@ const getRole = async () => {
     };
   };
   
-  export default getRole;
+  export default getUserInfo;

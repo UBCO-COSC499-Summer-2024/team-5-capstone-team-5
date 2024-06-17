@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import getRecentTests from '../hooks/getRecentTests';
 
 
-const RecentTests = () => {
+const RecentTests = (props) => {
   const [tests, setTests] = useState([]);
   useEffect( () => {
     const fetchData = async () => {
-      const data = await getRecentTests('1');
+      const data = await getRecentTests(props.id);
       console.log(data);
       setTests(data);
     }
     fetchData();
-  }, []);
+  }, [props.id]);
 
   const recentTests = [
     { title: 'Final Exam', class: 'MATH 100-003', grade: '86.2%', stats: 'Median: 82% Mean: 81.4% Max: 100% Min: 54.3%' },

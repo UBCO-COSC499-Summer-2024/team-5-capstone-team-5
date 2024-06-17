@@ -1,6 +1,7 @@
-const getCourseData = async (user_id) => {
+const getCourseData = async (userId) => {
     try {
-      const response = await fetch(`http://localhost/api/users/courses/${user_id}`);
+        console.log("Getting course data for user: ",userId)
+      const response = await fetch(`http://localhost/api/users/courses/${userId}`);
       if(response.ok) {
         const courses = await response.json();
         console.log(courses);
