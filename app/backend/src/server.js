@@ -1,49 +1,48 @@
-const express = require('express');
+// simple node web server that displays hello world
+// optimized for Docker image
 const cors = require('cors');
-const flash = require('connect-flash');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const passport = require('./passportConfig');
+const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
+const express = require("express");
+// this example uses express web framework so we know what longer build times
+// do and how Dockerfile layer ordering matters. If you mess up Dockerfile ordering
+// you'll see long build times on every code change + build. If done correctly,
+// code changes should be only a few seconds to build locally due to build cache.
 
+const morgan = require("morgan");
+// morgan provides easy logging for express, and by default it logs to stdout
+// which is a best practice in Docker. Friends don't let friends code their apps to
+// do app logging to files in containers.
+
+// Appi
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3000', // Replace with your client URL
-  credentials: true // Allow cookies to be sent
-}));
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST"],
+  credentials: true,
+  })
+);
+app.use(morgan("common"));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
-app.use(session({
-  secret: 'your_secret_key',
-  resave: false,
-  saveUninitialized: false
-}));
 
-app.use(flash());
+app.get("/", function(req, res, next) {
+  res.status(200).json({ message: `GradeIT OMR Technologies` });
+  }
+);
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.set('view engine', 'ejs');
-app.set('views', './views');
-
-app.post('/api/auth/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}));
-
-app.get('/login', (req, res) => {
-  res.render('login', { message: req.flash('error') });
-})
-
-app.get('/api/auth/logout', (req, res, next) => {
-  req.logout((err) => {
-    if (err) { return next(err); }
-    res.json({ message: 'Logged out successfully' });
-  });
+app.get("/healthz", function(req, res) {
+  // do app logic here to determine if app is truly healthy
+  // you should return 200 if healthy, and anything else will fail
+  // if you want, you should be able to restrict this to localhost (include ipv4 and ipv6)
+  res.send("I am happy and healthy\n");
 });
 
 module.exports = app;
+
+

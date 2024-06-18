@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../contexts/UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setUser } = useUser();
-  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:80/api/auth/login', {
+      const response = await fetch('http://backend/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -20,20 +21,15 @@ const Login = () => {
         credentials: 'include'
       });
 
-      if(!response.ok) {
-        const error = await response.text();
-        console.error('Server response:',error);
-        throw new Error('Login failed');
-      }
+      if (!response.ok) {
+        console.log("Login request unsuccessful");
+      } else {
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        console.log("Login successful, token: ",data.token);
+        navigate('/'); // Navigating to home route after successful login
 
-      const data = await response.json();
-      setUser({
-        id: data.id,
-        role: data.role,
-        name: data.name,
-        token: data.token
-      });
-      navigate('/'); // Navigating to home route after successful login
+      }
     } catch (error) {
       console.error('Login failed:', error);
     }
@@ -58,7 +54,7 @@ const Login = () => {
               />
               <label className="text-white/80 font-semibold">Password</label>
               <input 
-                type="password" 
+                type={showPassword ? "text" : "password"} 
                 id="password" 
                 name="password" 
                 placeholder="Enter your password" 
@@ -66,8 +62,11 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <div className="flex translate-x-[28.5rem] translate-y-[-2.4rem]">
+              <button><FontAwesomeIcon icon={showPassword? faEye : faEyeSlash} className='text-[#32556F]' onClick={() => setShowPassword((prev => !prev))} /></button>
+              </div>
               <div className="flex flex-row justify-center">
-                <button type="submit" className="bg-[#293C4A] w-full h-10 rounded-md mt-6 mb-2 hover:bg-[#32556F] font-semibold">Login</button>
+                <button type="submit" className="bg-[#293C4A] w-full h-10 rounded-md mb-2 hover:bg-[#32556F] font-semibold">Login</button>
               </div>
             </div>
           </div>
@@ -78,3 +77,4 @@ const Login = () => {
 };
 
 export default Login;
+
