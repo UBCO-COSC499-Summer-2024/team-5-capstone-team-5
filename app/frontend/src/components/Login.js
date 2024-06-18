@@ -26,21 +26,9 @@ const Login = () => {
       } else {
         const data = await response.json();
         localStorage.setItem('token', data.token);
-        console.log("Login successful, token: ", data.token);
+        console.log("Login successful, token: ",data.token);
+        navigate('/'); // Navigating to home route after successful login
 
-        const user = await validateUser();
-        if (user) {
-          setUser(user);
-          if (user.role === 1) {
-            navigate('/student/dashboard');
-          } else if (user.role === 2) {
-            navigate('/instructor/dashboard');
-          } else {
-            console.error('Invalid role');
-          }
-        } else {
-          console.error('Invalid token');
-        }
       }
     } catch (error) {
       console.error('Login failed:', error);

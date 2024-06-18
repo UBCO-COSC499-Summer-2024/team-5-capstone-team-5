@@ -9,8 +9,8 @@
  * 
  */
 const validateUser = async () => {
-    const token = localStorage.getItem("token");
-    console.log(token);
+    const token = await localStorage.getItem("token");
+    console.log("token: ",token);
   
     try {
       const response = await fetch(`http://localhost:80/api/auth/authenticate/${token}`);
