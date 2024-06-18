@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import validateUser from '../hooks/validateUser';
-import { useUser } from '../contexts/UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +54,7 @@ const Login = () => {
               />
               <label className="text-white/80 font-semibold">Password</label>
               <input 
-                type="password" 
+                type={showPassword ? "text" : "password"} 
                 id="password" 
                 name="password" 
                 placeholder="Enter your password" 
@@ -61,8 +62,11 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <div className="flex translate-x-[28.5rem] translate-y-[-2.4rem]">
+              <button><FontAwesomeIcon icon={showPassword? faEye : faEyeSlash} className='text-[#32556F]' onClick={() => setShowPassword((prev => !prev))} /></button>
+              </div>
               <div className="flex flex-row justify-center">
-                <button type="submit" className="bg-[#293C4A] w-full h-10 rounded-md mt-6 mb-2 hover:bg-[#32556F] font-semibold">Login</button>
+                <button type="submit" className="bg-[#293C4A] w-full h-10 rounded-md mb-2 hover:bg-[#32556F] font-semibold">Login</button>
               </div>
             </div>
           </div>
@@ -73,3 +77,4 @@ const Login = () => {
 };
 
 export default Login;
+
