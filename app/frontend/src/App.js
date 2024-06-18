@@ -14,6 +14,7 @@ import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
+import InstNavbar from './components/Instructor/InstNavbar';
 import getUserInfo from './hooks/getUserInfo';
 
 function App() {
@@ -49,7 +50,8 @@ function AppRoutes() {
 
   return (
     <div className="flex min-h-screen bg-black text-white">
-      {!hideNavbarPaths.includes(location.pathname) && <Navbar id={userId} />}
+      {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
+      {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
       <div className="flex-grow flex flex-col ml-64">
         <div className="flex-grow p-8">
           <Routes>
