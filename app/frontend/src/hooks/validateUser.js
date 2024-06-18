@@ -1,3 +1,13 @@
+
+
+
+/**
+ * Helper function to validate the user.
+ * Validates the user by checking if the token exists and authenticating it with the server.
+ * @returns {Promise<boolean>} A promise that resolves to true if the user is valid, false otherwise.
+ * 
+ * 
+ */
 const validateUser = async () => {
     const token = localStorage.getItem("token");
     console.log(token);

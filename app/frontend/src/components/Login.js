@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import validateUser from '../hooks/validateUser';
+import { useUser } from '../contexts/UserContext';
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setUser } = useUser();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await fetch('http://localhost:80/api/auth/login', {
+      const response = await fetch('http://backend/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -18,20 +20,32 @@ const handleSubmit = async (e) => {
         body: JSON.stringify({ email, password }),
         credentials: 'include'
       });
-      if(!response.ok) {
+
+      if (!response.ok) {
         console.log("Login request unsuccessful");
       } else {
         const data = await response.json();
         localStorage.setItem('token', data.token);
-        console.log("Login successful, token: ",data.toke);
-        navigate('/'); // Navigating to home route after successful login
+        console.log("Login successful, token: ", data.token);
+
+        const user = await validateUser();
+        if (user) {
+          setUser(user);
+          if (user.role === 1) {
+            navigate('/student/dashboard');
+          } else if (user.role === 2) {
+            navigate('/instructor/dashboard');
+          } else {
+            console.error('Invalid role');
+          }
+        } else {
+          console.error('Invalid token');
+        }
       }
-      
     } catch (error) {
       console.error('Login failed:', error);
     }
   };
-
 
   return (
     <div className="h-full content-center bg-[#1D1E21]">
@@ -68,7 +82,7 @@ const handleSubmit = async (e) => {
         </form>
       </div>
     </div>
-            
   );
-}
+};
+
 export default Login;
