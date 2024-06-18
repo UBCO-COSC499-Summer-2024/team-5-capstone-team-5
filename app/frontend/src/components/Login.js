@@ -52,6 +52,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              <div className="relative flex flex-col">
               <label className="text-white/80 font-semibold">Password</label>
               <input 
                 type={showPassword ? "text" : "password"} 
@@ -62,11 +63,10 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <div className="flex translate-x-[28.5rem] translate-y-[-2.4rem]">
-              <button><FontAwesomeIcon icon={showPassword? faEye : faEyeSlash} className='text-[#32556F]' onClick={() => setShowPassword((prev => !prev))} /></button>
+              <button type="button" onClick={() => {setShowPassword((prev => !prev))}} className="absolute right-2 top-1/2 transform -translate-y-1/5"><FontAwesomeIcon icon={showPassword? faEyeSlash : faEye} className='text-[#32556F]' /></button>
               </div>
               <div className="flex flex-row justify-center">
-                <button type="submit" className="bg-[#293C4A] w-full h-10 rounded-md mb-2 hover:bg-[#32556F] font-semibold">Login</button>
+                <button type="submit" className="bg-[#293C4A] w-full h-10 mt-6 rounded-md mb-2 hover:bg-[#32556F] font-semibold">Login</button>
               </div>
             </div>
           </div>
