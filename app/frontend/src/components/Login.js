@@ -12,7 +12,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://backend/api/auth/login', {
+      const response = await fetch('http://localhost/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
