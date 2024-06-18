@@ -94,7 +94,9 @@ const Navbar = (props) => {
         </div>
       </div>
       );
-    };
+    } else {
+      return null;
+    }
   };
 
 export default Navbar;
