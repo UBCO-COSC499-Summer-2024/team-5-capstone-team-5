@@ -25,7 +25,7 @@ This week, I concentrated on enhancing the navigation bar and developing the UI 
 ## Timesheet
 
 ### Clockify report
-![Clockify report](docs/weekly\ logs/Jay\ Bhullar/screenshots/Screenshot\ 2024-06-18\ at\ 5.45.07\ PM.png)
+![Clockify report](./screenshots/TimesheetJune18.png)
 
 ### Current Tasks (Provide sufficient detail)
   * #1: Improving Nav Bar and Creating UI
