@@ -12,12 +12,8 @@ const InstructorCourseDetails = () => {
   const fetchData = useCallback(async () => {
     const testData = await getTestData(courseId);
     console.log(testData);
-    if (testData && testData.length > 0) {
-      setTests(testData);
-      setCourseName(testData[0].course_name);
-    } else {
-      setCourseName('Course Tests');
-    }
+    setTests(testData);
+    setCourseName(testData[0].course_name);
   }, [courseId]);
 
   useEffect(() => {

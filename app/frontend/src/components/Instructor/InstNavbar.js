@@ -5,7 +5,7 @@ import validateUser from '../../hooks/validateUser';
 import AddCourseModal from './AddCourseModal'; // Ensure this path is correct
 
 const InstNavbar = (props) => {
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState([]); // Initialize with an empty array
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -29,10 +29,15 @@ const InstNavbar = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (props.id) {
-        const courseData = await getCourseData(props.id);
-        console.log(courseData);
-        setCourses(courseData);
+      try {
+        if (props.id) {
+          const courseData = await getCourseData(props.id);
+          console.log(courseData);
+          setCourses(courseData || []); // Ensure courses is always an array
+        }
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+        setCourses([]); // Fallback to an empty array in case of an error
       }
     }
     fetchData();
@@ -75,7 +80,7 @@ const InstNavbar = (props) => {
             <div className="mt-4">
               <h2 className=" ml-4 text-lg font-bold text-gray-300">Courses</h2>
               <ul className="mt-4 space-y-4">
-                {courses.map((course) => (
+                {courses.length > 0 ? courses.map((course) => (
                   <li key={course.course_id}>
                     <NavLink
                       to={`/course/${course.course_id}`}
@@ -86,7 +91,7 @@ const InstNavbar = (props) => {
                       <p className="text-gray-500">Ends: {course.end_date.slice(0, 10)}</p>
                     </NavLink>
                   </li>
-                ))}
+                )) : <li className="text-center text-gray-400">No courses available</li>}
                 <li
                   className="bg-gray-700 p-4 mx-4 rounded-lg shadow-md text-center text-green-500 cursor-pointer"
                   onClick={() => setIsModalOpen(true)}
