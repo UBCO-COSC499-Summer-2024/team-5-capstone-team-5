@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 
 const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
-  const [courseName, setCourseName] = useState('');
-  const [description, setDescription] = useState('');
+  const [courseCode, setCourseCode] = useState('');
+  const [courseNumber, setCourseNumber] = useState('');
+  const [name, setName] = useState('');
+  const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddCourse({ name: courseName, description: description, end_date: endDate });
+    onAddCourse({
+      course_code: courseCode,
+      course_number: courseNumber,
+      name: name,
+      start_date: startDate,
+      end_date: endDate
+    });
     onClose();
   };
 
@@ -21,23 +29,44 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
         <h2 className="text-2xl font-semibold mb-4">Add New Course</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Course Name</label>
+            <label className="block text-gray-700 mb-2">Course Code</label>
             <input
               type="text"
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-              value={courseName}
-              onChange={(e) => setCourseName(e.target.value)}
+              value={courseCode}
+              onChange={(e) => setCourseCode(e.target.value)}
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Description</label>
-            <textarea
+            <label className="block text-gray-700 mb-2">Course Number</label>
+            <input
+              type="text"
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={courseNumber}
+              onChange={(e) => setCourseNumber(e.target.value)}
               required
-            ></textarea>
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">Name/Description</label>
+            <input
+              type="text"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">Start Date</label>
+            <input
+              type="date"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              required
+            />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">End Date</label>
