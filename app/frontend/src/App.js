@@ -14,6 +14,7 @@ import Login from './components/Login';
 import { UserProvider, useUser } from './contexts/UserContext';
 import './App.css';
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import Footer from './components/Footer.js';
 
 
 
@@ -60,6 +61,8 @@ function AppContent() {
           {role === 'instructor' && <Route path="/instructor" element={<InstructorHome />} />}
         </Routes>
       </div>
+      <Footer>
+      </Footer>
     </div>
   );
 }
