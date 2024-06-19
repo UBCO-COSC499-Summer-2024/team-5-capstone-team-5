@@ -60,7 +60,7 @@ const Navbar = (props) => {
                   return (
                     <li key={course.course_id}>
                       <NavLink
-                        to={`/course/${course.course_id}`}
+                        to={`/student/course/${course.course_id}`}
                         className={({ isActive }) => isActive ? "block bg-gray-700 p-4 mx-4 rounded-lg hover:bg-gray-600" : "block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600"}
                       >
                         <h3 className="text-white font-bold">{course.name}</h3>

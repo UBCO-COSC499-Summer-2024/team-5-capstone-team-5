@@ -63,11 +63,11 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            {role === 1 && <Route path="/student/courses" element={<CourseDetails />} />}
+            {role === 1 && <Route path="/student/course/:courseId" element={<CourseDetails />} />}
             {role === 1 && <Route path="/student/dashboard" element={<StudentDashboard />} />}
-            {role === 2 && <Route path="/instructor/courses" element={<InstructorCourseList />} />}
+            {role === 2 && <Route path="/instructor/course" element={<InstructorCourseList />} />}
             {role === 2 && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
-            {role === 2 && <Route path="/instructor/course/:courseId" element={<InstructorCourseDetails />} />}
+            {role === 2 && <Route path="/instructor/course/:courseId/*" element={<InstructorCourseDetails />} />}
             <Route path="/contact" element={<Contact />} />
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
