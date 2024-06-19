@@ -1,3 +1,61 @@
+# Wednesday (6/14 - 6/19)
+## Date: June 18, 5:00PM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJune18.png)
+
+### Task tldr:
+I implemented auth last week. This week I made it so that the frontend will grab the user's ID and role from the JWT and will use that information for routing and course views in the front end. Everything works in the student view.
+I was unable to add the instructor view stuff due to being out of my house and away from internet for the weekend, but I will get it finished in the next cycle.
+
+### Current Tasks:
+  * #1: Fetching course data using authentication information
+  * #2: Creating 'add course' button and tying it into the db
+  * #3: Creating 'add test' button and tying it into the db
+
+### Progress Update (since 6/14/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 1: Fetching course data using auth information
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 2: Creating 'add course' button for instructors
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 3: Creating 'add test' button for instructors
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+I completed task 1, but I was busy with my mother's birthday celebrations and didn't get task 2 or 3 finished. They will be completed in the next cycle
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Complete instructor 'Add Test' button and make it add a test in the DB
+  * Complete instructor 'Add Course' button and make it add a course in the DB
+  * Complete student test view so a student can see their questions
+
 # June 12 - June 14
 ## Date: June 14, 3:51 AM
 
