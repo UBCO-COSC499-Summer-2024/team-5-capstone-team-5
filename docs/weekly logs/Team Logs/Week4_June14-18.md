@@ -40,13 +40,14 @@
 
 ## Times for Team/Individual:
 
+![Timesheet](../logScreenshots/teamTimesheetWeek4.png)
+
 | Team Member | Logged Hours |
 | ----------- | ------------ |
 | [Name]      | [Hours]      |
 | [Name]      | [Hours]      |
 | [Name]      | [Hours]      |
 
-![Timetracking](../logScreenshots/timesheetWeek4.png)
 
 ## Completed Tasks:
 
