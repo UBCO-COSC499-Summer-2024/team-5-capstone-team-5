@@ -57,7 +57,7 @@ Clockify report:
         <td>Creating a Footer for the dashboard view (Issue #47)
         </td>
         <!-- Status -->
-        <td>Complete
+        <td> Almost Complete
         </td>
     </tr>
         </tr>
@@ -86,15 +86,13 @@ I learnt HTML and Javascript, as planned. I'm feeling much more confident with o
 
 ![alt text](SampleCardUsingReact.png)
 
-Although it's fairly simple, being able to write some basic code in React gave me a lot of confidence. As for writing code which is directly realted to our project, I'm very happy that I was able to create atleast a footer, but I was planning on creating a header as well. I will be eager to finish this task on our next cycle.
+Although it's fairly simple, being able to write some basic code in React gave me a lot of confidence. As for writing code which is directly realted to our project, I'm very happy that I was able to create atleast a footer, but I need to work on styling it. I was planning on creating a header as well. I will be eager to finish this task on our next cycle.
 
 ### Next Cycle Goals:
 * #1: Finish learning the tech stack, I'm very close to meeting this goal, but a little more time is needed.
-* #2: Create a header for the dashboard view which shows which pages the user is actively viewing, and provides them with an option to logout/signout. (Issue #46)
-* #3: Create a table to display student's grade to an instructor. Populate the table with mock data and make it editable. (Issue #42)
-
-
-
+* #2: finnish the footer component by styling it with Tailwind.
+* #3: Create a header for the dashboard view which shows which pages the user is actively viewing, and provides them with an option to logout/signout. (Issue #46)
+* #4: Create a table to display student's grade to an instructor. Populate the table with mock data and make it editable. (Issue #42)
 
 # June 12 - 13
 ### Oakley Pankratz
