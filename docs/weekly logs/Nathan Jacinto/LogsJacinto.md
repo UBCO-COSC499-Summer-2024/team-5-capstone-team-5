@@ -1,3 +1,44 @@
+## June (11- 19)
+
+### Timesheet
+Clockify report
+
+![alt text](https://app.clockify.me/dashboard)
+
+### Current Tasks (Provide sufficient detail)
+  * #1: Work on Setting up Docker Environment for OMR
+### Progress Update 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task A
+        </td>
+        <!-- Status -->
+        <td>Inprogress
+        </td>
+    </tr>
+    
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+OMR taking longer than expected due to complexity: 
+1) need test data
+2) setting up environments that adhere to our licenses and goals
+-currently looking up yolo and roboflow and seeing if we have a proper plan
+-messed up our docker compose file
+
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * OMR
+
+
+
 # June 11-14
 ## Hours: 7 Hours
  Was working on with Nick and Jay to meet the expected deadlines of our milestonea
