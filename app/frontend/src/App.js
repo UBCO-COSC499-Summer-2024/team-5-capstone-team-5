@@ -18,7 +18,6 @@ import InstNavbar from './components/Instructor/InstNavbar';
 import getUserInfo from './hooks/getUserInfo';
 
 function App() {
-
   return (
     <UserProvider>
       <Router>
@@ -30,23 +29,22 @@ function App() {
 
 function AppRoutes() {
   const [role, setRole] = useState('');
-  const [userId, setUserId] = useState('')
+  const [userId, setUserId] = useState('');
   const location = useLocation();
   const hideNavbarPaths = ['/login'];
 
   useEffect(() => {
-      const fetchData = async () => {
-        const user = await getUserInfo();
-        if(user) {
+    const fetchData = async () => {
+      const user = await getUserInfo();
+      if (user) {
         setRole(user.role);
         setUserId(user.userId);
         console.log(user.role);
         console.log(user.userId);
-      };
+      }
     };
     fetchData();
   }, [location]);
-
 
   return (
     <div className="flex min-h-screen bg-black text-white">
@@ -60,12 +58,11 @@ function AppRoutes() {
             <Route path="/login" element={<Login />} />
             {role === 1 && <Route path="/student/courses" element={<CourseDetails />} />}
             {role === 1 && <Route path="/student/dashboard" element={<StudentDashboard />} />}
-            {role === 2 && <Route path="/instructor/courses" element={<CourseDetails />} />}
+            {role === 2 && <Route path="/instructor/courses" element={<InstructorCourseList />} />}
             {role === 2 && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
+            {role === 2 && <Route path="/instructor/course/:courseId" element={<InstructorCourseDetails />} />}
             <Route path="/contact" element={<Contact />} />
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
-            {/* {user?.role === 2 && <Route path="/instructor" element={<InstructorHome />} />} */}
-            <Route path="/course/:courseId" element={<CourseDetails />} />
             <Route path="/recent" element={<RecentTests id={userId} />} />
           </Routes>
         </div>
