@@ -25,7 +25,8 @@ This week, I concentrated on enhancing the navigation bar and developing the UI 
 ## Timesheet
 
 ### Clockify report
-![alt text](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYAAAAGQCAMAAABaFj76AAAAilBMVEX///8AAADr6+va2tri4uL5+fmXl5fb29vp6em/v7+GhoYdHR3q6uqysrKhpaWFhYV4eHiWlpY5OTkSEhIbGxt2dnZWVlYpKSlISEi5ubl3d3fW1tYzMzMHg3LVAAAAzElEQVR4nO3dQQ0AMQxEwS5Yv5tlIJl5ZTfdRd3+8QAAAAAAAAAAAAAAAAAAAAAAAAD4fZQzLdzxRyONu3WFDznFiHdpfWqzx4zLsxxWXeXTTbTud8IX4yw/uyzy9sw/O6PvEEDjHJbjvFIePdWPikDcf0UKs94n9Fbd0v/FAdhuP7BDeX0OK9p3GHW/ffQSdB9G6fTPa4QUs+/AgThD38qY1XyC1Y/I1Y1XuCTAr+siI/7VXiB18QThD38PYFzEDxY3Ehz/Rf3dXjCf80PvjAAAAfCTklV4Dy4afAAAAAElFTkSuQmCC)
+![Clockify report](docs/weekly logs/Jay Bhullar/screenshots/Screenshot 2024-06-18 at 5.45.07 PM.png)
+
 
 ### Current Tasks (Provide sufficient detail)
   * #1: Improving Nav Bar and Creating UI
