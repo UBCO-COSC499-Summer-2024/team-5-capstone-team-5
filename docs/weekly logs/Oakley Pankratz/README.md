@@ -1,3 +1,99 @@
+## Wednesday (6/14 - 6/19) Oakley Pankratz
+
+### Timesheet:
+Total Hours: 10
+
+Clockify report:
+
+![alt text](ClockifyLogJune19.png)
+
+### Current Tasks
+* #1: Finish learning HTML, Javascript, CSS, Tailwind, and React.
+* #2: Create a footer for the dashboard view which shows which displays whihc user is currently signed in, and provides some navigation options. (Issue #47)
+
+### Progress Update (since 6/14/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Learning Javascript
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Learning HTML
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Learning CSS and Tailwind
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Learning React
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+        </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Creating a Footer for the dashboard view (Issue #47)
+        </td>
+        <!-- Status -->
+        <td> Almost Complete
+        </td>
+    </tr>
+        </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Creating a Header for the dashboard view (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+        </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a table to display grades (Issue #42)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+
+I learnt HTML and Javascript, as planned. I'm feeling much more confident with our tech stack having learnt these languages. I feel much better about CSS, but I still need to learn how it works with Tailwind. I feel mostly comfortable with React, but I still need more practice. To demonstrate that I have actively been working on learning these technologies, I created the following page in React. It's fairly basic, but does use some CSS styling. The CSS however is in a seperate file, and doesn't using Tailwind.
+
+![alt text](SampleCardUsingReact.png)
+
+Although it's fairly simple, being able to write some basic code in React gave me a lot of confidence. As for writing code which is directly realted to our project, I'm very happy that I was able to create atleast a footer, but I need to work on styling it. I was planning on creating a header as well. I will be eager to finish this task on our next cycle.
+
+### Next Cycle Goals:
+* #1: Finish learning the tech stack, I'm very close to meeting this goal, but a little more time is needed.
+* #2: finnish the footer component by styling it with Tailwind.
+* #3: Create a header for the dashboard view which shows which pages the user is actively viewing, and provides them with an option to logout/signout. (Issue #46)
+* #4: Create a table to display student's grade to an instructor. Populate the table with mock data and make it editable. (Issue #42)
+
 # June 12 - 13
 ### Oakley Pankratz
 ## Hours: 7.5
@@ -6,6 +102,10 @@
  - Team meeting (sm, 1 hour) discussed some planning with team mates.
  - Learning our tech stack (med, 5 hours) since I haven't taken COSC 360, I've had to teach myself web development through youtube, since it is essential for our prject. I've spent most of my time watching through the playlists found on an educational youtube vhannel called ["Bro Code"](https://www.youtube.com/@BroCodez/playlists).
  - Team meeting and presentation creation (sm, 1.5 hours) Met with team mates to discuss our presentation for Friday, June 14th. 
+
+### Work in Progress ###
+
+ - I'm still working on the Header and Footer (issues 46 & 47 on the Kanban board)
 
 ### Comments ###
 
@@ -30,7 +130,7 @@ I'm feeling a little better after having reviewed some videos explaining the tec
 
 ### Comments ###
 
-This week felt a bit frustrating. As I reviewed teammates code, I realized my understanding of our tech stack wasn't good enough. Hacing to spend hours watching tutorials on youtube felt like "busy work" as I wasn't actually writing code. However, I believe this is an investment of time, as it should make development smoother for the rest of the term.
+This week felt a bit frustrating. As I reviewed teammates code, I realized my understanding of our tech stack wasn't good enough. Having to spend hours watching tutorials on youtube felt like "busy work" as I wasn't actually writing code. However, I believe this is an investment of time, as it should make development smoother for the rest of the term.
 
 # June 5 - June 6
 ### Author: Oakley Pankratz
