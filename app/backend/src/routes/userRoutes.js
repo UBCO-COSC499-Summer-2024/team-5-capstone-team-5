@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, register } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -49,15 +49,15 @@ router.get('/tests/recent/:id', async (req, res) => {
     };
 });
 
-router.post('/courses/add'), async (req, res) => {
-    const { name, description, end_date } = req.body;
+router.post('/courses/add', async (req, res) => {
+    const { name, description, end_date, user_id, course_id } = req.body;
     console.log(name);
     try {
-        await addCourse(name, description, end_date);
-        res.status(200)
+        const newCourse = await addCourse(user_id, name, description, end_date);
+        res.status(200).json(newCourse);
     } catch(error) {
         res.status(404).json({error: error.message});
     }
-}
+});
 
 module.exports = router;

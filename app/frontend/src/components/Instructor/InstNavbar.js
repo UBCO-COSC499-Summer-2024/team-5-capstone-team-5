@@ -21,33 +21,33 @@ const InstNavbar = (props) => {
   }, [navigate]);
 
   const Logout = () => {
-    console.log("Before logout: ", localStorage.getItem("token"));
     localStorage.removeItem("token");
-    console.log("After logout: ", localStorage.getItem("token"));
     navigate("/login");
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (props.id) {
-          const courseData = await getCourseData(props.id);
-          console.log(courseData);
-          setCourses(courseData || []); // Ensure courses is always an array
-        }
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-        setCourses([]); // Fallback to an empty array in case of an error
+  const fetchData = async () => {
+    try {
+      if (props.id) {
+        const courseData = await getCourseData(props.id);
+        setCourses(courseData || []); // Ensure courses is always an array
       }
-    };
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+      setCourses([]); // Fallback to an empty array in case of an error
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [props.id]);
 
   const handleAddCourse = async (data) => {
+    console.log("data: ",data)
     const name = data.courseDept + " " + data.courseCode + "-" + data.courseSection
     const description = data.description
     const endDate = data.endDate
-    const newCourse = {name: name, description: description, end_date: endDate}
+    const newCourse = {name: name, description: description, end_date: endDate, user_id: props.id}
+    console.log("newCourse: ",newCourse);
     try {
       const response = await fetch('http://localhost/api/users/courses/add', {
         method: 'POST',
@@ -58,6 +58,7 @@ const InstNavbar = (props) => {
       });
       if (response.ok) {
         const addedCourse = await response.json();
+        console.log("addedCourse:",addedCourse)
         setCourses([...courses, addedCourse]);
       } else {
         console.error('Error adding course:', response.status, response.statusText);

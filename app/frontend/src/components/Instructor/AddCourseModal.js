@@ -7,7 +7,6 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState('');
-  const [visibility, setVisibility] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,7 +17,6 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
       description,
       startDate,
       endDate,
-      visibility,
     });
     onClose();
   };
@@ -119,18 +117,6 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4 flex flex-row">
-            <label className="block text-gray-700 mb-2">Student Visibility</label>
-            <input
-              type="checkbox"
-              id="visibility"
-              name="visibility"
-              className="border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black ml-2 -translate-y-1"
-              value={visibility}
-              onChange={() => setVisibility(prev => !prev)}
               required
             />
           </div>

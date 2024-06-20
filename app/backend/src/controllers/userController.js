@@ -43,19 +43,37 @@ const addStudent = async (first, last, email, password) => {
     };
 };
 
-const addCourse = async (name, description, end_date) => {
+const addCourse = async (user_id, name, description, end_date) => {
     try {
         const dateRegex = /^\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$/;
         if(dateRegex.test(end_date)) {
-        await db.none(
-            'INSERT INTO courses (name, description, end_date) VALUES ($1, $2, $3)', [name, description, end_date]
-        )} else {
+            await db.none(
+                'INSERT INTO courses (name, description, end_date) VALUES ($1, $2, $3)', [name, description, end_date]
+            );
+            const response = await db.oneOrNone(
+                'SELECT id FROM courses WHERE name = $1 AND description = $2 AND end_date = $3', [name, description, end_date]
+            )
+            await register(user_id, response.id);
+            const newCourse = { user_id, name, description, end_date, course_id: response.id };
+            return newCourse;
+        } else {
             console.error('Invalid date. Please use yyyy-mm-dd');
+            return null;
         };
     } catch(error) {
         console.error(`Error adding course ${name}`);
     };
 };
+
+const register = async (userId, courseId) => {
+    try {
+        await db.none(
+            'INSERT INTO registration (user_id, course_id) VALUES ($1, $2)', [userId, courseId]
+        )
+    } catch(error) {
+        console.error('Error registering user with ID ',userId,"into course with ID",courseId)
+    }
+}
 
 const addExam = async (course_id, name, date_marked, visibility) => {
     try {
@@ -86,6 +104,7 @@ module.exports = {
     addStudent,
     addCourse,
     addExam,
-    addQuestion
+    addQuestion,
+    register
     
 }
