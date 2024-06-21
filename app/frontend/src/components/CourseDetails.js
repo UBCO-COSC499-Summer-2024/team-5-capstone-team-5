@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import getTestData from '../hooks/getTestData';
 
 const CourseDetails = () => {
@@ -25,8 +25,10 @@ const CourseDetails = () => {
         <div className="mt-4">
           {tests.map((test, index) => (
             <div key={index} className="p-4 mb-4 rounded-lg bg-gray-700 text-white">
-              <h3 className="text-xl font-bold">{test.name}</h3>
-              <p className="text-lg">Date Marked: {test.date_marked.slice(0,10)}</p>  
+              <NavLink to={`../../student/exam/${test.id}`}>
+                <h3 className="text-xl font-bold">{test.name}</h3>
+                <p className="text-lg">Date Marked: {test.date_marked.slice(0,10)}</p> 
+              </NavLink> 
             </div>
           ))}
         </div>

@@ -33,6 +33,33 @@ const getRecentExamsByUserId = async (id) => {
     }
 }
 
+const getQuestionsByExamId = async (examId, userId) => {
+    try {
+        const questions = await db.manyOrNone(
+            'SELECT * FROM questions WHERE exam_id = $1', [examId]
+        );
+        let data = {questions: questions};
+        for(let i = 0; i < questions.length; i++) {
+            response = await getResponse(userId, questions[i].id);
+            data[`response ${i}`] = response;
+        }
+        return data;
+    } catch(error) {
+        console.log('Error getting responses for test with id',examId);
+    }
+}
+
+const getResponse = async (userId, questionId) => {
+    try {
+        const response = await db.oneOrNone(
+            'SELECT * FROM responses WHERE question_id = $1 AND user_id = $2', [questionId, userId]
+        );
+        return response;
+    } catch(error) {
+        console.log('Error getting response for question',questionId,'and user',userId);
+    }
+}
+
 const addStudent = async (first, last, email, password) => {
     try {
         await db.none(
@@ -101,10 +128,11 @@ module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
     getRecentExamsByUserId,
+    getQuestionsByExamId,
     addStudent,
     addCourse,
     addExam,
     addQuestion,
-    register
+    register,
     
 }

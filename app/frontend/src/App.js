@@ -17,6 +17,7 @@ import Navbar from './components/Navbar';
 import InstNavbar from './components/Instructor/InstNavbar';
 import getUserInfo from './hooks/getUserInfo';
 import { ConfigProvider, theme } from 'antd';
+import ExamDetails from './components/ExamDetails';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
 function AppRoutes() {
   const [role, setRole] = useState('');
   const [userId, setUserId] = useState('');
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const hideNavbarPaths = ['/login'];
 
@@ -49,9 +51,14 @@ function AppRoutes() {
         console.log(user.role);
         console.log(user.userId);
       }
+      setLoading(false);
     };
     fetchData();
   }, [location]);
+
+  if(loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="flex min-h-screen bg-black text-white">
@@ -64,6 +71,7 @@ function AppRoutes() {
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             {role === 1 && <Route path="/student/course/:courseId" element={<CourseDetails />} />}
+            {role === 1 && <Route path="/student/exam/:examId" element={<ExamDetails id={userId} />} />}
             {role === 1 && <Route path="/student/dashboard" element={<StudentDashboard />} />}
             {role === 2 && <Route path="/instructor/course" element={<InstructorCourseList />} />}
             {role === 2 && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
