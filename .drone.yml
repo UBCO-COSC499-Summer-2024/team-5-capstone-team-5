@@ -1,0 +1,10 @@
+kind: pipeline
+name: default
+
+steps:
+- name: test
+  image: node:9.8.0
+  commands:
+  - cd app/backend
+  - npm install
+  - npm test
