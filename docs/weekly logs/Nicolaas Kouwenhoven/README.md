@@ -1,3 +1,68 @@
+# Friday (6/19 - 6/21)
+## Date: June 21, 11:09PM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJune20.png)
+
+### Task tldr:
+I tied in Jay's 'Add Course' button and form into the backend. It not adds a course into our db when you fill out the information and submit it.
+I turned the tests into buttons that show the questions associated with the tests. Responses are not completed yet (db might need some re-factoring before I can make efficient querying for this)
+
+### Current Tasks:
+  * #1: Make 'Add Course' button work
+  * #2: Make 'View Exam' button show questions & responses
+  * #3: Make 'Add Test' button
+
+### Progress Update (since 6/14/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 1: Make 'Add Course' button work
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 2: Make 'View Exam' button show questions & responses
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 3: Make 'Add Test' button
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+I completed task the 'add exam' button, but was only able to get halfway through implementing the test view before this cycle's end. I was unable to get to making an 'add test' button as I ran out of time trying to complete task 2.
+Overall, the process is going alright. I will put more hours into these things this weekend and will be caught up in no time!
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Add responses to the question view for student's exam information
+  * Create 'Add Test' button for instructors
+  * Setup DroneCI automated testing
+  * Write unit tests for my code
+  * Write automated tests for backend code
+  * Finish student view (minus styling)
+
+  As an aside, I know this is a lot to have planned, but I need to chug through some of it in order to keep on track nicely, so this is what I plan to accomplish.
+
+
 # Wednesday (6/14 - 6/19)
 ## Date: June 18, 5:00PM
 
