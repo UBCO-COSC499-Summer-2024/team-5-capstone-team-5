@@ -129,6 +129,7 @@ module.exports = {
     getTestsByCourseId,
     getRecentExamsByUserId,
     getQuestionsByExamId,
+    getResponse,
     addStudent,
     addCourse,
     addExam,

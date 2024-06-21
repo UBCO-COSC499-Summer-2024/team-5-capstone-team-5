@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, register, getQuestionsByExamId } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, register, getQuestionsByExamId, getResponse } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -32,31 +32,45 @@ router.get('/questions/:eid&:uid', async (req, res) => {
 });
 
 router.get('/responses/:qid&:uid', async (req, res) => {
-    try {
-        const responses = await getResponsesByQuestion(req.params.uid, req.params.qid);
-        res.status(200).json(responses);
-    } catch(error) {
-        res.status(404).json({ error: error.message });
+    const qid = req.params.qid;
+    const uid = req.params.uid;
+    if(qid && uid) {
+        try {
+            const responses = await getResponse(uid, qid);
+            res.status(200).json(responses);
+        } catch (error) {
+            res.status(404).json({ error: error.message });
+        }
+    } else {
+        res.status(404).json({error: "Could not find one of: qid, uid"});
     }
 });
 
 router.get('/tests/recent/:id', async (req, res) => {
-    try {
-        const courses = await getRecentExamsByUserId(req.params.id);
-        res.status(200).json(courses);
-    } catch(error) {
-        res.status(404).json({ error: error.message });
-    };
+    const id = req.params.id;
+    if(id) {
+        try {
+            const courses = await getRecentExamsByUserId(req.params.id);
+            res.status(200).json(courses);
+        } catch(error) {
+            res.status(404).json({ error: error.message });
+        };
+    } else {
+        res.status(404).json({error: "No id found"});
+    }
 });
 
 router.post('/courses/add', async (req, res) => {
     const { name, description, end_date, user_id, course_id } = req.body;
-    console.log(name);
-    try {
-        const newCourse = await addCourse(user_id, name, description, end_date);
-        res.status(200).json(newCourse);
-    } catch(error) {
-        res.status(404).json({error: error.message});
+    if(name && description && end_date && user_id && course_id) {
+        try {
+            const newCourse = await addCourse(user_id, name, description, end_date);
+            res.status(200).json(newCourse);
+        } catch(error) {
+            res.status(404).json({error: error.message});
+        }
+    } else {
+        res.status(404).json({error: "Missing info for adding a course"});
     }
 });
 
