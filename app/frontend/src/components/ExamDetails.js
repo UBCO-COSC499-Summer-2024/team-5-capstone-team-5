@@ -20,7 +20,7 @@ const ExamDetails = (props) => {
         <div>
             <ul>
                 {questions.map((question, index) => (
-                    <li key={index}>
+                    <li key={index} className="bg-gray-700 m-4 p-2 rounded-lg">
                         <h2>Number of options: {question.num_options}</h2>
                         <h2>Weight: {question.weight}</h2>
                         <h2>Correct answers:</h2>
