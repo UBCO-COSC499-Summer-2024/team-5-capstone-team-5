@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, register, getQuestionsByExamId } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -24,16 +24,16 @@ router.get('/tests/:id', async (req, res) => {
 
 router.get('/questions/:eid&:uid', async (req, res) => {
     try {
-        const questions = await getQuestionsByExamId(req.params.eid, req.params.uid);
+        const questions = await getQuestionData(req.params.uid, req.params.eid);
         res.status(200).json(questions);
     } catch(error) {
         res.status(404).json({ error: error.message });
     }
 });
 
-router.get('/responses/:qid&:uid', async (req, res) => {
+router.get('/responses/:eid&:uid', async (req, res) => {
     try {
-        const responses = await getResponsesByQuestion(req.params.uid, req.params.qid);
+        const responses = await getQuestionData(req.params.uid, req.params.eid);
         res.status(200).json(responses);
     } catch(error) {
         res.status(404).json({ error: error.message });

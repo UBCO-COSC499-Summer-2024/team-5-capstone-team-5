@@ -5,18 +5,11 @@ import { NavLink, useParams } from 'react-router-dom';
 const ExamDetails = (props) => {
     const { examId } = useParams();
     const [questions, setQuestions] = useState([]);
-    const [response, setResponse] = useState([]);
 
     const fetchData = useCallback(async () => {
         const data = await getQuestions(examId, props.id);
         console.log(data);
-        setQuestions(data.questions);
-        const responses = []
-        for(let i=0; i < data.length-1; i++) {
-            responses.push(data[`response${i}`]);
-        }
-        setResponse(responses);
-        console.log(response);
+        setQuestions(data);
     }, [examId, props.id]);
 
     useEffect(() => {
@@ -32,10 +25,14 @@ const ExamDetails = (props) => {
                         <h2>Weight: {question.weight}</h2>
                         <h2>Correct answers:</h2>
                         {question.correct_answer.map((answer, answerIndex) => (
-                            <p key={answerIndex}>{answer}</p>
-                        ))}
+                            <span key={answerIndex}>{answer} </span>
+                        ))};
+                        <h2>Responses: {question.response.map((responded, respondedIndex) => {
+                            <span key={respondedIndex}>{responded} </span>
+                        })}</h2>
+                        <h2>Grade: {question.grade}</h2>
                     </li>
-                ))}
+                ))};
             </ul>
         </div>
     )
