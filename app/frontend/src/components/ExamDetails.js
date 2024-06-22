@@ -12,6 +12,19 @@ const ExamDetails = (props) => {
         setQuestions(data);
     }, [examId, props.id]);
 
+    const compareAnswers = (correct_answer, responses, weight) => {
+        if(correct_answer.length !== responses.length) {
+            throw new Error("Arrays must be the same length (answers and responses)");
+        }
+        let count = 0;
+        for(let i = 0; i < correct_answer.length; i++) {
+            if(correct_answer[i] === responses[i]) {
+                count+= 1/weight;
+            }
+        }
+        return count;
+    }
+
     useEffect(() => {
         fetchData();
     }, [examId, fetchData]);
@@ -19,20 +32,21 @@ const ExamDetails = (props) => {
     return (
         <div>
             <ul>
-                {questions.map((question, index) => (
-                    <li key={index} className="bg-gray-700 m-4 p-2 rounded-lg">
-                        <h2>Number of options: {question.num_options}</h2>
-                        <h2>Weight: {question.weight}</h2>
-                        <h2>Correct answers:</h2>
-                        {question.correct_answer.map((answer, answerIndex) => (
-                            <span key={answerIndex}>{answer} </span>
-                        ))};
-                        <h2>Responses: {question.response.map((responded, respondedIndex) => {
-                            <span key={respondedIndex}>{responded} </span>
-                        })}</h2>
-                        <h2>Grade: {question.grade}</h2>
-                    </li>
-                ))};
+            {questions.map((question, index) => (
+                <li key={index} className="bg-gray-700 m-4 p-2 rounded-lg">
+                    <h2>Number of options: {question.num_options}</h2>
+                    <h2>Weight: {question.weight}</h2>
+                    <h2>Correct answers:</h2>
+                    {question.correct_answer.map((answer, answerIndex) => (
+                        <span key={answerIndex}>{answer} </span>
+                    ))}
+                    <h2>Responses: </h2>
+                    {question.response.map((responded, respondedIndex) => (
+                        <span key={respondedIndex}>{responded} </span>
+                    ))}
+                    <h2>Grade: {compareAnswers(question.correct_answer, question.response, question.weight)*question.weight}</h2> {/* Not sure if this makes sense? Dividing weight in function, then multiplying weight after calculation */}
+                </li>
+                ))}
             </ul>
         </div>
     )
