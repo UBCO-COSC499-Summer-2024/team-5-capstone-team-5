@@ -3,17 +3,19 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../../hooks/getCourseData';
 import validateUser from '../../hooks/validateUser';
 import AddCourseModal from './AddCourseModal';
-import ProfileMenuModal from './ProfileMenuModal'; // Ensure the path is correct
+import ProfileMenuModal from './ProfileMenuModal';
+import { useTheme } from '../../App';
 
 const InstNavbar = (props) => {
   const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [user, setUser] = useState({
     name: 'John Doe',
     email: 'johndoe@example.com',
-    image: 'https://via.placeholder.com/150', // Replace with actual user image URL
+    image: 'https://via.placeholder.com/150',
   });
 
   useEffect(() => {
@@ -23,7 +25,6 @@ const InstNavbar = (props) => {
         navigate("/login");
       }
     };
-
     checkSession();
   }, [navigate]);
 
@@ -36,11 +37,11 @@ const InstNavbar = (props) => {
     try {
       if (props.id) {
         const courseData = await getCourseData(props.id);
-        setCourses(courseData || []); // Ensure courses is always an array
+        setCourses(courseData || []);
       }
     } catch (error) {
       console.error('Error fetching courses:', error);
-      setCourses([]); // Fallback to an empty array in case of an error
+      setCourses([]);
     }
   };
 
@@ -76,24 +77,24 @@ const InstNavbar = (props) => {
   };
 
   return (
-    <div className="h-full w-64 bg-gray-800 text-white flex flex-col justify-between fixed overflow-scroll">
+    <div className={`h-full w-64 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} flex flex-col justify-between fixed overflow-scroll`}>
       <div>
         <nav>
-          <div className="pb-2 sticky top-0 bg-gray-900 pt-8">
+          <div className={`pb-2 sticky top-0 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} pt-8`}>
             <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
             <NavLink
               to="/recent"
               className={({ isActive }) =>
                 isActive
-                  ? "block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold"
-                  : "block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-600 hover:text-white"
+                  ? `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black'} font-bold`
+                  : `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-gray-800 hover:bg-gray-500 hover:text-black'}`
               }
             >
               Recent Courses
             </NavLink>
           </div>
           <div className="mt-4">
-            <h2 className="ml-4 text-lg font-bold text-gray-300">Courses</h2>
+            <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-800'}`}>Courses</h2>
             <ul className="mt-4 space-y-4">
               {courses.length > 0 ? courses.map((course) => (
                 <li key={course.course_id}>
@@ -101,20 +102,20 @@ const InstNavbar = (props) => {
                     to={`/instructor/course/${course.course_id}`}
                     className={({ isActive }) =>
                       isActive
-                        ? "block bg-gray-700 p-4 mx-4 rounded-lg hover:bg-gray-600"
-                        : "block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600"
+                        ? `block ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-400'} p-4 mx-4 rounded-lg hover:bg-gray-600`
+                        : `block ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'} p-4 mx-4 rounded-lg hover:bg-gray-600`
                     }
                   >
-                    <h3 className="text-white font-bold">{course.name}</h3>
-                    <p className="text-gray-400">{course.description}</p>
-                    <p className="text-gray-500">Ends: {course.end_date.slice(0, 10)}</p>
+                    <h3 className={`${theme === 'dark' ? 'text-white' : 'text-black'} font-bold`}>{course.name}</h3>
+                    <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}`}>{course.description}</p>
+                    <p className={`${theme === 'dark' ? 'text-gray-500' : 'text-gray-600'}`}>Ends: {course.end_date.slice(0, 10)}</p>
                   </NavLink>
                 </li>
               )) : (
                 <li className="text-center text-gray-400">No courses available</li>
               )}
               <li
-                className="block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600 text-white font-bold text-center cursor-pointer"
+                className={`block ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'} p-4 mx-4 rounded-lg hover:bg-gray-600 text-white font-bold text-center cursor-pointer`}
                 onClick={() => setIsModalOpen(true)}
               >
                 <div className="text-xl">+</div>
@@ -123,13 +124,13 @@ const InstNavbar = (props) => {
           </div>
         </nav>
       </div>
-      <div className="flex flex-col p-4 sticky bottom-0 bg-gray-900">
+      <div className={`flex flex-col p-4 sticky bottom-0 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'}`}>
         <NavLink
           to="/about"
           className={({ isActive }) =>
             isActive
-              ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold"
-              : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"
+              ? `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white font-bold' : 'bg-gray-400 text-black font-bold'}`
+              : `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-800 hover:bg-gray-500 hover:text-black'}`
           }
         >
           About
@@ -138,20 +139,20 @@ const InstNavbar = (props) => {
           to="/contact"
           className={({ isActive }) =>
             isActive
-              ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold"
-              : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"
+              ? `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white font-bold' : 'bg-gray-400 text-black font-bold'}`
+              : `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-800 hover:bg-gray-500 hover:text-black'}`
           }
         >
           Contact
         </NavLink>
         <button
           onClick={() => setIsProfileMenuOpen(true)}
-          className="flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg"
+          className={`flex items-center mb-4 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-500'} p-2 rounded-lg`}
         >
           <img src={user.image} alt="User" className="w-10 h-10 rounded-full mr-4" />
           <div>
-            <p className="text-sm font-bold">{user.name}</p>
-            <p className="text-xs text-gray-400">{user.email}</p>
+            <p className={`${theme === 'dark' ? 'text-sm font-bold text-white' : 'text-sm font-bold text-black'}`}>{user.name}</p>
+            <p className={`${theme === 'dark' ? 'text-xs text-gray-400' : 'text-xs text-gray-600'}`}>{user.email}</p>
           </div>
         </button>
         <ProfileMenuModal

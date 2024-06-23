@@ -1,12 +1,15 @@
 import React from 'react';
+import { useTheme } from '../../App'; // Adjust the path as needed
 
 const SearchBar = () => {
+  const { theme } = useTheme();
+
   return (
-    <div className="relative mt-2 sm:mt-0 w-full max-w-md">
+    <div className="relative mt-2 sm:mt-0 w-full max-w-md z-10">
       <input
         type="text"
         placeholder="Search"
-        className="w-full p-3 pl-10 pr-4 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-600"
+        className={`w-full p-3 pl-10 pr-4 rounded-md ${theme === 'dark' ? 'bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-600' : 'bg-gray-200 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-300'}`}
       />
       <svg
         className="absolute left-3 top-3 h-5 w-5 text-gray-400"

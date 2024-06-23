@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../../App';
 
 const navigation = [
   { name: 'Tests', key: 'tests' },
@@ -10,6 +11,8 @@ function classNames(...classes) {
 }
 
 const MenuBar = ({ selectedMenu, setSelectedMenu }) => {
+  const { theme } = useTheme();
+
   return (
     <div className="flex w-full">
       {navigation.map((item) => (
@@ -17,7 +20,7 @@ const MenuBar = ({ selectedMenu, setSelectedMenu }) => {
           key={item.key}
           onClick={() => setSelectedMenu(item.key)}
           className={classNames(
-            selectedMenu === item.key ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+            selectedMenu === item.key ? `${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-400 text-black'}` : `${theme === 'dark' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-800 hover:bg-gray-500 hover:text-black'}`,
             'flex-1 text-center px-3 py-2 text-sm font-medium',
           )}
           aria-current={selectedMenu === item.key ? 'page' : undefined}
