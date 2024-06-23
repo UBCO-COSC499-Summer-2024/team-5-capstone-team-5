@@ -5,6 +5,7 @@ Total Hours: 7
 
 ## Current Tasks
 * Completed learning the tech stack, finished off by learning tailwind. Previously I've learnt HTML, Javascript, and React. In this cycle, I finnished by learning TailwindCSS
+* Filled out a high volume of bubble sheets by hand to creteated sample data to train the OMR component. I worked together within Nathan and Jay to complete this task. (Issue #87)
 
 ### Progress Update (since 6/14/2024) 
 <table>
@@ -17,6 +18,14 @@ Total Hours: 7
     <tr>
         <!-- Task/Issue # -->
         <td>Learning CSS and Tailwind
+        </td>
+        <!-- Status -->
+        <td> Complete
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create sample data to train the OMR component.
         </td>
         <!-- Status -->
         <td> Complete
@@ -57,6 +66,8 @@ Total Hours: 7
 I completed learning CSS and Tailwind, as planned. I still need more practice with the texh stack, but I'm strong enough that I can begin to work with the team to write some code. This wil provide me the extra practice I need. I created the following page to demonstrate that I have learnt CSS and Tailwind.
 
 ![alt text](SimpleBullsEyeWithTailwind.png)
+
+Filling out sample bubble sheets took some time I had budgeted for other issues. This explains why I have not completed all of the tasks which I had planned on completing.
 
 ### Next Cycle Goals:
 * #1: finnish the footer component by styling it with Tailwind.
