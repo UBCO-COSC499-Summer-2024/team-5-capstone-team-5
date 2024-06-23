@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import MenuBar from './MenuBar'; 
 import SearchBar from './SearchBar'; 
 import StudentList from './StudentList'; 
+import getTestData from '../../hooks/getTestData';
 
 // Mock data for tests
 const mockTests = [
@@ -16,20 +17,15 @@ const mockTests = [
 
 const InstructorCourseDetails = () => {
   const { courseId } = useParams();
-  const [tests, setTests] = useState(mockTests);
-  const [courseName, setCourseName] = useState('Loading');
+  const [tests, setTests] = useState([]);
+  const [courseName, setCourseName] = useState('Loading')
   const [selectedMenu, setSelectedMenu] = useState('tests');
 
   const fetchData = useCallback(async () => {
-    try {
-      // Simulating data fetching with mock data
-      const testData = mockTests;
-      console.log(testData); // Debugging log
-      setTests(testData);
-      setCourseName(`Course ${courseId}`);
-    } catch (error) {
-      console.error('Error fetching test data:', error);
-    }
+    const testData = await getTestData(courseId);
+    console.log(testData);
+    setTests(testData);
+    setCourseName(testData[0].course_name);
   }, [courseId]);
 
   useEffect(() => {
@@ -51,39 +47,28 @@ const InstructorCourseDetails = () => {
       </div>
       <SearchBar />
       {selectedMenu === 'tests' && (
-        <div className="mt-4">
-          <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
-            <thead>
-              <tr className="bg-gray-900">
-                <th className="p-4 text-white">Test</th>
-                <th className="p-4 text-white">Mean</th>
-                <th className="p-4 text-white text-center">Upload</th>
-                <th className="p-4 text-white text-center">Edit</th>
-                <th className="p-4 text-white text-center">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tests.map((test) => (
-                <tr key={test.id} className="bg-gray-700 text-white rounded-lg">
-                  <td className="p-4">{test.name}</td>
-                  <td className="p-4">{test.mean}</td>
-                  <td className="p-4 text-center">
-                    <button onClick={() => console.log('Upload clicked for test id:', test.id)} className="bg-blue-500 p-2 rounded">⤴</button>
-                  </td>
-                  <td className="p-4 text-center">
-                    <button onClick={() => console.log('Edit clicked for test id:', test.id)} className="bg-orange-500 p-2 rounded">✎</button>
-                  </td>
-                  <td className="p-4 text-center">
-                    <button onClick={() => console.log('Delete clicked for test id:', test.id)} className="bg-red-500 p-2 rounded">✗</button>
-                  </td>
-                </tr>
-              ))}
-              <tr className="bg-gray-700 text-white rounded-lg text-center">
-                <td colSpan="5" className="p-4 cursor-pointer" onClick={handleAddClick}>+</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="p-4 flex flex-col min-h-screen">
+        <div className="flex-grow">
+          <h2 className="text-2xl font-bold">{courseName}</h2>
+          <div className="mx-4 font-semibold text-lg">
+            <span className="w-[40%] inline-block">Test</span>
+            <span className="w-[20%] inline-block text-center">Mean</span>
+            <span className="w-[13%] inline-block text-right">Upload</span>
+            <span className="w-[13%] inline-block text-right">Edit</span>
+            <span className="w-[13%] inline-block text-right">Delete</span>
+          </div>
+          <div className="mt-4">
+            {tests.map((test, index) => (
+              <div key={index} className="p-4 mb-4 rounded-lg bg-gray-700 text-white">
+                <NavLink to={`../../student/exam/${test.id}`}>
+                  <h3 className="text-xl font-bold">{test.name}</h3>
+                  <p className="text-lg">Date Marked: {test.date_marked.slice(0,10)}</p> 
+                </NavLink> 
+              </div>
+            ))}
+          </div>
         </div>
+      </div>
       )}
       {selectedMenu === 'students' && (
         <StudentList />
