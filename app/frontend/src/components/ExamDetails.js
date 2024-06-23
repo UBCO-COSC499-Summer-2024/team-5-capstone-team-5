@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import getQuestions from '../hooks/getQuestions';
 import { NavLink, useParams } from 'react-router-dom';
+import Bubble from './BubbleSheet/Bubbles';
 
 const ExamDetails = (props) => {
     const { examId } = useParams();
@@ -38,11 +39,11 @@ const ExamDetails = (props) => {
                     <h2>Weight: {question.weight}</h2>
                     <h2>Correct answers:</h2>
                     {question.correct_answer.map((answer, answerIndex) => (
-                        <span key={answerIndex}>{answer} </span>
+                        <Bubble question={answerIndex} />
                     ))}
                     <h2>Responses: </h2>
                     {question.response.map((responded, respondedIndex) => (
-                        <span key={respondedIndex}>{responded} </span>
+                        <Bubble question={respondedIndex} />
                     ))}
                     <h2>Grade: {compareAnswers(question.correct_answer, question.response, question.weight)*question.weight}</h2> {/* Not sure if this makes sense? Dividing weight in function, then multiplying weight after calculation */}
                 </li>
