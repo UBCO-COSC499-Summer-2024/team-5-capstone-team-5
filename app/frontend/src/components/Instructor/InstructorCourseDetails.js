@@ -71,7 +71,7 @@ const InstructorCourseDetails = () => {
       </div>
       )}
       {selectedMenu === 'students' && (
-        <StudentList />
+        <StudentList courseId={courseId} />
       )}
     </div>
   );

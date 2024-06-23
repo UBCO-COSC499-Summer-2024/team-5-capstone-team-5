@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import studentListDetails from './studentListDetails'; // Ensure this path is correct
+import getStudentData from '../../hooks/getStudentData';
 
-const StudentList = () => {
+const StudentList = (props) => {
   const [students, setStudents] = useState([]);
 
+  const fetchData = useCallback(async () => {
+    const data = await getStudentData(props.courseId);
+    setStudents(data);
+  }
+);
+
   useEffect(() => {
-    // Simulate fetching data
-    setStudents(studentListDetails);
-  }, []);
+    fetchData();
+  }, [props.courseId]);
 
   return (
     <div className="p-4 flex flex-col min-h-screen">
@@ -19,19 +25,17 @@ const StudentList = () => {
               <th className="p-4 bg-gray-800 text-white">Student ID</th>
               <th className="p-4 bg-gray-800 text-white">Last Name</th>
               <th className="p-4 bg-gray-800 text-white">First Name</th>
-              <th className="p-4 bg-gray-800 text-white">Quiz 1</th>
-              <th className="p-4 bg-gray-800 text-white">Quiz 2</th>
+              <th className="p-4 bg-gray-800 text-white">Role</th>
               {/* Add more quiz columns as needed */}
             </tr>
           </thead>
           <tbody>
             {students.map((student, index) => (
               <tr key={index} className="bg-gray-700 text-white rounded-lg">
-                <td className="p-4">{student.studentId}</td>
-                <td className="p-4">{student.lastName}</td>
-                <td className="p-4">{student.firstName}</td>
-                <td className="p-4">{student.quiz1}</td>
-                <td className="p-4">{student.quiz2}</td>
+                <td className="p-4">{student.id}</td>
+                <td className="p-4">{student.last_name}</td>
+                <td className="p-4">{student.first_name}</td>
+                <td className="p-4">{student.role == 1 ? "Student" : "Instructor"}</td>
                 {/* Add more quiz columns as needed */}
               </tr>
             ))}

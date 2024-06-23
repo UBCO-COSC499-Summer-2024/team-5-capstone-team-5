@@ -44,6 +44,17 @@ const getQuestionData = async (userId, examId) => {
     }
 }
 
+const getStudentsByCourseId = async (courseId) => {
+    try {
+        const response = await db.manyOrNone(
+            'SELECT u.id, u.first_name, u.last_name, u.role FROM users u JOIN registration r ON u.id = r.user_id JOIN courses c ON r.course_id = c.id WHERE c.id = $1 ORDER BY ROLE DESC', [courseId]
+        );
+        return response;
+    } catch(error) {
+        console.log('Error getting students for course:',courseId);
+    }
+}
+
 const addStudent = async (first, last, email, password) => {
     try {
         await db.none(
@@ -113,10 +124,12 @@ module.exports = {
     getTestsByCourseId,
     getRecentExamsByUserId,
     getQuestionData,
+    getStudentsByCourseId,
     addStudent,
     addCourse,
     addExam,
     addQuestion,
     register,
+    
     
 }

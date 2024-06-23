@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -59,5 +59,14 @@ router.post('/courses/add', async (req, res) => {
         res.status(404).json({error: error.message});
     }
 });
+
+router.get('/courses/students/:id', async (req, res) => {
+    try {
+        const studentList = await getStudentsByCourseId(req.params.id);
+        res.status(200).json(studentList);
+    } catch(error) {
+        res.status(404).json({error: error.message});
+    }
+})
 
 module.exports = router;
