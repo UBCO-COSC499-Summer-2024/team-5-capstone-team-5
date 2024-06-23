@@ -3,11 +3,18 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../../hooks/getCourseData';
 import validateUser from '../../hooks/validateUser';
 import AddCourseModal from './AddCourseModal';
+import ProfileMenuModal from './ProfileMenuModal'; // Ensure the path is correct
 
 const InstNavbar = (props) => {
-  const [courses, setCourses] = useState([]); // Initialize with an empty array
+  const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [user, setUser] = useState({
+    name: 'John Doe',
+    email: 'johndoe@example.com',
+    image: 'https://via.placeholder.com/150', // Replace with actual user image URL
+  });
 
   useEffect(() => {
     const checkSession = async () => {
@@ -76,31 +83,41 @@ const InstNavbar = (props) => {
             <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
             <NavLink
               to="/recent"
-              className={({ isActive }) => isActive ? "block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-600 hover:text-white"}
+              className={({ isActive }) =>
+                isActive
+                  ? "block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold"
+                  : "block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-600 hover:text-white"
+              }
             >
               Recent Courses
             </NavLink>
           </div>
           <div className="mt-4">
-            <h2 className=" ml-4 text-lg font-bold text-gray-300">Courses</h2>
+            <h2 className="ml-4 text-lg font-bold text-gray-300">Courses</h2>
             <ul className="mt-4 space-y-4">
               {courses.length > 0 ? courses.map((course) => (
                 <li key={course.course_id}>
                   <NavLink
                     to={`/instructor/course/${course.course_id}`}
-                    className={({ isActive }) => isActive ? "block bg-gray-700 p-4 mx-4 rounded-lg hover:bg-gray-600" : "block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600"}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "block bg-gray-700 p-4 mx-4 rounded-lg hover:bg-gray-600"
+                        : "block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600"
+                    }
                   >
                     <h3 className="text-white font-bold">{course.name}</h3>
                     <p className="text-gray-400">{course.description}</p>
                     <p className="text-gray-500">Ends: {course.end_date.slice(0, 10)}</p>
                   </NavLink>
                 </li>
-              )) : <li className="text-center text-gray-400">No courses available</li>}
+              )) : (
+                <li className="text-center text-gray-400">No courses available</li>
+              )}
               <li
-                className="bg-gray-700 p-4 mx-4 rounded-lg shadow-md text-center text-green-500 cursor-pointer"
+                className="block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600 text-white font-bold text-center cursor-pointer"
                 onClick={() => setIsModalOpen(true)}
               >
-                <div>+</div>
+                <div className="text-xl">+</div>
               </li>
             </ul>
           </div>
@@ -109,19 +126,40 @@ const InstNavbar = (props) => {
       <div className="flex flex-col p-4 sticky bottom-0 bg-gray-900">
         <NavLink
           to="/about"
-          className={({ isActive }) => isActive ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"}
+          className={({ isActive }) =>
+            isActive
+              ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold"
+              : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"
+          }
         >
           About
         </NavLink>
         <NavLink
           to="/contact"
-          className={({ isActive }) => isActive ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold" : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"}
+          className={({ isActive }) =>
+            isActive
+              ? "block py-2 px-4 mb-2 rounded-lg bg-gray-700 text-white font-bold"
+              : "block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white"
+          }
         >
           Contact
         </NavLink>
-        <button onClick={Logout}><p className="block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white text-left">Log out</p></button>
-        <div className="mt-auto">
-        </div>
+        <button
+          onClick={() => setIsProfileMenuOpen(true)}
+          className="flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg"
+        >
+          <img src={user.image} alt="User" className="w-10 h-10 rounded-full mr-4" />
+          <div>
+            <p className="text-sm font-bold">{user.name}</p>
+            <p className="text-xs text-gray-400">{user.email}</p>
+          </div>
+        </button>
+        <ProfileMenuModal
+          isOpen={isProfileMenuOpen}
+          onClose={() => setIsProfileMenuOpen(false)}
+          user={user}
+          onLogout={Logout}
+        />
       </div>
       <AddCourseModal
         isOpen={isModalOpen}
