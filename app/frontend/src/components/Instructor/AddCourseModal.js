@@ -25,54 +25,54 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-semibold mb-4">Add New Course</h2>
+      <div className="bg-gray-800 text-white rounded-lg p-4 w-96">
+        <h2 className="text-lg font-bold mb-4">Add New Course</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Course Code</label>
+            <label className="block text-sm font-bold mb-2">Course Code</label>
             <input
               type="text"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              className="w-full p-2 rounded-lg bg-gray-700 text-white"
               value={courseCode}
               onChange={(e) => setCourseCode(e.target.value)}
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Course Number</label>
+            <label className="block text-sm font-bold mb-2">Course Number</label>
             <input
               type="text"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              className="w-full p-2 rounded-lg bg-gray-700 text-white"
               value={courseNumber}
               onChange={(e) => setCourseNumber(e.target.value)}
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Name/Description</label>
+            <label className="block text-sm font-bold mb-2">Name/Description</label>
             <input
               type="text"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              className="w-full p-2 rounded-lg bg-gray-700 text-white"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Start Date</label>
+            <label className="block text-sm font-bold mb-2">Start Date</label>
             <input
               type="date"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              className="w-full p-2 rounded-lg bg-gray-700 text-white"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">End Date</label>
+            <label className="block text-sm font-bold mb-2">End Date</label>
             <input
               type="date"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              className="w-full p-2 rounded-lg bg-gray-700 text-white"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
               required

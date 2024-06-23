@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import MenuBar from './MenuBar'; // Adjust the path as needed
+import SearchBar from './SearchBar'; // Adjust the path as needed
+import StudentList from './StudentList'; // Adjust the path as needed
+import studentListDetails from './studentListDetails'; // Adjust the path as needed
 
 const mockCourses = [
   {
@@ -34,6 +38,7 @@ const InstructorDashboard = () => {
   const [courses] = useState(mockCourses);
   const [selectedCourse, setSelectedCourse] = useState(mockCourses[0]);
   const [quizzes, setQuizzes] = useState(mockCourses[0].quizzes);
+  const [selectedMenu, setSelectedMenu] = useState('tests');
 
   const handleCourseClick = (course) => {
     setSelectedCourse(course);
@@ -53,6 +58,8 @@ const InstructorDashboard = () => {
         </div>
         <button className="bg-gray-700 px-4 py-2 rounded">Logout</button>
       </header>
+      <MenuBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
+      <SearchBar />
       <div className="flex">
         <aside className="w-1/4 bg-gray-800 p-4 rounded">
           <h2 className="text-lg font-bold mb-4">Courses</h2>
@@ -83,38 +90,32 @@ const InstructorDashboard = () => {
           </ul>
         </aside>
         <main className="flex-1 p-4">
-          {selectedCourse && (
+          {selectedMenu === 'tests' && (
             <>
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-lg font-bold">{selectedCourse.name} Tests</h2>
               </div>
-              <table className="w-full text-left">
-                <thead>
-                  <tr>
-                    <th className="p-2">Test</th>
-                    <th className="p-2">Mean</th>
-                    <th className="p-2">Upload / Edit / Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {quizzes.map((quiz) => (
-                    <tr key={quiz.id} className="bg-gray-800 mb-2 p-2 rounded">
-                      <td className="p-2">{quiz.name}</td>
-                      <td className="p-2">{quiz.score}</td>
-                      <td className="p-2 flex justify-around">
-                        <button className="bg-blue-500 p-2 rounded">⤴</button>
-                        <button className="bg-orange-500 p-2 rounded">✎</button>
-                        <button className="bg-red-500 p-2 rounded">✗</button>
-                      </td>
-                    </tr>
-                  ))}
-                  <tr className="bg-gray-800 mb-2 p-2 rounded text-center">
-                    <td colSpan="3" className="p-2 text-green-500">+</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="mt-4">
+                {quizzes.map((quiz) => (
+                  <div key={quiz.id} className="p-4 mb-4 rounded-lg bg-gray-700 text-white flex justify-between items-center">
+                    <div>
+                      <h3 className="text-xl font-bold">{quiz.name}</h3>
+                      <p className="text-lg">Mean: {quiz.score}</p>
+                    </div>
+                    <div className="flex space-x-2">
+                      <button className="bg-blue-500 p-2 rounded">⤴</button>
+                      <button className="bg-orange-500 p-2 rounded">✎</button>
+                      <button className="bg-red-500 p-2 rounded">✗</button>
+                    </div>
+                  </div>
+                ))}
+                <div className="p-4 mb-4 rounded-lg bg-gray-700 text-center text-white cursor-pointer">
+                  <span className="text-xl">+</span>
+                </div>
+              </div>
             </>
           )}
+          {selectedMenu === 'students' && <StudentList />}
         </main>
       </div>
     </div>

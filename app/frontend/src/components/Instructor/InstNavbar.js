@@ -3,11 +3,18 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../../hooks/getCourseData';
 import validateUser from '../../hooks/validateUser';
 import AddCourseModal from './AddCourseModal';
+import ProfileMenuModal from './ProfileMenuModal'; // Ensure the path is correct
 
 const InstNavbar = (props) => {
   const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [user, setUser] = useState({
+    name: 'John Doe',
+    email: 'johndoe@example.com',
+    image: 'https://via.placeholder.com/150', // Replace with actual user image URL
+  });
 
   useEffect(() => {
     const checkSession = async () => {
@@ -21,9 +28,7 @@ const InstNavbar = (props) => {
   }, [navigate]);
 
   const Logout = () => {
-    console.log("Before logout: ", localStorage.getItem("token"));
     localStorage.removeItem("token");
-    console.log("After logout: ", localStorage.getItem("token"));
     navigate("/login");
   };
 
@@ -32,7 +37,6 @@ const InstNavbar = (props) => {
       try {
         if (props.id) {
           const courseData = await getCourseData(props.id);
-          console.log(courseData);
           setCourses(courseData || []);
         }
       } catch (error) {
@@ -102,7 +106,7 @@ const InstNavbar = (props) => {
                 <li className="text-center text-gray-400">No courses available</li>
               )}
               <li
-                className="block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600 text-white font-bold text-center cursor-pointer h-24 flex items-center justify-center" // Line 59
+                className="block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600 text-white font-bold text-center cursor-pointer"
                 onClick={() => setIsModalOpen(true)}
               >
                 <div className="text-xl">+</div>
@@ -132,9 +136,22 @@ const InstNavbar = (props) => {
         >
           Contact
         </NavLink>
-        <button onClick={Logout}>
-          <p className="block py-2 px-4 mb-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white text-left">Log out</p>
+        <button
+          onClick={() => setIsProfileMenuOpen(true)}
+          className="flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg"
+        >
+          <img src={user.image} alt="User" className="w-10 h-10 rounded-full mr-4" />
+          <div>
+            <p className="text-sm font-bold">{user.name}</p>
+            <p className="text-xs text-gray-400">{user.email}</p>
+          </div>
         </button>
+        <ProfileMenuModal
+          isOpen={isProfileMenuOpen}
+          onClose={() => setIsProfileMenuOpen(false)}
+          user={user}
+          onLogout={Logout}
+        />
       </div>
       <AddCourseModal
         isOpen={isModalOpen}
