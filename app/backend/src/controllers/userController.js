@@ -33,30 +33,25 @@ const getRecentExamsByUserId = async (id) => {
     }
 }
 
-const getQuestionsByExamId = async (examId, userId) => {
+const getQuestionData = async (userId, examId) => {
     try {
-        const questions = await db.manyOrNone(
-            'SELECT * FROM questions WHERE exam_id = $1', [examId]
-        );
-        let data = {questions: questions};
-        for(let i = 0; i < questions.length; i++) {
-            response = await getResponse(userId, questions[i].id);
-            data[`response ${i}`] = response;
-        }
-        return data;
-    } catch(error) {
-        console.log('Error getting responses for test with id',examId);
-    }
-}
-
-const getResponse = async (userId, questionId) => {
-    try {
-        const response = await db.oneOrNone(
-            'SELECT * FROM responses WHERE question_id = $1 AND user_id = $2', [questionId, userId]
+        const response = await db.manyOrNone(
+            'SELECT * FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id WHERE e.id = $1 AND r.user_id = $2', [examId, userId]
         );
         return response;
     } catch(error) {
         console.log('Error getting response for question',questionId,'and user',userId);
+    }
+}
+
+const getStudentsByCourseId = async (courseId) => {
+    try {
+        const response = await db.manyOrNone(
+            'SELECT u.id, u.first_name, u.last_name, u.role FROM users u JOIN registration r ON u.id = r.user_id JOIN courses c ON r.course_id = c.id WHERE c.id = $1 ORDER BY ROLE DESC', [courseId]
+        );
+        return response;
+    } catch(error) {
+        console.log('Error getting students for course:',courseId);
     }
 }
 
@@ -128,12 +123,13 @@ module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
     getRecentExamsByUserId,
-    getQuestionsByExamId,
-    getResponse,
+    getQuestionData,
+    getStudentsByCourseId,
     addStudent,
     addCourse,
     addExam,
     addQuestion,
     register,
+    
     
 }

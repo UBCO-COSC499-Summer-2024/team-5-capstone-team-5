@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, register, getQuestionsByExamId, getResponse } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -24,25 +24,19 @@ router.get('/tests/:id', async (req, res) => {
 
 router.get('/questions/:eid&:uid', async (req, res) => {
     try {
-        const questions = await getQuestionsByExamId(req.params.eid, req.params.uid);
+        const questions = await getQuestionData(req.params.uid, req.params.eid);
         res.status(200).json(questions);
     } catch(error) {
         res.status(404).json({ error: error.message });
     }
 });
 
-router.get('/responses/:qid&:uid', async (req, res) => {
-    const qid = req.params.qid;
-    const uid = req.params.uid;
-    if(qid && uid) {
-        try {
-            const responses = await getResponse(uid, qid);
-            res.status(200).json(responses);
-        } catch (error) {
-            res.status(404).json({ error: error.message });
-        }
-    } else {
-        res.status(404).json({error: "Could not find one of: qid, uid"});
+router.get('/responses/:eid&:uid', async (req, res) => {
+    try {
+        const responses = await getQuestionData(req.params.uid, req.params.eid);
+        res.status(200).json(responses);
+    } catch(error) {
+        res.status(404).json({ error: error.message });
     }
 });
 
@@ -73,5 +67,14 @@ router.post('/courses/add', async (req, res) => {
         res.status(404).json({error: "Missing info for adding a course"});
     }
 });
+
+router.get('/courses/students/:id', async (req, res) => {
+    try {
+        const studentList = await getStudentsByCourseId(req.params.id);
+        res.status(200).json(studentList);
+    } catch(error) {
+        res.status(404).json({error: error.message});
+    }
+})
 
 module.exports = router;

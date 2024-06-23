@@ -6,7 +6,7 @@ const getTestData = async (course_id) => {
         return tests;
       }
       else {
-        console.error('POST Error',response.status, response.statusText);
+        console.error('GET Error',response.status, response.statusText);
         return;
       }
     } catch(error) {

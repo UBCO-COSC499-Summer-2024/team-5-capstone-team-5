@@ -1,37 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import studentListDetails from './studentListDetails'; // Ensure this path is correct
+import React, { useEffect, useState, useCallback } from 'react';
+import getStudentData from '../../hooks/getStudentData';
+import { useTheme } from '../../App'; // Adjust the path as needed
 
-const StudentList = () => {
+const StudentList = (props) => {
   const [students, setStudents] = useState([]);
+  const { theme } = useTheme();
+
+  const fetchData = useCallback(async () => {
+    const data = await getStudentData(props.courseId);
+    setStudents(data);
+  }, [props.courseId]);
 
   useEffect(() => {
-    // Simulate fetching data
-    setStudents(studentListDetails);
-  }, []);
+    fetchData();
+  }, [props.courseId, fetchData]);
 
   return (
     <div className="p-4 flex flex-col min-h-screen">
       <div className="flex-grow">
         <h2 className="text-2xl font-bold mb-4">Students</h2>
-        <table className="w-full text-left">
+        <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
           <thead>
             <tr>
-              <th className="p-2">Student ID</th>
-              <th className="p-2">Last Name</th>
-              <th className="p-2">First Name</th>
-              <th className="p-2">Quiz 1</th>
-              <th className="p-2">Quiz 2</th>
+              <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Student ID</th>
+              <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Last Name</th>
+              <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>First Name</th>
+              <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Role</th>
               {/* Add more quiz columns as needed */}
             </tr>
           </thead>
           <tbody>
             {students.map((student, index) => (
-              <tr key={index} className="bg-gray-800 mb-2 p-2 rounded">
-                <td className="p-2">{student.studentId}</td>
-                <td className="p-2">{student.lastName}</td>
-                <td className="p-2">{student.firstName}</td>
-                <td className="p-2">{student.quiz1}</td>
-                <td className="p-2">{student.quiz2}</td>
+              <tr key={index} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
+                <td className="p-4">{student.id}</td>
+                <td className="p-4">{student.last_name}</td>
+                <td className="p-4">{student.first_name}</td>
+                <td className="p-4">{student.role == 1 ? "Student" : "Instructor"}</td>
                 {/* Add more quiz columns as needed */}
               </tr>
             ))}
