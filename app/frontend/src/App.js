@@ -18,6 +18,7 @@ import InstNavbar from './components/Instructor/InstNavbar';
 import getUserInfo from './hooks/getUserInfo';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import ExamDetails from './components/ExamDetails';
+import TestDescription from './components/Instructor/TestDescription'; // Corrected path
 import './index.css';
 
 const ThemeContext = createContext();
@@ -37,10 +38,7 @@ function App() {
         theme={{
           algorithm: theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
           token: {
-            colorBgContainer: theme === 'dark' ? '#1a202c' : '#ffffff',
-            colorText: theme === 'dark' ? '#ffffff' : '#1a202c',
-            colorPrimary: theme === 'dark' ? '#2d3748' : '#edf2f7',
-            colorSecondary: theme === 'dark' ? '#4a5568' : '#e2e8f0',
+            colorBgContainer: theme === 'dark' ? '#000000' : '#ffffff',
           },
         }}
       >
@@ -79,7 +77,7 @@ function AppRoutes() {
   }
 
   return (
-    <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
       {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
       <div className="flex-grow flex flex-col ml-64">
@@ -97,6 +95,7 @@ function AppRoutes() {
             <Route path="/contact" element={<Contact />} />
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
+            <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
           </Routes>
         </div>
       </div>
