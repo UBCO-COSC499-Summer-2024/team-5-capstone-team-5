@@ -30,14 +30,14 @@ const StudentList = (props) => {
             </tr>
           </thead>
           <tbody>
-            {students.map((student, index) => (
-              <tr key={index} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
-                <td className="p-4">{student.id}</td>
-                <td className="p-4">{student.last_name}</td>
-                <td className="p-4">{student.first_name}</td>
-                <td className="p-4">{student.role == 1 ? "Student" : "Instructor"}</td>
-                {/* Add more quiz columns as needed */}
-              </tr>
+          {students.filter(student => student.role === 1).map((student, index) => (
+            <tr key={index} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
+              <td className="p-4">{student.id}</td>
+              <td className="p-4">{student.last_name}</td>
+              <td className="p-4">{student.first_name}</td>
+              <td className="p-4">{student.role === 1 ? "Student" : "Instructor"}</td>
+              {/* Add more quiz columns as needed */}
+            </tr>
             ))}
           </tbody>
         </table>
