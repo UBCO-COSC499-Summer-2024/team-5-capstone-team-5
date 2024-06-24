@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../../App';
 
-const TestDescription = ({ test, onBack }) => {
+const TestDescription = ({ test, onBack, navigateToDetails }) => {
   const { theme } = useTheme();
 
   if (!test) return null;
@@ -21,6 +21,12 @@ const TestDescription = ({ test, onBack }) => {
         <h2 className="text-2xl font-bold mb-4">{test.name}</h2>
         <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>
         <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>
+        <button
+          onClick={navigateToDetails}
+          className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
+        >
+          View Details
+        </button>
       </div>
     </div>
   );
