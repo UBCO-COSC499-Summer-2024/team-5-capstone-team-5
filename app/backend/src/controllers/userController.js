@@ -40,7 +40,7 @@ const getQuestionData = async (userId, examId) => {
         );
         return response;
     } catch(error) {
-        console.log('Error getting response for question',questionId,'and user',userId);
+        console.log('Error getting responses for exam',examId,'and user',userId);
     }
 }
 
