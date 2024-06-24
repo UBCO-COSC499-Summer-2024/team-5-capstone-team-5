@@ -49,7 +49,6 @@ const verifyUser = async (token) => {
       )
       console.log(data);
       if(data.password === oldPass) {
-        console.log(newPass, userId)
         await db.none(
           'UPDATE users SET password = $1 WHERE id = $2', [newPass, userId]
         )
