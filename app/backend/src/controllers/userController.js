@@ -36,7 +36,7 @@ const getRecentExamsByUserId = async (id) => {
 const getQuestionData = async (userId, examId) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT * FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id WHERE e.id = $1 AND r.user_id = $2', [examId, userId]
+            'SELECT question_id, user_id, response, grade, num_options, correct_answer, weight, c.name AS course_name, e.name AS exam_name FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2', [examId, userId]
         );
         return response;
     } catch(error) {
