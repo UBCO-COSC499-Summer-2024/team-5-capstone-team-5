@@ -5,7 +5,7 @@ const SearchBar = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="relative mt-2 sm:mt-0 w-full max-w-md z-10">
+    <div className="mt-2 sm:mt-0 w-full max-w-md">
       <input
         type="text"
         placeholder="Search"

@@ -69,7 +69,7 @@ const InstructorCourseDetails = () => {
                     </tr>
                   ))}
                   <tr
-                    className="relative cursor-pointer flex items-center justify-center"
+                    className="cursor-pointer flex items-center justify-center"
                     onClick={handleAddClick}
                     style={{
                       height: '4.5rem',
