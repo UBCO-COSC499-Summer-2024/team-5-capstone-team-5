@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import getTestData from '../hooks/getTestData';
+import Course from './Modules/CourseModule';
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -24,12 +25,7 @@ const CourseDetails = () => {
         <h2 className="text-2xl font-bold">{courseName}</h2>
         <div className="mt-4">
           {tests.map((test, index) => (
-            <div key={index} className="p-4 mb-4 rounded-lg bg-gray-700 text-white">
-              <NavLink to={`../../student/exam/${test.id}`}>
-                <h3 className="text-xl font-bold">{test.name}</h3>
-                <p className="text-lg">Date Marked: {test.date_marked.slice(0,10)}</p> 
-              </NavLink> 
-            </div>
+            <Course test={test} key={index} />
           ))}
         </div>
       </div>
