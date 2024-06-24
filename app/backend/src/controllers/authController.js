@@ -42,7 +42,26 @@ const verifyUser = async (token) => {
     }
   };
 
+  const verifyPass = async (userId, oldPass, newPass) => {
+    try {
+      const data = await db.oneOrNone(
+        'SELECT password FROM users WHERE id = $1', [userId]
+      )
+      console.log(data);
+      if(data.password === oldPass) {
+        console.log(newPass, userId)
+        await db.none(
+          'UPDATE users SET password = $1 WHERE id = $2', [newPass, userId]
+        )
+      }
+    } catch(error) {
+      console.error("Error occured verifying password");
+      return null;
+    }
+  }
+
 module.exports = {
     authUser,
-    verifyUser
+    verifyUser,
+    verifyPass
 }

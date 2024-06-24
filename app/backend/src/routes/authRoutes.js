@@ -1,16 +1,16 @@
 const express = require('express');
-const { authUser, verifyUser } = require('../controllers/authController');
+const { authUser, verifyUser, verifyPass } = require('../controllers/authController');
 
 const router = express.Router();
 
 router.post("/login", async (req,res) => {
     const { email, password } = req.body;
     try {
-        const auth = await authUser(email, password);
+        const auth = await authUser(email, password);   // Calls the authUser function in the authController file in authController.
         if(auth) {
-            res.status(200).json(auth);
+            res.status(200).json(auth);     // Returns status code 200 (ok), also returns the auth variable as a json object.
         } else {
-            res.status(401).json({message : "Incorrect Credentials" });
+            res.status(401).json({message : "Incorrect Credentials" });     // Returns status code 401 (), also returns a message as a json object.
         }
     } catch(error) {
         res.status(500).json({ message : "Internal Server Error" });
@@ -28,5 +28,16 @@ router.post("/login", async (req,res) => {
         res.status(401).json({ message: "Could not verify session. Token is invalid." });
     }
   });
+
+  router.post("/change", async (req, res) => {
+    const {userId, oldPass, newPass} = req.body;
+    try {
+        await verifyPass(userId, oldPass, newPass);
+        res.status(200).json({message: "Password updated."});
+    } catch(error) {
+        res.status(500).json({message: "Internal Server Error"});
+    }
+  })
+    
 
   module.exports = router;
