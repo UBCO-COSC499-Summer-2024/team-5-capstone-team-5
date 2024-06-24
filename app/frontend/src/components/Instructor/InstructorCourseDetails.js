@@ -6,6 +6,7 @@ import StudentList from './StudentList';
 import getTestData from '../../hooks/getTestData';
 import TestDescription from './TestDescription'; // Import TestDescription
 import { useTheme } from '../../App';
+import InstructorTest from '../Modules/InstructorTestModule';
 
 const InstructorCourseDetails = () => {
   const { courseId } = useParams();
@@ -59,14 +60,7 @@ const InstructorCourseDetails = () => {
                 </thead>
                 <tbody>
                   {tests.map((test, index) => (
-                    <tr
-                      key={index}
-                      className={`cursor-pointer ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
-                      onClick={() => setSelectedTest(test)}
-                    >
-                      <td className="p-4">{test.name}</td>
-                      <td className="p-4">{test.mean_score || 'N/A'}</td>
-                    </tr>
+                    <InstructorTest test={test} key={index} state={selectedTest} setState = {setSelectedTest} />
                   ))}
                   <tr
                     className="cursor-pointer items-center justify-center"
