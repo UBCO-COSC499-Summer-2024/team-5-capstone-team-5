@@ -68,3 +68,15 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(20px);
 }
+
+/* Tooltip styles */
+.tooltip {
+  transition: opacity 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.relative:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
