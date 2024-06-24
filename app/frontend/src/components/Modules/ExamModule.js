@@ -17,19 +17,13 @@ const Exam = (props) => {
         return count;
     }
 
-    
+
     return(
         <li key={props.key} className="bg-gray-700 m-4 p-2 rounded-lg">
             <h2>Number of options: {question.num_options}</h2>
             <h2>Weight: {question.weight}</h2>
             <h2>Correct answers:</h2>
-            {question.correct_answer.map((answer, answerIndex) => (
-                <Bubble question={answerIndex} />
-            ))}
-            <h2>Responses: </h2>
-            {question.response.map((responded, respondedIndex) => (
-                <Bubble question={respondedIndex} />
-            ))}
+            <Bubble question={question} />
             <h2>Grade: {compareAnswers(question.correct_answer, question.response, question.weight)*question.weight}</h2> {/* Not sure if this makes sense? Dividing weight in function, then multiplying weight after calculation */}
         </li>
     );
