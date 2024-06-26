@@ -1,3 +1,79 @@
+## Friday (6/19 - 6/21) Oakley Pankratz
+Total Hours: 7
+
+![alt text](ClockifyLogJune21.png)
+
+## Current Tasks
+* Completed learning the tech stack, finished off by learning tailwind. Previously I've learnt HTML, Javascript, and React. In this cycle, I finnished by learning TailwindCSS
+* Filled out a high volume of bubble sheets by hand to creteated sample data to train the OMR component. I worked together within Nathan and Jay to complete this task. (Issue #87)
+
+### Progress Update (since 6/14/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Learning CSS and Tailwind
+        </td>
+        <!-- Status -->
+        <td> Complete
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create sample data to train the OMR component.
+        </td>
+        <!-- Status -->
+        <td> Complete
+        </td>
+    </tr>
+    </tr>
+        </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Stlye the footer which was created in the last cycle (Issue #47)
+        </td>
+        <!-- Status -->
+        <td> In progress
+        </td>
+    </tr>
+        </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Creating a Header for the dashboard view (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+        </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a table to display grades (Issue #42)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+
+I completed learning CSS and Tailwind, as planned. I still need more practice with the texh stack, but I'm strong enough that I can begin to work with the team to write some code. This wil provide me the extra practice I need. I created the following page to demonstrate that I have learnt CSS and Tailwind.
+
+![alt text](SimpleBullsEyeWithTailwind.png)
+
+Filling out sample bubble sheets took some time I had budgeted for other issues. This explains why I have not completed all of the tasks which I had planned on completing.
+
+### Next Cycle Goals:
+* #1: finnish the footer component by styling it with Tailwind.
+* #2: Create a header for the dashboard view which shows which pages the user is actively viewing, and provides them with an option to logout/signout. (Issue #46)
+* #3: Create a table to display student's grade to an instructor. Populate the table with mock data and make it editable. (Issue #42)
+
 ## Wednesday (6/14 - 6/19) Oakley Pankratz
 
 ### Timesheet:
