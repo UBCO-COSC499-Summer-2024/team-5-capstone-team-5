@@ -99,7 +99,6 @@ function AppRoutes() {
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
           </Routes>
         </div>
-        <Footer/>
       </div>
     </div>
   );
