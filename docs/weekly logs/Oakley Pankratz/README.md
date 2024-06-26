@@ -1,13 +1,77 @@
+## Wednesday (6/21 - 6/26) Oakley Pankratz
+Total Hours: 11
+
+![alt text](ClockifyLogJune26.png)
+
+## Current Tasks
+* Completed writing a footing component, which is now both styled and functional. Moreover, this component supports both a light and a dark mode.
+* Displaying data to the user. Previously, we were using mock data to display a username and email to the user in the instructor view. This has now been replaced with data from the backend.
+* Reviewing code. Now that I have a more firm grasp on the differerent languages in our tech stack, I've been able to look through my peer's code to unerstand it better, and ultimately contriubte more.
+* Resolved issues on my local machine. My laptop has been having a hard time running our docker and development environment, since it doesn't have enough RAM or hard drive space. I spent some time goin through my background processes and terminating any that were not in use, and consuming a high volume of RAM.
+
+### Progress Update (since 6/19/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Stlye the footer component (Issue #105)
+        </td>
+        <!-- Status -->
+        <td> Complete
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td> Display which user is signed in, using data from the backend (Issue #108)
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a Header for the dashboard view (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a table to display grades (Issue #42)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+
+I styled the footer component as planned. This took more time than I anticiped, as I'm still geting the hang of Tailwind and React. I was also able to complete an issue that we hadn't planned on earlier. It was a good exercise for me to fetch some data from our backend, and get it properly displayed on the front end. I had planned on doing more this cycle, but I had unexpected and foreseeable issues with my local machine which. I'm a little discouraged not having done as much as I had hoped, but I'm glad that I'm beginning to see how our project is working as a whole. I'm confident that my speed of development will increase as I continue to practice with React and Tailwind. 
+
+### Next Cycle Goals:
+* #1: Create a header for the dashboard view which shows which pages the user is actively viewing, and provides them with an option to logout/signout. <Note:> Before I may work on this issue, I need to discuss the details with my teamates. Our front end has strayed a small ammount from our prototypes, some unclear what the goal is for this issue. (Issue #46)
+* #2: Create a table to display student's grade to an instructor. Populate the table with mock data and make it editable. (Issue #42)
+* #3 Work on fully implementing our dark mode/light mode feature. (Issue #101) This issue has mostly been copleted, but I believe Jay forgot to style two components, namely the "Contact" and "About" components. 
+
+
 ## Friday (6/19 - 6/21) Oakley Pankratz
 Total Hours: 7
 
 ![alt text](ClockifyLogJune21.png)
 
 ## Current Tasks
-* Completed learning the tech stack, finished off by learning tailwind. Previously I've learnt HTML, Javascript, and React. In this cycle, I finnished by learning TailwindCSS
+* Completed learning the tech stack. I finished off by learning CSS followed by tailwind. Previously I've learnt HTML, Javascript, and React.
 * Filled out a high volume of bubble sheets by hand to creteated sample data to train the OMR component. I worked together within Nathan and Jay to complete this task. (Issue #87)
 
-### Progress Update (since 6/14/2024) 
+### Progress Update (since 6/19/2024) 
 <table>
     <tr>
         <td><strong>TASK/ISSUE #</strong>
@@ -63,11 +127,11 @@ Total Hours: 7
 
 ### Cycle Goal Review:
 
-I completed learning CSS and Tailwind, as planned. I still need more practice with the texh stack, but I'm strong enough that I can begin to work with the team to write some code. This wil provide me the extra practice I need. I created the following page to demonstrate that I have learnt CSS and Tailwind.
+I completed learning CSS and Tailwind, as planned. I still need more practice with the tech stack, but I'm strong enough that I can begin to work with the team to write some code. This will provide me the extra practice I need. I created the following page to demonstrate that I have learnt CSS and Tailwind.
 
 ![alt text](SimpleBullsEyeWithTailwind.png)
 
-Filling out sample bubble sheets took some time I had budgeted for other issues. This explains why I have not completed all of the tasks which I had planned on completing.
+Filling out sample bubble sheets took some time I had budgeted for other issues. This contributed to me not being able to complete all of the tasks which I had planned on completing.
 
 ### Next Cycle Goals:
 * #1: finnish the footer component by styling it with Tailwind.
