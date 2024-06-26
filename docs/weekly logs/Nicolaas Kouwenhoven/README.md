@@ -1,3 +1,81 @@
+# Wednesday (6/21 - 6/26)
+## Date: June 25, 10:17PM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJune25.png)
+
+### Task tldr:
+I made the student exam viewable with some JSX-styled buttons that show colours depending on whether the student's response was correct or not
+I got Jest set up with DroneCI using a .drone.yml file for automatic test running
+I met with Jay to organize some of our frontend, though it is not as organized as I would like
+I wrote some backend tests with Jest
+I worked on getting some image processing working with Python and the openCV library for python, using Flask for the API endpoint. It is fully set up in Docker, though not pushed to a branch yet.
+
+### Current Tasks:
+  * #1: Make the image processing handle and image and spit out some numbers
+  * #2: Tie 'Add Exam' button into backend
+  * #3: Make a button to upload student rosters
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 1: Make 'Add Course' button work
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 2: Make 'View Exam' button show questions & responses
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 3: Make 'Add Test' button add data to backend
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 4: Write unit tests in Jest for backend functions and frontend components
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+What I was able to complete from last week:
+- Add responses to the question view for student's exam information
+- Setup DroneCI automated testing
+- Write unit tests for my code
+- Automate the backend Jest tests
+
+What I was unable to complete:
+- Create 'Add Test' button for instructors
+- Finish student view (it's close though)
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Finish the student view
+  * Help Jay get the instructor backend tied into the work he has done (Add exam button, uploading student roster)
+  * Do more with tests (split components apart so I can test them properly with Jest)
+
+
 # Friday (6/19 - 6/21)
 ## Date: June 21, 11:09PM
 
