@@ -20,6 +20,7 @@ import { ConfigProvider, theme as antdTheme } from 'antd';
 import ExamDetails from './components/ExamDetails';
 import TestDescription from './components/Instructor/TestDescription'; // Corrected path
 import './index.css';
+import Footer from "./components/Footer";
 
 const ThemeContext = createContext();
 
@@ -60,7 +61,7 @@ function AppRoutes() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const user = await getUserInfo();
+      const user = await getUserInfo();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
       if (user) {
         setRole(user.role);
         setUserId(user.userId);
@@ -98,6 +99,7 @@ function AppRoutes() {
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
           </Routes>
         </div>
+        <Footer/>
       </div>
     </div>
   );
