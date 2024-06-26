@@ -7,7 +7,7 @@ const authUser = async (email, password) => {
        const user = await db.oneOrNone("SELECT * FROM users WHERE email = $1", [email]);
        if(user) {
             if(user.password == password) {
-                const token = jwt.sign({userId: user.id, role: user.role, name: user.first_name+" "+user.last_name}, "coscrules", {expiresIn: "12h"});
+                const token = jwt.sign({userId: user.id, role: user.role, name: user.first_name+" "+user.last_name, userEmail: user.email}, "coscrules", {expiresIn: "12h"});
                 return { "token" : token };
             } else {
                 console.log("Incorrect Credentials");
