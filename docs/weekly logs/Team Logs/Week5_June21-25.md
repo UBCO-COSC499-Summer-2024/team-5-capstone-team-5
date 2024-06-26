@@ -75,5 +75,6 @@ Testing has been set up, though only 15 tests are currently created and they are
 This weekend, Jay worked a lot on the frontend UI with React, and Nic helped out here and there with making things tie into the backend, as well as getting the exam view part of the student view working.
 Nic also set up Jest testing for the backend and DroneCI automated testing with a .drone.yml file.
 Oakley worked on learning the tech stack by poking around the frontend code and made a few changes that Nic and Jay reviewed.
+Oakley and Nic walked through some frontend code and Oakley implemented some dynamic React components for showing the user profile info
 
 Nathan worked on getting YOLO working for the OMR side of things, and Nic worked on getting some understanding of the Python openCV library to extract information from the standard UBC 100-question sheets.
