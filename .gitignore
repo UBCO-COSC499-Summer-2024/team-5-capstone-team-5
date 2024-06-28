@@ -1,2 +1,7 @@
+node_modules
+build
+coverage
 
-app/frontend/.env
+*.env
+.env*
+DS_Store

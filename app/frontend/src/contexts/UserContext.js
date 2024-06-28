@@ -1,12 +1,12 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [role, setRole] = useState('student'); // default role
+  const [user, setUser] = useState(null); 
 
   return (
-    <UserContext.Provider value={{ role, setRole }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );
