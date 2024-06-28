@@ -34,10 +34,10 @@
 
 | Team Member | Logged Hours |
 | ----------- | ------------ |
-| Nicolaas      | 4.5      |
-| Oakley      | 7      |
-| Nathan      | 3.5      |
-| Jay         | 3.5 |
+| Nicolaas      | 2.5     |
+| Oakley      | 3      |
+| Nathan      | 0      |
+| Jay         | 4.5 |
 
 
 ## Completed Tasks:
