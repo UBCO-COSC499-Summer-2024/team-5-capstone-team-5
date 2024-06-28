@@ -1,16 +1,16 @@
 import cv2
 import os
 import numpy as np
-from get_responses import get_bubble_bounding_boxes
+from get_student_number_filled import get_student_number_filled
 
-def process_bubbles(file_path):
-    def find_bubble_position(bbox, grid, margin=1):
+def process_stnum(file_path):
+    def find_bubble_position(bbox, grid):
         x, y, w, h = bbox
         for col_index, column in enumerate(grid):
             for row_index, group in enumerate(column):
                 for cnt in group:
                     bx, by, bw, bh = cv2.boundingRect(cnt)
-                    if (bx - margin <= x <= bx + bw + margin) and (by - margin <= y <= by + bh + margin):
+                    if bx <= x <= bx + bw and by <= y <= by + bh:
                         return col_index, row_index
         return None, None
 
@@ -31,11 +31,10 @@ def process_bubbles(file_path):
     height, width, channels = image.shape
 
     # Calculate the height of the top 1/5 of the image
-    cut_off_height = height // 5
+    cut_off_height = height // 3
 
     # Crop the image to remove the top 1/5
-    cropped_image = image[cut_off_height:(height - height // 6), 0:width]
-    cropped_image = cv2.resize(cropped_image, (2200,1440))
+    cropped_image = image[height // 9:cut_off_height, int(width // 2.7):int(width/1.5)]
 
     # Convert to grayscale
     gray = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
@@ -50,7 +49,7 @@ def process_bubbles(file_path):
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Filter contours based on area to identify bubbles
-    bubbles = [cnt for cnt in contours if 300 < cv2.contourArea(cnt) < 1100]
+    bubbles = [cnt for cnt in contours if 400 < cv2.contourArea(cnt) < 700]
 
     # Sort bubbles by x-coordinate
     bubbles = sorted(bubbles, key=lambda c: cv2.boundingRect(c)[0])
@@ -110,7 +109,7 @@ def process_bubbles(file_path):
                 cv2.putText(cropped_image, f"C{col_index}R{row_index}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, color, 1)
 
     # Example usage of the find_bubble_position function
-    values = get_bubble_bounding_boxes(file_path)
+    values = get_student_number_filled(file_path)
     filled = []
     for bbox in values:  # Example bounding box position
         col_index, row_index = find_bubble_position(bbox, grid)
@@ -121,65 +120,17 @@ def process_bubbles(file_path):
             cv2.rectangle(cropped_image, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
     filled_sorted = sorted(filled, key=lambda y: y[1])
-    filled_sorted = sorted(filled_sorted, key=lambda x: x[0])
-
     
-    bubble_coords = []
-    bubble_options = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    id=""
 
     for bubble in filled_sorted:
-        question_marked = {}
-        if bubble[0] <= 4:
-            question_marked["Question"] = bubble[1] + 1
-            question_marked["Letter"] = bubble_options[bubble[0]]
-            question_marked["LetterPos"] = bubble[0]
-        elif bubble[0] > 4 and bubble[0] <= 9:
-            question_marked["Question"] = (bubble[1] + 26)
-            question_marked["Letter"] = bubble_options[bubble[0] - 5]
-            question_marked["LetterPos"] = bubble[0]-5
-        elif bubble[0] > 9 and bubble[0] <= 14:
-            question_marked["Question"] = (bubble[1] + 51)
-            question_marked["Letter"] = bubble_options[bubble[0] - 10]
-            question_marked["LetterPos"] = bubble[0]-10
-        elif bubble[0] > 14 and bubble[0] <= 19:
-            question_marked["Question"] = (bubble[1] + 76)
-            question_marked["Letter"] = bubble_options[bubble[0] - 15]
-            question_marked["LetterPos"] = bubble[0]-15
-        if(question_marked):
-            bubble_coords.append(question_marked)
+        id = id+str(bubble[0])
 
-    bubble_coords = sorted(bubble_coords, key=lambda x: x['Question'])
 
-    # Detect no answers or multiple answers
-    no_answer_questions = []
-    multiple_answer_questions = []
-    answers = []
-    for bubble in bubble_coords:
-        question = bubble["Question"]
+    print(id)
 
-        # Check if the question is already in answers
-        if question in answers:
-            multiple_answer_questions.append(question)
-        else:
-            # Append the question to answers if it's not already there
-            answers.append(question)
+    # cv2.imshow("First Name", cropped_image)
+    # cv2.waitKey(0)
+    return id
 
-        # Sort answers to ensure proper order
-        answers.sort()
-
-    # Now check for missing answers by iterating over the sorted answers
-    for i in range(1, len(answers)):
-        if answers[i] != answers[i-1] + 1:
-            no_answer_questions.extend(range(answers[i-1] + 1, answers[i]))
-            
-            
-
-    print("Questions with no answers:", no_answer_questions)
-    print("Questions with multiple answers:", multiple_answer_questions)
-
-    cv2.imshow("Marked", cropped_image)
-    cv2.waitKey(0)
-
-    return bubble_coords, no_answer_questions, multiple_answer_questions
-
-process_bubbles('data_images/test_2_page_2.png')
+# process_stnum('data_images/test_2_page_1.png')

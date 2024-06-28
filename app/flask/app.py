@@ -3,6 +3,10 @@ import os
 from pdf2image import convert_from_bytes
 from PIL import Image
 import io
+from test_grader import process_bubbles
+from get_first_name import process_first_name
+from get_last_name import process_last_name
+from get_student_number import process_stnum
 
 app = Flask(__name__)
 
@@ -44,10 +48,31 @@ def upload_file():
         # Convert PDF to images (one image per page)
         images = convert_from_bytes(pdf_bytes)
 
+        grades = {}
+        fname = ""
+        lname = ""
+        stnum = ""
+        answers = []
         # Save each page as a PNG file
         for i, image in enumerate(images):
             png_path = os.path.join(OUTPUT_FOLDER, f'test_{id}_page_{i + 1}.png')
             image.save(png_path, 'png')
+
+            
+
+            if (i+1) % 2 == 1:
+                fname = process_first_name(png_path)
+                lname = process_last_name(png_path)
+                stnum = process_stnum(png_path)
+            if (i+1) % 2 == 0:
+                answers = process_bubbles(png_path)
+                grades[stnum] = {
+                "name": (fname + " " + lname),
+                "stnum": stnum,
+                "answers": answers
+                }
+        
+
 
         return jsonify({'message': 'PDF converted to PNG successfully'}), 200
     except Exception as e:
