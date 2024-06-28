@@ -137,15 +137,15 @@ def process_bubbles(file_path):
             question_marked["Letter"] = bubble_options[bubble[0]]
             question_marked["LetterPos"] = bubble[0]
         elif bubble[0] > 4 and bubble[0] <= 9:
-            question_marked["Question"] = (bubble[1] + 25) + bubble[1] + 1
+            question_marked["Question"] = (bubble[1] + 26)
             question_marked["Letter"] = bubble_options[bubble[0] - 5]
             question_marked["LetterPos"] = bubble[0]-5
         elif bubble[0] > 9 and bubble[0] <= 14:
-            question_marked["Question"] = (bubble[1] + 50) + bubble[1] + 1
+            question_marked["Question"] = (bubble[1] + 51)
             question_marked["Letter"] = bubble_options[bubble[0] - 10]
             question_marked["LetterPos"] = bubble[0]-10
         elif bubble[0] > 14 and bubble[0] <= 19:
-            question_marked["Question"] = (bubble[1] + 75) + bubble[1] + 1
+            question_marked["Question"] = (bubble[1] + 76)
             question_marked["Letter"] = bubble_options[bubble[0] - 15]
             question_marked["LetterPos"] = bubble[0]-15
         if(question_marked):
