@@ -1,3 +1,67 @@
+# Friday (6/26 - 6/28)
+## Date: June 27, 10:39PM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJune25.png)
+
+### Task tldr:
+I had a late meeting with Oakley and walked him through some of our frontend and backend code to help with his understanding
+
+### Current Tasks: (These are the same as last cycle. I did not make any progress.)
+  * #1: Make the image processing handle and image and spit out some numbers
+  * #2: Tie 'Add Exam' button into backend
+  * #3: Make a button to upload student rosters
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 1: Make 'Add Test' button add data to backend
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 2: Write unit tests in Jest for backend functions and frontend components
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 3: Make OMR a fully containerized API that runs on Docker compose
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+What I was able to complete from last week:
+- Met with Oakley
+
+What I was unable to complete:
+- Create 'Add Test' button for instructors
+- Finish student view (it's close though)
+- Do more with tests
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Finish the student view
+  * Help Jay get the instructor backend tied into the work he has done (Add exam button, uploading student roster)
+  * Do more with tests (split components apart so I can test them properly with Jest)
+  * Finish OMR outputs to make it a fully containerized API (Flask)
+
 # Wednesday (6/21 - 6/26)
 ## Date: June 25, 10:17PM
 
