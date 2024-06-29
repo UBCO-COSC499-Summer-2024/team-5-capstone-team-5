@@ -37,20 +37,41 @@ def process_bubbles(file_path):
     cropped_image = image[cut_off_height:(height - height // 6), 0:width]
     cropped_image = cv2.resize(cropped_image, (2200,1440))
 
+    #cv2.imshow("Original", image)
+    #cv2.waitKey(0)
+
+    #cv2.imshow("Resized", cropped_image)
+    #cv2.waitKey(0)
+
     # Convert to grayscale
     gray = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
 
+    #cv2.imshow("Grayscale", gray)
+    #cv2.waitKey(0)
+
+    # blur
+    blurred = cv2.medianBlur(gray, 5)
+
+    #cv2.imshow("Blurred", blurred)
+    #cv2.waitKey(0)
+
     # Apply bilateral filter
-    bilateral_filtered = cv2.bilateralFilter(gray, 9, 75, 75)
+    bilateral_filtered = cv2.bilateralFilter(blurred, 9, 75, 75)
+
+    #cv2.imshow("Bilateral Filtered", bilateral_filtered)
+    #cv2.waitKey(0)
 
     # Apply thresholding
     thresh = cv2.adaptiveThreshold(bilateral_filtered, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
+
+    #cv2.imshow("Thresholded", thresh)
+    #cv2.waitKey(0)
 
     # Find contours
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Filter contours based on area to identify bubbles
-    bubbles = [cnt for cnt in contours if 300 < cv2.contourArea(cnt) < 1100]
+    bubbles = [cnt for cnt in contours if 300 < cv2.contourArea(cnt) < 1500]
 
     # Sort bubbles by x-coordinate
     bubbles = sorted(bubbles, key=lambda c: cv2.boundingRect(c)[0])
@@ -173,13 +194,13 @@ def process_bubbles(file_path):
             no_answer_questions.extend(range(answers[i-1] + 1, answers[i]))
             
             
-
+    #print(bubble_coords)
     print("Questions with no answers:", no_answer_questions)
     print("Questions with multiple answers:", multiple_answer_questions)
 
-    cv2.imshow("Marked", cropped_image)
-    cv2.waitKey(0)
+    #cv2.imshow("Marked", cropped_image)
+    #cv2.waitKey(0)
 
     return bubble_coords, no_answer_questions, multiple_answer_questions
 
-process_bubbles('data_images/test_2_page_2.png')
+#process_bubbles('data_images/test_3_page_34.png')

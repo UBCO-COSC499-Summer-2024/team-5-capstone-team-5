@@ -27,17 +27,23 @@ def get_bubble_bounding_boxes(image_path):
     # Convert to grayscale
     gray = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
 
+    #cv2.imshow("Grayscaled", gray)
+    #cv2.waitKey(0)
+
     # Apply Median Blur to reduce noise
     median_blurred = cv2.medianBlur(gray, 5)
 
-    # Apply Gaussian blur
-    blurred = cv2.GaussianBlur(median_blurred, (5, 5), 0)
+    #cv2.imshow("Blurred", median_blurred)
+    #cv2.waitKey(0)
 
     # Apply Bilateral Filtering to reduce noise while preserving edges
     bilateral_filtered = cv2.bilateralFilter(median_blurred, 9, 75, 75)
 
+    #cv2.imshow("Bilateral Filtered", bilateral_filtered)
+    #cv2.waitKey(0)#
+
     # Apply thresholding
-    _, contourThresh = cv2.threshold(bilateral_filtered, 160, 255, cv2.THRESH_BINARY_INV)
+    _, contourThresh = cv2.threshold(bilateral_filtered, 158, 255, cv2.THRESH_BINARY_INV)
 
     # Apply Morphological operations to remove noise
     kernel = np.ones((3, 3), np.uint8)
@@ -47,7 +53,7 @@ def get_bubble_bounding_boxes(image_path):
     contours, _ = cv2.findContours(morphed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Filter contours
-    bubbles = [cnt for cnt in contours if 300 < cv2.contourArea(cnt) < 1100]
+    bubbles = [cnt for cnt in contours if 300 < cv2.contourArea(cnt) < 1500]
 
     # Extract bounding boxes for each detected bubble
     bounding_boxes = []
@@ -56,7 +62,7 @@ def get_bubble_bounding_boxes(image_path):
         bounding_boxes.append((x, y, w, h))
         cv2.rectangle(cropped_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    cv2.waitKey(0)
-    cv2.imshow("Responses", cropped_image)
+    #cv2.imshow("Responses", cropped_image)
+    #cv2.waitKey(0)
 
     return bounding_boxes
