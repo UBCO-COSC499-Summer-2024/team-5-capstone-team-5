@@ -9,8 +9,8 @@ const Bubble = (props) => {
         const updatedCompared = Array(props.question.num_options).fill('');
 
         for (let i = 0; i < props.question.num_options; i++) {
-            const responseIndex = response.indexOf(i + 1); // responses are assumed to be 1-indexed
-            const answerIndex = answers.indexOf(i + 1); // answers are assumed to be 1-indexed
+            const responseIndex = response.indexOf(i + 1);
+            const answerIndex = answers.indexOf(i + 1);
             
             if (responseIndex !== -1 && answerIndex !== -1) {
                 updatedCompared[i] = 'green';

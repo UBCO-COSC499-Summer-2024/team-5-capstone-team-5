@@ -4,15 +4,18 @@ import MenuBar from './MenuBar';
 import SearchBar from './SearchBar'; 
 import StudentList from './StudentList'; 
 import getTestData from '../../hooks/getTestData';
-import TestDescription from './TestDescription'; // Import TestDescription
+import TestDescription from './TestDescription'; 
 import { useTheme } from '../../App';
+import InstructorTest from '../Modules/InstructorTestModule';
+import AddTestModal from './AddTestModal'; 
 
 const InstructorCourseDetails = () => {
   const { courseId } = useParams();
   const [tests, setTests] = useState([]);
   const [courseName, setCourseName] = useState('Loading');
   const [selectedMenu, setSelectedMenu] = useState('tests');
-  const [selectedTest, setSelectedTest] = useState(null); // Add state for selected test
+  const [selectedTest, setSelectedTest] = useState(null);
+  const [isAddTestModalOpen, setIsAddTestModalOpen] = useState(false); 
   const { theme } = useTheme();
   const navigate = useNavigate();
 
@@ -27,8 +30,11 @@ const InstructorCourseDetails = () => {
   }, [courseId, fetchData]);
 
   const handleAddClick = () => {
-    console.log('Add new test');
-    // Add your logic for adding a new test here
+    setIsAddTestModalOpen(true);
+  };
+
+  const handleAddTest = (newTest) => {
+    setTests([...tests, newTest]);
   };
 
   return (
@@ -59,17 +65,10 @@ const InstructorCourseDetails = () => {
                 </thead>
                 <tbody>
                   {tests.map((test, index) => (
-                    <tr
-                      key={index}
-                      className={`cursor-pointer ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
-                      onClick={() => setSelectedTest(test)}
-                    >
-                      <td className="p-4">{test.name}</td>
-                      <td className="p-4">{test.mean_score || 'N/A'}</td>
-                    </tr>
+                    <InstructorTest test={test} key={index} state={selectedTest} setState={setSelectedTest} />
                   ))}
                   <tr
-                    className="cursor-pointer flex items-center justify-center"
+                    className="cursor-pointer items-center justify-center"
                     onClick={handleAddClick}
                     style={{
                       height: '4.5rem',
@@ -96,6 +95,11 @@ const InstructorCourseDetails = () => {
       {selectedMenu === 'students' && (
         <StudentList courseId={courseId} />
       )}
+      <AddTestModal
+        isOpen={isAddTestModalOpen}
+        onClose={() => setIsAddTestModalOpen(false)}
+        onAddTest={handleAddTest}
+      />
     </div>
   );
 };

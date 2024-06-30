@@ -20,7 +20,8 @@ import { ConfigProvider, theme as antdTheme } from 'antd';
 import ExamDetails from './components/ExamDetails';
 import TestDescription from './components/Instructor/TestDescription'; // Corrected path
 import './index.css';
-import Footer from "./components/Footer";
+import ChangePass from './components/ChangePass';
+
 
 const ThemeContext = createContext();
 
@@ -97,6 +98,7 @@ function AppRoutes() {
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
+            <Route path="/changePassword" element={<ChangePass id={userId} />} />
           </Routes>
         </div>
       </div>
