@@ -5,6 +5,7 @@ import validateUser from '../../hooks/validateUser';
 import AddCourseModal from './AddCourseModal';
 import ProfileMenuModal from './ProfileMenuModal'; // Ensure the path is correct
 import { useTheme } from '../../App'; // Adjust the path as needed
+import getUserInfo from '../../hooks/getUserInfo';
 
 const InstNavbar = (props) => {
   const [courses, setCourses] = useState([]);
@@ -23,6 +24,14 @@ const InstNavbar = (props) => {
       const session = await validateUser();
       if (!session) {
         navigate("/login");
+      } else {
+        const userInfo = await getUserInfo();
+        console.log(userInfo);
+        setUser({
+          name: userInfo.name,
+          email: userInfo.userEmail,
+          image: 'https://via.placeholder.com/150',
+        });
       }
     };
 
