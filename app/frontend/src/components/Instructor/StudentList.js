@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import getStudentData from '../../hooks/getStudentData';
-import { useTheme } from '../../App'; // Adjust the path as needed
+import { useTheme } from '../../App';
 
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
@@ -15,7 +15,6 @@ const StudentList = (props) => {
     fetchData();
   }, [props.courseId, fetchData]);
 
-  // Filter the instructor from the students
   const instructor = students.find(student => student.role === 2);
   const studentList = students.filter(student => student.role === 1);
 
@@ -29,13 +28,23 @@ const StudentList = (props) => {
           </div>
         )}
 
+        <label className="block text-sm font-medium mb-2">
+          Upload Student Data
+        </label>
         <input 
           type="file" 
           id="studentFile" 
           name="studentFile" 
-          className={`mb-4 ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
+          className={`block w-full text-sm text-gray-500
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-full file:border-0
+            file:text-sm file:font-semibold
+            ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
+          `}
         />
-        <p className={`mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.</p>
+        <p className={`mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+          Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
+        </p>
 
         <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
           <thead>
