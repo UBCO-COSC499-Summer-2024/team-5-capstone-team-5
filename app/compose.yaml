@@ -68,6 +68,16 @@ services:
       - public
     depends_on:
       - backend
+  python-cv:
+    build:
+      context: flask
+    ports:
+    - 8000:8000
+    volumes:
+      - ./flask/data:/app/data
+      - ./flask/data_images:/app/data_images
+    command: ["python", "app.py"]
+    user: appuser
 networks:
   public:
   private:

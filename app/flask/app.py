@@ -73,8 +73,7 @@ def upload_file():
                 }
         
 
-
-        return jsonify({'message': 'PDF converted to PNG successfully'}), 200
+        return jsonify({'message': 'PDF converted to PNG successfully', 'data': grades}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
