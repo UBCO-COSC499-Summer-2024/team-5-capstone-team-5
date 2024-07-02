@@ -1,4 +1,4 @@
-const db = require('../database'); // Adjust the path to your database connection
+const { db } = require('../database'); // Adjust the path to your database connection
 
 const addTest = async (req, res) => {
   const { name, questions, courseId } = req.body;

@@ -36,7 +36,7 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
     const newTest = { name: examName, questions, courseId };
     
     try {
-      const response = await fetch('http://localhost:5000/api/tests/add', {
+      const response = await fetch('http://localhost/api/tests/add', { // Correct URL here
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
