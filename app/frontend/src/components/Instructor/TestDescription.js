@@ -40,8 +40,8 @@ const TestDescription = ({ test, onBack }) => {
           </button>
           <div className={`rounded-lg p-6 shadow-lg  ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
             <h2 className="text-2xl font-bold mb-4">{test.name}</h2>
-            <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>
-            <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>
+            {test.date_marked && <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>}
+            {test.mean_score && <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>}
             <div className="mb-4">
               <label className="block text-sm font-medium mb-2">Upload PDF File</label>
               <input
