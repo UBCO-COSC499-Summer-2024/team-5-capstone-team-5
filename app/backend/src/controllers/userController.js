@@ -99,9 +99,10 @@ const register = async (userId, courseId) => {
 
 const addExam = async (course_id, name, date_marked, visibility) => {
     try {
-        await db.none(
-            'INSERT INTO exams (course_id, name, date_marked, visibility) VALUES ($1, $2, $3, $4)', [course_id, name, date_marked, visibility]
+        const id = await db.any(
+            'INSERT INTO exams (course_id, name, date_marked, visibility) VALUES ($1, $2, $3, $4) RETURNING id', [course_id, name, date_marked, visibility]
         );
+        return id;
     } catch(error) {
         console.error(`Error adding the exam ${name}`);
     };

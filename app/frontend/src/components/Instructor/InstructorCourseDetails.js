@@ -23,7 +23,7 @@ const InstructorCourseDetails = () => {
     const testData = await getTestData(courseId);
     setTests(testData);
     setCourseName(testData[0].course_name);
-  }, [courseId]);
+  }, [courseId, isAddTestModalOpen]);
 
   useEffect(() => {
     fetchData();
@@ -98,6 +98,7 @@ const InstructorCourseDetails = () => {
         isOpen={isAddTestModalOpen}
         onClose={() => setIsAddTestModalOpen(false)}
         onAddTest={handleAddTest}
+        courseId={courseId}
       />
     </div>
   );

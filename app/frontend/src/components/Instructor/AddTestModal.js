@@ -34,9 +34,10 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
 
   const handleSaveTest = async () => {
     const newTest = { name: examName, questions, courseId };
+    console.log("New Test:",newTest)
     
     try {
-      const response = await fetch('http://localhost/api/tests/add', { // Correct URL here
+      const response = await fetch('http://localhost/api/users/tests/add', { // Correct URL here
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,9 +55,9 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
       }
     } catch (error) {
       console.error('Error adding test:', error);
+    } finally {
+      onClose();
     }
-
-    onClose();
   };
 
   if (!isOpen) {

@@ -5,7 +5,7 @@ const addTest = async (req, res) => {
 
   try {
     // Insert the new test
-    const result = await db.query(
+    const result = await db.none(
       'INSERT INTO exams (name, course_id) VALUES ($1, $2) RETURNING id',
       [name, courseId]
     );
@@ -14,7 +14,7 @@ const addTest = async (req, res) => {
     // Insert each question
     for (const question of questions) {
       const { correctAnswer } = question;
-      await db.query(
+      await db.none(
         'INSERT INTO questions (exam_id, correct_answer) VALUES ($1, $2)',
         [examId, correctAnswer]
       );

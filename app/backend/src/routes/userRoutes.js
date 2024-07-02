@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId, addExam, addQuestion } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -65,6 +65,29 @@ router.post('/courses/add', async (req, res) => {
         }
     } else {
         res.status(404).json({error: "Missing info for adding a course"});
+    }
+});
+
+router.post('/tests/add', async (req, res) => {
+    const test = req.body;
+    if(test) {
+        try {
+            const name = test.name;
+            const questions = test.questions;
+            const courseId = test.courseId;
+            const response = await addExam(courseId, name);
+            const id = response.id
+            questions.forEach(async (question) => {
+                answerLength = question.correctAnswer.length;
+                await addQuestion(id, answerLength, question.correct_anwers, answerLength);
+            });
+            res.status(200).json({message: "Test added successfully"})
+
+        } catch(error) {
+            res.status(404).json({error: error.message});
+        }
+    } else {
+        res.status(404).json({error: "Missing information for adding a test"})
     }
 });
 
