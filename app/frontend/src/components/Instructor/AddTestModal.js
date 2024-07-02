@@ -4,10 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../../App';
 
-const AddTestModal = ({ isOpen, onClose }) => {
+const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
   const [questions, setQuestions] = useState([]);
   const [examName, setExamName] = useState('');
-  const [savedTests, setSavedTests] = useState([]);
   const { theme } = useTheme();
 
   const handleAddQuestion = () => {
@@ -33,13 +32,30 @@ const AddTestModal = ({ isOpen, onClose }) => {
     setQuestions(updatedQuestions);
   };
 
-  const handleSaveTest = () => {
-    const newTest = { name: examName, questions };
-    setSavedTests(prevSavedTests => {
-      const updatedSavedTests = [...prevSavedTests, newTest];
-      console.log('Saved Tests:', updatedSavedTests);
-      return updatedSavedTests;
-    });
+  const handleSaveTest = async () => {
+    const newTest = { name: examName, questions, courseId };
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/tests/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include token if needed
+        },
+        body: JSON.stringify(newTest),
+      });
+
+      if (response.ok) {
+        const addedTest = await response.json();
+        console.log('Added Test:', addedTest);
+        onAddTest(addedTest);
+      } else {
+        console.error('Error adding test:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error adding test:', error);
+    }
+
     onClose();
   };
 

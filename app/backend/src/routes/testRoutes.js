@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { db } = require('../database');
+const { addTest } = require('../controllers/testController');
 
+// Existing GET route for retrieving tests for a course
 router.get('/tests/:course_id', async (req, res) => {
   const { course_id } = req.params;
   try {
@@ -19,5 +21,8 @@ router.get('/tests/:course_id', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+// New POST route for adding a test
+router.post('/add', addTest);
 
 module.exports = router;

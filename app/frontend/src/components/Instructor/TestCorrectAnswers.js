@@ -36,35 +36,50 @@ const TestCorrectAnswers = ({ test, onBack }) => {
         </svg>
         Back
       </button>
-      <div className={`rounded-lg p-6 shadow-lg relative ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-        <h2 className="text-2xl font-bold mb-4">{test.name} - Correct Answers</h2>
-        {results.questions.map((q, index) => (
-          <div key={index} className="mb-6 p-4 border rounded-lg" style={{ borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' }}>
-            <h3 className="font-bold mb-2">{q.question}</h3>
-            <p className="mb-2"><strong>Correct Answer(s):</strong></p>
-            <div className="flex space-x-2 mb-2">
-              {q.correctAnswer.map(answer => (
-                <div
-                  key={answer}
-                  className="w-8 h-8 flex items-center justify-center rounded-full border bg-green-500 text-white"
-                >
-                  {answer}
-                </div>
+      <div className="flex-grow">
+        <div className={`rounded-lg p-6 shadow-lg relative mb-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+          <h2 className="text-2xl font-bold mb-4">{test.name} - Correct Answers</h2>
+          <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
+            <thead>
+              <tr>
+                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Question</th>
+                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Correct Answer(s)</th>
+                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Most Chosen Answer(s)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {results.questions.map((q, index) => (
+                <tr key={index} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
+                  <td className="p-4">{q.question}</td>
+                  <td className="p-4">
+                    <div className="flex space-x-2">
+                      {q.correctAnswer.map(answer => (
+                        <div
+                          key={answer}
+                          className="w-8 h-8 flex items-center justify-center rounded-full border bg-green-500 text-white"
+                        >
+                          {answer}
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                  <td className="p-4">
+                    <div className="flex space-x-2">
+                      {q.mostChosenAnswers.map(answer => (
+                        <div
+                          key={answer}
+                          className="w-8 h-8 flex items-center justify-center rounded-full border bg-blue-500 text-white"
+                        >
+                          {answer}
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
               ))}
-            </div>
-            <p className="mb-2"><strong>Most Chosen Answer(s):</strong></p>
-            <div className="flex space-x-2">
-              {q.mostChosenAnswers.map(answer => (
-                <div
-                  key={answer}
-                  className="w-8 h-8 flex items-center justify-center rounded-full border bg-blue-500 text-white"
-                >
-                  {answer}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

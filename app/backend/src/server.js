@@ -1,30 +1,34 @@
 const cors = require('cors');
+const express = require('express');
+const morgan = require('morgan');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
-const courseRoutes = require('./routes/courseRoutes'); // Add this line
-const express = require("express");
-const morgan = require("morgan");
+const courseRoutes = require('./routes/courseRoutes');
+const testRoutes = require('./routes/testRoutes'); // Add this line
 
 const app = express();
 
 app.use(cors({
   origin: "http://localhost:3000",
-  methods: ["GET", "POST"],
-  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
+
 app.use(morgan("common"));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/courses', courseRoutes); // Add this line
+app.use('/api/courses', courseRoutes);
+app.use('/api/tests', testRoutes); // Add this line
 
-app.get("/", function(req, res, next) {
+app.get("/", function (req, res, next) {
   res.status(200).json({ message: `GradeIT OMR Technologies` });
 });
 
-app.get("/healthz", function(req, res) {
+app.get("/healthz", function (req, res) {
   res.send("I am happy and healthy\n");
 });
 
