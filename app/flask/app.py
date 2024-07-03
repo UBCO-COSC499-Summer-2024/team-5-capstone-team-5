@@ -7,8 +7,15 @@ from test_grader import process_bubbles
 from get_first_name import process_first_name
 from get_last_name import process_last_name
 from get_student_number import process_stnum
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={
+    r"/*": {
+        "origins": ["http://localhost:3000", "http://localhost:80"],
+        "methods": ["GET", "POST", "PUT", "DELETE"]
+    }
+})
 
 # Set the upload and output folder paths
 UPLOAD_FOLDER = '/app/data'
@@ -33,10 +40,10 @@ def upload_file():
     if not file.filename.endswith('.pdf'):
         return jsonify({'error': 'Invalid file type, only PDFs are allowed'}), 400
     
-    if 'id' not in request.form:
+    if 'id' not in request.headers:
         return jsonify({'error': 'form data not found'}), 400
     
-    id = request.form['id']
+    id = request.headers.get('id')
     if id == '':
         return jsonify({'error': 'id is null'}),400
     
