@@ -1,3 +1,55 @@
+## Wednesday (6/28 - 7/3) Oakley Pankratz
+Total Hours: 6
+
+![alt text](ClockifyLogJuly3.png)
+
+## Current Tasks
+ * Work on the Spreadsheet component so instructors may view and edit student grades
+
+### Progress Update (since 6/19/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Add Dark Mode to the About and Contact Pages (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a Header for the dashboard view (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a table to display grades (Issue #42)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+
+This cycle I had some interuptions from my personal life (I had to rush to Vancouver to meet my newborn niece for the first time! I was also moving, as my lease in Kelowna expired.) This made it difficult for me to complete my goals.
+
+### Next Cycle Goals:
+* Finish the spreadsheet view so instructors can view and edit student's grades. 
+* Complete the implementation for our dark mode. 
+* Further discuss the plan for our header component with team mates, as I have become unclear what our goal is there.
+
+
 ## Wednesday (6/21 - 6/26) Oakley Pankratz
 Total Hours: 11
 
