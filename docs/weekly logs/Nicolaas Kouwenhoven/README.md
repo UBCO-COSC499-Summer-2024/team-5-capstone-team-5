@@ -1,3 +1,69 @@
+# Wednesday (6/28 - 7/3)
+## Date: July 3, 12:11 AM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJuly3.png)
+
+### Task tldr:
+I worked on the Python openCV OMR docker container. I got it tied into our main Docker container on the flaskAPI branch, and got it working between Flask and Express.js using ArrayBuffers and pdf byte conversions due to a lot of issues passing files between two backend systems.
+
+I looked over Jay's frontend code and tied in his 'Add Exam' button to the backend db, so now it adds a new exam when you input the details.
+
+### Current Tasks: (These are the same as last cycle. I did not make any progress.)
+  * #1: Make the image processing handle and image and spit out some numbers
+  * #2: Tie 'Add Exam' button into backend
+  * #3: Make a button to upload student rosters
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 1: Make 'Add Test' button add data to backend
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 2: Write unit tests in Jest for backend functions and frontend components
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task 3: Make OMR a fully containerized API that runs on Docker compose
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+- Student view is mostly finished
+- Helped Jay with add exam button
+- Wrote no extra tests
+- OMR is fully containerized, but db tie-in is not finished yet.
+
+Overall, I was not able to get as much work in as I had planned due to having family over for the Canada Day long weekend. I managed to hit 20 hours for this cycle, but I was planning to put in 30-40.
+Everything is going relatively smoothly, though I was unable to get much done even in my 20 hour work block because I have been stuck trying to integrate my Flask API and solving problems related to sharing data between Flask and Express
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Fully finish OMR data flow for MVP Presentations
+  * Add ability to edit instructor exams
+  * Get Add students via .csv file upload working
+
+
 # Friday (6/26 - 6/28)
 ## Date: June 27, 10:39PM
 
