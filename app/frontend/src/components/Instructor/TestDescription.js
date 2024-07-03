@@ -12,7 +12,7 @@ const TestDescription = ({ test, onBack, courseId }) => {
     if (file) {
       const formData = new FormData();
       formData.append('file', file)
-      const response = await fetch('http://localhost:8000/upload', {
+      const response = await fetch('http://localhost/api/users/tests/upload', {
         method: 'POST',
         body: formData,
         headers: {
