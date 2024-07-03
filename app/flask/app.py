@@ -31,20 +31,24 @@ def hello():
 def upload_file():
     print(request.files)
     if 'file' not in request.files:
+        print('file not found in request.files')
         return jsonify({'error': 'No file part'}), 400
     
     file = request.files['file']
     if file.filename == '':
+        print('file name is null')
         return jsonify({'error': 'No selected file'}), 400
 
     if not file.filename.endswith('.pdf'):
         return jsonify({'error': 'Invalid file type, only PDFs are allowed'}), 400
     
-    if 'id' not in request.headers:
+    if 'courseid' not in request.headers:
+        print('id not in headers')
         return jsonify({'error': 'form data not found'}), 400
     
-    id = request.headers.get('id')
+    id = request.headers.get('courseid')
     if id == '':
+        print('id null')
         return jsonify({'error': 'id is null'}),400
     
 
