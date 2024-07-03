@@ -1,7 +1,12 @@
 const express = require('express');
+const multer = require('multer');
+const fs = require('fs');
+const { PDFDocument } = require('pdf-lib');
 const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId, addExam, addQuestion } = require('../controllers/userController');
 
 const router = express.Router();
+  
+const upload = multer();
 
 // url = localhost/api/users/courses/student_id
 router.get('/courses/:id', async (req, res) => {
@@ -99,5 +104,16 @@ router.get('/courses/students/:id', async (req, res) => {
         res.status(404).json({error: error.message});
     }
 })
+
+router.post('/tests/upload', upload.single('file'), async (req, res) => {
+    console.log(req.file.buffer)
+    const response = await fetch('http://python-cv:8000/upload', {
+        method: 'POST',
+        body: req.file.buffer,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+  });
 
 module.exports = router;

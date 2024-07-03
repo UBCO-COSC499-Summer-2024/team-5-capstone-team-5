@@ -29,7 +29,8 @@ def hello():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    print(request.files)
+    data = request.data
+    '''print(request.files)
     if 'file' not in request.files:
         print('file not found in request.files')
         return jsonify({'error': 'No file part'}), 400
@@ -49,12 +50,12 @@ def upload_file():
     id = request.headers.get('courseid')
     if id == '':
         print('id null')
-        return jsonify({'error': 'id is null'}),400
+        return jsonify({'error': 'id is null'}),400'''
     
 
     try:
         # Read the PDF file
-        pdf_bytes = file.read()
+        pdf_bytes = data
 
         # Convert PDF to images (one image per page)
         images = convert_from_bytes(pdf_bytes)
@@ -86,6 +87,7 @@ def upload_file():
 
         return jsonify({'message': 'PDF converted to PNG successfully', 'data': grades}), 200
     except Exception as e:
+        print('error: '+str(e))
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
