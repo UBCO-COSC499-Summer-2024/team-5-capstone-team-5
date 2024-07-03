@@ -1,4 +1,4 @@
-# Dashboard for June 28 Logs
+# Dashboard for July 3 Logs
 ##### Team 5:
 Nathan Jacinto,
 Oakley Pankratz, 
