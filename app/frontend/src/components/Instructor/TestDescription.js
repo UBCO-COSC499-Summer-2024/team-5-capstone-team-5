@@ -2,14 +2,23 @@ import React, { useState } from 'react';
 import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers'; // Import the new component
 
-const TestDescription = ({ test, onBack }) => {
+const TestDescription = ({ test, onBack, courseId }) => {
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(false);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
+      const formData = new FormData();
+      formData.append('file', file)
+      const response = await fetch('http://localhost:8000/upload', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'courseid': courseId
+        }
+      });
       console.log('File uploaded:', file);
       setFileUploaded(true);
     }
@@ -52,6 +61,7 @@ const TestDescription = ({ test, onBack }) => {
                   file:mr-4 file:py-2 file:px-4
                   file:rounded-full file:border-0
                   file:text-sm file:font-semibold
+                  file:cursor-pointer
                   ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
                 `}
               />

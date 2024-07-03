@@ -58,7 +58,7 @@ const StudentList = (props) => {
           <tbody>
             {studentList.map((student, index) => (
               <tr key={index} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
-                <td className="p-4">{student.id}</td>
+                <td className="p-4">{String(student.id).padStart(8,"0")}</td>
                 <td className="p-4">{student.last_name}</td>
                 <td className="p-4">{student.first_name}</td>
                 <td className="p-4">{student.role === 1 ? "Student" : "Instructor"}</td>
