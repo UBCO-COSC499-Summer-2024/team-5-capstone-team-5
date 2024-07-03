@@ -23,9 +23,9 @@ router.get('/tests/:id', async (req, res) => {
     }
 });
 
-router.get('/questions/:eid&:uid', async (req, res) => {
+router.get('/questions/:examId', async (req, res) => {
     try {
-        const questions = await getQuestionData(req.params.uid, req.params.eid);
+        const questions = await getQuestionData(req.params.examId);
         res.status(200).json(questions);
     } catch(error) {
         res.status(404).json({ error: error.message });
@@ -82,13 +82,13 @@ router.post('/tests/add', async (req, res) => {
                 const answerLength = question.correctAnswer.length;
                 await addQuestion(id, answerLength, question.correctAnswer, answerLength);
             });
-            res.status(200).json({message: "Test added successfully"})
+            res.status(200).json({ message: "Test added successfully" })
 
         } catch(error) {
-            res.status(404).json({error: error.message});
+            res.status(404).json({ error: error.message });
         }
     } else {
-        res.status(404).json({error: "Missing information for adding a test"})
+        res.status(404).json({ error: "Missing information for adding a test" })
     }
 });
 
@@ -118,7 +118,7 @@ router.get('/courses/students/:id', async (req, res) => {
         const studentList = await getStudentsByCourseId(req.params.id);
         res.status(200).json(studentList);
     } catch(error) {
-        res.status(404).json({error: error.message});
+        res.status(404).json({ error: error.message });
     }
 })
 
