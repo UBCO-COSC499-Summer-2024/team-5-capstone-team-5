@@ -3,7 +3,6 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const courseRoutes = require('./routes/courseRoutes');
-const testRoutes = require('./routes/testRoutes'); // Correct path
 const morgan = require('morgan');
 const app = express();
 
@@ -23,7 +22,6 @@ app.use(morgan('common'));
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
-app.use('/api/tests', testRoutes); // Correct path
 
 app.get('/', function(req, res) {
   res.status(200).json({ message: 'GradeIT OMR Technologies' });

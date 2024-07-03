@@ -97,10 +97,10 @@ const register = async (userId, courseId) => {
     }
 }
 
-const addExam = async (course_id, name, date_marked, visibility) => {
+const addExam = async (course_id, name) => {
     try {
         const id = await db.any(
-            'INSERT INTO exams (course_id, name, date_marked, visibility) VALUES ($1, $2, $3, $4) RETURNING id', [course_id, name, date_marked, visibility]
+            'INSERT INTO exams (course_id, name) VALUES ($1, $2) RETURNING id', [course_id, name]
         );
         return id;
     } catch(error) {
@@ -118,7 +118,23 @@ const addQuestion = async (exam_id, num_options, correct_answer, weight) => {
     };
 };
 
+const deleteTest = async (testId) => {
+    try {
+        await db.none('DELETE FROM exams WHERE id = $1', [testId]);
+    } catch (error) {
+        console.error(`Error deleting test with id ${testId}:`, error);
+        throw error;
+    }
+};
 
+const editTest = async (testId, newName) => {
+    try {
+        await db.none('UPDATE exams SET name = $1 WHERE id = $2', [newName, testId]);
+    } catch (error) {
+        console.error(`Error editing test with id ${testId}:`, error);
+        throw error;
+    }
+};
 
 module.exports = {
     getCoursesByUserId,
@@ -130,7 +146,7 @@ module.exports = {
     addCourse,
     addExam,
     addQuestion,
-    register,
-    
-    
-}
+    deleteTest,
+    editTest,
+    register
+};

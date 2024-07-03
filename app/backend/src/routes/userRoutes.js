@@ -1,9 +1,9 @@
 const express = require('express');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId, addExam, addQuestion } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId, addExam, addQuestion, deleteTest, editTest } = require('../controllers/userController');
 
 const router = express.Router();
 
-// url = localhost/api/users/courses/student_id
+// URL = localhost/api/users/courses/student_id
 router.get('/courses/:id', async (req, res) => {
     try {
         const courses = await getCoursesByUserId(req.params.id);
@@ -12,7 +12,8 @@ router.get('/courses/:id', async (req, res) => {
         res.status(404).json({ error: error.message });
     }
 });
-// url = localhost/api/users/tests/course_id
+
+// URL = localhost/api/users/tests/course_id
 router.get('/tests/:id', async (req, res) => {
     try {
         const tests = await getTestsByCourseId(req.params.id);
@@ -76,10 +77,10 @@ router.post('/tests/add', async (req, res) => {
             const questions = test.questions;
             const courseId = test.courseId;
             const response = await addExam(courseId, name);
-            const id = response.id
+            const id = response[0].id;
             questions.forEach(async (question) => {
-                answerLength = question.correctAnswer.length;
-                await addQuestion(id, answerLength, question.correct_anwers, answerLength);
+                const answerLength = question.correctAnswer.length;
+                await addQuestion(id, answerLength, question.correctAnswer, answerLength);
             });
             res.status(200).json({message: "Test added successfully"})
 
@@ -88,6 +89,27 @@ router.post('/tests/add', async (req, res) => {
         }
     } else {
         res.status(404).json({error: "Missing information for adding a test"})
+    }
+});
+
+router.delete('/tests/delete/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await deleteTest(id);
+        res.status(200).json({ message: `Test with id ${id} deleted successfully` });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.put('/tests/edit/:id', async (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+    try {
+        await editTest(id, name);
+        res.status(200).json({ message: `Test with id ${id} edited successfully` });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
