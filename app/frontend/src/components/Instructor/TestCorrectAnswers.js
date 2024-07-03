@@ -10,11 +10,16 @@ const TestCorrectAnswers = ({ test, onBack }) => {
       try {
         const response = await fetch(`http://localhost/api/users/questions/${test.id}`, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include token if needed
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
         const data = await response.json();
-        setQuestions(data);
+        console.log('Fetched questions:', data); // Log fetched data
+        if (Array.isArray(data)) {
+          setQuestions(data);
+        } else {
+          setQuestions([]);
+        }
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
@@ -45,23 +50,29 @@ const TestCorrectAnswers = ({ test, onBack }) => {
               </tr>
             </thead>
             <tbody>
-              {questions.map((q, index) => (
-                <tr key={index} className="rounded-lg">
-                  <td className="p-4">Question {index + 1}</td>
-                  <td className="p-4">
-                    <div className="flex space-x-2">
-                      {q.correct_answer.map(answer => (
-                        <div
-                          key={answer}
-                          className="w-8 h-8 flex items-center justify-center rounded-full border bg-green-500 text-white"
-                        >
-                          {answer}
-                        </div>
-                      ))}
-                    </div>
-                  </td>
+              {questions.length > 0 ? (
+                questions.map((q, index) => (
+                  <tr key={index} className="rounded-lg">
+                    <td className="p-4">Question {index + 1}</td>
+                    <td className="p-4">
+                      <div className="flex space-x-2">
+                        {q.correct_answer.map(answer => (
+                          <div
+                            key={answer}
+                            className="w-8 h-8 flex items-center justify-center rounded-full border bg-green-500 text-white"
+                          >
+                            {answer}
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2" className="p-4 text-center">No questions found</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

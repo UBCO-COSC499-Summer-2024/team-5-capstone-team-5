@@ -7,7 +7,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const [fileUploaded, setFileUploaded] = useState(false);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState(test.name);
+  const [newName, setNewName] = useState(test.name || '');
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];

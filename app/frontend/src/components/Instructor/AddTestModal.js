@@ -33,15 +33,22 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
   };
 
   const handleSaveTest = async () => {
-    const newTest = { name: examName, questions, courseId };
-    console.log("New Test:", newTest)
+    const newTest = {
+      name: examName,
+      questions: questions.map(q => ({
+        ...q,
+        correctAnswer: q.correctAnswer.map(a => parseInt(a, 10)), // Ensure correctAnswer is an array of integers
+      })),
+      courseId,
+    };
+    console.log("New Test:", newTest);
     
     try {
-      const response = await fetch('http://localhost/api/users/tests/add', { // Correct URL here
+      const response = await fetch('http://localhost/api/users/tests/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include token if needed
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(newTest),
       });
