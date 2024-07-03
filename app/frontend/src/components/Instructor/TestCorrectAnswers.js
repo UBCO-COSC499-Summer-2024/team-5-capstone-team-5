@@ -1,29 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '../../App';
-
-const mockTestResults = {
-  questions: [
-    {
-      question: "Question 1",
-      correctAnswer: ["A", "C"],
-      mostChosenAnswers: ["A", "B"]
-    },
-    {
-      question: "Question 2",
-      correctAnswer: ["B"],
-      mostChosenAnswers: ["B", "C"]
-    },
-    {
-      question: "Question 3",
-      correctAnswer: ["C", "D"],
-      mostChosenAnswers: ["C", "D"]
-    },
-  ]
-};
 
 const TestCorrectAnswers = ({ test, onBack }) => {
   const { theme } = useTheme();
-  const results = mockTestResults; // Replace this with real data as needed
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await fetch(`http://localhost/api/users/questions/${test.id}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setQuestions(data);
+      } catch (error) {
+        console.error('Error fetching questions:', error);
+      }
+    };
+
+    fetchQuestions();
+  }, [test.id]);
 
   return (
     <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
@@ -44,31 +47,18 @@ const TestCorrectAnswers = ({ test, onBack }) => {
               <tr>
                 <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Question</th>
                 <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Correct Answer(s)</th>
-                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Most Chosen Answer(s)</th>
               </tr>
             </thead>
             <tbody>
-              {results.questions.map((q, index) => (
+              {questions.map((q, index) => (
                 <tr key={index} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
-                  <td className="p-4">{q.question}</td>
+                  <td className="p-4">{q.question_id}</td>
                   <td className="p-4">
                     <div className="flex space-x-2">
-                      {q.correctAnswer.map(answer => (
+                      {q.correct_answer.map(answer => (
                         <div
                           key={answer}
                           className="w-8 h-8 flex items-center justify-center rounded-full border bg-green-500 text-white"
-                        >
-                          {answer}
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex space-x-2">
-                      {q.mostChosenAnswers.map(answer => (
-                        <div
-                          key={answer}
-                          className="w-8 h-8 flex items-center justify-center rounded-full border bg-blue-500 text-white"
                         >
                           {answer}
                         </div>

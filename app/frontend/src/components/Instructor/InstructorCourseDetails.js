@@ -22,7 +22,7 @@ const InstructorCourseDetails = () => {
   const fetchData = useCallback(async () => {
     const testData = await getTestData(courseId);
     setTests(testData);
-    setCourseName(testData[0].course_name);
+    setCourseName(testData[0]?.course_name || 'Course');
   }, [courseId, isAddTestModalOpen]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const InstructorCourseDetails = () => {
 
   const handleDeleteTest = async (testId) => {
     try {
-      await fetch(`http://localhost/api/users/tests/delete/${testId}`, {
+      await fetch(`http://localhost/api/tests/delete/${testId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,6 @@ const InstructorCourseDetails = () => {
         },
       });
       setTests(tests.filter(test => test.id !== testId));
-      setSelectedTest(null); // Reset the selected test if deleted
     } catch (error) {
       console.error('Error deleting test:', error);
     }
@@ -55,7 +54,7 @@ const InstructorCourseDetails = () => {
 
   const handleEditTest = async (testId, newName) => {
     try {
-      const response = await fetch(`http://localhost/api/users/tests/edit/${testId}`, {
+      const response = await fetch(`http://localhost/api/tests/edit/${testId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -66,10 +65,6 @@ const InstructorCourseDetails = () => {
 
       if (response.ok) {
         setTests(tests.map(test => (test.id === testId ? { ...test, name: newName } : test)));
-        // Update the selected test name if it is currently being viewed
-        if (selectedTest && selectedTest.id === testId) {
-          setSelectedTest({ ...selectedTest, name: newName });
-        }
       } else {
         console.error('Error editing test:', response.status, response.statusText);
       }

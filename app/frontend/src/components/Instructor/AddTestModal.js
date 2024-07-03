@@ -34,7 +34,7 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
 
   const handleSaveTest = async () => {
     const newTest = { name: examName, questions, courseId };
-    console.log("New Test:",newTest)
+    console.log("New Test:", newTest)
     
     try {
       const response = await fetch('http://localhost/api/users/tests/add', { // Correct URL here
