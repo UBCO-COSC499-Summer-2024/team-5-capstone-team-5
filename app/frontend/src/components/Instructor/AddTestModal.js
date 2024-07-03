@@ -42,7 +42,7 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
       courseId,
     };
     console.log("New Test:", newTest);
-    
+
     try {
       const response = await fetch('http://localhost/api/users/tests/add', {
         method: 'POST',

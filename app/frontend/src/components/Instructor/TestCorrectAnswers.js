@@ -52,13 +52,13 @@ const TestCorrectAnswers = ({ test, onBack }) => {
             <tbody>
               {questions.length > 0 ? (
                 questions.map((q, index) => (
-                  <tr key={index} className="rounded-lg">
+                  <tr key={`question-${index}`} className="rounded-lg">
                     <td className="p-4">Question {index + 1}</td>
                     <td className="p-4">
                       <div className="flex space-x-2">
-                        {q.correct_answer.map(answer => (
+                        {q.correct_answer.map((answer, answerIndex) => (
                           <div
-                            key={answer}
+                            key={`answer-${index}-${answerIndex}`}
                             className="w-8 h-8 flex items-center justify-center rounded-full border bg-green-500 text-white"
                           >
                             {answer}
