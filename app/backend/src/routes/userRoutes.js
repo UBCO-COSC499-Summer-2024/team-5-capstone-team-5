@@ -2,10 +2,11 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 
 const router = express.Router();
+const upload = multer();
 
 // URL = localhost/api/users/courses/student_id
 router.get('/courses/:id', async (req, res) => {
@@ -27,10 +28,19 @@ router.get('/tests/:id', async (req, res) => {
     }
 });
 
-// URL = localhost/api/users/questions/exam_id
-router.get('/questions/:examId', async (req, res) => {
+router.get('/questions/answers/:examId', async (req, res) => {
     try {
-        const questions = await getQuestionData(req.params.examId);
+        const questions = await getExamAnswers(req.params.examId);
+        res.status(200).json(questions);
+    } catch(error) {
+        res.status(404).json({ error: error.message });
+    }
+});
+
+// URL = localhost/api/users/questions/exam_id
+router.get('/questions/:eid&:uid', async (req, res) => {
+    try {
+        const questions = await getQuestionData(req.params.uid, req.params.eid);
         res.status(200).json(questions);
     } catch(error) {
         res.status(404).json({ error: error.message });

@@ -8,7 +8,7 @@ const TestCorrectAnswers = ({ test, onBack }) => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch(`http://localhost/api/users/questions/${test.id}`, {
+        const response = await fetch(`http://localhost/api/users/questions/answers/${test.id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
