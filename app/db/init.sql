@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS questions (
 CREATE TABLE IF NOT EXISTS responses (
     question_id integer REFERENCES questions(id) ON DELETE CASCADE,
     user_id integer REFERENCES users(id) ON DELETE CASCADE,
+    question_num integer,
     response integer[],
     grade float,
     PRIMARY KEY (question_id, user_id)
@@ -381,22 +382,22 @@ INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_nu
 
 -- Responses Sample Data
 -- Responses for questions on Midterm 1
-INSERT INTO responses (question_id, user_id, response) VALUES (1, 12345678, '{1}'); --Responded with 1, should grade correct.
-INSERT INTO responses (question_id, user_id, response) VALUES (2, 12345678, '{3}');
-INSERT INTO responses (question_id, user_id, response) VALUES (3, 12345678, '{1}');
-INSERT INTO responses (question_id, user_id, response) VALUES (4, 12345678, '{1, 2}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (1, 12345678, 1, '{1}'); --Responded with 1, should grade correct.
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (2, 12345678, 2, '{3}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (3, 12345678, 3, '{1}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (4, 12345678, 4, '{1, 2}');
 -- Responses for questions on Evaluation Quiz
-INSERT INTO responses (question_id, user_id, response) VALUES (5, 12345678, '{5}');
-INSERT INTO responses (question_id, user_id, response) VALUES (6, 12345678, '{2}');
-INSERT INTO responses (question_id, user_id, response) VALUES (7, 12345678, '{4}');
-INSERT INTO responses (question_id, user_id, response) VALUES (8, 12345678, '{1, 5}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (5, 12345678, 1, '{5}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (6, 12345678, 2, '{2}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (7, 12345678, 3, '{4}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (8, 12345678, 4, '{1, 5}');
 -- Responses for questions on Midterm 2
-INSERT INTO responses (question_id, user_id, response) VALUES (9, 12345678, '{2}');
-INSERT INTO responses (question_id, user_id, response) VALUES (10, 12345678, '{5}');
-INSERT INTO responses (question_id, user_id, response) VALUES (11, 12345678, '{4}');
-INSERT INTO responses (question_id, user_id, response) VALUES (12, 12345678, '{2, 4}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (9, 12345678, 1, '{2}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (10, 12345678, 2, '{5}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (11, 12345678, 3, '{4}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (12, 12345678, 4, '{2, 4}');
 -- Responses for questions on Final Exam
-INSERT INTO responses (question_id, user_id, response) VALUES (13, 12345678, '{1}');
-INSERT INTO responses (question_id, user_id, response) VALUES (14, 12345678, '{3}');
-INSERT INTO responses (question_id, user_id, response) VALUES (15, 12345678, '{1}');
-INSERT INTO responses (question_id, user_id, response) VALUES (16, 12345678, '{1, 2}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (13, 12345678, 1, '{1}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (14, 12345678, 2, '{3}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (15, 12345678, 3, '{1}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (16, 12345678, 4,'{1, 2}');

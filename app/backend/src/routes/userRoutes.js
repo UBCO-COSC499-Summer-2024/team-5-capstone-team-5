@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId, addExam, addQuestion, addResponse, addAnswerKey } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId, addExam, addQuestion, addResponse, addAnswerKey, addStudentAnswers } = require('../controllers/userController');
 
 const router = express.Router();
   
@@ -116,8 +116,9 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         }
     });
     const jsonData = await response.json();
-    const data = jsonData.data
-    addResponse(data);
+    const testid = req.headers['testid'];
+    const data = jsonData.data;
+    addStudentAnswers(data, testid);
     res.status(200).json({message: "This will always pass"});
   });
 

@@ -108,39 +108,68 @@ const addExam = async (course_id, name, date_marked, visibility) => {
     };
 };
 
-const addQuestion = async (exam_id, num_options, correct_answer, weight) => {
+const addQuestion = async (exam_id, num_options, correct_answer, weight, question_num) => {
     try {
         await db.none(
-            'INSERT INTO questions (exam_id, num_options, correct_answer, weight) VALUES ($1, $2, $3, $4)', [exam_id, num_options, correct_answer, weight]
+            'INSERT INTO questions (exam_id, num_options, correct_answer, weight, question_num) VALUES ($1, $2, $3, $4, $5)', [exam_id, num_options, correct_answer, weight, question_num]
         );
     } catch(error) {
         console.error(`Error adding question`);
     };
 };
 
-const addResponse = async (jsonData) => {
-    for(const key in jsonData) {
-        if(jsonData.hasOwnProperty(key)) {
-            const student = jsonData[key];
-            console.log(student);
-            student.answers.forEach((answer) => {
-                console.log(answer);
-            })
+const addResponse = async (exam_id, question_num, user_id, response) => {
+    try {
+        questionId = await db.oneOrNone(
+            'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [exam_id, question_num]
+        );
+        if(questionId.id) {
+            await db.none(
+                'INSERT INTO responses (question_id, user_id, response) VALUES ($1, $2, $3)', [questionId.id, user_id, response] 
+            )
+        } else {
+
         }
+    } catch(error) {
+        console.error('Error adding response')
     }
 }
 
-const addAnswerKey = async (jsonData, exam_id) => {
+const addStudentAnswers = async (jsonData, examId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
-            answerKey.answers.forEach((answer) => {
-                console.log("Answer:",answer)
-                const num_options = answer.length;
-                const weight = answer.length;
-                addQuestion(exam_id, num_options, answer.LetterPos, weight);
+            const studentId = answerKey.stnum
+            const responses = answerKey.answers[0]
+            const noResponse = answerKey.answers[1];
+            const multiResponse = answerKey.answers[2];
+            responses.forEach((response) => {
+                console.log(response.LetterPos);
+                const recordedAnswer = Number(response.LetterPos);
+                const questionNum = Number(response.Question)
+                console.log(response);
+                addResponse(examId, questionNum, studentId, [recordedAnswer])
             })
-        }
+        };
+    }
+}
+
+
+const addAnswerKey = async (jsonData, examId) => {
+    for (const key in jsonData) {
+        if(jsonData.hasOwnProperty(key)) {
+            const answerKey = jsonData[key];
+            const responses = answerKey.answers[0]
+            const noResponse = answerKey.answers[1];
+            const multiResponse = answerKey.answers[2];
+            responses.forEach((response) => {
+                console.log(response.LetterPos);
+                const correctAnswer = Number(response.LetterPos);
+                const questionNum = Number(response.Question)
+                console.log(response);
+                addQuestion(examId, 5, [correctAnswer], 1, questionNum);
+            })
+        };
     }
 }
 
@@ -159,6 +188,7 @@ module.exports = {
     register,
     addResponse,
     addAnswerKey,
+    addStudentAnswers
     
     
 }
