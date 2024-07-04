@@ -37,6 +37,49 @@ const InstructorCourseDetails = () => {
     setTests([...tests, newTest]);
   };
 
+  const handleDeleteTest = async (testId) => {
+    try {
+      await fetch(`http://localhost/api/users/tests/delete/${testId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include token if needed
+        },
+      });
+      setTests(tests.filter(test => test.id !== testId));
+      setSelectedTest(null); // Ensure the deleted test is no longer selected
+    } catch (error) {
+      console.error('Error deleting test:', error);
+    }
+  };
+
+  const handleEditTest = async (testId, newName) => {
+    try {
+      const response = await fetch(`http://localhost/api/users/tests/edit/${testId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include token if needed
+        },
+        body: JSON.stringify({ name: newName }),
+      });
+
+      if (response.ok) {
+        const updatedTests = tests.map(test => (test.id === testId ? { ...test, name: newName } : test));
+        setTests(updatedTests);
+
+        // Update the selected test with the new name
+        if (selectedTest && selectedTest.id === testId) {
+          setSelectedTest({ ...selectedTest, name: newName });
+        }
+      } else {
+        console.error('Error editing test:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error editing test:', error);
+    }
+  };
+
   return (
     <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       <div className="flex justify-between mb-4">
@@ -53,6 +96,8 @@ const InstructorCourseDetails = () => {
               <TestDescription
                 test={selectedTest}
                 onBack={() => setSelectedTest(null)}
+                onDeleteTest={handleDeleteTest}
+                onEditTest={handleEditTest}
               />
             ) : (
               <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>

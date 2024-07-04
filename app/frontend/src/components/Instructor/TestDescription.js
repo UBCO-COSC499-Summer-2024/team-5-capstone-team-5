@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useTheme } from '../../App';
-import TestCorrectAnswers from './TestCorrectAnswers'; // Import the new component
+import TestCorrectAnswers from './TestCorrectAnswers';
 
-const TestDescription = ({ test, onBack }) => {
+const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(false);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newName, setNewName] = useState(test.name || '');
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -49,6 +51,11 @@ const TestDescription = ({ test, onBack }) => {
     setShowCorrectAnswers(false);
   };
 
+  const handleEditTestName = async () => {
+    await onEditTest(test.id, newName);
+    setIsEditing(false);
+  };
+
   if (!test) return null;
 
   return (
@@ -65,7 +72,24 @@ const TestDescription = ({ test, onBack }) => {
             Back
           </button>
           <div className={`rounded-lg p-6 shadow-lg  ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-            <h2 className="text-2xl font-bold mb-4">{test.name}</h2>
+            {isEditing ? (
+              <div>
+                <input
+                  type="text"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  className={`p-2 border rounded ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-500' : 'bg-gray-200 text-black border-gray-300'}`}
+                />
+                <button
+                  onClick={handleEditTestName}
+                  className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
+                >
+                  Save
+                </button>
+              </div>
+            ) : (
+              <h2 className="text-2xl font-bold mb-4">{test.name}</h2>
+            )}
             {test.date_marked && <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>}
             {test.mean_score && <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>}
             <div className="mb-4">
@@ -113,6 +137,18 @@ const TestDescription = ({ test, onBack }) => {
               className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
             >
               Correct Answers
+            </button>
+            <button
+              onClick={() => setIsEditing(true)}
+              className={`bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
+            >
+              Edit Test
+            </button>
+            <button
+              onClick={() => onDeleteTest(test.id)}
+              className={`bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
+            >
+              Delete Test
             </button>
           </div>
         </>

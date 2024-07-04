@@ -2,13 +2,12 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId, addExam, addQuestion, addResponse, addAnswerKey, addStudentAnswers } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers } = require('../controllers/userController');
+const { addTest } = require('../controllers/testController'); // Import the testController
 
 const router = express.Router();
-  
-const upload = multer();
 
-// url = localhost/api/users/courses/student_id
+// URL = localhost/api/users/courses/student_id
 router.get('/courses/:id', async (req, res) => {
     try {
         const courses = await getCoursesByUserId(req.params.id);
@@ -17,7 +16,8 @@ router.get('/courses/:id', async (req, res) => {
         res.status(404).json({ error: error.message });
     }
 });
-// url = localhost/api/users/tests/course_id
+
+// URL = localhost/api/users/tests/course_id
 router.get('/tests/:id', async (req, res) => {
     try {
         const tests = await getTestsByCourseId(req.params.id);
@@ -27,24 +27,17 @@ router.get('/tests/:id', async (req, res) => {
     }
 });
 
-router.get('/questions/:eid&:uid', async (req, res) => {
+// URL = localhost/api/users/questions/exam_id
+router.get('/questions/:examId', async (req, res) => {
     try {
-        const questions = await getQuestionData(req.params.uid, req.params.eid);
+        const questions = await getQuestionData(req.params.examId);
         res.status(200).json(questions);
     } catch(error) {
         res.status(404).json({ error: error.message });
     }
 });
 
-router.get('/responses/:eid&:uid', async (req, res) => {
-    try {
-        const responses = await getQuestionData(req.params.uid, req.params.eid);
-        res.status(200).json(responses);
-    } catch(error) {
-        res.status(404).json({ error: error.message });
-    }
-});
-
+// URL = localhost/api/users/tests/recent/student_id
 router.get('/tests/recent/:id', async (req, res) => {
     const id = req.params.id;
     if(id) {
@@ -73,26 +66,26 @@ router.post('/courses/add', async (req, res) => {
     }
 });
 
-router.post('/tests/add', async (req, res) => {
-    const test = req.body;
-    if(test) {
-        try {
-            const name = test.name;
-            const questions = test.questions;
-            const courseId = test.courseId;
-            const response = await addExam(courseId, name);
-            const id = response.id
-            questions.forEach(async (question) => {
-                answerLength = question.correctAnswer.length;
-                await addQuestion(id, answerLength, question.correct_anwers, answerLength);
-            });
-            res.status(200).json({message: "Test added successfully"})
+router.post('/tests/add', addTest); // Use testController for adding tests
 
-        } catch(error) {
-            res.status(404).json({error: error.message});
-        }
-    } else {
-        res.status(404).json({error: "Missing information for adding a test"})
+router.delete('/tests/delete/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await deleteTest(id);
+        res.status(200).json({ message: `Test with id ${id} deleted successfully` });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.put('/tests/edit/:id', async (req, res) => {
+    const { id } = req.params;
+    const { newName } = req.body;
+    try {
+        await editTest(id, newName);
+        res.status(200).json({ message: `Test with id ${id} edited successfully` });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -103,7 +96,42 @@ router.get('/courses/students/:id', async (req, res) => {
     } catch(error) {
         res.status(404).json({error: error.message});
     }
-})
+});
+
+router.post('/tests/upload', upload.single('file'), async (req, res) => {
+    console.log(req.file.buffer)
+    const response = await fetch('http://python-cv:8000/upload', {
+        method: 'POST',
+        body: req.file.buffer,
+        headers: {
+            'Content-Type': 'application/json',
+            'testid': req.headers['testid']
+        }
+    });
+    const jsonData = await response.json();
+    const testid = req.headers['testid'];
+    const data = jsonData.data;
+    addStudentAnswers(data, testid);
+    res.status(200).json({message: "This will always pass"});
+  });
+
+  router.post('/tests/answers', upload.single('file'), async (req, res) => {
+    console.log(req.file.buffer)
+    const response = await fetch('http://python-cv:8000/upload', {
+        method: 'POST',
+        body: req.file.buffer,
+        headers: {
+            'Content-Type': 'application/json',
+            'testid': req.headers['testid']
+        }
+    });
+    const jsonData = await response.json();
+    const testid = req.headers['testid'];
+    console.log("Testid", testid);
+    const data = jsonData.data;
+    addAnswerKey(data, testid);
+    res.status(200).json({message: "This will always pass"});
+  });
 
 router.post('/tests/upload', upload.single('file'), async (req, res) => {
     console.log(req.file.buffer)

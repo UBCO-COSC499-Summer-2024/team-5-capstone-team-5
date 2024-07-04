@@ -33,14 +33,14 @@ const getRecentExamsByUserId = async (id) => {
     }
 }
 
-const getQuestionData = async (userId, examId) => {
+const getQuestionData = async (examId) => {
     try {
         const response = await db.manyOrNone(
             'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
         );
         return response;
     } catch(error) {
-        console.log('Error getting responses for exam',examId,'and user',userId);
+        console.log('Error getting questions for exam', examId, error);
     }
 }
 
@@ -97,10 +97,10 @@ const register = async (userId, courseId) => {
     }
 }
 
-const addExam = async (course_id, name, date_marked, visibility) => {
+const addExam = async (course_id, name) => {
     try {
         const id = await db.any(
-            'INSERT INTO exams (course_id, name, date_marked, visibility) VALUES ($1, $2, $3, $4) RETURNING id', [course_id, name, date_marked, visibility]
+            'INSERT INTO exams (course_id, name) VALUES ($1, $2) RETURNING id', [course_id, name]
         );
         return id;
     } catch(error) {
@@ -173,7 +173,23 @@ const addAnswerKey = async (jsonData, examId) => {
     }
 }
 
+const deleteTest = async (testId) => {
+    try {
+        await db.none('DELETE FROM exams WHERE id = $1', [testId]);
+    } catch (error) {
+        console.error(`Error deleting test with id ${testId}:`, error);
+        throw error;
+    }
+};
 
+const editTest = async (testId, newName) => {
+    try {
+        await db.none('UPDATE exams SET name = $1 WHERE id = $2', [newName, testId]);
+    } catch (error) {
+        console.error(`Error editing test with id ${testId}:`, error);
+        throw error;
+    }
+};
 
 module.exports = {
     getCoursesByUserId,
@@ -186,9 +202,6 @@ module.exports = {
     addExam,
     addQuestion,
     register,
-    addResponse,
-    addAnswerKey,
-    addStudentAnswers
     
     
 }

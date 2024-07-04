@@ -1,22 +1,21 @@
-const { db } = require('../database'); // Adjust the path to your database connection
+const { db } = require('../database');
 
 const addTest = async (req, res) => {
   const { name, questions, courseId } = req.body;
 
   try {
-    // Insert the new test
-    const result = await db.none(
+    const result = await db.one(
       'INSERT INTO exams (name, course_id) VALUES ($1, $2) RETURNING id',
       [name, courseId]
     );
-    const examId = result.rows[0].id;
+    const examId = result.id;
 
-    // Insert each question
     for (const question of questions) {
-      const { correctAnswer } = question;
+      const { correctAnswer, num_options, weight } = question;
+      const formattedCorrectAnswer = correctAnswer.length ? correctAnswer.map(Number) : [];
       await db.none(
-        'INSERT INTO questions (exam_id, correct_answer) VALUES ($1, $2)',
-        [examId, correctAnswer]
+        'INSERT INTO questions (exam_id, correct_answer, num_options, weight) VALUES ($1, $2::integer[], $3, $4)',
+        [examId, formattedCorrectAnswer, num_options || null, weight || null]
       );
     }
 
