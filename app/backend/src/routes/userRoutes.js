@@ -60,16 +60,16 @@ router.get('/tests/recent/:id', async (req, res) => {
 });
 
 router.post('/courses/add', async (req, res) => {
-    const { name, description, end_date, user_id, course_id } = req.body;
-    if(name && description && end_date && user_id && course_id) {
+    const { name, description, end_date, user_id } = req.body;
+    if(name && description && end_date && user_id) {
         try {
             const newCourse = await addCourse(user_id, name, description, end_date);
             res.status(200).json(newCourse);
         } catch(error) {
-            res.status(404).json({error: error.message});
+            res.status(400).json({error: error.message});
         }
     } else {
-        res.status(404).json({error: "Missing info for adding a course"});
+        res.status(400).json({error: "Missing info for adding a course"});
     }
 });
 
