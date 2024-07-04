@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS users;
 
 
 CREATE TABLE IF NOT EXISTS users (
-    id serial PRIMARY KEY,
+    id integer PRIMARY KEY,
     first_name text,
     last_name text,
     email text NOT NULL UNIQUE,
@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS exams (
 
 CREATE TABLE IF NOT EXISTS questions ( 
     id serial PRIMARY KEY,
+    question_num integer,
     exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
     num_options integer,
     correct_answer integer[],
@@ -100,15 +101,36 @@ CREATE TABLE IF NOT EXISTS responses (
 -- Partially AI-Generated Sample Data
 
 -- User Sample Data
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Nic', 'Kouwen', 'nk@email.com', 'ilovecosc', 1);
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Jane', 'Doe', 'janedoe@email.com', 'password123', 1);
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('John', 'Smith', 'johnsmith@email.com', 'securepass456', 1);
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Alice', 'Johnson', 'alicejohnson@email.com', 'mypassword789', 1);
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Bob', 'Brown', 'bobbrown@email.com', 'qwerty987', 1);
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Jay', 'Bhullar', 'jb@email.com', 'ilovecapstone', 2);
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Nathan', 'Jacinto', 'nj@email.com', 'scottsthebest', 2);
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Jack', 'Mathisen', 'jm@email.com', 'ilovecosc499', 2);
-INSERT INTO users (first_name, last_name, email, password, role) VALUES ('Oakley', 'Pankratz', 'op@email.com', 'math>cosc', 2);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (12345678, 'Nic', 'Kouwen', 'nk@email.com', 'ilovecosc', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (23456789, 'Jane', 'Doe', 'janedoe@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (34567890, 'John', 'Smith', 'johnsmith@email.com', 'securepass456', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (45678901, 'Alice', 'Johnson', 'alicejohnson@email.com', 'mypassword789', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (56789012, 'Bob', 'Brown', 'bobbrown@email.com', 'qwerty987', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (67890123, 'Jay', 'Bhullar', 'jb@email.com', 'ilovecapstone', 2);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (78901234, 'Nathan', 'Jacinto', 'nj@email.com', 'scottsthebest', 2);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (89012345, 'Jack', 'Mathisen', 'jm@email.com', 'ilovecosc499', 2);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (90123456, 'Oakley', 'Pankratz', 'op@email.com', 'math>cosc', 2);
+
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (28102810, 'Alexander', 'Grischuk', 'alexander.grischuk@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000069, 'Mia', 'Khalifa', 'mia.khalifa@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (22211111, 'Bob', 'Liu', 'bob.liu@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000013, 'Tony', 'Stark', 'tony.stark@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000002, 'Nathan', 'Jacinto', 'nathan.jacinto1@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000004, 'Scott', 'Fazackerly', 'scott.fazackerly@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (18897231, 'Arthur', 'Duncan', 'arthur.duncan@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (22111111, 'Paul', 'Smith', 'paul.smith@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (69696969, 'Jonny', 'Sins', 'jonny.sins@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000012, 'Suyash', 'Shingare', 'suyash.shingare@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000011, 'Chinny', 'Wong', 'chinny.wong@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000010, 'Nic', 'Kouwenhov', 'nic.kouwenhov@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000009, 'Fran', 'Perellak', 'fran.perellak@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000005, 'Kevin', 'Wang', 'kevin.wang@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000022, 'Nathan', 'Jacinto', 'nathan.jacinto2@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000008, 'Jay', 'Bhullar', 'jay.bhullar@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000007, 'Jack', 'Mathisen', 'jack.mathisen@email.com', 'password123', 1);
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000006, 'Mqhamad', 'Khejezade', 'mqhamad.khejezade@email.com', 'password123', 1);
+
+
 
 -- Course Sample Data
 INSERT INTO courses (name, description, end_date) VALUES ('MATH 100-001', 'Differential Calculus with Applications to Physical Sciences and Engineering', '2025-01-01');
@@ -123,48 +145,162 @@ INSERT INTO courses (name, description, end_date) VALUES ('ENGL 101-001', 'Engli
 
 -- Registration Sample Data
 -- Users 1-5 registered in 5 courses each
-INSERT INTO registration (user_id, course_id) VALUES (1, 1);
-INSERT INTO registration (user_id, course_id) VALUES (1, 2);
-INSERT INTO registration (user_id, course_id) VALUES (1, 3);
-INSERT INTO registration (user_id, course_id) VALUES (1, 4);
-INSERT INTO registration (user_id, course_id) VALUES (1, 5);
+INSERT INTO registration (user_id, course_id) VALUES (12345678, 1);
+INSERT INTO registration (user_id, course_id) VALUES (12345678, 2);
+INSERT INTO registration (user_id, course_id) VALUES (12345678, 3);
+INSERT INTO registration (user_id, course_id) VALUES (12345678, 4);
+INSERT INTO registration (user_id, course_id) VALUES (12345678, 5);
 
-INSERT INTO registration (user_id, course_id) VALUES (2, 1);
-INSERT INTO registration (user_id, course_id) VALUES (2, 6);
-INSERT INTO registration (user_id, course_id) VALUES (2, 7);
-INSERT INTO registration (user_id, course_id) VALUES (2, 8);
-INSERT INTO registration (user_id, course_id) VALUES (2, 9);
+INSERT INTO registration (user_id, course_id) VALUES (23456789, 1);
+INSERT INTO registration (user_id, course_id) VALUES (23456789, 6);
+INSERT INTO registration (user_id, course_id) VALUES (23456789, 7);
+INSERT INTO registration (user_id, course_id) VALUES (23456789, 8);
+INSERT INTO registration (user_id, course_id) VALUES (23456789, 9);
 
-INSERT INTO registration (user_id, course_id) VALUES (3, 2);
-INSERT INTO registration (user_id, course_id) VALUES (3, 3);
-INSERT INTO registration (user_id, course_id) VALUES (3, 4);
-INSERT INTO registration (user_id, course_id) VALUES (3, 5);
-INSERT INTO registration (user_id, course_id) VALUES (3, 6);
+INSERT INTO registration (user_id, course_id) VALUES (34567890, 2);
+INSERT INTO registration (user_id, course_id) VALUES (34567890, 3);
+INSERT INTO registration (user_id, course_id) VALUES (34567890, 4);
+INSERT INTO registration (user_id, course_id) VALUES (34567890, 5);
+INSERT INTO registration (user_id, course_id) VALUES (34567890, 6);
 
-INSERT INTO registration (user_id, course_id) VALUES (4, 1);
-INSERT INTO registration (user_id, course_id) VALUES (4, 2);
-INSERT INTO registration (user_id, course_id) VALUES (4, 7);
-INSERT INTO registration (user_id, course_id) VALUES (4, 8);
-INSERT INTO registration (user_id, course_id) VALUES (4, 9);
+INSERT INTO registration (user_id, course_id) VALUES (45678901, 1);
+INSERT INTO registration (user_id, course_id) VALUES (45678901, 2);
+INSERT INTO registration (user_id, course_id) VALUES (45678901, 7);
+INSERT INTO registration (user_id, course_id) VALUES (45678901, 8);
+INSERT INTO registration (user_id, course_id) VALUES (45678901, 9);
 
-INSERT INTO registration (user_id, course_id) VALUES (5, 3);
-INSERT INTO registration (user_id, course_id) VALUES (5, 4);
-INSERT INTO registration (user_id, course_id) VALUES (5, 5);
-INSERT INTO registration (user_id, course_id) VALUES (5, 6);
-INSERT INTO registration (user_id, course_id) VALUES (5, 7);
+INSERT INTO registration (user_id, course_id) VALUES (56789012, 3);
+INSERT INTO registration (user_id, course_id) VALUES (56789012, 4);
+INSERT INTO registration (user_id, course_id) VALUES (56789012, 5);
+INSERT INTO registration (user_id, course_id) VALUES (56789012, 6);
+INSERT INTO registration (user_id, course_id) VALUES (56789012, 7);
 
--- Users 6-9 included in each course
-INSERT INTO registration (user_id, course_id) VALUES (6, 1);
-INSERT INTO registration (user_id, course_id) VALUES (7, 2);
-INSERT INTO registration (user_id, course_id) VALUES (8, 3);
-INSERT INTO registration (user_id, course_id) VALUES (9, 4);
+-- Registration for students
+INSERT INTO registration (user_id, course_id) VALUES (28102810, 1);
+INSERT INTO registration (user_id, course_id) VALUES (28102810, 3);
+INSERT INTO registration (user_id, course_id) VALUES (28102810, 5);
+INSERT INTO registration (user_id, course_id) VALUES (28102810, 7);
+INSERT INTO registration (user_id, course_id) VALUES (28102810, 9);
 
-INSERT INTO registration (user_id, course_id) VALUES (6, 5);
-INSERT INTO registration (user_id, course_id) VALUES (7, 6);
-INSERT INTO registration (user_id, course_id) VALUES (8, 7);
-INSERT INTO registration (user_id, course_id) VALUES (9, 8);
+INSERT INTO registration (user_id, course_id) VALUES (00000069, 2);
+INSERT INTO registration (user_id, course_id) VALUES (00000069, 4);
+INSERT INTO registration (user_id, course_id) VALUES (00000069, 6);
+INSERT INTO registration (user_id, course_id) VALUES (00000069, 8);
+INSERT INTO registration (user_id, course_id) VALUES (00000069, 1);
 
-INSERT INTO registration (user_id, course_id) VALUES (6, 9);
+INSERT INTO registration (user_id, course_id) VALUES (22211111, 3);
+INSERT INTO registration (user_id, course_id) VALUES (22211111, 5);
+INSERT INTO registration (user_id, course_id) VALUES (22211111, 7);
+INSERT INTO registration (user_id, course_id) VALUES (22211111, 9);
+INSERT INTO registration (user_id, course_id) VALUES (22211111, 2);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000013, 1);
+INSERT INTO registration (user_id, course_id) VALUES (00000013, 2);
+INSERT INTO registration (user_id, course_id) VALUES (00000013, 3);
+INSERT INTO registration (user_id, course_id) VALUES (00000013, 4);
+INSERT INTO registration (user_id, course_id) VALUES (00000013, 5);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000002, 6);
+INSERT INTO registration (user_id, course_id) VALUES (00000002, 7);
+INSERT INTO registration (user_id, course_id) VALUES (00000002, 8);
+INSERT INTO registration (user_id, course_id) VALUES (00000002, 9);
+INSERT INTO registration (user_id, course_id) VALUES (00000002, 1);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000004, 2);
+INSERT INTO registration (user_id, course_id) VALUES (00000004, 3);
+INSERT INTO registration (user_id, course_id) VALUES (00000004, 4);
+INSERT INTO registration (user_id, course_id) VALUES (00000004, 5);
+INSERT INTO registration (user_id, course_id) VALUES (00000004, 6);
+
+INSERT INTO registration (user_id, course_id) VALUES (18897231, 7);
+INSERT INTO registration (user_id, course_id) VALUES (18897231, 8);
+INSERT INTO registration (user_id, course_id) VALUES (18897231, 9);
+INSERT INTO registration (user_id, course_id) VALUES (18897231, 1);
+INSERT INTO registration (user_id, course_id) VALUES (18897231, 2);
+
+INSERT INTO registration (user_id, course_id) VALUES (22111111, 3);
+INSERT INTO registration (user_id, course_id) VALUES (22111111, 4);
+INSERT INTO registration (user_id, course_id) VALUES (22111111, 5);
+INSERT INTO registration (user_id, course_id) VALUES (22111111, 6);
+INSERT INTO registration (user_id, course_id) VALUES (22111111, 7);
+
+INSERT INTO registration (user_id, course_id) VALUES (69696969, 8);
+INSERT INTO registration (user_id, course_id) VALUES (69696969, 9);
+INSERT INTO registration (user_id, course_id) VALUES (69696969, 1);
+INSERT INTO registration (user_id, course_id) VALUES (69696969, 2);
+INSERT INTO registration (user_id, course_id) VALUES (69696969, 3);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000012, 4);
+INSERT INTO registration (user_id, course_id) VALUES (00000012, 5);
+INSERT INTO registration (user_id, course_id) VALUES (00000012, 6);
+INSERT INTO registration (user_id, course_id) VALUES (00000012, 7);
+INSERT INTO registration (user_id, course_id) VALUES (00000012, 8);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000011, 9);
+INSERT INTO registration (user_id, course_id) VALUES (00000011, 1);
+INSERT INTO registration (user_id, course_id) VALUES (00000011, 2);
+INSERT INTO registration (user_id, course_id) VALUES (00000011, 3);
+INSERT INTO registration (user_id, course_id) VALUES (00000011, 4);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000010, 5);
+INSERT INTO registration (user_id, course_id) VALUES (00000010, 6);
+INSERT INTO registration (user_id, course_id) VALUES (00000010, 7);
+INSERT INTO registration (user_id, course_id) VALUES (00000010, 8);
+INSERT INTO registration (user_id, course_id) VALUES (00000010, 9);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000009, 1);
+INSERT INTO registration (user_id, course_id) VALUES (00000009, 2);
+INSERT INTO registration (user_id, course_id) VALUES (00000009, 3);
+INSERT INTO registration (user_id, course_id) VALUES (00000009, 4);
+INSERT INTO registration (user_id, course_id) VALUES (00000009, 5);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000005, 6);
+INSERT INTO registration (user_id, course_id) VALUES (00000005, 7);
+INSERT INTO registration (user_id, course_id) VALUES (00000005, 8);
+INSERT INTO registration (user_id, course_id) VALUES (00000005, 9);
+INSERT INTO registration (user_id, course_id) VALUES (00000005, 1);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000008, 2);
+INSERT INTO registration (user_id, course_id) VALUES (00000008, 3);
+INSERT INTO registration (user_id, course_id) VALUES (00000008, 4);
+INSERT INTO registration (user_id, course_id) VALUES (00000008, 5);
+INSERT INTO registration (user_id, course_id) VALUES (00000008, 6);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000007, 7);
+INSERT INTO registration (user_id, course_id) VALUES (00000007, 8);
+INSERT INTO registration (user_id, course_id) VALUES (00000007, 9);
+INSERT INTO registration (user_id, course_id) VALUES (00000007, 1);
+INSERT INTO registration (user_id, course_id) VALUES (00000007, 2);
+
+INSERT INTO registration (user_id, course_id) VALUES (00000006, 3);
+INSERT INTO registration (user_id, course_id) VALUES (00000006, 4);
+INSERT INTO registration (user_id, course_id) VALUES (00000006, 5);
+INSERT INTO registration (user_id, course_id) VALUES (00000006, 6);
+INSERT INTO registration (user_id, course_id) VALUES (00000006, 7);
+
+-- Assign instructors to courses
+INSERT INTO registration (user_id, course_id) VALUES (67890123, 1);
+INSERT INTO registration (user_id, course_id) VALUES (78901234, 1);
+
+INSERT INTO registration (user_id, course_id) VALUES (89012345, 2);
+
+INSERT INTO registration (user_id, course_id) VALUES (78901234, 3);
+
+INSERT INTO registration (user_id, course_id) VALUES (67890123, 4);
+INSERT INTO registration (user_id, course_id) VALUES (89012345, 4);
+
+INSERT INTO registration (user_id, course_id) VALUES (78901234, 5);
+
+INSERT INTO registration (user_id, course_id) VALUES (89012345, 6);
+INSERT INTO registration (user_id, course_id) VALUES (67890123, 6);
+
+INSERT INTO registration (user_id, course_id) VALUES (67890123, 7);
+INSERT INTO registration (user_id, course_id) VALUES (78901234, 7);
+
+INSERT INTO registration (user_id, course_id) VALUES (78901234, 8);
+
+INSERT INTO registration (user_id, course_id) VALUES (67890123, 9);
+INSERT INTO registration (user_id, course_id) VALUES (89012345, 9);
 
 -- Exams Sample Data
 -- Course ID 1
@@ -223,44 +359,44 @@ INSERT INTO exams (name, date_marked, visibility, course_id) VALUES ('Final Exam
 
 -- Questions Sample Data
 -- Exam 1: MATH 100 Midterm 1
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{1}', 1, 1);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{3}', 1, 1);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{4}', 1, 1);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{1, 2}', 2, 1);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1}', 1, 1, 1);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3}', 1, 1, 2);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{4}', 1, 1, 3);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1, 2}', 2, 1, 4);
 -- Exam 2: MATH 100 Evaluation Quiz
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{5}', 1, 2);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{2}', 1, 2);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{4}', 1, 2);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{3, 5}', 2, 2);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{5}', 1, 2, 1);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2}', 1, 2, 2);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{4}', 1, 2, 3);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3, 5}', 2, 2, 4);
 -- Exam 3: MATH 100 Midterm 2
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{2}', 1, 3);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{5}', 1, 3);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{3}', 1, 3);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{2, 4}', 2, 3);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2}', 1, 3, 1);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{5}', 1, 3, 2);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3}', 1, 3, 3);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2, 4}', 2, 3, 4);
 -- Exam 4: MATH 100 Final Exam
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{1}', 1, 4);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{3}', 1, 4);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{4}', 1, 4);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id) VALUES (5, '{1, 2}', 2, 4);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1}', 1, 4, 1);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3}', 1, 4, 2);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{4}', 1, 4, 3);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1, 2}', 2, 4, 4);
 
 -- Responses Sample Data
 -- Responses for questions on Midterm 1
-INSERT INTO responses (question_id, user_id, response) VALUES (1, 1, '{1}'); --Responded with 1, should grade correct.
-INSERT INTO responses (question_id, user_id, response) VALUES (2, 1, '{3}');
-INSERT INTO responses (question_id, user_id, response) VALUES (3, 1, '{1}');
-INSERT INTO responses (question_id, user_id, response) VALUES (4, 1, '{1, 2}');
+INSERT INTO responses (question_id, user_id, response) VALUES (1, 12345678, '{1}'); --Responded with 1, should grade correct.
+INSERT INTO responses (question_id, user_id, response) VALUES (2, 12345678, '{3}');
+INSERT INTO responses (question_id, user_id, response) VALUES (3, 12345678, '{1}');
+INSERT INTO responses (question_id, user_id, response) VALUES (4, 12345678, '{1, 2}');
 -- Responses for questions on Evaluation Quiz
-INSERT INTO responses (question_id, user_id, response) VALUES (5, 1, '{5}');
-INSERT INTO responses (question_id, user_id, response) VALUES (6, 1, '{2}');
-INSERT INTO responses (question_id, user_id, response) VALUES (7, 1, '{4}');
-INSERT INTO responses (question_id, user_id, response) VALUES (8, 1, '{1, 5}');
+INSERT INTO responses (question_id, user_id, response) VALUES (5, 12345678, '{5}');
+INSERT INTO responses (question_id, user_id, response) VALUES (6, 12345678, '{2}');
+INSERT INTO responses (question_id, user_id, response) VALUES (7, 12345678, '{4}');
+INSERT INTO responses (question_id, user_id, response) VALUES (8, 12345678, '{1, 5}');
 -- Responses for questions on Midterm 2
-INSERT INTO responses (question_id, user_id, response) VALUES (9, 1, '{2}');
-INSERT INTO responses (question_id, user_id, response) VALUES (10, 1, '{5}');
-INSERT INTO responses (question_id, user_id, response) VALUES (11, 1, '{4}');
-INSERT INTO responses (question_id, user_id, response) VALUES (12, 1, '{2, 4}');
+INSERT INTO responses (question_id, user_id, response) VALUES (9, 12345678, '{2}');
+INSERT INTO responses (question_id, user_id, response) VALUES (10, 12345678, '{5}');
+INSERT INTO responses (question_id, user_id, response) VALUES (11, 12345678, '{4}');
+INSERT INTO responses (question_id, user_id, response) VALUES (12, 12345678, '{2, 4}');
 -- Responses for questions on Final Exam
-INSERT INTO responses (question_id, user_id, response) VALUES (13, 1, '{1}');
-INSERT INTO responses (question_id, user_id, response) VALUES (14, 1, '{3}');
-INSERT INTO responses (question_id, user_id, response) VALUES (15, 1, '{1}');
-INSERT INTO responses (question_id, user_id, response) VALUES (16, 1, '{1, 2}');
+INSERT INTO responses (question_id, user_id, response) VALUES (13, 12345678, '{1}');
+INSERT INTO responses (question_id, user_id, response) VALUES (14, 12345678, '{3}');
+INSERT INTO responses (question_id, user_id, response) VALUES (15, 12345678, '{1}');
+INSERT INTO responses (question_id, user_id, response) VALUES (16, 12345678, '{1, 2}');

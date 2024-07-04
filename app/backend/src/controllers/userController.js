@@ -118,6 +118,32 @@ const addQuestion = async (exam_id, num_options, correct_answer, weight) => {
     };
 };
 
+const addResponse = async (jsonData) => {
+    for(const key in jsonData) {
+        if(jsonData.hasOwnProperty(key)) {
+            const student = jsonData[key];
+            console.log(student);
+            student.answers.forEach((answer) => {
+                console.log(answer);
+            })
+        }
+    }
+}
+
+const addAnswerKey = async (jsonData, exam_id) => {
+    for (const key in jsonData) {
+        if(jsonData.hasOwnProperty(key)) {
+            const answerKey = jsonData[key];
+            answerKey.answers.forEach((answer) => {
+                console.log("Answer:",answer)
+                const num_options = answer.length;
+                const weight = answer.length;
+                addQuestion(exam_id, num_options, answer.LetterPos, weight);
+            })
+        }
+    }
+}
+
 
 
 module.exports = {
@@ -131,6 +157,8 @@ module.exports = {
     addExam,
     addQuestion,
     register,
+    addResponse,
+    addAnswerKey,
     
     
 }

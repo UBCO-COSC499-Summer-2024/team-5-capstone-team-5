@@ -16,7 +16,7 @@ const TestDescription = ({ test, onBack, courseId }) => {
         method: 'POST',
         body: formData,
         headers: {
-          'courseid': courseId
+          'testid': test.id
         }
       });
       console.log('File uploaded:', file);

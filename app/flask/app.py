@@ -30,27 +30,16 @@ def hello():
 @app.route('/upload', methods=['POST'])
 def upload_file():
     data = request.data
-    '''print(request.files)
-    if 'file' not in request.files:
-        print('file not found in request.files')
-        return jsonify({'error': 'No file part'}), 400
+    print(request.headers)
     
-    file = request.files['file']
-    if file.filename == '':
-        print('file name is null')
-        return jsonify({'error': 'No selected file'}), 400
-
-    if not file.filename.endswith('.pdf'):
-        return jsonify({'error': 'Invalid file type, only PDFs are allowed'}), 400
-    
-    if 'courseid' not in request.headers:
+    if 'testid' not in request.headers:
         print('id not in headers')
         return jsonify({'error': 'form data not found'}), 400
     
-    id = request.headers.get('courseid')
-    if id == '':
+    testid = request.headers.get('testid')
+    if testid == '':
         print('id null')
-        return jsonify({'error': 'id is null'}),400'''
+        return jsonify({'error': 'id is null'}),400
     
 
     try:
@@ -63,11 +52,11 @@ def upload_file():
         grades = {}
         fname = ""
         lname = ""
-        stnum = ""
+        stnum = int
         answers = []
         # Save each page as a PNG file
         for i, image in enumerate(images):
-            png_path = os.path.join(OUTPUT_FOLDER, f'test_{id}_page_{i + 1}.png')
+            png_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_page_{i + 1}.png')
             image.save(png_path, 'png')
 
             
@@ -79,12 +68,13 @@ def upload_file():
             if (i+1) % 2 == 0:
                 answers = process_bubbles(png_path)
                 grades[stnum] = {
-                "name": (fname + " " + lname),
+                "fname": fname,
+                "lname": lname,
                 "stnum": stnum,
                 "answers": answers
                 }
         
-
+        print(grades)
         return jsonify({'message': 'PDF converted to PNG successfully', 'data': grades}), 200
     except Exception as e:
         print('error: '+str(e))

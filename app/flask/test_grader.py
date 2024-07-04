@@ -195,8 +195,8 @@ def process_bubbles(file_path):
             
             
     #print(bubble_coords)
-    print("Questions with no answers:", no_answer_questions)
-    print("Questions with multiple answers:", multiple_answer_questions)
+    #print("Questions with no answers:", no_answer_questions)
+    #print("Questions with multiple answers:", multiple_answer_questions)
 
     #cv2.imshow("Marked", cropped_image)
     #cv2.waitKey(0)

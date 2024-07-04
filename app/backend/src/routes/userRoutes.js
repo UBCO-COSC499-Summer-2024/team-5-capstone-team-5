@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId, addExam, addQuestion } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, addCourse, getQuestionData, getStudentsByCourseId, addExam, addQuestion, addResponse, addAnswerKey } = require('../controllers/userController');
 
 const router = express.Router();
   
@@ -111,10 +111,32 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         method: 'POST',
         body: req.file.buffer,
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'testid': req.headers['testid']
         }
-    })
-    res.status(200).json({message: "This will always pass"})
+    });
+    const jsonData = await response.json();
+    const data = jsonData.data
+    addResponse(data);
+    res.status(200).json({message: "This will always pass"});
+  });
+
+  router.post('/tests/answers', upload.single('file'), async (req, res) => {
+    console.log(req.file.buffer)
+    const response = await fetch('http://python-cv:8000/upload', {
+        method: 'POST',
+        body: req.file.buffer,
+        headers: {
+            'Content-Type': 'application/json',
+            'testid': req.headers['testid']
+        }
+    });
+    const jsonData = await response.json();
+    const testid = req.headers['testid'];
+    console.log("Testid", testid);
+    const data = jsonData.data;
+    addAnswerKey(data, testid);
+    res.status(200).json({message: "This will always pass"});
   });
 
 module.exports = router;
