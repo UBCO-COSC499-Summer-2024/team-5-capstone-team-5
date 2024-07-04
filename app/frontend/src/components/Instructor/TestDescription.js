@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers'; // Import the new component
 
-const TestDescription = ({ test, onBack, courseId }) => {
+const TestDescription = ({ test, onBack }) => {
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(false);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
@@ -13,6 +13,23 @@ const TestDescription = ({ test, onBack, courseId }) => {
       const formData = new FormData();
       formData.append('file', file)
       const response = await fetch('http://localhost/api/users/tests/upload', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'testid': test.id
+        }
+      });
+      console.log('File uploaded:', file);
+      setFileUploaded(true);
+    }
+  };
+
+  const handleAnswerKeyUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file)
+      const response = await fetch('http://localhost/api/users/tests/answers', {
         method: 'POST',
         body: formData,
         headers: {
@@ -52,11 +69,31 @@ const TestDescription = ({ test, onBack, courseId }) => {
             {test.date_marked && <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>}
             {test.mean_score && <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>}
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Upload PDF File</label>
+              <label className="block text-sm font-medium mb-2">Upload Student Tests</label>
               <input
                 type="file"
                 accept="application/pdf"
                 onChange={handleFileUpload}
+                className={`block w-full text-sm text-gray-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:cursor-pointer
+                  ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
+                `}
+              />
+              {fileUploaded && (
+                <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
+                  File uploaded successfully!
+                </p>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2">Upload Answer Key</label>
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={handleAnswerKeyUpload}
                 className={`block w-full text-sm text-gray-500
                   file:mr-4 file:py-2 file:px-4
                   file:rounded-full file:border-0

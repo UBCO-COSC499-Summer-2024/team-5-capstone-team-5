@@ -36,7 +36,7 @@ const getRecentExamsByUserId = async (id) => {
 const getQuestionData = async (userId, examId) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT question_id, user_id, response, grade, num_options, correct_answer, weight, c.name AS course_name, e.name AS exam_name FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2', [examId, userId]
+            'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
         );
         return response;
     } catch(error) {
@@ -125,7 +125,7 @@ const addResponse = async (exam_id, question_num, user_id, response) => {
         );
         if(questionId.id) {
             await db.none(
-                'INSERT INTO responses (question_id, user_id, response) VALUES ($1, $2, $3)', [questionId.id, user_id, response] 
+                'INSERT INTO responses (question_id, user_id, response, question_num) VALUES ($1, $2, $3, $4) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response', [questionId.id, user_id, response, question_num] 
             )
         } else {
 
@@ -149,7 +149,7 @@ const addStudentAnswers = async (jsonData, examId) => {
                 const questionNum = Number(response.Question)
                 console.log(response);
                 addResponse(examId, questionNum, studentId, [recordedAnswer])
-            })
+            });
         };
     }
 }

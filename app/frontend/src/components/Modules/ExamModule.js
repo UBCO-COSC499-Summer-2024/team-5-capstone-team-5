@@ -20,6 +20,7 @@ const Exam = (props) => {
 
     return(
         <li key={props.key} className="bg-gray-700 m-4 p-2 rounded-lg">
+            <h2>Question: {question.question_num}</h2>
             <h2>Number of options: {question.num_options}</h2>
             <h2>Weight: {question.weight}</h2>
             <h2>Correct answers:</h2>

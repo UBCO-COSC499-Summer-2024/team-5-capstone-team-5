@@ -360,44 +360,46 @@ INSERT INTO exams (name, date_marked, visibility, course_id) VALUES ('Final Exam
 
 -- Questions Sample Data
 -- Exam 1: MATH 100 Midterm 1
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1}', 1, 1, 1);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3}', 1, 1, 2);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{4}', 1, 1, 3);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1, 2}', 2, 1, 4);
+/*
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{0}', 1, 1, 1);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2}', 1, 1, 2);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3}', 1, 1, 3);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{0, 1}', 2, 1, 4);
 -- Exam 2: MATH 100 Evaluation Quiz
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{5}', 1, 2, 1);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2}', 1, 2, 2);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{4}', 1, 2, 3);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3, 5}', 2, 2, 4);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{4}', 1, 2, 1);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1}', 1, 2, 2);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3}', 1, 2, 3);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2, 4}', 2, 2, 4);
 -- Exam 3: MATH 100 Midterm 2
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2}', 1, 3, 1);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{5}', 1, 3, 2);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3}', 1, 3, 3);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2, 4}', 2, 3, 4);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1}', 1, 3, 1);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{4}', 1, 3, 2);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2}', 1, 3, 3);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1, 3}', 2, 3, 4);
 -- Exam 4: MATH 100 Final Exam
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1}', 1, 4, 1);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3}', 1, 4, 2);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{4}', 1, 4, 3);
-INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{1, 2}', 2, 4, 4);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{0}', 1, 4, 1);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{2}', 1, 4, 2);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{3}', 1, 4, 3);
+INSERT INTO questions (num_options, correct_answer, weight, exam_id, question_num) VALUES (5, '{0, 1}', 2, 4, 4);
 
 -- Responses Sample Data
 -- Responses for questions on Midterm 1
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (1, 12345678, 1, '{1}'); --Responded with 1, should grade correct.
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (2, 12345678, 2, '{3}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (3, 12345678, 3, '{1}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (4, 12345678, 4, '{1, 2}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (1, 12345678, 1, '{0}'); --Responded with 1, should grade correct.
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (2, 12345678, 2, '{2}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (3, 12345678, 3, '{0}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (4, 12345678, 4, '{0, 3}');
 -- Responses for questions on Evaluation Quiz
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (5, 12345678, 1, '{5}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (6, 12345678, 2, '{2}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (7, 12345678, 3, '{4}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (8, 12345678, 4, '{1, 5}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (5, 12345678, 1, '{4}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (6, 12345678, 2, '{1}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (7, 12345678, 3, '{3}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (8, 12345678, 4, '{0, 4}');
 -- Responses for questions on Midterm 2
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (9, 12345678, 1, '{2}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (10, 12345678, 2, '{5}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (11, 12345678, 3, '{4}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (12, 12345678, 4, '{2, 4}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (9, 12345678, 1, '{1}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (10, 12345678, 2, '{4}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (11, 12345678, 3, '{3}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (12, 12345678, 4, '{1, 3}');
 -- Responses for questions on Final Exam
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (13, 12345678, 1, '{1}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (14, 12345678, 2, '{3}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (15, 12345678, 3, '{1}');
-INSERT INTO responses (question_id, user_id, question_num, response) VALUES (16, 12345678, 4,'{1, 2}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (13, 12345678, 1, '{0}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (14, 12345678, 2, '{2}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (15, 12345678, 3, '{0}');
+INSERT INTO responses (question_id, user_id, question_num, response) VALUES (16, 12345678, 4,'{0, 1}');
+*/

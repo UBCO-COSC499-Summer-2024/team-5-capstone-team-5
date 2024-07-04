@@ -53,7 +53,6 @@ const InstructorCourseDetails = () => {
               <TestDescription
                 test={selectedTest}
                 onBack={() => setSelectedTest(null)}
-                courseId = {courseId}
               />
             ) : (
               <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
