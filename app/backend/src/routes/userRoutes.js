@@ -190,9 +190,18 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         .on('data', (data) => results.push(data))
         .on('end', () => {
             console.log('Parsed CSV Data:', results); // This is the parsed CSV data
-
-            // You can now process the parsed CSV data as needed
-            res.send('File uploaded and parsed successfully.');
+            results.forEach((student) => {
+                const id = student.id;
+                const first = student.first_name;
+                const last = student.last_name;
+                const email = student.email;
+                const password = student.password || "changeme";
+                const courseId = req.headers["courseid"];
+                if(id && email) {
+                    addStudent(id, first, last, email, password, courseId);
+                };
+            });
+            res.status(200).send('File uploaded and parsed successfully.');
         });
     } catch (error) {
         console.error('Error:', error);

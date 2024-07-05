@@ -5,7 +5,7 @@ import { useTheme } from '../../App';
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
   const { theme } = useTheme();
-  const [fileUploaded, setFileUploaded] = useState(false);
+  const [fileUploaded, setFileUploaded] = useState(1);
 
   const fetchData = useCallback(async () => {
     const data = await getStudentData(props.courseId);
@@ -13,6 +13,7 @@ const StudentList = (props) => {
   }, [props.courseId]);
 
 const handleRosterUpload = async (event) => {
+  setFileUploaded(2)
   const file = event.target.files[0];
   if (file) {
     const formData = new FormData();
@@ -24,8 +25,11 @@ const handleRosterUpload = async (event) => {
         'courseid': props.courseId
       }
     });
-    console.log('File uploaded:', file);
-    setFileUploaded(true);
+    if(response.ok) {
+      console.log('File uploaded:', file);
+      setFileUploaded(3);
+      fetchData();
+    }
   }
 };
 
@@ -58,12 +62,15 @@ const handleRosterUpload = async (event) => {
             file:mr-4 file:py-2 file:px-4
             file:rounded-full file:border-0
             file:text-sm file:font-semibold
+            file:cursor-pointer
             ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
           `}
         />
         <p className={`mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
           Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
         </p>
+        {fileUploaded == 2 && <p className={theme === 'dark' ? "text-yellow-700" : 'text-yellow-400'}>Uploading File</p>}
+        {fileUploaded == 3 && <p className={theme === 'dark' ? "text-green-700" : 'text-green-400'}>File Uploaded!</p>}
 
         <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
           <thead>
