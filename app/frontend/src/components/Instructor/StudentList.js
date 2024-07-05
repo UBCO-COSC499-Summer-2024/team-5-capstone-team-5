@@ -5,11 +5,29 @@ import { useTheme } from '../../App';
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
   const { theme } = useTheme();
+  const [fileUploaded, setFileUploaded] = useState(false);
 
   const fetchData = useCallback(async () => {
     const data = await getStudentData(props.courseId);
     setStudents(data);
   }, [props.courseId]);
+
+const handleRosterUpload = async (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const formData = new FormData();
+    formData.append('file', file)
+    const response = await fetch('http://localhost/api/users/students/upload', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'courseid': props.courseId
+      }
+    });
+    console.log('File uploaded:', file);
+    setFileUploaded(true);
+  }
+};
 
   useEffect(() => {
     fetchData();
@@ -35,6 +53,7 @@ const StudentList = (props) => {
           type="file" 
           id="studentFile" 
           name="studentFile" 
+          onChange={handleRosterUpload}
           className={`block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
             file:rounded-full file:border-0

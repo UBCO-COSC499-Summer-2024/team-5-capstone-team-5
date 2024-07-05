@@ -4,6 +4,8 @@ const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
 const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
+const csv = require('csv-parser');
+const stream = require('stream');
 
 const router = express.Router();
 const upload = multer();
@@ -176,6 +178,10 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const data = jsonData.data;
     addAnswerKey(data, testid);
     res.status(200).json({message: "This will always pass"});
+  });
+
+  router.post('/students/upload', upload.single('file'), async (req, res) => {
+    console.log(req.file);
   });
 
 module.exports = router;

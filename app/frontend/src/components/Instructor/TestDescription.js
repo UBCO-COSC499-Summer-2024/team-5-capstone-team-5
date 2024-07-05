@@ -5,6 +5,7 @@ import TestCorrectAnswers from './TestCorrectAnswers';
 const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(false);
+  const [answerKeyUploaded, setAnswerKeyUploaded] = useState(false);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(test.name || '');
@@ -39,7 +40,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
         }
       });
       console.log('File uploaded:', file);
-      setFileUploaded(true);
+      setAnswerKeyUploaded(true);
     }
   };
 
@@ -126,7 +127,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
                   ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
                 `}
               />
-              {fileUploaded && (
+              {answerKeyUploaded && (
                 <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
                   File uploaded successfully!
                 </p>
