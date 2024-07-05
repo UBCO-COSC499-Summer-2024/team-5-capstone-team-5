@@ -37,26 +37,28 @@ const handleRosterUpload = async (event) => {
     fetchData();
   }, [props.courseId, fetchData]);
 
-  const instructor = students.find(student => student.role === 2);
+  const instructors = students.filter(student => student.role === 2);
   const studentList = students.filter(student => student.role === 1);
 
   return (
     <div className="p-4 flex flex-col min-h-screen">
       <div className="flex-grow">
-
-        {instructor && (
+        {instructors.length > 0 && (
           <div className={`p-4 mb-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>
-            <h3 className="text-xl font-semibold">Instructor: {instructor.first_name} {instructor.last_name}</h3>
+            <h3 className="text-xl font-semibold">Instructor(s):</h3>
+            {instructors.map((instructor, index) => (
+              <p key={index}>{instructor.first_name} {instructor.last_name}</p>
+            ))}
           </div>
         )}
 
         <label className="block text-sm font-medium mb-2">
           Upload Student Data
         </label>
-        <input 
-          type="file" 
-          id="studentFile" 
-          name="studentFile" 
+        <input
+          type="file"
+          id="studentFile"
+          name="studentFile"
           onChange={handleRosterUpload}
           className={`block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
@@ -84,7 +86,7 @@ const handleRosterUpload = async (event) => {
           <tbody>
             {studentList.map((student, index) => (
               <tr key={index} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
-                <td className="p-4">{String(student.id).padStart(8,"0")}</td>
+                <td className="p-4">{String(student.id).padStart(8, "0")}</td>
                 <td className="p-4">{student.last_name}</td>
                 <td className="p-4">{student.first_name}</td>
                 <td className="p-4">{student.role === 1 ? "Student" : "Instructor"}</td>
