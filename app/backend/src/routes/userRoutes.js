@@ -41,11 +41,13 @@ router.get('/questions/answers/:examId', async (req, res) => {
 
 // URL = localhost/api/users/questions/exam_id
 router.get('/questions/:eid&:uid', async (req, res) => {
-    try {
-        const questions = await getQuestionData(req.params.uid, req.params.eid);
-        res.status(200).json(questions);
-    } catch(error) {
-        res.status(404).json({ error: error.message });
+    if(req.params.uid && req.params.eid) {
+        try {
+            const questions = await getQuestionData(req.params.uid, req.params.eid);
+            res.status(200).json(questions);
+        } catch(error) {
+            res.status(404).json({ error: error.message });
+        }
     }
 });
 
@@ -71,7 +73,7 @@ router.post('/courses/add', async (req, res) => {
             const newCourse = await addCourse(user_id, name, description, end_date);
             res.status(200).json(newCourse);
         } catch(error) {
-            res.status(400).json({error: error.message});
+            res.status(500).json({error: error.message});
         }
     } else {
         res.status(400).json({error: "Missing info for adding a course"});
