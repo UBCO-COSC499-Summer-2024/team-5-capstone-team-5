@@ -4,43 +4,45 @@ import TestCorrectAnswers from './TestCorrectAnswers';
 
 const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const { theme } = useTheme();
-  const [fileUploaded, setFileUploaded] = useState(false);
-  const [answerKeyUploaded, setAnswerKeyUploaded] = useState(false);
+  const [fileUploaded, setFileUploaded] = useState(1); // 1 = nothing, 2 = loading, 3 = uploaded
+  const [answerKeyUploaded, setAnswerKeyUploaded] = useState(1);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(test.name || '');
 
   const handleFileUpload = async (event) => {
+    setFileUploaded(2);
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
-      formData.append('file', file)
-      const response = await fetch('http://localhost/api/users/tests/upload', {
+      formData.append('file', file);
+      await fetch('http://localhost/api/users/tests/upload', {
         method: 'POST',
         body: formData,
         headers: {
-          'testid': test.id
-        }
+          'testid': test.id,
+        },
       });
       console.log('File uploaded:', file);
-      setFileUploaded(true);
+      setFileUploaded(3);
     }
   };
 
   const handleAnswerKeyUpload = async (event) => {
+    setAnswerKeyUploaded(2);
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
-      formData.append('file', file)
-      const response = await fetch('http://localhost/api/users/tests/answers', {
+      formData.append('file', file);
+      await fetch('http://localhost/api/users/tests/answers', {
         method: 'POST',
         body: formData,
         headers: {
-          'testid': test.id
-        }
+          'testid': test.id,
+        },
       });
       console.log('File uploaded:', file);
-      setAnswerKeyUploaded(true);
+      setAnswerKeyUploaded(3);
     }
   };
 
@@ -72,7 +74,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
             </svg>
             Back
           </button>
-          <div className={`rounded-lg p-6 shadow-lg  ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+          <div className={`rounded-lg p-6 shadow-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
             {isEditing ? (
               <div>
                 <input
@@ -107,9 +109,14 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
                   ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
                 `}
               />
-              {fileUploaded && (
+              {fileUploaded === 3 && (
                 <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
                   File uploaded successfully!
+                </p>
+              )}
+              {fileUploaded === 2 && (
+                <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
+                  File upload in progress!
                 </p>
               )}
             </div>
@@ -127,9 +134,14 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
                   ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
                 `}
               />
-              {answerKeyUploaded && (
+              {answerKeyUploaded === 3 && (
                 <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
                   File uploaded successfully!
+                </p>
+              )}
+              {answerKeyUploaded === 2 && (
+                <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
+                  File upload in progress!
                 </p>
               )}
             </div>
@@ -141,13 +153,13 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
             </button>
             <button
               onClick={() => setIsEditing(true)}
-              className={`bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
+              className={`px-4 py-2 rounded transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-yellow-500' : 'bg-gray-300 text-black hover:bg-yellow-400'}`}
             >
               Edit Test
             </button>
             <button
               onClick={() => onDeleteTest(test.id)}
-              className={`bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
+              className={`px-4 py-2 rounded transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-red-500' : 'bg-gray-300 text-black hover:bg-red-400'}`}
             >
               Delete Test
             </button>
