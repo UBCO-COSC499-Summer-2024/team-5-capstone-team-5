@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../App';
+import Bubble from '../BubbleSheet/Bubbles';
 
 const TestCorrectAnswers = ({ test, onBack }) => {
   const { theme } = useTheme();
   const [questions, setQuestions] = useState([]);
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -52,18 +54,11 @@ const TestCorrectAnswers = ({ test, onBack }) => {
             <tbody>
               {questions.length > 0 ? (
                 questions.map((q, index) => (
-                  <tr key={`question-${index}`} className="rounded-lg">
-                    <td className="p-4">Question {index + 1}</td>
+                  <tr key={`question-${index}`} className={((index % 2 == 1) ? "" : "bg-white/10") + " rounded-lg"}>
+                    <td className="p-4">Question {q.question_num}</td>
                     <td className="p-4">
                       <div className="flex space-x-2">
-                        {q.correct_answer.map((answer, answerIndex) => (
-                          <div
-                            key={`answer-${index}-${answerIndex}`}
-                            className="w-8 h-8 flex items-center justify-center rounded-full border bg-green-500 text-white"
-                          >
-                            {answer}
-                          </div>
-                        ))}
+                        <h2>{'Correct Answer(s): '+ q.correct_answer.map(num => letters[num])}</h2>
                       </div>
                     </td>
                   </tr>

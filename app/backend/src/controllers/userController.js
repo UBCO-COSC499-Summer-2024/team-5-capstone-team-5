@@ -47,9 +47,8 @@ const getQuestionData = async (userId, examId) => {
 const getExamAnswers = async (examId) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT id AS question_id, correct_answer, weight FROM questions WHERE exam_id = $1', [examId]
+            'SELECT id AS question_id, correct_answer, weight, question_num, num_options FROM questions WHERE exam_id = $1 ORDER BY question_num', [examId]
         );
-        console.log(response)
         return response;
     } catch(error) {
         console.log('Error getting questions for exam', examId, error);
