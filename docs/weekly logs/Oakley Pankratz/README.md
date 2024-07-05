@@ -1,3 +1,65 @@
+## Friday (7/3 - 7/5) Oakley Pankratz
+Total Hours: 22
+
+![alt text](ClockifyLogJuly5.png)
+
+## Current Tasks
+ * Created a spreadsheet view so instructors can view student's grades.
+ * Write a query and route it to support the spreadheet for the instructor's view.
+ * Meeet with team mates to prepare for our MVP presentation.
+
+### Progress Update (since 6/19/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Add Dark Mode to the About and Contact Pages (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>Discussing with Teamates
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a Header for the dashboard view (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>Discussing with Teamates
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a cpreadsheet component to display grades (Issue #42)
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+        </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Write and route a query for the spreadhseet component
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+
+I felt very productive over the last couple days. My main task of creating a spreadsheet had me working on the database, backend, and front end. I feel like I have a much better understandning of our software after this cycle's work.
+
+### Next Cycle Goals:
+* The spreadhseet still requires a few edits.
+* Discuss the header component with teammates as it seems we already have one.
+* The list of tests in the instructor views needs to have the mean score for each test. I have yet to create an issue on gitHub for it, but I'm planning on doing making one this afternoon after a brief discussion with the team.
+
 ## Wednesday (6/28 - 7/3) Oakley Pankratz
 Total Hours: 6
 
