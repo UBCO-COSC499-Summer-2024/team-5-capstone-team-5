@@ -31,11 +31,13 @@ router.get('/tests/:id', async (req, res) => {
 });
 
 router.get('/questions/answers/:examId', async (req, res) => {
-    try {
-        const questions = await getExamAnswers(req.params.examId);
-        res.status(200).json(questions);
-    } catch(error) {
-        res.status(404).json({ error: error.message });
+    if(req.params.examId) {
+        try {
+            const questions = await getExamAnswers(req.params.examId);
+            res.status(200).json(questions);
+        } catch(error) {
+            res.status(404).json({ error: error.message });
+        }
     }
 });
 
@@ -94,9 +96,10 @@ router.delete('/tests/delete/:id', async (req, res) => {
 
 router.put('/tests/edit/:id', async (req, res) => {
     const { id } = req.params;
-    const { newName } = req.body;
+    const { name } = req.body;
     try {
-        await editTest(id, newName);
+        await editTest(id, name);
+        console.log("Test name: ",name)
         res.status(200).json({ message: `Test with id ${id} edited successfully` });
     } catch (error) {
         res.status(500).json({ error: error.message });
