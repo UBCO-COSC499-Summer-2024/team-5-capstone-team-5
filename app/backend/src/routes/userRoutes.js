@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers, calculateGrades } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
 const stream = require('stream');
@@ -106,98 +106,8 @@ router.get('/courses/students/:id', async (req, res) => {
         const studentList = await getStudentsByCourseId(req.params.id);
         res.status(200).json(studentList);
     } catch(error) {
-        res.status(404).json({error: error.message});
+        res.status(400).json({error: error.message});
     }
-});
-
-router.post('/tests/upload', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
-    const response = await fetch('http://python-cv:8000/upload', {
-        method: 'POST',
-        body: req.file.buffer,
-        headers: {
-            'Content-Type': 'application/json',
-            'testid': req.headers['testid']
-        }
-    });
-    const jsonData = await response.json();
-    const testid = req.headers['testid'];
-    const data = jsonData.data;
-    addStudentAnswers(data, testid);
-    res.status(200).json({message: "This will always pass"});
-  });
-
-  router.post('/tests/answers', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
-    const response = await fetch('http://python-cv:8000/upload', {
-        method: 'POST',
-        body: req.file.buffer,
-        headers: {
-            'Content-Type': 'application/json',
-            'testid': req.headers['testid']
-        }
-    });
-    const jsonData = await response.json();
-    const testid = req.headers['testid'];
-    console.log("Testid", testid);
-    const data = jsonData.data;
-    addAnswerKey(data, testid);
-    res.status(200).json({message: "This will always pass"});
-  });
-
-router.post('/tests/upload', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
-    const response = await fetch('http://python-cv:8000/upload', {
-        method: 'POST',
-        body: req.file.buffer,
-        headers: {
-            'Content-Type': 'application/json',
-            'testid': req.headers['testid']
-        }
-    });
-    const jsonData = await response.json();
-    const testid = req.headers['testid'];
-    const data = jsonData.data;
-    addStudentAnswers(data, testid);
-    res.status(200).json({message: "This will always pass"});
-  });
-
-  router.post('/tests/answers', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
-    const response = await fetch('http://python-cv:8000/upload', {
-        method: 'POST',
-        body: req.file.buffer,
-        headers: {
-            'Content-Type': 'application/json',
-            'testid': req.headers['testid']
-        }
-    });
-    const jsonData = await response.json();
-    const testid = req.headers['testid'];
-    console.log("Testid", testid);
-    const data = jsonData.data;
-    addAnswerKey(data, testid);
-    res.status(200).json({message: "This will always pass"});
-  });
-
-  router.post('/students/upload', upload.single('file'), async (req, res) => {
-    try {
-        const bufferStream = new stream.PassThrough();
-        bufferStream.end(req.file.buffer);
-        // Parse the CSV data from the buffer
-        const results = [];
-        bufferStream.pipe(csv())
-        .on('data', (data) => results.push(data))
-        .on('end', () => {
-            console.log('Parsed CSV Data:', results); // This is the parsed CSV data
-
-            // You can now process the parsed CSV data as needed
-            res.send('File uploaded and parsed successfully.');
-        });
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).send('An error occurred while processing the file.');
-}
-  });
+})
 
 module.exports = router;

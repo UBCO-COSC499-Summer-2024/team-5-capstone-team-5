@@ -129,6 +129,26 @@ const addQuestion = async (exam_id, num_options, correct_answer, weight, questio
     };
 };
 
+const calculateGrades = async (course_id) => {
+    try {
+        const grades = await db.manyOrNone(
+            `SELECT exams.id AS exam_id, exams.course_id, exams.name AS exam_name, 
+		            user_id, SUM(weight*(
+		            CASE WHEN response=correct_answer THEN 1 ELSE 0 END))
+		            AS studentScore,
+		            SUM(weight) AS fullMarks
+            FROM exams 
+	            JOIN questions ON exams.id = exam_id
+	            JOIN responses ON questions.id = responses.question_id
+            WHERE course_id = ${course_id}
+            GROUP BY exams.id, exams.course_id, exams.name, user_id;`
+        );
+        return grades;
+    } catch(error) {
+        console.error(`Error calculating grades`);
+    };
+};
+
 const addResponse = async (exam_id, question_num, user_id, response) => {
     try {
         questionId = await db.oneOrNone(
@@ -217,5 +237,6 @@ module.exports = {
     addAnswerKey,
     deleteTest,
     editTest,
+    calculateGrades,
     getExamAnswers
 }
