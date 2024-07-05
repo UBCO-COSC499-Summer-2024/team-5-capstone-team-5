@@ -1,2 +1,11 @@
+node_modules
+build
+coverage
 
-app/frontend/.env
+*.env
+.env*
+DS_Store
+*_pycache_
+_pycache_*
+*_pycache_*
+*/_pycache_
