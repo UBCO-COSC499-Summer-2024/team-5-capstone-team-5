@@ -110,23 +110,6 @@ router.get('/courses/students/:id', async (req, res) => {
     }
 });
 
-router.post('/tests/upload', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
-    const response = await fetch('http://python-cv:8000/upload', {
-        method: 'POST',
-        body: req.file.buffer,
-        headers: {
-            'Content-Type': 'application/json',
-            'testid': req.headers['testid']
-        }
-    });
-    const jsonData = await response.json();
-    const testid = req.headers['testid'];
-    const data = jsonData.data;
-    addStudentAnswers(data, testid);
-    res.status(200).json({message: "This will always pass"});
-  });
-
   router.post('/tests/answers', upload.single('file'), async (req, res) => {
     console.log(req.file.buffer)
     const response = await fetch('http://python-cv:8000/upload', {
@@ -159,24 +142,6 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const testid = req.headers['testid'];
     const data = jsonData.data;
     addStudentAnswers(data, testid);
-    res.status(200).json({message: "This will always pass"});
-  });
-
-  router.post('/tests/answers', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
-    const response = await fetch('http://python-cv:8000/upload', {
-        method: 'POST',
-        body: req.file.buffer,
-        headers: {
-            'Content-Type': 'application/json',
-            'testid': req.headers['testid']
-        }
-    });
-    const jsonData = await response.json();
-    const testid = req.headers['testid'];
-    console.log("Testid", testid);
-    const data = jsonData.data;
-    addAnswerKey(data, testid);
     res.status(200).json({message: "This will always pass"});
   });
 
