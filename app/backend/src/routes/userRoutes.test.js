@@ -34,15 +34,15 @@ describe("Test the routes in userRoutes", () => {
     });
 
     // Test for GET /api/users/responses/:qid&:uid
-    test("GET /api/users/responses/:qid&:uid - It should return 200", done => {
-        request(app).get("/api/users/responses/1&1").then(response => {
+    test("GET /api/users/questions/:qid&:uid - It should return 200", done => {
+        request(app).get("/api/users/questions/1&1").then(response => {
             expect(response.statusCode).toBe(200);
             done();
         }).catch(err => done(err));
     }, 20000); // Increase timeout to 20000 ms
 
-    test("GET /api/users/responses - It should return 404 when missing parameters", done => {
-        request(app).get("/api/users/responses/").then(response => {
+    test("GET /api/users/questions - It should return 404 when missing parameters", done => {
+        request(app).get("/api/users/questions/").then(response => {
             expect(response.statusCode).toBe(404);
             done();
         }).catch(err => done(err));
@@ -67,33 +67,33 @@ describe("Test the routes in userRoutes", () => {
             }).catch(err => done(err));
     });
 
-    test("POST /api/users/courses/add - It should return 404 on missing parameters", done => {
+    test("POST /api/users/courses/add - It should return 400 on missing parameters", done => {
         request(app)
             .post("/api/users/courses/add")
             .send({ name: "Course 1", description: "Description 1", end_date: "2024-12-31" }) // Missing user_id and course_id
             .then(response => {
-                expect(response.statusCode).toBe(404);
+                expect(response.statusCode).toBe(400);
                 done();
             }).catch(err => done(err));
     });
 
     // Additional test cases for missing parameters
-    test("POST /api/users/courses/add - It should return 404 on missing parameters (only name)", done => {
+    test("POST /api/users/courses/add - It should return 400 on missing parameters (only name)", done => {
         request(app)
             .post("/api/users/courses/add")
             .send({ name: "Course 1" }) // Missing all except name
             .then(response => {
-                expect(response.statusCode).toBe(404);
+                expect(response.statusCode).toBe(400);
                 done();
             }).catch(err => done(err));
     });
 
-    test("POST /api/users/courses/add - It should return 404 on missing parameters (name and description)", done => {
+    test("POST /api/users/courses/add - It should return 400 on missing parameters (name and description)", done => {
         request(app)
             .post("/api/users/courses/add")
             .send({ name: "Course 1", description: "Description 1" }) // Missing all except name and description
             .then(response => {
-                expect(response.statusCode).toBe(404);
+                expect(response.statusCode).toBe(400);
                 done();
             }).catch(err => done(err));
     });
@@ -103,6 +103,24 @@ describe("Test the routes in userRoutes", () => {
             .get("/api/users/courses/students/1")
             .then(response => {
                 expect(response.statusCode).toBe(200);
+                done();
+            }).catch(err => done(err));
+    });
+
+    test("GET /api/users/questions/answers/:examId - It should return 200 when requested", done => {
+        request(app)
+            .get("/api/users/questions/answers/1")
+            .then(response => {
+                expect(response.statusCode).toBe(200);
+                done();
+            }).catch(err => done(err));
+    });
+
+    test("GET /api/users/questions/answers/:examId - It should return 400 when requested without parameters", done => {
+        request(app)
+            .get("/api/users/questions/answers/")
+            .then(response => {
+                expect(response.statusCode).toBe(404);
                 done();
             }).catch(err => done(err));
     });

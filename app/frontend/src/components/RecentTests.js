@@ -16,7 +16,7 @@ const RecentTests = (props) => {
     fetchData();
   }, [props.id]);
 
-  if(tests) {
+  if(loading) {
     return (
       <div className="p-4 flex flex-col min-h-screen">
         <div className="flex-grow">

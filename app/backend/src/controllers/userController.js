@@ -58,7 +58,7 @@ const getExamAnswers = async (examId) => {
 const getStudentsByCourseId = async (courseId) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT u.id, u.first_name, u.last_name, u.role FROM users u JOIN registration r ON u.id = r.user_id JOIN courses c ON r.course_id = c.id WHERE c.id = $1 ORDER BY ROLE DESC', [courseId]
+            'SELECT u.id, u.first_name, u.last_name, u.role FROM users u JOIN registration r ON u.id = r.user_id JOIN courses c ON r.course_id = c.id WHERE c.id = $1 ORDER BY last_name ASC, first_name ASC', [courseId]
         );
         return response;
     } catch(error) {
@@ -66,11 +66,14 @@ const getStudentsByCourseId = async (courseId) => {
     }
 }
 
-const addStudent = async (first, last, email, password) => {
+const addStudent = async (id, first, last, email, password, courseId) => {
     try {
         await db.none(
-            'INSERT INTO users (first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, 1)', [first, last, email, password]
+            'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING', [id, first, last, email, password]
         );
+        if(courseId) {
+            register(id, courseId)
+        }
     } catch(error) {
         console.error(`Error adding student ${first}, ${last}`);
     };
@@ -101,7 +104,7 @@ const addCourse = async (user_id, name, description, end_date) => {
 const register = async (userId, courseId) => {
     try {
         await db.none(
-            'INSERT INTO registration (user_id, course_id) VALUES ($1, $2)', [userId, courseId]
+            'INSERT INTO registration (user_id, course_id) VALUES ($1, $2) ON CONFLICT (user_id, course_id) DO NOTHING', [userId, courseId]
         )
     } catch(error) {
         console.error('Error registering user with ID ',userId,"into course with ID",courseId)

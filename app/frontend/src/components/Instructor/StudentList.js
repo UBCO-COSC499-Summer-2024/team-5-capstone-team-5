@@ -8,6 +8,8 @@ const StudentList = (props) => {
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [fileUploaded, setFileUploaded] = useState(1);
+
 
   const fetchData = useCallback(async () => {
     const data = await getStudentData(props.courseId);
@@ -15,6 +17,7 @@ const StudentList = (props) => {
   }, [props.courseId]);
 
 const handleRosterUpload = async (event) => {
+  setFileUploaded(2)
   const file = event.target.files[0];
   if (file) {
     const formData = new FormData();
@@ -26,8 +29,11 @@ const handleRosterUpload = async (event) => {
         'courseid': props.courseId
       }
     });
-    console.log('File uploaded:', file);
-    setFileUploaded(true);
+    if(response.ok) {
+      console.log('File uploaded:', file);
+      setFileUploaded(3);
+      fetchData();
+    }
   }
 };
 
@@ -64,6 +70,7 @@ const handleRosterUpload = async (event) => {
             file:mr-4 file:py-2 file:px-4
             file:rounded-full file:border-0
             file:text-sm file:font-semibold
+            file:cursor-pointer
             ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
           `}
         />
