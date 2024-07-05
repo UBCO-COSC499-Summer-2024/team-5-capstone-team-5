@@ -107,4 +107,22 @@ describe("Test the routes in userRoutes", () => {
             }).catch(err => done(err));
     });
 
+    test("GET /api/users/questions/answers/:examId - It should return 200 when requested", done => {
+        request(app)
+            .get("/api/users/questions/answers/1")
+            .then(response => {
+                expect(response.statusCode).toBe(200);
+                done();
+            }).catch(err => done(err));
+    });
+
+    test("GET /api/users/questions/answers/:examId - It should return 400 when requested without parameters", done => {
+        request(app)
+            .get("/api/users/questions/answers/")
+            .then(response => {
+                expect(response.statusCode).toBe(404);
+                done();
+            }).catch(err => done(err));
+    });
+
 });
