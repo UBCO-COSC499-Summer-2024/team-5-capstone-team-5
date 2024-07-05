@@ -1,10 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../../App'; // Adjust the path as needed
 
+
 const ProfileMenuModal = ({ isOpen, onClose, user, onLogout }) => {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
@@ -26,7 +29,7 @@ const ProfileMenuModal = ({ isOpen, onClose, user, onLogout }) => {
         </div>
         <button
           className={`block w-full py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'} text-left`}
-          onClick={() => console.log('Change Password')}
+          onClick={() => navigate('/changePassword')}
         >
           Change Password
         </button>
