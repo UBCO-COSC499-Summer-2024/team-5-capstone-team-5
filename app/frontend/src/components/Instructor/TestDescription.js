@@ -4,13 +4,14 @@ import TestCorrectAnswers from './TestCorrectAnswers';
 
 const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const { theme } = useTheme();
-  const [fileUploaded, setFileUploaded] = useState(false);
-  const [answerKeyUploaded, setAnswerKeyUploaded] = useState(false);
+  const [fileUploaded, setFileUploaded] = useState(1);// 1 =nothing, 2= loading, 3= uploaded
+  const [answerKeyUploaded, setAnswerKeyUploaded] = useState(1);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(test.name || '');
 
   const handleFileUpload = async (event) => {
+    setFileUploaded(2);
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
@@ -23,11 +24,12 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
         }
       });
       console.log('File uploaded:', file);
-      setFileUploaded(true);
+      setFileUploaded(3);
     }
   };
 
   const handleAnswerKeyUpload = async (event) => {
+    setAnswerKeyUploaded(2);
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
@@ -40,7 +42,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
         }
       });
       console.log('File uploaded:', file);
-      setAnswerKeyUploaded(true);
+      setAnswerKeyUploaded(3);
     }
   };
 
@@ -107,11 +109,17 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
                   ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
                 `}
               />
-              {fileUploaded && (
+              {fileUploaded == 3 && (
                 <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
                   File uploaded successfully!
                 </p>
               )}
+              {fileUploaded == 2 && (
+                <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
+                  File upload in progress!
+                </p>
+              )}
+              
             </div>
             <div className="mb-4">
               <label className="block text-sm font-medium mb-2">Upload Answer Key</label>
@@ -127,11 +135,17 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
                   ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
                 `}
               />
-              {answerKeyUploaded && (
+              {answerKeyUploaded == 3 && (
                 <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
                   File uploaded successfully!
                 </p>
               )}
+              {answerKeyUploaded == 2 && (
+                <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
+                  File upload in progress!
+                </p>
+              )}
+          
             </div>
             <button
               onClick={handleViewCorrectAnswers}
