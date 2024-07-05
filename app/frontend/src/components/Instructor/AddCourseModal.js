@@ -33,7 +33,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
         <h2 className="text-2xl font-bold mb-6">Add New Course</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">Department</label>
+            <label htmlFor="courseDept" className="block text-sm font-bold mb-2">Department</label>
             <select
               id="courseDept"
               name="courseDept"
@@ -55,7 +55,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             </select>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">Course Code</label>
+            <label htmlFor="courseCode" className="block text-sm font-bold mb-2">Course Code</label>
             <input
               type="text"
               id="courseCode"
@@ -68,9 +68,8 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">Course Section</label>
+            <label htmlFor="courseSection" className="block text-sm font-bold mb-2">Course Section</label>
             <select
-              type="text"
               id="courseSection"
               name="courseSection"
               className={`w-full p-3 rounded-lg border focus:outline-none focus:ring-2 ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-300 focus:ring-blue-500' : 'bg-gray-200 text-black border-gray-400 focus:ring-blue-500'}`}
@@ -86,7 +85,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             </select>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">Course Description</label>
+            <label htmlFor="description" className="block text-sm font-bold mb-2">Course Description</label>
             <input
               type="text"
               id="description"
@@ -99,7 +98,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">Start Date</label>
+            <label htmlFor="startDate" className="block text-sm font-bold mb-2">Start Date</label>
             <input
               type="date"
               id="startDate"
@@ -111,7 +110,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-sm font-bold mb-2">End Date</label>
+            <label htmlFor="endDate" className="block text-sm font-bold mb-2">End Date</label>
             <input
               type="date"
               id="endDate"
