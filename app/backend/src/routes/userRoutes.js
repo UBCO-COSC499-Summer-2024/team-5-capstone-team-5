@@ -181,7 +181,23 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
   });
 
   router.post('/students/upload', upload.single('file'), async (req, res) => {
-    console.log(req.file);
+    try {
+        const bufferStream = new stream.PassThrough();
+        bufferStream.end(req.file.buffer);
+        // Parse the CSV data from the buffer
+        const results = [];
+        bufferStream.pipe(csv())
+        .on('data', (data) => results.push(data))
+        .on('end', () => {
+            console.log('Parsed CSV Data:', results); // This is the parsed CSV data
+
+            // You can now process the parsed CSV data as needed
+            res.send('File uploaded and parsed successfully.');
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('An error occurred while processing the file.');
+}
   });
 
 module.exports = router;

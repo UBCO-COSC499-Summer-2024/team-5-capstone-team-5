@@ -25,7 +25,7 @@ const RecentTests = (props) => {
           {tests.map((test, index) => (
               <div key={index} className="p-4 mb-4 rounded-lg bg-gray-700 text-white">
                 <h3 className="text-xl font-bold">{test.name}</h3>
-                <p className="text-lg">Date Marked: {test.date_marked.slice(0,10)}</p> 
+                {test.date_marked && <p className="text-lg">Date Marked: {test.date_marked.slice(0,10)}</p> }
                 <p className="text-lg">Course: {test.course_name}</p> 
               </div>
             ))}
