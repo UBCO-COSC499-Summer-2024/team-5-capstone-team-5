@@ -200,7 +200,6 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
 }
   });
 
-module.exports = router;
 router.get('/courses/grades/:id', async (req, res) => {
     try {
         const grades = await calculateGrades(req.params.id);
