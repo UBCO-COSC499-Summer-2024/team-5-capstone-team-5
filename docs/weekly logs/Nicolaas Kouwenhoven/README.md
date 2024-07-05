@@ -1,3 +1,67 @@
+# Wednesday (7/3 - 7/5)
+## Date: July 5, 2:45 AM
+
+### Timesheet (19hrs since Wed)
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJuly5.png)
+
+### Task tldr:
+I finished the Python openCV container. It now returns data, and our backend puts that data into the database. I created a CSV parsing function to parse a student roster and upload the data into the database. We had a team meeting for a while to get our presentation prepared for the MVP presentations.
+
+### Current Tasks:
+  * #1: Make the image processing handle and image and spit out some numbers
+  * #2: Tie 'Add Exam' button into backend
+  * #3: Make a button to upload student rosters
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #1: Make the image processing handle and image and spit out some numbers
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #2: Tie 'Add Exam' button into backend
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #3: Make a button to upload student rosters
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+- I finished the OMR data flow. It inputs data into our database now.
+- I added a .csv file upload to add students to a course
+- I wrote a few tests for our backend routes
+
+Overall, I was able to achieve most of what I had planned to achieve before our MVP. The only thing I was unable to get to was editing instructor exams and question data.
+
+I think the process is going alright. A lot of the things I had to implement took a fair amount of time for me to complete, so I am happy with where I'm at.
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Add ability to edit exams and questions as an instructor
+  * Add ability to edit student's responses as an instructor
+  * Add a flagging ability so the instructor knows what questions might be incorrect
+
+
 # Wednesday (6/28 - 7/3)
 ## Date: July 3, 12:11 AM
 
