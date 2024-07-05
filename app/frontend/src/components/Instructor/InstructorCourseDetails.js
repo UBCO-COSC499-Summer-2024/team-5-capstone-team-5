@@ -139,7 +139,6 @@ const InstructorCourseDetails = () => {
       )}
       {selectedMenu === 'students' && (<>
         <StudentList courseId={courseId} />
-        <StudentSpreadsheet courseId={courseId} />
         </>
       )}
       <AddTestModal

@@ -133,15 +133,16 @@ const calculateGrades = async (course_id) => {
     try {
         const grades = await db.manyOrNone(
             `SELECT exams.id AS exam_id, exams.course_id, exams.name AS exam_name, 
-		            user_id, SUM(weight*(
-		            CASE WHEN response=correct_answer THEN 1 ELSE 0 END))
-		            AS studentScore,
-		            SUM(weight) AS fullMarks
+	            user_id, users.last_name, users.first_name,
+	            SUM(weight*(CASE WHEN response=correct_answer THEN 1 ELSE 0 END))
+                AS student_score
             FROM exams 
 	            JOIN questions ON exams.id = exam_id
 	            JOIN responses ON questions.id = responses.question_id
+	            JOIN users ON users.id = responses.user_id
             WHERE course_id = ${course_id}
-            GROUP BY exams.id, exams.course_id, exams.name, user_id;`
+            GROUP BY exams.id, exams.course_id, exams.name, user_id, users.last_name, users.first_name
+            ORDER BY user_id ASC, exams.id ASC;`
         );
         return grades;
     } catch(error) {
