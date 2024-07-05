@@ -7,7 +7,8 @@ import getTestData from '../../hooks/getTestData';
 import TestDescription from './TestDescription'; 
 import { useTheme } from '../../App';
 import InstructorTest from '../Modules/InstructorTestModule';
-import AddTestModal from './AddTestModal'; 
+import AddTestModal from './AddTestModal';
+import StudentSpreadsheet from './StudentSpreadsheet';
 
 const InstructorCourseDetails = () => {
   const { courseId } = useParams();
@@ -136,8 +137,9 @@ const InstructorCourseDetails = () => {
           </div>
         </div>
       )}
-      {selectedMenu === 'students' && (
+      {selectedMenu === 'students' && (<>
         <StudentList courseId={courseId} />
+        </>
       )}
       <AddTestModal
         isOpen={isAddTestModalOpen}

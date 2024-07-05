@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers, calculateGrades } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
 const stream = require('stream');
@@ -113,7 +113,7 @@ router.get('/courses/students/:id', async (req, res) => {
         const studentList = await getStudentsByCourseId(req.params.id);
         res.status(200).json(studentList);
     } catch(error) {
-        res.status(404).json({error: error.message});
+        res.status(400).json({error: error.message});
     }
 });
 
@@ -180,5 +180,14 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         res.status(500).send('An error occurred while processing the file.');
 }
   });
+
+router.get('/courses/grades/:id', async (req, res) => {
+    try {
+        const grades = await calculateGrades(req.params.id);
+        res.status(200).json(grades)
+    } catch(error) {
+        res.status(400).json({error: error.message});
+    }
+});
 
 module.exports = router;
