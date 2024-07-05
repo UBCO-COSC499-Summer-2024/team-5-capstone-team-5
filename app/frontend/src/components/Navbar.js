@@ -15,6 +15,7 @@ const Navbar = (props) => {
     name: 'John Doe',
     email: 'johndoe@example.com',
     image: 'https://via.placeholder.com/150', // Replace with actual user image URL
+    role: 1 // Default role
   });
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const Navbar = (props) => {
           name: userInfo.name,
           email: userInfo.userEmail,
           image: 'https://via.placeholder.com/150',
+          role: userInfo.role // Set the role from userInfo
         });
       }
     };
@@ -53,6 +55,17 @@ const Navbar = (props) => {
     }
     fetchData();
   }, [props.id]);
+
+  const getRoleName = (role) => {
+    switch (role) {
+      case 1:
+        return 'Student';
+      case 2:
+        return 'Instructor';
+      default:
+        return 'Unknown Role';
+    }
+  };
 
   if (props.id) {
     return (
@@ -127,6 +140,7 @@ const Navbar = (props) => {
             <div>
               <p className="text-sm font-bold">{user.name}</p>
               <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{user.email}</p>
+              <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{getRoleName(user.role)}</p>
             </div>
           </button>
           <ProfileMenuModal
