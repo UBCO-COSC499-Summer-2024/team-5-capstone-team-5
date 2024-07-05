@@ -1,4 +1,28 @@
-# Weekly Log - [Week 3: June 7-June 12]
+# Weekly Log - [Week 3: July 3-5]
+
+### Date: July 5 7;00 am
+### Author: Jack Mathisen
+
+
+## Hour Breakdown
+
+**Approximate Hours: 3**
+
+**Things Done**
+learn more about the project
+learned jest and testing frameworks 
+analysed code 
+
+**In Progress**
+
+Get up to date on project workflow and requirements
+put in some actual work 
+help with tests and OMR accuracy 
+
+**Goal Recap**
+Not enough done been somewhat MIA 
+Need to pick up slack
+
 
 ### Date: June 12
 ### Author: Jack Mathisen
