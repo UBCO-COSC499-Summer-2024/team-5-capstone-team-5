@@ -242,5 +242,6 @@ module.exports = {
     deleteTest,
     editTest,
     calculateGrades,
-    getExamAnswers
+    getExamAnswers,
+    addResponse
 }
