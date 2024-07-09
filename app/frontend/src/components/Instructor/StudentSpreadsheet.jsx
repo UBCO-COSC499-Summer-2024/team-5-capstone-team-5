@@ -31,7 +31,7 @@ function StudentSpreadsheet(props) {
         };
     
         checkSession();
-    }, [navigate]);
+    }, [navigate, props.courseId]);
 
     const oldTable = (
         <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
@@ -74,7 +74,7 @@ function StudentSpreadsheet(props) {
 }
 
 const getGrades = async (courseId) => {
-    const response = await fetch(`HTTP://localhost/API/users/courses/grades/${courseId}`);
+    const response = await fetch(`http://localhost/api/users/courses/grades/${courseId}`);
     if(response.ok) {
         const grades = await response.json();
         return grades;
@@ -105,29 +105,32 @@ function createHeaderRow(courseGrades, theme) {
     }
 }
 
-function createRows(courseGrades, theme) {
+function createRows(courseGrades = [], theme) {
+    console.log("Course Grades:",courseGrades)
     if(courseGrades) {
-        let rows = [];
-        let startIndex = 0, endIndex = 0;
-        const len = courseGrades.length
+        if(courseGrades.length > 0) {
+            let rows = [];
+            let startIndex = 0, endIndex = 0;
+            const len = courseGrades.length
 
-        while(endIndex < len) {
-            while(courseGrades[startIndex].user_id == courseGrades[endIndex].user_id) {
-                endIndex++;
-                if(endIndex == len) {
-                    break;
+            while(endIndex < len) {
+                while(courseGrades[startIndex].user_id == courseGrades[endIndex].user_id) {
+                    endIndex++;
+                    if(endIndex == len) {
+                        break;
+                    }
                 }
+                    rows.push(createSingleRow(courseGrades, theme, startIndex, endIndex - 1));
+                    startIndex = endIndex;
+                    endIndex++;
             }
-                rows.push(createSingleRow(courseGrades, theme, startIndex, endIndex - 1));
-                startIndex = endIndex;
-                endIndex++;
+            if(courseGrades[len - 1].user_id != courseGrades[len - 2].user_id) {
+                rows.push(createSingleRow(courseGrades, theme, len - 1, len - 1));
+            }
+            return rows;
+        } else {
+            return null;
         }
-        if(courseGrades[len - 1].user_id != courseGrades[len - 2].user_id) {
-            rows.push(createSingleRow(courseGrades, theme, len - 1, len - 1));
-        }
-        return rows;
-    } else {
-        return null;
     }
 }
 
