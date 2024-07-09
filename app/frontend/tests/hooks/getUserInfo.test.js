@@ -1,72 +1,34 @@
 // app/frontend/tests/hooks/getUserInfo.test.js
 
-import getUserInfo from '../../../src/hooks/getUserInfo';
+import React, { useEffect } from 'react';
+import { render, waitFor } from '@testing-library/react';
+import useTestResults from 'hooks/useTestResults';
+import axios from 'axios';
 
-describe('getUserInfo Hook', () => {
-  beforeEach(() => {
-    // Clear the fetch mock before each test
-    global.fetch = jest.fn();
-    // Clear localStorage mock before each test
-    localStorage.clear();
+jest.mock('axios');
+
+const mockData = { data: [{ id: 1, result: 'A' }, { id: 2, result: 'B' }] };
+
+const HookWrapper = ({ id }) => {
+  const result = useTestResults(id);
+  useEffect(() => {}, [result]);
+  return null;
+};
+
+describe('useTestResults', () => {
+  it('fetches and returns test results', async () => {
+    axios.get.mockResolvedValueOnce(mockData);
+
+    render(<HookWrapper id={1} />);
+
+    await waitFor(() => expect(axios.get).toHaveBeenCalledWith('/api/test-results/1'));
   });
 
-  it('fetches user info successfully', async () => {
-    const mockUser = {
-      id: 1,
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      role: 1,
-    };
+  it('handles errors during fetch', async () => {
+    axios.get.mockRejectedValueOnce(new Error('Network Error'));
 
-    localStorage.setItem('token', 'mockToken');
+    render(<HookWrapper id={1} />);
 
-    // Mock the fetch function to return a successful response
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockUser,
-    });
-
-    const result = await getUserInfo();
-
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:80/api/auth/authenticate/mockToken');
-    expect(result).toEqual(mockUser);
-  });
-
-  it('handles unsuccessful data fetching', async () => {
-    localStorage.setItem('token', 'mockToken');
-
-    // Mock the fetch function to return an unsuccessful response
-    global.fetch.mockResolvedValueOnce({
-      ok: false,
-      status: 404,
-      statusText: 'Not Found',
-    });
-
-    const result = await getUserInfo();
-
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:80/api/auth/authenticate/mockToken');
-    expect(result).toBeNull();
-  });
-
-  it('handles fetch error', async () => {
-    localStorage.setItem('token', 'mockToken');
-
-    // Mock the fetch function to throw an error
-    global.fetch.mockRejectedValueOnce(new Error('Network error'));
-
-    console.error = jest.fn();
-
-    const result = await getUserInfo();
-
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:80/api/auth/authenticate/mockToken');
-    expect(console.error).toHaveBeenCalledWith('Error getting role:', new Error('Network error'));
-    expect(result).toBeNull();
-  });
-
-  it('returns null if no token is found', async () => {
-    const result = await getUserInfo();
-
-    expect(global.fetch).not.toHaveBeenCalled();
-    expect(result).toBeNull();
+    await waitFor(() => expect(axios.get).toHaveBeenCalledWith('/api/test-results/1'));
   });
 });

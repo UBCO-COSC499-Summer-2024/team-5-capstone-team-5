@@ -35,7 +35,7 @@ const ProfileMenuModal = ({ isOpen, onClose, user, onLogout }) => {
           <div className="flex items-center">
             <FontAwesomeIcon icon={faSun} className="mr-2" />
             <label className="relative inline-flex cursor-pointer items-center">
-              <input id="theme-switch" type="checkbox" className="sr-only peer" checked={theme === 'dark'} onChange={toggleTheme} />
+              <input id="theme-switch" type="checkbox" aria-label="Change Theme" className="sr-only peer" checked={theme === 'dark'} onChange={toggleTheme} />
               <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
             </label>
             <FontAwesomeIcon icon={faMoon} className="ml-2" />

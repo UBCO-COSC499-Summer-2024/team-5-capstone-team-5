@@ -3,59 +3,58 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import RecentTests from '../../../src/components/RecentTests';
-import getRecentTests from '../../../src/hooks/getRecentTests';
+import RecentTests from 'components/RecentTests';
+import getRecentTests from 'hooks/getRecentTests';
 
-// Mock the getRecentTests hook
-jest.mock('../../../src/hooks/getRecentTests', () => jest.fn());
+jest.mock('hooks/getRecentTests');
+
+const mockTests = [
+  {
+    name: 'Test 1',
+    date_marked: '2023-05-01T00:00:00Z',
+    course_name: 'Math 101',
+  },
+  {
+    name: 'Test 2',
+    date_marked: '2023-06-01T00:00:00Z',
+    course_name: 'Math 102',
+  },
+];
 
 describe('RecentTests Component', () => {
-  const mockTestsData = [
-    { id: 1, name: 'Test 1', date_marked: '2023-12-01T00:00:00Z', course_name: 'Course 1' },
-    { id: 2, name: 'Test 2', date_marked: '2023-12-02T00:00:00Z', course_name: 'Course 2' },
-  ];
-  const mockProps = { id: '123' };
-
   beforeEach(() => {
-    getRecentTests.mockResolvedValue(mockTestsData);
+    getRecentTests.mockResolvedValue(mockTests);
   });
 
-  it('renders without crashing and displays the loading state initially', () => {
-    render(<RecentTests {...mockProps} />);
-
-    // Check if the loading state is displayed initially
-    expect(screen.getByText('Recent Tests')).toBeInTheDocument();
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('fetches and displays recent tests data', async () => {
-    render(<RecentTests {...mockProps} />);
+  it('renders loading state initially', async () => {
+    render(<RecentTests id="123" />);
 
-    // Wait for the tests data to be fetched and displayed
-    await waitFor(() => {
-      // Check if the recent tests heading is rendered
-      expect(screen.getByText('Recent Tests')).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+  });
 
-      // Check if the tests are rendered
-      mockTestsData.forEach((test) => {
-        expect(screen.getByText(test.name)).toBeInTheDocument();
-        expect(screen.getByText(`Date Marked: ${test.date_marked.slice(0, 10)}`)).toBeInTheDocument();
-        expect(screen.getByText(`Course: ${test.course_name}`)).toBeInTheDocument();
-      });
+  it('renders recent tests after loading', async () => {
+    render(<RecentTests id="123" />);
+
+    await waitFor(() => expect(getRecentTests).toHaveBeenCalledWith('123'));
+
+    mockTests.forEach(test => {
+      expect(screen.getByText(test.name)).toBeInTheDocument();
+      expect(screen.getByText(`Date Marked: ${test.date_marked.slice(0, 10)}`)).toBeInTheDocument();
+      expect(screen.getByText(`Course: ${test.course_name}`)).toBeInTheDocument();
     });
   });
 
-  it('displays no tests message when there are no tests', async () => {
+  it('handles no tests scenario', async () => {
     getRecentTests.mockResolvedValueOnce([]);
-    render(<RecentTests {...mockProps} />);
 
-    // Wait for the tests data to be fetched and displayed
-    await waitFor(() => {
-      // Check if the recent tests heading is rendered
-      expect(screen.getByText('Recent Tests')).toBeInTheDocument();
+    render(<RecentTests id="123" />);
 
-      // Check if no tests message is displayed
-      expect(screen.queryByText(/Date Marked:/)).not.toBeInTheDocument();
-      expect(screen.queryByText(/Course:/)).not.toBeInTheDocument();
-    });
+    await waitFor(() => expect(getRecentTests).toHaveBeenCalledWith('123'));
+
+    expect(screen.getByText('No tests available')).toBeInTheDocument();
   });
 });

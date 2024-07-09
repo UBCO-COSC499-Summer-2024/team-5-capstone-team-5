@@ -1,4 +1,4 @@
-// tests/setupTests.js
+// app/frontend/src/setupTests.js
 
-// Polyfill fetch globally for all tests
-global.fetch = require('node-fetch');
+import 'jest-fetch-mock';
+global.fetch = require('jest-fetch-mock');

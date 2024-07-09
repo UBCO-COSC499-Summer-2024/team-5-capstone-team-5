@@ -1,38 +1,44 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import getQuestions from '../hooks/getQuestions';
-import { NavLink, useParams } from 'react-router-dom';
-import Exam from './Modules/ExamModule';
+// src/components/ExamDetails.js
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getQuestions } from '../hooks/getQuestions';
 
-const ExamDetails = (props) => {
-    const { examId } = useParams();
-    const [questions, setQuestions] = useState([]);
-    const [loading, setLoading] = useState(true);
+const ExamDetails = () => {
+  const { examId } = useParams();
+  const [questions, setQuestions] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const fetchData = useCallback(async () => {
-        const data = await getQuestions(examId, props.id);
-        console.log(data);
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const data = await getQuestions(examId);
         setQuestions(data);
+      } catch (error) {
+        console.error('Error fetching questions:', error);
+      } finally {
         setLoading(false);
-    }, [examId, props.id]);
+      }
+    };
+    fetchQuestions();
+  }, [examId]);
 
-    useEffect(() => {
-        fetchData();
-    }, [examId, fetchData]);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-    if(loading) {
-        return <div>Loading...</div>
-    } else {
-        return (
-            <div>
-                <h1 className="mx-4">{questions[0].course_name + " " + questions[0].exam_name}</h1>
-                <ul>
-                {questions.map((question, index) => (
-                    <Exam question={question} key={index} />
-                        ))}
-                </ul>
-            </div>
-        )
-    }
-}
+  if (!questions) {
+    return <div>No Questions Available</div>;
+  }
+
+  return (
+    <div>
+      {questions.map((question, index) => (
+        <div key={index}>
+          <p>{question.question}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default ExamDetails;

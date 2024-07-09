@@ -61,7 +61,16 @@
       "^.+\\.[tj]sx?$": "babel-jest"
     },
     "moduleNameMapper": {
-      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
-    }
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      "^components/(.*)$": "<rootDir>/src/components/$1",
+      "^hooks/(.*)$": "<rootDir>/src/hooks/$1"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setupTests.js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ]
   }
 }

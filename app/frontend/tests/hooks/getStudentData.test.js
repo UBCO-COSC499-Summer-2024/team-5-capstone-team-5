@@ -1,58 +1,58 @@
 // app/frontend/tests/hooks/getStudentData.test.js
 
-import getStudentData from '../../../src/hooks/getStudentData';
+import getStudentData from 'hooks/getStudentData';
 
-describe('getStudentData Hook', () => {
-  beforeEach(() => {
-    // Clear the fetch mock before each test
-    global.fetch = jest.fn();
+global.fetch = jest.fn();
+
+describe('getStudentData', () => {
+  beforeAll(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
-  it('fetches student data successfully', async () => {
+  afterAll(() => {
+    console.error.mockRestore();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('fetches and returns student data', async () => {
     const mockStudents = [
-      { id: 1, first_name: 'John', last_name: 'Doe', role: 1 },
-      { id: 2, first_name: 'Jane', last_name: 'Smith', role: 1 },
+      { id: 1, name: 'Student 1' },
+      { id: 2, name: 'Student 2' },
     ];
 
-    // Mock the fetch function to return a successful response
-    global.fetch.mockResolvedValueOnce({
+    fetch.mockResolvedValue({
       ok: true,
       json: async () => mockStudents,
     });
 
-    const result = await getStudentData('123');
-
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost/api/users/courses/students/123');
+    const result = await getStudentData('course1');
     expect(result).toEqual(mockStudents);
+    expect(fetch).toHaveBeenCalledWith('http://localhost/api/users/courses/students/course1');
   });
 
-  it('handles unsuccessful data fetching', async () => {
-    // Mock the fetch function to return an unsuccessful response
-    global.fetch.mockResolvedValueOnce({
+  it('handles non-200 responses', async () => {
+    fetch.mockResolvedValue({
       ok: false,
       status: 404,
       statusText: 'Not Found',
     });
 
-    console.error = jest.fn();
-
-    const result = await getStudentData('123');
-
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost/api/users/courses/students/123');
-    expect(console.error).toHaveBeenCalledWith('GET Error', 404, 'Not Found');
+    const result = await getStudentData('course1');
     expect(result).toBeUndefined();
+    expect(fetch).toHaveBeenCalledWith('http://localhost/api/users/courses/students/course1');
+    expect(console.error).toHaveBeenCalledWith('GET Error', 404, 'Not Found');
   });
 
-  it('handles fetch error', async () => {
-    // Mock the fetch function to throw an error
-    global.fetch.mockRejectedValueOnce(new Error('Network error'));
+  it('handles fetch errors', async () => {
+    const mockError = new Error('Network Error');
+    fetch.mockRejectedValue(mockError);
 
-    console.error = jest.fn();
-
-    const result = await getStudentData('123');
-
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost/api/users/courses/students/123');
-    expect(console.error).toHaveBeenCalledWith('Failure fetching data: ', new Error('Network error'));
+    const result = await getStudentData('course1');
     expect(result).toBeUndefined();
+    expect(fetch).toHaveBeenCalledWith('http://localhost/api/users/courses/students/course1');
+    expect(console.error).toHaveBeenCalledWith('Failure fetching data: ', mockError);
   });
 });

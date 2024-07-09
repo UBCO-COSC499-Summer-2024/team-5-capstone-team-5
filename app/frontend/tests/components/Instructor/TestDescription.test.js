@@ -11,8 +11,17 @@ jest.mock('../../../src/App', () => ({
   useTheme: jest.fn(),
 }));
 
+jest.mock('../../../src/components/Instructor/TestCorrectAnswers', () => {
+  return ({ onBack }) => (
+    <div>
+      <h2>Correct Answers</h2>
+      <button onClick={onBack}>Back to Description</button>
+    </div>
+  );
+});
+
 describe('TestDescription Component', () => {
-  const mockTest = { id: '123', name: 'Sample Test', date_marked: '2023-01-01', mean_score: 75 };
+  const mockTest = { id: 1, name: 'Sample Test', date_marked: '2023-01-01', mean_score: 75 };
   const mockOnBack = jest.fn();
   const mockOnDeleteTest = jest.fn();
   const mockOnEditTest = jest.fn();
@@ -25,17 +34,10 @@ describe('TestDescription Component', () => {
   it('renders without crashing and displays test details', () => {
     render(<TestDescription test={mockTest} onBack={mockOnBack} onDeleteTest={mockOnDeleteTest} onEditTest={mockOnEditTest} />);
 
-    // Check if the back button is rendered
     expect(screen.getByText('Back')).toBeInTheDocument();
-
-    // Check if the test name is rendered
     expect(screen.getByText('Sample Test')).toBeInTheDocument();
-
-    // Check if the date marked is rendered
     expect(screen.getByText('Date Marked:')).toBeInTheDocument();
     expect(screen.getByText('2023-01-01')).toBeInTheDocument();
-
-    // Check if the mean score is rendered
     expect(screen.getByText('Mean Score:')).toBeInTheDocument();
     expect(screen.getByText('75')).toBeInTheDocument();
   });
@@ -55,15 +57,12 @@ describe('TestDescription Component', () => {
 
     fireEvent.change(input, { target: { files: [file] } });
 
-    // Check if the uploading message is displayed
     expect(screen.getByText('File upload in progress!')).toBeInTheDocument();
 
-    // Wait for the file upload to complete
     await waitFor(() => {
       expect(screen.getByText('File uploaded successfully!')).toBeInTheDocument();
     });
 
-    // Check if the fetch function was called with the correct parameters
     expect(global.fetch).toHaveBeenCalledWith('http://localhost/api/users/tests/upload', expect.any(Object));
   });
 
@@ -82,66 +81,62 @@ describe('TestDescription Component', () => {
 
     fireEvent.change(input, { target: { files: [file] } });
 
-    // Check if the uploading message is displayed
     expect(screen.getByText('File upload in progress!')).toBeInTheDocument();
 
-    // Wait for the file upload to complete
     await waitFor(() => {
       expect(screen.getByText('File uploaded successfully!')).toBeInTheDocument();
     });
 
-    // Check if the fetch function was called with the correct parameters
     expect(global.fetch).toHaveBeenCalledWith('http://localhost/api/users/tests/answers', expect.any(Object));
   });
 
-  it('handles view correct answers', () => {
+  it('handles view correct answers', async () => {
     render(<TestDescription test={mockTest} onBack={mockOnBack} onDeleteTest={mockOnDeleteTest} onEditTest={mockOnEditTest} />);
 
-    // Click the correct answers button
     fireEvent.click(screen.getByText('Correct Answers'));
 
-    // Check if the TestCorrectAnswers component is rendered
-    expect(screen.getByText('Correct Answers')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Correct Answers')).toBeInTheDocument();
+    });
   });
 
   it('handles back button click', () => {
     render(<TestDescription test={mockTest} onBack={mockOnBack} onDeleteTest={mockOnDeleteTest} onEditTest={mockOnEditTest} />);
 
-    // Click the back button
     fireEvent.click(screen.getByText('Back'));
 
-    // Check if the onBack function was called
     expect(mockOnBack).toHaveBeenCalled();
   });
 
   it('handles edit test name', async () => {
-    render(<TestDescription test={mockTest} onBack={mockOnBack} onDeleteTest={mockOnDeleteTest} onEditTest={mockOnEditTest} />);
+    const { container } = render(
+      <TestDescription test={mockTest} onBack={mockOnBack} onDeleteTest={mockOnDeleteTest} onEditTest={mockOnEditTest} />
+    );
 
-    // Click the edit button
     fireEvent.click(screen.getByText('Edit Test'));
 
-    // Change the test name
-    fireEvent.change(screen.getByDisplayValue('Sample Test'), { target: { value: 'New Test Name' } });
+    const input = screen.getByDisplayValue('Sample Test');
+    fireEvent.change(input, { target: { value: 'New Test Name' } });
 
-    // Click the save button
-    fireEvent.click(screen.getByText('Save'));
+    const saveButton = screen.getByText('Save');
+    fireEvent.click(saveButton);
 
-    // Wait for the edit to complete
     await waitFor(() => {
       expect(mockOnEditTest).toHaveBeenCalledWith(mockTest.id, 'New Test Name');
     });
 
-    // Check if the test name is updated
-    expect(screen.getByText('New Test Name')).toBeInTheDocument();
+    console.log(container.innerHTML);
+
+    await waitFor(() => {
+      expect(screen.getByText('New Test Name')).toBeInTheDocument();
+    });
   });
 
   it('handles delete test', () => {
     render(<TestDescription test={mockTest} onBack={mockOnBack} onDeleteTest={mockOnDeleteTest} onEditTest={mockOnEditTest} />);
 
-    // Click the delete button
     fireEvent.click(screen.getByText('Delete Test'));
 
-    // Check if the onDeleteTest function was called
     expect(mockOnDeleteTest).toHaveBeenCalledWith(mockTest.id);
   });
 });

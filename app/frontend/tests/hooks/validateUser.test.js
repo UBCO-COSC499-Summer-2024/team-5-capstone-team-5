@@ -1,71 +1,74 @@
 // app/frontend/tests/hooks/validateUser.test.js
 
-import validateUser from '../../../src/hooks/validateUser';
+import validateUser from 'hooks/validateUser';
 
-describe('validateUser Hook', () => {
+// Mocking fetch
+global.fetch = jest.fn();
+
+describe('validateUser', () => {
+  let getItemSpy;
+
   beforeEach(() => {
-    // Clear the fetch mock before each test
-    global.fetch = jest.fn();
-    // Clear localStorage mock before each test
-    localStorage.clear();
+    getItemSpy = jest.spyOn(Storage.prototype, 'getItem');
+    jest.clearAllMocks();
   });
 
-  it('validates user successfully', async () => {
-    const mockUser = {
-      id: 1,
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-    };
+  afterEach(() => {
+    getItemSpy.mockRestore();
+  });
 
-    localStorage.setItem('token', 'mockToken');
+  it('returns true when token is valid and user is authenticated', async () => {
+    const mockToken = 'valid_token';
+    const mockResponse = { id: 1, name: 'John Doe' };
 
-    // Mock the fetch function to return a successful response
-    global.fetch.mockResolvedValueOnce({
+    getItemSpy.mockReturnValue(mockToken);
+    fetch.mockResolvedValue({
       ok: true,
-      json: async () => mockUser,
+      json: async () => mockResponse,
     });
 
     const result = await validateUser();
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:80/api/auth/authenticate/mockToken');
+    expect(localStorage.getItem).toHaveBeenCalledWith('token');
+    expect(fetch).toHaveBeenCalledWith(`http://localhost:80/api/auth/authenticate/${mockToken}`);
     expect(result).toBe(true);
   });
 
-  it('handles unsuccessful validation', async () => {
-    localStorage.setItem('token', 'mockToken');
+  it('returns false when token is invalid', async () => {
+    const mockToken = 'invalid_token';
 
-    // Mock the fetch function to return an unsuccessful response
-    global.fetch.mockResolvedValueOnce({
+    getItemSpy.mockReturnValue(mockToken);
+    fetch.mockResolvedValue({
       ok: false,
-      status: 404,
-      statusText: 'Not Found',
     });
 
     const result = await validateUser();
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:80/api/auth/authenticate/mockToken');
+    expect(localStorage.getItem).toHaveBeenCalledWith('token');
+    expect(fetch).toHaveBeenCalledWith(`http://localhost:80/api/auth/authenticate/${mockToken}`);
     expect(result).toBe(false);
   });
 
-  it('handles validation error', async () => {
-    localStorage.setItem('token', 'mockToken');
-
-    // Mock the fetch function to throw an error
-    global.fetch.mockRejectedValueOnce(new Error('Network error'));
-
-    console.error = jest.fn();
+  it('returns false when token is not present', async () => {
+    getItemSpy.mockReturnValue(null);
 
     const result = await validateUser();
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:80/api/auth/authenticate/mockToken');
-    expect(console.error).toHaveBeenCalledWith('Error during user validation:', new Error('Network error'));
+    expect(localStorage.getItem).toHaveBeenCalledWith('token');
+    expect(fetch).not.toHaveBeenCalled();
     expect(result).toBe(false);
   });
 
-  it('returns false if no token is found', async () => {
+  it('returns false when an error occurs during fetch', async () => {
+    const mockToken = 'valid_token';
+
+    getItemSpy.mockReturnValue(mockToken);
+    fetch.mockRejectedValue(new Error('Network error'));
+
     const result = await validateUser();
 
-    expect(global.fetch).not.toHaveBeenCalled();
+    expect(localStorage.getItem).toHaveBeenCalledWith('token');
+    expect(fetch).toHaveBeenCalledWith(`http://localhost:80/api/auth/authenticate/${mockToken}`);
     expect(result).toBe(false);
   });
 });

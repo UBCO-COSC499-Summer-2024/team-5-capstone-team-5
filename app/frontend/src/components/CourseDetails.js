@@ -1,34 +1,43 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
-import getTestData from '../hooks/getTestData';
-import Course from './Modules/CourseModule';
+// src/components/CourseDetails.js
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getTestData } from '../hooks/getTestData';
 
 const CourseDetails = () => {
   const { courseId } = useParams();
-  const [tests, setTests] = useState([]);
-  const [courseName, setCourseName] = useState('Loading')
+  const [course, setCourse] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const fetchData = useCallback(async () => {
-    const testData = await getTestData(courseId);
-    console.log(testData);
-    setTests(testData);
-    setCourseName(testData[0].course_name);
+  useEffect(() => {
+    const fetchTestData = async () => {
+      try {
+        const data = await getTestData(courseId);
+        setCourse(data);
+      } catch (error) {
+        console.error('Error fetching test data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTestData();
   }, [courseId]);
 
-  useEffect( () => {
-    fetchData();
-  }, [courseId, fetchData]);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!course) {
+    return <div>No Data Available</div>;
+  }
 
   return (
-    <div className="p-4 flex flex-col min-h-screen">
-      <div className="flex-grow">
-        <h2 className="text-2xl font-bold">{courseName}</h2>
-        <div className="mt-4">
-          {tests.map((test, index) => (
-            <Course test={test} key={index} />
-          ))}
-        </div>
-      </div>
+    <div>
+      <h2>{course.name}</h2>
+      {course.tests.length > 0 ? (
+        course.tests.map((test, index) => <p key={index}>{test}</p>)
+      ) : (
+        <p>No Data Available</p>
+      )}
     </div>
   );
 };

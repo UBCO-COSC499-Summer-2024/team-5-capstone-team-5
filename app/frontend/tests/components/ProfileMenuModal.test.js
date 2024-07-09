@@ -1,17 +1,25 @@
-// app/frontend/tests/components/ProfileMenuModal.test.js
-
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import ProfileMenuModal from '../../../src/components/ProfileMenuModal';
-import { useTheme } from '../../../src/App';
+import ProfileMenuModal from 'components/ProfileMenuModal';
+import { useTheme } from 'App';
 
-// Mock the useTheme hook
-jest.mock('../../../src/App', () => ({
+jest.mock('App', () => ({
   useTheme: jest.fn(),
 }));
 
+const mockToggleTheme = jest.fn();
+const mockUseTheme = {
+  theme: 'light',
+  toggleTheme: mockToggleTheme,
+};
+
 describe('ProfileMenuModal Component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    useTheme.mockReturnValue(mockUseTheme);
+  });
+
   const mockUser = {
     name: 'John Doe',
     email: 'johndoe@example.com',
@@ -20,94 +28,41 @@ describe('ProfileMenuModal Component', () => {
 
   const mockOnClose = jest.fn();
   const mockOnLogout = jest.fn();
-  const mockToggleTheme = jest.fn();
 
-  beforeEach(() => {
-    useTheme.mockReturnValue({ theme: 'light', toggleTheme: mockToggleTheme });
+  it('renders correctly when open', () => {
+    render(<ProfileMenuModal isOpen={true} onClose={mockOnClose} user={mockUser} onLogout={mockOnLogout} />);
+
+    expect(screen.getByText(mockUser.name)).toBeInTheDocument();
+    expect(screen.getByText(mockUser.email)).toBeInTheDocument();
+    expect(screen.getByText(/change password/i)).toBeInTheDocument();
+    expect(screen.getByText(/change theme/i)).toBeInTheDocument();
+    expect(screen.getByText(/log out/i)).toBeInTheDocument();
   });
 
-  it('renders without crashing and displays user information', () => {
-    render(
-      <ProfileMenuModal
-        isOpen={true}
-        onClose={mockOnClose}
-        user={mockUser}
-        onLogout={mockOnLogout}
-      />
-    );
-
-    // Check if the user information is displayed
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
-    expect(screen.getByText('johndoe@example.com')).toBeInTheDocument();
-
-    // Check if the buttons are rendered
-    expect(screen.getByText('Change Password')).toBeInTheDocument();
-    expect(screen.getByText('Log out')).toBeInTheDocument();
+  it('does not render when not open', () => {
+    const { container } = render(<ProfileMenuModal isOpen={false} onClose={mockOnClose} user={mockUser} onLogout={mockOnLogout} />);
+    expect(container).toBeEmptyDOMElement();
   });
 
-  it('calls onClose when the close button is clicked', () => {
-    render(
-      <ProfileMenuModal
-        isOpen={true}
-        onClose={mockOnClose}
-        user={mockUser}
-        onLogout={mockOnLogout}
-      />
-    );
+  it('calls onClose when close button is clicked', () => {
+    render(<ProfileMenuModal isOpen={true} onClose={mockOnClose} user={mockUser} onLogout={mockOnLogout} />);
 
-    // Click the close button
     fireEvent.click(screen.getByText('×'));
-
-    // Check if the onClose callback is called
-    expect(mockOnClose).toHaveBeenCalled();
+    expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onLogout when the log out button is clicked', () => {
-    render(
-      <ProfileMenuModal
-        isOpen={true}
-        onClose={mockOnClose}
-        user={mockUser}
-        onLogout={mockOnLogout}
-      />
-    );
+  it('calls toggleTheme when theme switch is toggled', () => {
+    render(<ProfileMenuModal isOpen={true} onClose={mockOnClose} user={mockUser} onLogout={mockOnLogout} />);
 
-    // Click the log out button
-    fireEvent.click(screen.getByText('Log out'));
-
-    // Check if the onLogout callback is called
-    expect(mockOnLogout).toHaveBeenCalled();
+    const themeSwitch = screen.getByLabelText('Change Theme');
+    fireEvent.click(themeSwitch);
+    expect(mockToggleTheme).toHaveBeenCalledTimes(1);
   });
 
-  it('toggles theme when the theme switch is changed', () => {
-    render(
-      <ProfileMenuModal
-        isOpen={true}
-        onClose={mockOnClose}
-        user={mockUser}
-        onLogout={mockOnLogout}
-      />
-    );
+  it('calls onLogout when log out button is clicked', () => {
+    render(<ProfileMenuModal isOpen={true} onClose={mockOnClose} user={mockUser} onLogout={mockOnLogout} />);
 
-    // Click the theme toggle switch
-    fireEvent.click(screen.getByRole('checkbox'));
-
-    // Check if the toggleTheme callback is called
-    expect(mockToggleTheme).toHaveBeenCalled();
-  });
-
-  it('does not render when isOpen is false', () => {
-    render(
-      <ProfileMenuModal
-        isOpen={false}
-        onClose={mockOnClose}
-        user={mockUser}
-        onLogout={mockOnLogout}
-      />
-    );
-
-    // Check if the modal content is not rendered
-    expect(screen.queryByText('John Doe')).not.toBeInTheDocument();
-    expect(screen.queryByText('johndoe@example.com')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText(/log out/i));
+    expect(mockOnLogout).toHaveBeenCalledTimes(1);
   });
 });

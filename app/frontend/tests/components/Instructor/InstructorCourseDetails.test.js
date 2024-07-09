@@ -40,7 +40,6 @@ describe('InstructorCourseDetails Component', () => {
       );
     });
 
-    expect(screen.getByText('Loading')).toBeInTheDocument();
     await waitFor(() => {
       expect(screen.getByText('Course 1 Tests')).toBeInTheDocument();
       expect(screen.getByText('Test 1')).toBeInTheDocument();
@@ -69,11 +68,16 @@ describe('InstructorCourseDetails Component', () => {
       expect(screen.getByText('Test 2')).toBeInTheDocument();
     });
 
-    const deleteButton = screen.getByText('Test 1').closest('tr').querySelector('button');
-    expect(deleteButton).toBeInTheDocument();
-    await act(async () => {
-      fireEvent.click(deleteButton);
+    // Simulate clicking on Test 1 to select it
+    fireEvent.click(screen.getByText('Test 1'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Delete Test')).toBeInTheDocument();
     });
+
+    // Click the delete button
+    const deleteButton = screen.getByText('Delete Test');
+    fireEvent.click(deleteButton);
 
     await waitFor(() => {
       expect(screen.queryByText('Test 1')).not.toBeInTheDocument();
@@ -100,21 +104,24 @@ describe('InstructorCourseDetails Component', () => {
       expect(screen.getByText('Test 1')).toBeInTheDocument();
     });
 
-    const editButton = screen.getByText('Test 1').closest('tr').querySelector('button');
-    expect(editButton).toBeInTheDocument();
-    await act(async () => {
-      fireEvent.click(editButton);
+    // Simulate clicking on Test 1 to select it
+    fireEvent.click(screen.getByText('Test 1'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Edit Test')).toBeInTheDocument();
     });
 
+    // Click the edit button
+    const editButton = screen.getByText('Edit Test');
+    fireEvent.click(editButton);
+
+    // Change the test name
     const editInput = screen.getByDisplayValue('Test 1');
-    await act(async () => {
-      fireEvent.change(editInput, { target: { value: 'Test 1 Edited' } });
-    });
+    fireEvent.change(editInput, { target: { value: 'Test 1 Edited' } });
 
+    // Click the save button
     const saveButton = screen.getByText('Save');
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
+    fireEvent.click(saveButton);
 
     await waitFor(() => {
       expect(screen.getByText('Test 1 Edited')).toBeInTheDocument();

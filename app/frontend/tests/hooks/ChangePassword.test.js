@@ -1,52 +1,58 @@
 // app/frontend/tests/hooks/ChangePassword.test.js
 
-import ChangePassword from '../../../src/hooks/ChangePassword';
+import ChangePassword from 'hooks/ChangePassword';
 
-describe('ChangePassword Hook', () => {
+describe('ChangePassword', () => {
   beforeEach(() => {
-    // Clear the fetch mock before each test
-    global.fetch = jest.fn();
+    fetch.resetMocks();
   });
 
-  it('handles successful password change', async () => {
-    // Mock the fetch function to return a successful response
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ message: 'Password changed successfully' })
-    });
+  it('successfully changes password', async () => {
+    fetch.mockResponseOnce(JSON.stringify({}), { status: 200 });
 
-    console.log = jest.fn();
+    console.log = jest.fn(); // Mock console.log
 
-    await ChangePassword('123', 'oldPassword', 'newPassword');
+    await ChangePassword(1, 'oldPassword', 'newPassword');
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost/api/auth/change', expect.any(Object));
+    expect(fetch).toHaveBeenCalledWith('http://localhost/api/auth/change', expect.objectContaining({
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: 1, oldPass: 'oldPassword', newPass: 'newPassword' })
+    }));
+
     expect(console.log).toHaveBeenCalledWith('Password changed successfully');
   });
 
-  it('handles unsuccessful password change', async () => {
-    // Mock the fetch function to return an unsuccessful response
-    global.fetch.mockResolvedValueOnce({
-      ok: false,
-      json: async () => ({ message: 'Change password unsuccessful' })
-    });
+  it('logs an error if changing password fails', async () => {
+    fetch.mockResponseOnce(JSON.stringify({}), { status: 400 });
 
-    console.log = jest.fn();
+    console.log = jest.fn(); // Mock console.log
 
-    await ChangePassword('123', 'oldPassword', 'newPassword');
+    await ChangePassword(1, 'oldPassword', 'newPassword');
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost/api/auth/change', expect.any(Object));
+    expect(fetch).toHaveBeenCalledWith('http://localhost/api/auth/change', expect.objectContaining({
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: 1, oldPass: 'oldPassword', newPass: 'newPassword' })
+    }));
+
     expect(console.log).toHaveBeenCalledWith('Change password unsuccessful');
   });
 
-  it('handles fetch error', async () => {
-    // Mock the fetch function to throw an error
-    global.fetch.mockRejectedValueOnce(new Error('Network error'));
+  it('catches and logs errors during the fetch', async () => {
+    const mockError = new Error('Network Error');
+    fetch.mockReject(mockError);
 
-    console.error = jest.fn();
+    console.error = jest.fn(); // Mock console.error
 
-    await ChangePassword('123', 'oldPassword', 'newPassword');
+    await ChangePassword(1, 'oldPassword', 'newPassword');
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost/api/auth/change', expect.any(Object));
-    expect(console.error).toHaveBeenCalledWith('Change password failed:', new Error('Network error'));
+    expect(fetch).toHaveBeenCalledWith('http://localhost/api/auth/change', expect.objectContaining({
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: 1, oldPass: 'oldPassword', newPass: 'newPassword' })
+    }));
+
+    expect(console.error).toHaveBeenCalledWith('Change password failed:', mockError);
   });
 });

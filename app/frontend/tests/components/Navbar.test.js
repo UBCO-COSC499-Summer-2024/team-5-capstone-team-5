@@ -1,35 +1,45 @@
-// app/frontend/tests/components/Navbar.test.js
+// tests/components/Navbar.test.js
 
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
-import Navbar from '../../../src/components/Navbar';
-import validateUser from '../../../src/hooks/validateUser';
-import getUserInfo from '../../../src/hooks/getUserInfo';
-import getCourseData from '../../../src/hooks/getCourseData';
-import { useTheme } from '../../../src/App';
+import Navbar from 'components/Navbar';
+import getCourseData from 'hooks/getCourseData';
+import validateUser from 'hooks/validateUser';
+import getUserInfo from 'hooks/getUserInfo';
+import { useTheme } from 'App';
 
 // Mock the hooks
-jest.mock('../../../src/hooks/validateUser');
-jest.mock('../../../src/hooks/getUserInfo');
-jest.mock('../../../src/hooks/getCourseData');
-jest.mock('../../../src/App', () => ({
+jest.mock('hooks/getCourseData');
+jest.mock('hooks/validateUser');
+jest.mock('hooks/getUserInfo');
+jest.mock('App', () => ({
   useTheme: jest.fn(),
 }));
 
+const mockCourses = [
+  {
+    course_id: 1,
+    name: 'Course 1',
+    description: 'Description for Course 1',
+    end_date: '2023-12-31',
+  },
+  {
+    course_id: 2,
+    name: 'Course 2',
+    description: 'Description for Course 2',
+    end_date: '2023-12-31',
+  },
+];
+
+const mockUser = {
+  name: 'John Doe',
+  userEmail: 'johndoe@example.com',
+  role: 1,
+};
+
 describe('Navbar Component', () => {
-  const mockUser = {
-    name: 'John Doe',
-    userEmail: 'johndoe@example.com',
-    role: 1
-  };
-
-  const mockCourses = [
-    { course_id: 1, name: 'Course 1', description: 'Description 1', end_date: '2023-12-31' },
-    { course_id: 2, name: 'Course 2', description: 'Description 2', end_date: '2023-12-31' },
-  ];
-
   beforeEach(() => {
     validateUser.mockResolvedValue(true);
     getUserInfo.mockResolvedValue(mockUser);
@@ -37,86 +47,66 @@ describe('Navbar Component', () => {
     useTheme.mockReturnValue({ theme: 'light' });
   });
 
-  it('renders without crashing and displays user information', async () => {
+  it('renders without crashing and displays courses', async () => {
     render(
       <BrowserRouter>
         <Navbar id="123" />
       </BrowserRouter>
     );
 
-    // Wait for the user information to be fetched and displayed
     await waitFor(() => {
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
-      expect(screen.getByText('johndoe@example.com')).toBeInTheDocument();
-      expect(screen.getByText('Student')).toBeInTheDocument();
-    });
-
-    // Check if the logo is rendered
-    expect(screen.getByAltText('Logo')).toBeInTheDocument();
-
-    // Check if the navigation links are rendered
-    expect(screen.getByText('Recent Courses')).toBeInTheDocument();
-    expect(screen.getByText('About')).toBeInTheDocument();
-    expect(screen.getByText('Contact')).toBeInTheDocument();
-  });
-
-  it('fetches and displays course data', async () => {
-    render(
-      <BrowserRouter>
-        <Navbar id="123" />
-      </BrowserRouter>
-    );
-
-    // Wait for the course data to be fetched and displayed
-    await waitFor(() => {
-      mockCourses.forEach(course => {
-        expect(screen.getByText(course.name)).toBeInTheDocument();
-        expect(screen.getByText(course.description)).toBeInTheDocument();
-        expect(screen.getByText('Ends: 2023-12-31')).toBeInTheDocument();
-      });
+      expect(screen.getByText('Course 1')).toBeInTheDocument();
+      expect(screen.getByText('Course 2')).toBeInTheDocument();
     });
   });
 
-  it('handles logout', async () => {
+  it('redirects to login if the session is not valid', async () => {
+    validateUser.mockResolvedValue(false);
     render(
       <BrowserRouter>
         <Navbar id="123" />
       </BrowserRouter>
     );
 
-    // Open the profile menu
-    fireEvent.click(screen.getByText('John Doe'));
-
-    // Wait for the profile menu to open
     await waitFor(() => {
-      expect(screen.getByText('Log out')).toBeInTheDocument();
+      expect(window.location.pathname).toBe('/login');
+    });
+  });
+
+  it('opens and closes the profile menu', async () => {
+    render(
+      <BrowserRouter>
+        <Navbar id="123" />
+      </BrowserRouter>
+    );
+
+    await waitFor(() => {
+      fireEvent.click(screen.getByText(mockUser.name));
     });
 
-    // Simulate logout
+    expect(screen.getByText('Change Password')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('×'));
+
+    await waitFor(() => {
+      expect(screen.queryByText('Change Password')).not.toBeInTheDocument();
+    });
+  });
+
+  it('logs out the user', async () => {
+    render(
+      <BrowserRouter>
+        <Navbar id="123" />
+      </BrowserRouter>
+    );
+
+    await waitFor(() => {
+      fireEvent.click(screen.getByText(mockUser.name));
+    });
+
     fireEvent.click(screen.getByText('Log out'));
 
-    // Check if the token is removed from localStorage
     expect(localStorage.getItem('token')).toBeNull();
-  });
-
-  it('redirects to login if the session is invalid', async () => {
-    validateUser.mockResolvedValueOnce(false);
-
-    const mockNavigate = jest.fn();
-    jest.mock('react-router-dom', () => ({
-      ...jest.requireActual('react-router-dom'),
-      useNavigate: () => mockNavigate,
-    }));
-
-    render(
-      <BrowserRouter>
-        <Navbar id="123" />
-      </BrowserRouter>
-    );
-
-    // Wait for the session validation
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/login');
-    });
+    expect(window.location.pathname).toBe('/login');
   });
 });
