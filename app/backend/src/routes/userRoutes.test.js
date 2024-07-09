@@ -1,5 +1,9 @@
 const request = require("supertest");
 const app = require("../server");
+const db = require("../database");
+
+
+jest.mock('../database');
 
 describe("Test the routes in userRoutes", () => {
 
