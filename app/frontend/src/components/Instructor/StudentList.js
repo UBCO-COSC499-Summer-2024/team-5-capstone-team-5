@@ -6,7 +6,6 @@ import StudentSpreadsheet from './StudentSpreadsheet';
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
   const { theme } = useTheme();
-  const [fileUploaded, setFileUploaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [fileUploaded, setFileUploaded] = useState(1);
 
