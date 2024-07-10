@@ -1,5 +1,153 @@
+## June (19-21)
 
-June 5 - June 7
+### Timesheet
+Clockify report
+
+![alt text](https://app.clockify.me/dashboard)
+
+### Current Tasks (Provide sufficient detail)
+
+  * #1: Work on OMR
+    set up mock test data ( fill in bubble sheets)
+    #2: Work on OMR
+  Train the dataset
+#3 Work on OMR
+label the the dataset
+
+### Progress Update 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Set up mock test data
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Label the the dataset
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Train the dataset
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+    
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+OMR taking longer than expected due to complexity: 
+1) commpleted the test data with oakley and jayt
+2) setting up environments that adhere to our licenses and goals
+-currently looking up yolo and roboflow and seeing if we have a proper plan
+-messed up our docker compose file
+
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * OMR
+
+
+
+
+
+
+
+
+## June (11- 19)
+
+### Timesheet
+Clockify report
+
+![alt text](https://app.clockify.me/dashboard)
+
+### Current Tasks (Provide sufficient detail)
+  * #1: Work on Setting up Docker Environment for OMR
+### Progress Update 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task A
+        </td>
+        <!-- Status -->
+        <td>Inprogress
+        </td>
+    </tr>
+    
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+OMR taking longer than expected due to complexity: 
+1) need test data
+2) setting up environments that adhere to our licenses and goals
+-currently looking up yolo and roboflow and seeing if we have a proper plan
+-messed up our docker compose file
+
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * OMR
+
+
+
+# June 11-14
+## Hours: 7 Hours
+ Was working on with Nick and Jay to meet the expected deadlines of our milestonea
+- User Authentication
+- Creating Stuff
+- Was attempting with the automatic testing with drone and wasnt't Working
+- We had to rework our entire framework because our user authentication (Clerk) had
+some paid features to allow us to authentications and there was quite a bit of discussion 
+with the current direction
+
+
+
+
+
+
+# June 7- 11
+## Hours: 16 Hours
+Team Meeting (2)Hrs
+
+## Hour Breakdown
+-Registered with Clerk Authentication but wasnt working(6hrs)
+-Set Up My Docker Compose (3hrs)
+-Look into admirer (2hrs) (dont know how to use it)
+- Look into PostgreSQL database and trying to incomporate into the database (3hrs)
+- Hit A Roadblock, my docker compose wasn't working with the ports and the front end
+
+## Work in Progress
+Trying to fix our environment
+docker-compose
+
+## Tasks: 
+
+docker-compose
+try to get the database working and user authentication
+
+
+
+
+# June 5 - June 7
 ## Hours 6.5
 
 ## Tasks:

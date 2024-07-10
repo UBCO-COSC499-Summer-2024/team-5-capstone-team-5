@@ -55,7 +55,9 @@ Need to pick up slack
 
 
 
+
 # Weekly Log - [Week 3: June 7-June 12]
+
 
 ### Date: June 12
 ### Author: Jack Mathisen
