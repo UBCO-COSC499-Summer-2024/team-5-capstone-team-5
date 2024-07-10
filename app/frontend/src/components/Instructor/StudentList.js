@@ -1,3 +1,5 @@
+// app/frontend/src/components/Instructor/StudentList.js
+
 import React, { useEffect, useState, useCallback } from 'react';
 import getStudentData from '../../hooks/getStudentData';
 import { useTheme } from '../../App';
@@ -15,26 +17,26 @@ const StudentList = (props) => {
     setStudents(data);
   }, [props.courseId]);
 
-const handleRosterUpload = async (event) => {
-  setFileUploaded(2)
-  const file = event.target.files[0];
-  if (file) {
-    const formData = new FormData();
-    formData.append('file', file)
-    const response = await fetch('http://localhost/api/users/students/upload', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'courseid': props.courseId
+  const handleRosterUpload = async (event) => {
+    setFileUploaded(2);
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      const response = await fetch('http://localhost/api/users/students/upload', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'courseid': props.courseId,
+        },
+      });
+      if (response.ok) {
+        console.log('File uploaded:', file);
+        setFileUploaded(3);
+        fetchData();
       }
-    });
-    if(response.ok) {
-      console.log('File uploaded:', file);
-      setFileUploaded(3);
-      fetchData();
     }
-  }
-};
+  };
 
   useEffect(() => {
     fetchData();
@@ -59,7 +61,7 @@ const handleRosterUpload = async (event) => {
           </div>
         )}
 
-        <label className="block text-sm font-medium mb-2">
+        <label htmlFor="studentFile" className="block text-sm font-medium mb-2">
           Upload Student Data
         </label>
         <input

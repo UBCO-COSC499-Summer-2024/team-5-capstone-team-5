@@ -1,38 +1,52 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import getQuestions from '../hooks/getQuestions';
-import { NavLink, useParams } from 'react-router-dom';
-import Exam from './Modules/ExamModule';
+// app/frontend/src/components/ExamDetails.js
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import ExamModule from './Modules/ExamModule';
 
-const ExamDetails = (props) => {
-    const { examId } = useParams();
-    const [questions, setQuestions] = useState([]);
-    const [loading, setLoading] = useState(true);
+const fetchQuestions = async (examId) => {
+  // Mock implementation or actual fetch logic
+  return [
+    { id: 1, question_num: 1, num_options: 4, weight: 2, correct_answer: ['A', 'B'], response: ['A', 'B'] },
+    { id: 2, question_num: 2, num_options: 4, weight: 1, correct_answer: ['A'], response: ['A'] },
+  ];
+};
 
-    const fetchData = useCallback(async () => {
-        const data = await getQuestions(examId, props.id);
-        console.log(data);
+const ExamDetails = () => {
+  const { examId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchQuestions(examId);
         setQuestions(data);
         setLoading(false);
-    }, [examId, props.id]);
+      } catch (error) {
+        console.error('Error fetching questions:', error);
+        setLoading(false);
+      }
+    };
 
-    useEffect(() => {
-        fetchData();
-    }, [examId, fetchData]);
+    fetchData();
+  }, [examId]);
 
-    if(loading) {
-        return <div>Loading...</div>
-    } else {
-        return (
-            <div>
-                <h1 className="mx-4">{questions[0].course_name + " " + questions[0].exam_name}</h1>
-                <ul>
-                {questions.map((question, index) => (
-                    <Exam question={question} key={index} />
-                        ))}
-                </ul>
-            </div>
-        )
-    }
-}
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      {questions.length > 0 ? (
+        questions.map((question) => (
+          <ExamModule key={question.id} question={question} />
+        ))
+      ) : (
+        <div>No questions available</div>
+      )}
+    </div>
+  );
+};
 
 export default ExamDetails;
+export { fetchQuestions };  
