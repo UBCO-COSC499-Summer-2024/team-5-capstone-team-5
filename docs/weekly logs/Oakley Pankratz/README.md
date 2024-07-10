@@ -1,3 +1,64 @@
+## Friday (7/5 - 7/10) Oakley Pankratz
+Total Hours: 11.5
+
+![alt text](ClockifyLogJuly10.png)
+
+## Current Tasks
+ * Making the greades spreadsheet component "clickable" so that it displays a student's scan. 
+ * Resolving bugs on the spreadhseet component related to the edge case where a student is missing an exam for an assessment.
+
+
+### Progress Update (since 6/19/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Add Dark Mode to the About and Contact Pages (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>Discussing with Teamates
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a Header for the dashboard view (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>Discussing with Teamates
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a cpreadsheet component to display grades (Issue #42)
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+        </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Making the spreadsheet component clickable
+        </td>
+        <!-- Status -->
+        <td>In progress (Isse #141)
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+
+I'm happy with my work this cycle. I ran into some unexepected bugs on the spreadhseet component, which was a little discouraging. However, working through these bugs has helped improve my overall understanding of our project works. 
+
+### Next Cycle Goals:
+* Discuss of the front end with teammates as it seems we are getting clocse to compleeting it. We need to determine what is still missing, and finnih it.
+* The list of tests in the instructor views needs to have the mean score for each test. I have yet to create an issue on gitHub for it, but I'm planning on doing making one this afternoon after a brief discussion with the team.
+
 ## Friday (7/3 - 7/5) Oakley Pankratz
 Total Hours: 22
 
