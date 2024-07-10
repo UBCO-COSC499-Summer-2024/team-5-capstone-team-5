@@ -1,3 +1,60 @@
+# Weekly Log - [Week 3: July 5-10]
+
+### Date: July 10 8:09 am
+### Author: Jack Mathisen
+
+
+## Hour Breakdown
+
+**Approximate Hours: 5**
+
+**Things Done**
+learn more about jest and its integration with react
+setup testing enviornment will be able to help with that 
+workthrough setting up CSV reader enviornment 
+analysed code in project
+
+**In Progress**
+
+Get up to date on project workflow and requirements
+help with tests and OMR accuracy 
+help dashboard and help with interactivity of project
+
+**Goal Recap**
+Need to pick up slack
+
+![Work july 5-10](<July 5-10.jpeg>)
+
+
+
+# Weekly Log - [Week 3: July 3-5]
+
+### Date: July 5 7;00 am
+### Author: Jack Mathisen
+
+
+## Hour Breakdown
+
+**Approximate Hours: 3**
+
+**Things Done**
+learn more about the project
+learned jest and testing frameworks 
+analysed code 
+
+**In Progress**
+
+Get up to date on project workflow and requirements
+put in some actual work 
+help with tests and OMR accuracy 
+
+**Goal Recap**
+Not enough done been somewhat MIA 
+Need to pick up slack
+
+
+
+
 # Weekly Log - [Week 3: June 7-June 12]
 
 ### Date: June 12
