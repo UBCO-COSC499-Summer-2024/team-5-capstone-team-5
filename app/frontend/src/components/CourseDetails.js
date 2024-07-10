@@ -1,7 +1,7 @@
 // app/frontend/src/components/CourseDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getTestData } from '../hooks/getTestData';
+import  getTestData from '../hooks/getTestData';
 
 const CourseDetails = () => {
   const { courseId } = useParams();
