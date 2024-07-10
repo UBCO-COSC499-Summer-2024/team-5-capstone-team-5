@@ -1,44 +1,52 @@
-// src/components/ExamDetails.js
+// app/frontend/src/components/ExamDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getQuestions } from '../hooks/getQuestions';
+import ExamModule from './Modules/ExamModule';
+
+const fetchQuestions = async (examId) => {
+  // Mock implementation or actual fetch logic
+  return [
+    { id: 1, question_num: 1, num_options: 4, weight: 2, correct_answer: ['A', 'B'], response: ['A', 'B'] },
+    { id: 2, question_num: 2, num_options: 4, weight: 1, correct_answer: ['A'], response: ['A'] },
+  ];
+};
 
 const ExamDetails = () => {
   const { examId } = useParams();
-  const [questions, setQuestions] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getQuestions(examId);
+        const data = await fetchQuestions(examId);
         setQuestions(data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching questions:', error);
-      } finally {
         setLoading(false);
       }
     };
-    fetchQuestions();
+
+    fetchData();
   }, [examId]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!questions) {
-    return <div>No Questions Available</div>;
-  }
-
   return (
     <div>
-      {questions.map((question, index) => (
-        <div key={index}>
-          <p>{question.question}</p>
-        </div>
-      ))}
+      {questions.length > 0 ? (
+        questions.map((question) => (
+          <ExamModule key={question.id} question={question} />
+        ))
+      ) : (
+        <div>No questions available</div>
+      )}
     </div>
   );
 };
 
 export default ExamDetails;
+export { fetchQuestions };  

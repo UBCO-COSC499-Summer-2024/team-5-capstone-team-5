@@ -1,62 +1,53 @@
-// tests/components/ExamDetails.test.js
+// app/frontend/tests/components/ExamDetails.test.js
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ExamDetails from '../../src/components/ExamDetails';
-import { getQuestions } from '../../src/hooks/getQuestions';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ExamDetails, { fetchQuestions } from '../../src/components/ExamDetails';
+import '@testing-library/jest-dom/extend-expect';
 
-jest.mock('../../src/hooks/getQuestions', () => ({
-  getQuestions: jest.fn(),
+jest.mock('../../src/components/ExamDetails', () => ({
+  ...jest.requireActual('../../src/components/ExamDetails'),
+  fetchQuestions: jest.fn(),
 }));
 
-describe('ExamDetails Component', () => {
-  beforeEach(() => {
-    getQuestions.mockClear();
-  });
+const mockQuestions = [
+  { id: 1, question_num: 1, num_options: 4, weight: 2, correct_answer: ['A', 'B'], response: ['A', 'B'] },
+  { id: 2, question_num: 2, num_options: 4, weight: 1, correct_answer: ['A'], response: ['A'] },
+];
 
-  it('renders loading state initially', () => {
-    render(
-      <BrowserRouter>
-        <Routes>
-          <Route path="/exam/:examId" element={<ExamDetails />} />
-        </Routes>
-      </BrowserRouter>
-    );
+test('renders ExamDetails component with questions', async () => {
+  fetchQuestions.mockResolvedValueOnce(mockQuestions);
 
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
-  });
+  render(
+    <BrowserRouter initialEntries={['/exam/1']}>
+      <Routes>
+        <Route path="/exam/:examId" element={<ExamDetails />} />
+      </Routes>
+    </BrowserRouter>
+  );
 
-  it('renders exam details after loading', async () => {
-    getQuestions.mockResolvedValueOnce([
-      { question: 'Question 1?' },
-      { question: 'Question 2?' },
-    ]);
+  expect(screen.getByText(/Loading/i)).toBeInTheDocument();
 
-    render(
-      <BrowserRouter>
-        <Routes>
-          <Route path="/exam/:examId" element={<ExamDetails />} />
-        </Routes>
-      </BrowserRouter>
-    );
+  await waitFor(() => expect(fetchQuestions).toHaveBeenCalledWith('1'));
 
-    await waitFor(() => expect(getQuestions).toHaveBeenCalledWith('1'));
+  expect(screen.getByText(/Question: 1/i)).toBeInTheDocument();
+  expect(screen.getByText(/Question: 2/i)).toBeInTheDocument();
+});
 
-    expect(screen.getByText('Question 1?')).toBeInTheDocument();
-    expect(screen.getByText('Question 2?')).toBeInTheDocument();
-  });
+test('renders ExamDetails component with no questions', async () => {
+  fetchQuestions.mockResolvedValueOnce([]);
 
-  it('calls getQuestions with correct parameters', async () => {
-    getQuestions.mockResolvedValueOnce([]);
+  render(
+    <BrowserRouter initialEntries={['/exam/1']}>
+      <Routes>
+        <Route path="/exam/:examId" element={<ExamDetails />} />
+      </Routes>
+    </BrowserRouter>
+  );
 
-    render(
-      <BrowserRouter>
-        <Routes>
-          <Route path="/exam/:examId" element={<ExamDetails />} />
-        </Routes>
-      </BrowserRouter>
-    );
+  expect(screen.getByText(/Loading/i)).toBeInTheDocument();
 
-    await waitFor(() => expect(getQuestions).toHaveBeenCalledWith('1'));
-  });
+  await waitFor(() => expect(fetchQuestions).toHaveBeenCalledWith('1'));
+
+  expect(screen.getByText(/No questions available/i)).toBeInTheDocument();
 });
