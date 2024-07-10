@@ -1,4 +1,64 @@
-# Wednesday (7/3 - 7/5)
+# Wednesday (7/5 - 7/10)
+## Date: July 9, 10:28PM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJuly9.png)
+
+### Task tldr:
+I worked on merge conflicts that occured when we merged everything on Friday and worked on setting up database mocking in Jest for backend testing, as well as creating some backend tests for our controller.
+
+### Current Tasks:
+  * #1: Finish backend testing
+  * #2: Add ability to edit exams and questions
+  * #3: Add ability to edit exam responses from students (as instructor)
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #1: Finish backend testing
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #2: Add ability to edit exams and questions
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #3: Add ability to edit exam responses (as instructor)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+- I managed to get some Jest database mocking running, but was unable to fully test our backend with adequate coverage.
+
+Overall, I am unhappy with the progress I made over the weekend. I had a busy weekend outside of school.
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Finish testing so all portions of the backend are green in coverage
+  * Add ability to edit student's responses as an instructor
+  * Add a flagging ability so the instructor knows what questions might be incorrect
+
+
+# Friday (7/3 - 7/5)
 ## Date: July 5, 2:45 AM
 
 ### Timesheet (19hrs since Wed)
