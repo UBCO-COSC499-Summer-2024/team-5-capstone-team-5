@@ -1,3 +1,5 @@
+// app/frontend/src/components/Instructor/AddTestModal.js
+
 import React, { useState } from 'react';
 import InstBubble from '../BubbleSheet/InstBubble';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,10 +10,6 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
   const [questions, setQuestions] = useState([]);
   const [examName, setExamName] = useState('');
   const { theme } = useTheme();
-
-  const handleAddQuestion = () => {
-    setQuestions([...questions, { correctAnswer: [] }]);
-  };
 
   const handleDeleteQuestion = (index) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
@@ -85,15 +83,6 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
             onChange={(e) => setExamName(e.target.value)}
             className={`w-full p-2 border rounded ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-500' : 'bg-gray-200 text-black border-gray-300'}`}
           />
-        </div>
-        <div className="mb-4">
-          <p className="mb-2">Number of Questions Added: {questions.length}</p>
-          <button
-            onClick={handleAddQuestion}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
-          >
-            Add Question
-          </button>
         </div>
         <div className="overflow-y-auto max-h-64 mb-4">
           {questions.map((question, index) => (

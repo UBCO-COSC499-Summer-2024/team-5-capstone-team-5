@@ -9,7 +9,7 @@ const InstBubble = ({ question, onSelect }) => {
         <div
           key={option}
           role="button"
-          className={`w-8 h-8 flex items-center justify-center rounded-full border cursor-pointer ${question.correctAnswer.includes(option) ? 'bg-green-500 text-white' : 'bg-gray-300 text-black'}`}
+          className={`w-8 h-8 flex items-center justify-center rounded-full border cursor-pointer ${question.correctAnswer && question.correctAnswer.includes(option) ? 'bg-green-500 text-white' : 'bg-gray-300 text-black'}`}
           onClick={() => {
             console.log(`Selected option: ${option}`);
             onSelect(option);
