@@ -218,7 +218,8 @@ describe('User Controller', () => {
       await addStudent(1, 'John', 'Doe', 'john@example.com', 'password', 1);
 
       expect(db.none).toHaveBeenCalledWith(
-        'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING', [1, 'John', 'Doe', 'john@example.com', 'password']
+        'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING',
+        [1, 'John', 'Doe', 'john@example.com', 'password']
       );
       expect(mockRegister).toHaveBeenCalledWith(1, 1);
 
@@ -232,7 +233,8 @@ describe('User Controller', () => {
       await addStudent(1, 'John', 'Doe', 'john@example.com', 'password', null);
 
       expect(db.none).toHaveBeenCalledWith(
-        'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING', [1, 'John', 'Doe', 'john@example.com', 'password']
+        'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING',
+        [1, 'John', 'Doe', 'john@example.com', 'password']
       );
       expect(mockRegister).not.toHaveBeenCalled();
 
@@ -246,14 +248,15 @@ describe('User Controller', () => {
       await addStudent(1, 'John', 'Doe', 'john@example.com', 'password', 1);
 
       expect(db.none).toHaveBeenCalledWith(
-        'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING', [1, 'John', 'Doe', 'john@example.com', 'password']
+        'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING',
+        [1, 'John', 'Doe', 'john@example.com', 'password']
       );
       expect(console.error).toHaveBeenCalledWith('Error adding student John, Doe');
       expect(mockRegister).not.toHaveBeenCalled();
 
       mockRegister.mockRestore();
     });
-});
+  });
 
   describe('addCourse', () => {
     it('should add a course and register the user', async () => {
@@ -265,10 +268,12 @@ describe('User Controller', () => {
       const result = await addCourse(1, 'Course 1', 'Description 1', '2024-12-31');
 
       expect(db.none).toHaveBeenCalledWith(
-        'INSERT INTO courses (name, description, end_date) VALUES ($1, $2, $3)', ['Course 1', 'Description 1', '2024-12-31']
+        'INSERT INTO courses (name, description, end_date) VALUES ($1, $2, $3)',
+        ['Course 1', 'Description 1', '2024-12-31']
       );
       expect(db.oneOrNone).toHaveBeenCalledWith(
-        'SELECT id FROM courses WHERE name = $1 AND description = $2 AND end_date = $3', ['Course 1', 'Description 1', '2024-12-31']
+        'SELECT id FROM courses WHERE name = $1 AND description = $2 AND end_date = $3',
+        ['Course 1', 'Description 1', '2024-12-31']
       );
       expect(mockRegister).toHaveBeenCalledWith(1, 1);
       expect(result).toEqual({ user_id: 1, name: 'Course 1', description: 'Description 1', end_date: '2024-12-31', course_id: 1 });
@@ -290,7 +295,8 @@ describe('User Controller', () => {
       await addCourse(1, 'Course 1', 'Description 1', '2024-12-31');
 
       expect(db.none).toHaveBeenCalledWith(
-        'INSERT INTO courses (name, description, end_date) VALUES ($1, $2, $3)', ['Course 1', 'Description 1', '2024-12-31']
+        'INSERT INTO courses (name, description, end_date) VALUES ($1, $2, $3)',
+        ['Course 1', 'Description 1', '2024-12-31']
       );
       expect(console.error).toHaveBeenCalledWith('Error adding course Course 1');
     });

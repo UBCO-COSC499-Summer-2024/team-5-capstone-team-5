@@ -182,12 +182,22 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
   });
 
 router.get('/courses/grades/:id', async (req, res) => {
-    try {
-        const grades = await calculateGrades(req.params.id);
-        console.log(grades)
-        res.status(200).json(grades)
-    } catch(error) {
-        res.status(400).json({error: error.message});
+    const id = req.params.id;
+    console.log("ID:",id)
+    if(id) {
+        console.log("ID:",id)
+        try {
+            console.log("ID:",id)
+            const grades = await calculateGrades(req.params.id);
+            console.log(grades);
+            res.status(200).json(grades);
+        } catch(error) {
+            console.log("ID:",id)
+            res.status(400).json({error: error.message});
+        }
+    } else {
+        console.log("ID:",id)
+        res.status(400).json({error: "id is not sent"});
     }
 });
 
