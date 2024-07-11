@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../App';
-import Bubble from '../BubbleSheet/Bubbles';
+import InstBubble from '../BubbleSheet/InstBubble';
 
 const TestCorrectAnswers = ({ test, onBack, onEditTest }) => {
   const { theme } = useTheme();
@@ -94,9 +94,7 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest }) => {
                   <tr key={`question-${index}`} className={((index % 2 === 1) ? "" : "bg-white/10") + " rounded-lg"}>
                     <td className="p-4">Question {q.question_num}</td>
                     <td className="p-4">
-                      <div className="flex space-x-2">
-                        <h2>{'Correct Answer(s): ' + q.correct_answer.map(num => letters[num])}</h2>
-                      </div>
+                      <InstBubble question={q} readOnly={true} />
                     </td>
                   </tr>
                 ))
