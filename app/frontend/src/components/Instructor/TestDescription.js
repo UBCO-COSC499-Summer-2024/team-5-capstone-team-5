@@ -3,11 +3,12 @@ import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers';
 import Toast from '../Toast';
 
-const TestDescription = ({ test, onBack, onDeleteTest }) => {
+const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(1); // 1 = nothing, 2 = loading, 3 = uploaded
   const [answerKeyUploaded, setAnswerKeyUploaded] = useState(1);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
+  const [reloadCorrectAnswers, setReloadCorrectAnswers] = useState(false); // Track reloading of correct answers
   const [toast, setToast] = useState({ show: false, message: '', type: '', showConfirm: false });
 
   const handleFileUpload = async (event) => {
@@ -44,7 +45,7 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
       const data = await response.json();
       console.log('File uploaded:', file);
       setAnswerKeyUploaded(3);
-      // Assuming the correct answers are returned in the response
+      setReloadCorrectAnswers(true); // Trigger reload of correct answers
       test.correctAnswers = data.correctAnswers;
     }
   };
@@ -55,6 +56,7 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
 
   const handleAnswerKeyRemove = () => {
     setAnswerKeyUploaded(1);
+    setReloadCorrectAnswers(false); // Stop reloading of correct answers
     test.correctAnswers = [];
   };
 
@@ -68,6 +70,7 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
 
   const handleBackToDescription = () => {
     setShowCorrectAnswers(false);
+    setReloadCorrectAnswers(false); // Reset the reload state when navigating back
   };
 
   const handleDeleteTest = () => {
@@ -181,20 +184,23 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
               onClick={handleViewCorrectAnswers}
               className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
             >
-              Correct Answers
+              View Correct Answers
             </button>
             <button
               onClick={handleDeleteTest}
-              className={`px-4 py-2 rounded transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-red-500' : 'bg-gray-300 text-black hover:bg-red-400'}`}
+              className={`bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200 ml-4 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
             >
               Delete Test
             </button>
           </div>
         </>
       ) : (
-        <TestCorrectAnswers 
-          test={test} 
-          onBack={handleBackToDescription} 
+        <TestCorrectAnswers
+          test={test}
+          onBack={handleBackToDescription}
+          onEditTest={onEditTest}
+          answerKeyUploaded={answerKeyUploaded}
+          reloadCorrectAnswers={reloadCorrectAnswers}
         />
       )}
     </div>

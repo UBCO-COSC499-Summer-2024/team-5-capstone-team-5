@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../App';
 import InstBubble from '../BubbleSheet/InstBubble';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFlag } from '@fortawesome/free-solid-svg-icons';
 
-const TestCorrectAnswers = ({ test, onBack, onEditTest }) => {
+const TestCorrectAnswers = ({ test, onBack, onEditTest, answerKeyUploaded, reloadCorrectAnswers }) => {
   const { theme } = useTheme();
   const [questions, setQuestions] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -18,28 +20,39 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest }) => {
           },
         });
         const data = await response.json();
-        console.log('Fetched questions:', data); // Log fetched data
+        console.log('Fetched questions:', data); // Log fetched data from API
         if (Array.isArray(data)) {
-          // Filter out duplicates based on question_num
           const uniqueQuestions = data.filter((item, index, self) =>
             index === self.findIndex((q) => q.question_num === item.question_num)
           );
-          setQuestions(uniqueQuestions);
+          const questionsWithAnswers = uniqueQuestions.map(q => ({
+            ...q,
+            correctAnswer: q.correct_answer ? q.correct_answer.map(pos => letters[pos]) : null,
+            hasError: !q.correct_answer || !Array.isArray(q.correct_answer) || q.correct_answer.some(pos => pos < 0 || pos >= letters.length),
+          }));
+          setQuestions(questionsWithAnswers);
         } else {
           setQuestions([]);
         }
       } catch (error) {
         console.error('Error fetching questions:', error);
+        setQuestions([]);
       }
     };
 
-    fetchQuestions();
-  }, [test.id]);
+    if (answerKeyUploaded === 3 && reloadCorrectAnswers) {
+      fetchQuestions();
+    }
+  }, [test.id, answerKeyUploaded, reloadCorrectAnswers]);
+
+  useEffect(() => {
+    // Log the data being shown on the frontend
+    console.log('Questions data being displayed:', questions);
+  }, [questions]);
 
   const handleEditTestName = async () => {
     await onEditTest(test.id, newName);
     setIsEditing(false);
-    // Update the test name in the component state
     test.name = newName;
   };
 
@@ -57,7 +70,7 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest }) => {
       <div className="flex-grow">
         <div className={`rounded-lg p-6 shadow-lg relative mb-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
           <h2 className="text-2xl font-bold mb-4">{test.name} - Correct Answers</h2>
-          <p className="mb-4">Total Questions: {questions.length}</p> {/* Display the total number of questions */}
+          <p className="mb-4">Total Questions: {questions.length}</p>
           {isEditing ? (
             <div className="mb-4">
               <input
@@ -92,9 +105,16 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest }) => {
               {questions.length > 0 ? (
                 questions.map((q, index) => (
                   <tr key={`question-${index}`} className={((index % 2 === 1) ? "" : "bg-white/10") + " rounded-lg"}>
-                    <td className="p-4">Question {q.question_num}</td>
                     <td className="p-4">
-                      <InstBubble question={q} readOnly={true} />
+                      {q.hasError && <FontAwesomeIcon icon={faFlag} className="text-red-500 mr-2" />}
+                      Question {q.question_num}
+                    </td>
+                    <td className="p-4">
+                      {q.correctAnswer ? (
+                        <InstBubble question={q} />
+                      ) : (
+                        <span className="text-red-500">Error in data</span>
+                      )}
                     </td>
                   </tr>
                 ))
