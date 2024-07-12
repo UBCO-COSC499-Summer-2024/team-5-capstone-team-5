@@ -1,8 +1,9 @@
+// TestCorrectAnswers.js
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../App';
 import InstBubble from '../BubbleSheet/InstBubble';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFlag } from '@fortawesome/free-solid-svg-icons';
+import { faFlag, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const TestCorrectAnswers = ({ test, onBack, onEditTest, answerKeyUploaded, reloadCorrectAnswers }) => {
   const { theme } = useTheme();
@@ -27,7 +28,7 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest, answerKeyUploaded, reloa
           );
           const questionsWithAnswers = uniqueQuestions.map(q => ({
             ...q,
-            correctAnswer: q.correct_answer ? q.correct_answer.map(pos => letters[pos]) : null,
+            correctAnswer: q.correct_answer ? q.correct_answer.map(pos => letters[pos]) : [],
             hasError: !q.correct_answer || !Array.isArray(q.correct_answer) || q.correct_answer.some(pos => pos < 0 || pos >= letters.length),
           }));
           setQuestions(questionsWithAnswers);
@@ -54,6 +55,52 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest, answerKeyUploaded, reloa
     await onEditTest(test.id, newName);
     setIsEditing(false);
     test.name = newName;
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://localhost/api/users/questions/answers/${test.id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(questions.map(q => ({
+          ...q,
+          correct_answer: q.correctAnswer.map(a => letters.indexOf(a)),
+        }))),
+      });
+      if (response.ok) {
+        alert('Test updated successfully!');
+      } else {
+        alert('Failed to update test.');
+      }
+    } catch (error) {
+      console.error('Error saving test:', error);
+    }
+    setIsEditing(false);
+  };
+
+  const handleBubbleClick = (questionNum, option) => {
+    setQuestions((prevQuestions) =>
+      prevQuestions.map((q) => {
+        if (q.question_num === questionNum) {
+          const correctAnswer = q.correctAnswer || [];
+          const index = correctAnswer.indexOf(option);
+          if (index > -1) {
+            correctAnswer.splice(index, 1);
+          } else {
+            correctAnswer.push(option);
+          }
+          return { ...q, correctAnswer: [...correctAnswer] };
+        }
+        return q;
+      })
+    );
+  };
+
+  const handleDeleteQuestion = (questionNum) => {
+    setQuestions((prevQuestions) => prevQuestions.filter((q) => q.question_num !== questionNum));
   };
 
   return (
@@ -94,11 +141,22 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest, answerKeyUploaded, reloa
               Edit Test
             </button>
           )}
+          {isEditing && (
+            <div className="mb-4 flex justify-end">
+              <button
+                onClick={handleSave}
+                className={`px-4 py-2 rounded transition duration-200 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-green-600' : 'bg-gray-300 text-black hover:bg-green-400'}`}
+              >
+                Save All
+              </button>
+            </div>
+          )}
           <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
             <thead>
               <tr>
                 <th className="p-4">Question</th>
                 <th className="p-4">Correct Answer(s)</th>
+                {isEditing && <th className="p-4">Actions</th>}
               </tr>
             </thead>
             <tbody>
@@ -110,17 +168,20 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest, answerKeyUploaded, reloa
                       Question {q.question_num}
                     </td>
                     <td className="p-4">
-                      {q.correctAnswer ? (
-                        <InstBubble question={q} />
-                      ) : (
-                        <span className="text-red-500">Error in data</span>
-                      )}
+                      <InstBubble question={q} isEditing={isEditing} onBubbleClick={handleBubbleClick} />
                     </td>
+                    {isEditing && (
+                      <td className="p-4">
+                        <button onClick={() => handleDeleteQuestion(q.question_num)} className="text-red-500 hover:text-red-700">
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="2" className="p-4 text-center">No questions found</td>
+                  <td colSpan={isEditing ? 3 : 2} className="p-4 text-center">No questions found</td>
                 </tr>
               )}
             </tbody>
