@@ -1,3 +1,36 @@
+# Weekly Log - [Week 9: July 5-10]
+
+### Date: July 12 8:22 am
+### Author: Jack Mathisen
+
+
+## Hour Breakdown
+
+**Approximate Hours: 6.30**
+
+**Timesheet** 
+Clockify report alt text
+
+![alt text](<July 10 - 12-1.PNG>)
+
+
+**Current Tasks (Provide sufficient detail)**
+#1: Set up admin page make sure most features for admin are finished
+#2: Help Front end testing make sure that the tests are completed and modified for future changes to code
+
+**Progress Update (since 10/5/2024)**
+TASK/ISSUE #STATUS
+Task A	in progress
+Task B	In Progress
+
+**Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)**
+Im further ahead in the admin page ive been setting up my base for as follows. Will need to familiarize myself more with the process going forward. Will need to learn more about testing and how I can work admin tests. 
+
+**Next Cycle Goals (What are you going to accomplish during the next cycle)**
+Goal 1: Have admin features mostly completed if not completed. 
+Goal 2: Help with frontend tests, also have admin tests completed. 
+ 
+
 # Weekly Log - [Week 3: July 5-10]
 
 ### Date: July 10 8:09 am
