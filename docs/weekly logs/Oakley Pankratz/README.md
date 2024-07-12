@@ -1,4 +1,68 @@
-## Friday (7/5 - 7/10) Oakley Pankratz
+## Friday (7/10 - 7/12) Oakley Pankratz
+Total Hours: 9
+
+Update clockify log
+![alt text](ClockifyLogJuly12.png)
+
+## Current Tasks
+ * Creating a class to parse the data returned from a query of student's grades for a particular course.
+ * Discovering a bug in the OMR component in which we currently do not check to see if all students are registered in the course to which their exams are being uploaded.
+ * Working on a bug in the query which fetches student's grades.
+
+
+### Progress Update (since 7/12/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Add Dark Mode to the About and Contact Pages (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>Completed by another teammate 
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Create a Header for the dashboard view (Issue #46)
+        </td>
+        <!-- Status -->
+        <td>Discussing with Teamates
+        </td>
+        </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Making the spreadsheet component clickable
+        </td>
+        <!-- Status -->
+        <td>In progress (Issue #146)
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Working on a bug on the front end, which results from null/missing data
+        </td>
+        <!-- Status -->
+        <td>In progress (Issue #141)
+        </td>
+    </tr>
+</table>
+Add more to this table
+
+### Cycle Goal Review:
+I was working on the frontend when I ran into a bug. I traced although back to our databse and have now identified the source last night: When exams are being marked, if a student is not registered for a course, their exams are maarked anyways. Tracing this bug was time consuming, and got in the way of me complting my goals. Now that I've traced it however, I can quickly solve it nd get bck to work on the frontend.
+ 
+### Next Cycle Goals:
+* Resolve the bugs I identified/located
+* Make the spread sheet clickable
+* Display statistical sumarry of grades for a test.
+
+
+## Wednesday (7/5 - 7/10) Oakley Pankratz
 Total Hours: 11.5
 
 ![alt text](ClockifyLogJuly10.png)
