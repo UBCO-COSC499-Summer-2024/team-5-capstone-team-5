@@ -8,6 +8,8 @@ Clockify Report
 ### Task tldr:
 I worked on testing the backend. I doubled the tests we have written, with a few failing that I'm not sure how to fix.
 
+I also met with Jay shortly and went through our use cases, creating issues for the remaining tasks that are required to be completed (project management)
+
 ### Current Tasks:
   * #1: Finish backend testing
   * #2: Add ability to edit exams and questions
