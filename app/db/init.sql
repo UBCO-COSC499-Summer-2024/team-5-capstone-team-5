@@ -128,9 +128,10 @@ INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (000
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000005, 'Kevin', 'Wang', 'kevin.wang@email.com', 'password123', 1);
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000022, 'Nathan', 'Jacinto', 'nathan.jacinto2@email.com', 'password123', 1);
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000008, 'Jay', 'Bhullar', 'jay.bhullar@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000007, 'Jack', 'Mathisen', 'jack.mathisen@email.com', 'password123', 1);
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000006, 'Mqhamad', 'Khejezade', 'mqhamad.khejezade@email.com', 'password123', 1);
 
+-- Admin Users
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000007, 'Jack', 'Mathisen', 'jack.mathisen@email.com', 'password123', 3);
 
 
 -- Course Sample Data
