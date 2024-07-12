@@ -5,28 +5,28 @@
 
 ## Breakdown
 
-**Approximate Hours: 16.72**
+**Approximate Hours: 5.8**
 
 ### Things worked on: ###
 
-- **Frontend Fixing (6 hours):**
+- **Frontend Fixing (2.5 hours):**
   - Focused on resolving various frontend issues to improve the user interface and functionality.
 
-- **Correct Answers (5 hours):**
+- **Correct Answers (2 hours):**
   - Worked on ensuring the correct answers functionality displays accurate data on the frontend.
   - Addressed issues with displaying and managing correct answers in tests.
 
-- **Making Test Work (5.72 hours):**
+- **Making Test Work (1.3 hours):**
   - Debugged and fixed issues related to test functionality, ensuring tests work correctly.
 
 ### Comments ###
 
-This week, I concentrated on frontend fixing, making the correct answers work, and resolving issues with test functionality. Despite the progress, some tasks took longer than expected, especially with the correct answers and test functionality.
+This week, my focus was on frontend fixing, making the correct answers work, and resolving issues with test functionality. Although the time was limited, significant progress was made in ensuring these features work as expected.
 
 ## Timesheet
 
 ### Clockify report
-![Clockify report](./screenshots/TimesheetJuly11.png)
+![Clockify report](docs/weekly\ logs/Jay\ Bhullar/screenshots/Screenshot\ 2024-07-11\ at\ 11.39.01\ PM.png)
 
 ### Current Tasks (Provide sufficient detail)
   * #1: Frontend Fixing
@@ -46,7 +46,7 @@ This week, I concentrated on frontend fixing, making the correct answers work, a
         <td>Frontend Fixing
         </td>
         <!-- Status -->
-        <td>In Progress
+        <td>Complete
         </td>
     </tr>
     <tr>
@@ -54,7 +54,7 @@ This week, I concentrated on frontend fixing, making the correct answers work, a
         <td>Correct Answers
         </td>
         <!-- Status -->
-        <td>In Progress
+        <td>Complete
         </td>
     </tr>
     <tr>
@@ -68,7 +68,7 @@ This week, I concentrated on frontend fixing, making the correct answers work, a
 </table>
 
 ### Cycle Goal Review 
-Reflection: This cycle involved significant work on frontend fixes and ensuring the correct answers feature functions properly. While progress was made, some tasks took longer than anticipated due to their complexity.
+Reflection: This cycle involved significant work on frontend fixes and ensuring the correct answers feature functions properly. Despite limited hours, progress was made in stabilizing these features.
 
 Retrospective: The focus on fixing existing issues was necessary to ensure a stable application. Moving forward, balancing between new development and fixing existing issues will be key.
 
