@@ -99,6 +99,13 @@ CREATE TABLE IF NOT EXISTS responses (
     PRIMARY KEY (question_id, user_id)
 );
 
+CREATE TABLE IF NOT EXISTS scans (
+    exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
+    user_id integer REFERENCES users(id) ON DELETE CASCADE,
+    scan text,
+    PRIMARY KEY (exam_id, user_id)
+);
+
 -- Partially AI-Generated Sample Data
 
 -- User Sample Data

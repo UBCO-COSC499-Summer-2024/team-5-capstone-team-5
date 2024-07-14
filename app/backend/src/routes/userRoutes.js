@@ -176,7 +176,7 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const testid = req.headers['testid'];
     console.log("Testid", testid);
     const data = jsonData.data;
-    addAnswerKey(data, testid);
+    addAnswerKey(data, testid, req.headers['userid']);
     res.status(200).json({message: "This will always pass"});
   });
 

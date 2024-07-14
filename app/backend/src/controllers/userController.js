@@ -1,4 +1,6 @@
 const { db } = require('../database');
+const fs = require('fs');
+const path = require('path');
 
 const getCoursesByUserId = async (id) => {
     try {
@@ -129,6 +131,16 @@ const addQuestion = async (exam_id, num_options, correct_answer, weight, questio
     };
 };
 
+const addScan = async (exam_id, user_id, path) => {
+    try {
+        await db.none(
+            'INSERT INTO scans (exam_id, user_id, scan) VALUES ($1, $2, $3)', [exam_id, user_id, path]
+        );
+    } catch(error) {
+        console.error('Error adding scan for user',user_id);
+    }
+}
+
 const calculateGrades = async (course_id) => {
     try {
         const grades = await db.manyOrNone(
@@ -186,19 +198,30 @@ const addStudentAnswers = async (jsonData, examId) => {
 }
 
 
-const addAnswerKey = async (jsonData, examId) => {
+const addAnswerKey = async (jsonData, examId, userId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
             const responses = answerKey.answers[0]
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
+            const image = answerKey.image;
+            const imageBuffer = Buffer.from(image, 'base64');
+            const imagesDir = path.resolve(__dirname, '/images');
+            const imagePath = path.join(imagesDir, `${examId}_${answerKey.stnum}.png`);
+            console.log("Image path:", imagePath)
+            if (!fs.existsSync(imagesDir)) {
+                fs.mkdirSync(imagesDir, { recursive: true });
+            }
+            fs.writeFileSync(imagePath, imageBuffer);
+
             responses.forEach((response) => {
                 console.log(response.LetterPos);
                 const correctAnswer = Number(response.LetterPos);
                 const questionNum = Number(response.Question)
                 console.log(response);
                 addQuestion(examId, 5, [correctAnswer], 1, questionNum);
+                addScan(examId, userId, imagePath);
             })
         };
     }
@@ -238,5 +261,6 @@ module.exports = {
     deleteTest,
     editTest,
     calculateGrades,
-    getExamAnswers
+    getExamAnswers,
+    addScan
 }

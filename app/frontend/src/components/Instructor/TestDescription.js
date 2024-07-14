@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers';
+import getUserInfo from '../../hooks/getUserInfo';
 
 const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const { theme } = useTheme();
@@ -9,6 +10,15 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(test.name || '');
+  const [userId, setUserId] = useState('');
+
+  const fetchUserData = async () => {
+    const data = await getUserInfo();
+    setUserId(data.userId);
+  }
+  useEffect(() => {
+    fetchUserData();
+  })
 
   const handleFileUpload = async (event) => {
     setFileUploaded(2);
@@ -39,6 +49,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
         body: formData,
         headers: {
           'testid': test.id,
+          'userid': userId
         },
       });
       console.log('File uploaded:', file);

@@ -3,6 +3,7 @@ import os
 from pdf2image import convert_from_bytes
 from PIL import Image
 import io
+import base64
 from test_grader import process_bubbles
 from get_first_name import process_first_name
 from get_last_name import process_last_name
@@ -59,6 +60,11 @@ def upload_file():
             png_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_page_{i + 1}.png')
             image.save(png_path, 'png')
 
+            # Convert the image to a byte array
+            img_byte_arr = io.BytesIO()
+            image.save(img_byte_arr, format='PNG')
+            img_byte_arr = img_byte_arr.getvalue()
+            encoded_image = base64.b64encode(img_byte_arr).decode('utf-8')
             
 
             if (i+1) % 2 == 1:
@@ -71,10 +77,10 @@ def upload_file():
                 "fname": fname,
                 "lname": lname,
                 "stnum": stnum,
-                "answers": answers
+                "answers": answers,
+                "image": encoded_image
                 }
         
-        print(grades)
         return jsonify({'message': 'PDF converted to PNG successfully', 'data': grades}), 200
     except Exception as e:
         print('error: '+str(e))
