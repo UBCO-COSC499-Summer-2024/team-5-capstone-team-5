@@ -4,15 +4,18 @@ import { useTheme } from '../../App';
 import validateUser from '../../hooks/validateUser';
 import { NavLink, useNavigate } from 'react-router-dom';
 import getUserInfo from '../../hooks/getUserInfo';
+import ScanView from './ScanView';
+import ParseStudentGrades from './ParseStudentGrades.jsx'
 
 function StudentSpreadsheet(props) {
-    const [courses, setCourses] = useState([]);
     const navigate = useNavigate();
-    const [grades, setGrades] = useState(null);
+    const [gradeList, setGradeList] = useState(null);
+    const [isScanViewOpen, setIsScanViewOpen] = useState(true);
     const [userInfo, setUserInfo] = useState({
         name: "",
         id: 0,
     });
+    
     const { theme } = useTheme();
 
     useEffect(() => {
@@ -26,50 +29,30 @@ function StudentSpreadsheet(props) {
                 name: info.name,
                 id: info.userId,
               });
-            setGrades(await getGrades(props.courseId));
+            setGradeList(await (getGrades(props.courseId)));
           }
         };
     
         checkSession();
     }, [navigate]);
 
-    const oldTable = (
-        <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
-        <thead>
-            <tr>
-                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Student ID</th>
-                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Last Name</th>
-                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>First Name</th>
-                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            {props.students.map((student, index) => (
-                <tr key={index} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
-                    <td className="p-4">{String(student.id).padStart(8,"0")}</td>
-                    <td className="p-4">{student.last_name}</td>
-                    <td className="p-4">{student.first_name}</td>
-                    <td className="p-4">{student.role === 1 ? "Student" : "Instructor"}</td>
-                </tr>
-            ))}
-        </tbody>
-        </table>
-    );
+    let grades = gradeList ? ParseStudentGrades(gradeList).grades : null;
+    let exams = gradeList ? ParseStudentGrades(gradeList).exams : null;
 
     return (<>
 
     <table>
         <thead>
-            {createHeaderRow(grades, theme)}
+            {createHeaders(exams, theme)}
         </thead>
         <tbody>
-            {createRows(grades, theme)}
+            {createRows(grades, theme, props.courseId, setIsScanViewOpen, isScanViewOpen)}
         </tbody>
 
     </table>
-    <p>Course ID: {props.courseId}</p>
-    <p>Instructor name: {userInfo.name}</p>
-    <p>Instructor ID: {userInfo.id}</p>
+    <p className = "mt-[5px]">Course ID: {props.courseId}</p>
+    <p className = "mt-[5px]">Instructor name: {userInfo.name}</p>
+    <p className = "mt-[5px]">Instructor ID: {userInfo.id}</p>
     </>);
 }
 
@@ -82,101 +65,71 @@ const getGrades = async (courseId) => {
         console.log("Error retrieving grades");
         return null;
     }
-};
+}; 
 
-function createHeaderRow(courseGrades, theme) {
-    if(courseGrades) {
-        const distinctExams = getColumns(courseGrades);
+function createHeaders(exams, theme) {
+    if(exams) {
+        //const distinctExams = getColumns(grades);
         //distinctExams.sort((a, b) => {return (a.examId-b.examId);});
-        const examColumns = distinctExams.map(exam => {
+        const examColumns = exams.map(exam => {
             return(<th key = {exam.examId} className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{exam.examName}</th>);
         });
-
         return (
-            <tr>
-                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Student ID</th>
-                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Last Name</th>
-                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>First Name</th>
+            <tr key = "Header" >
+                <th key = "StudentId" className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Student ID</th>
+                <th key = "Last Name" className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Last Name</th>
+                <th key = "First Name" className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>First Name</th>
                 {examColumns}
             </tr>
         );
     } else {
+        //console.log("Error creating table headers");
         return null;
+        
     }
 }
 
-function createRows(courseGrades, theme) {
-    if(courseGrades) {
+function createRows(grades, theme, course, setIsScanViewOpen, isScanViewOpen) {
+    if(grades) {
         let rows = [];
-        let startIndex = 0, endIndex = 0;
-        const len = courseGrades.length
-
-        while(endIndex < len) {
-            while(courseGrades[startIndex].user_id == courseGrades[endIndex].user_id) {
-                endIndex++;
-                if(endIndex == len) {
-                    break;
-                }
-            }
-                rows.push(createSingleRow(courseGrades, theme, startIndex, endIndex - 1));
-                startIndex = endIndex;
-                endIndex++;
-        }
-        if(courseGrades[len - 1].user_id != courseGrades[len - 2].user_id) {
-            rows.push(createSingleRow(courseGrades, theme, len - 1, len - 1));
+        for(let i = 0; i < grades.length; i++) {
+            rows.push(createSingleRow(grades[i], theme, course, setIsScanViewOpen, isScanViewOpen));
         }
         return rows;
     } else {
+        //console.log("Error creating rows");
         return null;
     }
 }
 
-function createSingleRow(courseGrades, theme, startIndex, endIndex) {
-    if(courseGrades) {
-        let studentGrades = [];
-        for(let i = startIndex; i <= endIndex; i++) {
-            studentGrades.push({
-                examId: courseGrades[i].exam_id,
-                studentScore: courseGrades[i].student_score,
-            });
+function createSingleRow(studentGrades, theme, course, setIsScanViewOpen, isScanViewOpen) {
+    if(studentGrades) {
+        const clickHandler = (examId, studentScore, userId, isScanViewOpen) => {
+            setIsScanViewOpen(true);
+            console.log(`Clicked student ${userId} on exam ${examId} with score ${studentScore}`);
         }
-        const studentGradeList = studentGrades.map(grade => {
-            return( <td key = {grade.examId} className="p-4">{grade.studentScore}</td>);
+
+        const studentGradeList = studentGrades.scores.map(grade => {
+            //<ScanView isOpen = {isScanViewOpen} studentId = {grade.userId} exam = {grade.examId} course = {course}/>
+            return( <>
+                    <td
+                        onClick = { () => clickHandler(grade.examId, grade.studentScore, studentGrades.userId)} 
+                        className="p-4  hover:bg-black/10">{grade.studentScore}
+                    </td>
+                </>);
         });
 
         return (
-            <tr className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
-                <td className="p-4">{String(courseGrades[startIndex].user_id).padStart(8,"0")}</td>
-                <td className="p-4">{courseGrades[startIndex].last_name}</td>
-                <td className="p-4">{courseGrades[startIndex].first_name}</td>
+            <tr key = {studentGrades.userId} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
+                <td className="p-4">{String(studentGrades.userId).padStart(8,"0")}</td>
+                <td className="p-4">{studentGrades.lastName}</td>
+                <td className="p-4">{studentGrades.firstName}</td>
                 {studentGradeList}
             </tr>
         );
     } else {
         return null;
     }
-}
-
-function getColumns(courseGrades) {
-    let distinctExams = [];
-    const containsExamId = (examId, examArray) => {
-        for(let i = 0; i < examArray.length; i++) {
-            if(examId == examArray[i].examId) {
-                return true;
-            }
-        }
-        return false;
-    }
-    for(let i = 0; i < courseGrades.length; i++) {
-        let examInfo = {
-            examId: courseGrades[i].exam_id,
-            examName: courseGrades[i].exam_name,
-        };
-        if(!containsExamId(examInfo.examId, distinctExams)) {
-            distinctExams.push(examInfo)
-        }
-    };
-    return distinctExams;
 }
 
 export default StudentSpreadsheet;

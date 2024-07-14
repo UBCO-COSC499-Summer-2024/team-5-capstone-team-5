@@ -8,8 +8,6 @@ const StudentList = (props) => {
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [fileUploaded, setFileUploaded] = useState(1);
-
 
   const fetchData = useCallback(async () => {
     const data = await getStudentData(props.courseId);
