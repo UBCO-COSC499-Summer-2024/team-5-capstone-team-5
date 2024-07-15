@@ -6,6 +6,7 @@ import Toast from '../Toast';
 const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(1); // 1 = nothing, 2 = loading, 3 = uploaded
+  const [numQuestions, setNumQuestions] = useState(100);
   const [answerKeyUploaded, setAnswerKeyUploaded] = useState(1);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [reloadCorrectAnswers, setReloadCorrectAnswers] = useState(false); // Track reloading of correct answers
@@ -22,6 +23,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
         body: formData,
         headers: {
           'testid': test.id,
+          'numquestions': numQuestions
         },
       });
       console.log('File uploaded:', file);
@@ -40,6 +42,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
         body: formData,
         headers: {
           'testid': test.id,
+          'numquestions': numQuestions,
         },
       });
       const data = await response.json();
@@ -113,6 +116,11 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
             {test.date_marked && <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>}
             {test.mean_score && <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>}
             <div className="mb-4">
+              <h2>Select test style:</h2>
+              <input type="radio" id="100q" name="questionStyle" checked="checked" onClick={setNumQuestions(100)}></input>
+              <label for="100q">100 Questions</label><br />
+              <input type="radio" id="200q" name="questionStyle" onClick={setNumQuestions(200)}></input>
+              <label for="200q">200 Questions</label><br />
               <label className="block text-sm font-medium mb-2">Upload Answer Key</label>
               {answerKeyUploaded === 3 ? (
                 <div className="flex items-center">
