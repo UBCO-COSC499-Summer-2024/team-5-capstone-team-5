@@ -226,6 +226,28 @@ const editTest = async (testId, newName) => {
     }
 };
 
+const editResponse = async (questionId, userId, response) => {
+    try {
+        if(response.isArray()) {
+            await db.none('UPDATE responses SET response = $1 WHERE question_id = $2 AND user_id = $3', [response, questionId, userId]);
+        }
+    } catch(error) {
+        console.error('Error editing response for question',questionId,"and user",userId);
+        throw error;
+    };
+};
+
+const editQuestion = async(questionId, correctAnswer) => {
+    try {
+        if(correctAnswer.isArray()) {
+            await db.none('UPDATE questions SET correct_answer = $1 WHERE id = $2', [correctAnswer, questionId]);
+        }
+    } catch(error) {
+        console.error('Error editing question with id',questionId);
+        throw error;
+    };
+};
+
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
@@ -243,5 +265,7 @@ module.exports = {
     editTest,
     calculateGrades,
     getExamAnswers,
-    addResponse
+    addResponse,
+    editResponse,
+    editQuestion,
 }
