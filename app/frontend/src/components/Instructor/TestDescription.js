@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers';
+import Toast from '../Toast';
 
 const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(1); // 1 = nothing, 2 = loading, 3 = uploaded
   const [answerKeyUploaded, setAnswerKeyUploaded] = useState(1);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState(test.name || '');
+  const [reloadCorrectAnswers, setReloadCorrectAnswers] = useState(false); // Track reloading of correct answers
+  const [toast, setToast] = useState({ show: false, message: '', type: '', showConfirm: false });
 
   const handleFileUpload = async (event) => {
     setFileUploaded(2);
@@ -34,35 +35,68 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-      await fetch('http://localhost/api/users/tests/answers', {
+      const response = await fetch('http://localhost/api/users/tests/answers', {
         method: 'POST',
         body: formData,
         headers: {
           'testid': test.id,
         },
       });
+      const data = await response.json();
       console.log('File uploaded:', file);
       setAnswerKeyUploaded(3);
+      setReloadCorrectAnswers(true); // Trigger reload of correct answers
+      test.correctAnswers = data.correctAnswers;
     }
   };
 
+  const handleFileRemove = () => {
+    setFileUploaded(1);
+  };
+
+  const handleAnswerKeyRemove = () => {
+    setAnswerKeyUploaded(1);
+    setReloadCorrectAnswers(false); // Stop reloading of correct answers
+    test.correctAnswers = [];
+  };
+
   const handleViewCorrectAnswers = () => {
+    if (answerKeyUploaded !== 3) {
+      setToast({ show: true, message: 'Please upload the answer key before viewing correct answers.', type: 'error', showConfirm: false });
+      return;
+    }
     setShowCorrectAnswers(true);
   };
 
   const handleBackToDescription = () => {
     setShowCorrectAnswers(false);
+    setReloadCorrectAnswers(false); // Reset the reload state when navigating back
   };
 
-  const handleEditTestName = async () => {
-    await onEditTest(test.id, newName);
-    setIsEditing(false);
+  const handleDeleteTest = () => {
+    setToast({
+      show: true,
+      message: 'Are you sure you want to delete this test?',
+      type: 'error',
+      showConfirm: true,
+      onConfirm: confirmDelete,
+    });
+  };
+
+  const confirmDelete = () => {
+    onDeleteTest(test.id);
+    setToast({ show: false, message: '', type: '', showConfirm: false });
+  };
+
+  const handleCloseToast = () => {
+    setToast({ show: false, message: '', type: '', showConfirm: false });
   };
 
   if (!test) return null;
 
   return (
     <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      {toast.show && <Toast message={toast.message} type={toast.type} onClose={handleCloseToast} onConfirm={toast.onConfirm} showConfirm={toast.showConfirm} />}
       {!showCorrectAnswers ? (
         <>
           <button
@@ -75,71 +109,72 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
             Back
           </button>
           <div className={`rounded-lg p-6 shadow-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-            {isEditing ? (
-              <div>
-                <input
-                  type="text"
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  className={`p-2 border rounded ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-500' : 'bg-gray-200 text-black border-gray-300'}`}
-                />
-                <button
-                  onClick={handleEditTestName}
-                  className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
-                >
-                  Save
-                </button>
-              </div>
-            ) : (
-              <h2 className="text-2xl font-bold mb-4">{test.name}</h2>
-            )}
+            <h2 className="text-2xl font-bold mb-4">{test.name}</h2>
             {test.date_marked && <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>}
             {test.mean_score && <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>}
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Upload Student Tests</label>
-              <input
-                type="file"
-                accept="application/pdf"
-                onChange={handleFileUpload}
-                className={`block w-full text-sm text-gray-500
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0
-                  file:text-sm file:font-semibold
-                  file:cursor-pointer
-                  ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
-                `}
-              />
-              {fileUploaded === 3 && (
-                <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
-                  File uploaded successfully!
-                </p>
+              <label className="block text-sm font-medium mb-2">Upload Answer Key</label>
+              {answerKeyUploaded === 3 ? (
+                <div className="flex items-center">
+                  <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
+                    Answer key uploaded successfully!
+                  </p>
+                  <button
+                    onClick={handleAnswerKeyRemove}
+                    className={`ml-4 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition duration-200 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handleAnswerKeyUpload}
+                  className={`block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:cursor-pointer
+                    ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
+                  `}
+                />
               )}
-              {fileUploaded === 2 && (
+              {answerKeyUploaded === 2 && (
                 <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
                   File upload in progress!
                 </p>
               )}
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Upload Answer Key</label>
-              <input
-                type="file"
-                accept="application/pdf"
-                onChange={handleAnswerKeyUpload}
-                className={`block w-full text-sm text-gray-500
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0
-                  file:text-sm file:font-semibold
-                  file:cursor-pointer
-                  ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
-                `}
-              />
-              {answerKeyUploaded === 3 && (
-                <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
-                  File uploaded successfully!
-                </p>
+              <label className="block text-sm font-medium mb-2">Upload Student Tests</label>
+              {fileUploaded === 3 ? (
+                <div className="flex items-center">
+                  <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
+                    Student tests uploaded successfully!
+                  </p>
+                  <button
+                    onClick={handleFileRemove}
+                    className={`ml-4 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition duration-200 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handleFileUpload}
+                  className={`block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:cursor-pointer
+                    ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
+                  `}
+                />
               )}
-              {answerKeyUploaded === 2 && (
+              {fileUploaded === 2 && (
                 <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
                   File upload in progress!
                 </p>
@@ -149,24 +184,24 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
               onClick={handleViewCorrectAnswers}
               className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
             >
-              Correct Answers
+              View Correct Answers
             </button>
             <button
-              onClick={() => setIsEditing(true)}
-              className={`px-4 py-2 rounded transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-yellow-500' : 'bg-gray-300 text-black hover:bg-yellow-400'}`}
-            >
-              Edit Test
-            </button>
-            <button
-              onClick={() => onDeleteTest(test.id)}
-              className={`px-4 py-2 rounded transition duration-200 ml-2 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-red-500' : 'bg-gray-300 text-black hover:bg-red-400'}`}
+              onClick={handleDeleteTest}
+              className={`bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200 ml-4 ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-200'}`}
             >
               Delete Test
             </button>
           </div>
         </>
       ) : (
-        <TestCorrectAnswers test={test} onBack={handleBackToDescription} />
+        <TestCorrectAnswers
+          test={test}
+          onBack={handleBackToDescription}
+          onEditTest={onEditTest}
+          answerKeyUploaded={answerKeyUploaded}
+          reloadCorrectAnswers={reloadCorrectAnswers}
+        />
       )}
     </div>
   );

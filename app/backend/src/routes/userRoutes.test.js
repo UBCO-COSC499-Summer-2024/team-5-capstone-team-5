@@ -1,6 +1,7 @@
 const request = require("supertest");
 const app = require("../server");
 
+
 describe("Test the routes in userRoutes", () => {
 
     // Test for GET /api/users/courses/:id

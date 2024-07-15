@@ -6,7 +6,6 @@ import { useTheme } from '../../App'; // Adjust the path as needed
 
 const ProfileMenuModal = ({ isOpen, onClose, user, onLogout }) => {
   const { theme, toggleTheme } = useTheme();
-  const navigate = useNavigate();
 
   if (!isOpen) return null;
 

@@ -36,7 +36,7 @@ function StudentSpreadsheet(props) {
         };
     
         checkSession();
-    }, [navigate]);
+    }, [navigate, props.courseId]);
 
     let parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
     /*Output from the query is parsed into an object containg an array of grades and an array of exams.
@@ -78,7 +78,7 @@ completed exams for the specifed course, but haven'y yet been registered
  - If a student writes some, but not all tests, only the tests they've written will be included.
 */
 const getGrades = async (courseId) => {
-    const response = await fetch(`HTTP://localhost/API/users/courses/grades/${courseId}`);
+    const response = await fetch(`http://localhost/api/users/courses/grades/${courseId}`);
     if(response.ok) {
         const grades = await response.json();
         return grades;
