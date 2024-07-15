@@ -191,4 +191,13 @@ router.get('/courses/grades/:id', async (req, res) => {
     }
 });
 
+router.post('/tests/edit', async (req, res) => {
+    try {
+        console.log(req.body);
+        console.log(req.headers['testid']);
+    } catch(error) {
+        res.status(400).json({error: error.message});
+    }
+})
+
 module.exports = router;

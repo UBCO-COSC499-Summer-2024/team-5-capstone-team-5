@@ -59,11 +59,12 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest, answerKeyUploaded, reloa
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://localhost/api/users/questions/answers/${test.id}`, {
+      const response = await fetch(`http://localhost/api/users/tests/edit`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json',
+          'testid': test.id,
         },
         body: JSON.stringify(questions.map(q => ({
           ...q,
@@ -82,6 +83,8 @@ const TestCorrectAnswers = ({ test, onBack, onEditTest, answerKeyUploaded, reloa
   };
 
   const handleBubbleClick = (questionNum, option) => {
+    console.log("Question Num:",questionNum)
+    console.log("Option:",option)
     setQuestions((prevQuestions) =>
       prevQuestions.map((q) => {
         if (q.question_num === questionNum) {
