@@ -92,16 +92,6 @@ const InstNavbar = (props) => {
         <nav>
           <div className={`pb-2 sticky top-0 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} pt-8`}>
             <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
-            <NavLink
-              to="/recent"
-              className={({ isActive }) =>
-                isActive
-                  ? `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black'} font-bold`
-                  : `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black'}`
-              }
-            >
-              Recent Courses
-            </NavLink>
           </div>
           <div className="mt-4">
             <h2 className="ml-4 text-lg font-bold text-gray-300">Courses</h2>

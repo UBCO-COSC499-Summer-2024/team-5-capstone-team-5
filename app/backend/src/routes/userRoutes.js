@@ -184,7 +184,6 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
 router.get('/courses/grades/:id', async (req, res) => {
     try {
         const grades = await calculateGrades(req.params.id);
-        console.log(grades)
         res.status(200).json(grades)
     } catch(error) {
         res.status(400).json({error: error.message});
