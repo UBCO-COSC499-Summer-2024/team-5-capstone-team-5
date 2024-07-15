@@ -62,7 +62,7 @@ function appendSingleGrade(grades, exams, user) {
     }
     //iterate through the distinct exams to see if this user has completed the exam, 
     //and push the associated grade to scores.
-    if(exams[0].examId) {
+    if(exams.length > 0) {
         //Students who did not complete any exams will have be identified by having an element in grades with examId -1. 
         //Their grades should be padded with zero's
         if(grades[user].examId === -1) {
