@@ -202,7 +202,8 @@ const addAnswerKey = async (jsonData, examId, userId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
-            const responses = answerKey.answers[0]
+            console.log(answerKey.answers[0])
+            const responses = answerKey.answers[0];
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
             const image = answerKey.image;
@@ -221,8 +222,8 @@ const addAnswerKey = async (jsonData, examId, userId) => {
                 const questionNum = Number(response.Question)
                 console.log(response);
                 addQuestion(examId, 5, [correctAnswer], 1, questionNum);
-                addScan(examId, userId, imagePath);
             })
+            addScan(examId, userId, imagePath);
         };
     }
 }

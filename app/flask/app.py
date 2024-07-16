@@ -9,6 +9,7 @@ from get_first_name import process_first_name
 from get_last_name import process_last_name
 from get_student_number import process_stnum
 from flask_cors import CORS
+from test_grader2 import process_first_page_bubbles, process_second_page_bubbles
 
 app = Flask(__name__)
 CORS(app, resources={
@@ -38,6 +39,7 @@ def upload_file():
         return jsonify({'error': 'form data not found'}), 400
     
     testid = request.headers.get('testid')
+    numquestions = request.headers.get('numquestions')
     if testid == '':
         print('id null')
         return jsonify({'error': 'id is null'}),400
@@ -66,20 +68,45 @@ def upload_file():
             img_byte_arr = img_byte_arr.getvalue()
             encoded_image = base64.b64encode(img_byte_arr).decode('utf-8')
             
+            if numquestions == "100":
+                if (i+1) % 2 == 1:
+                    fname = process_first_name(png_path)
+                    lname = process_last_name(png_path)
+                    stnum = process_stnum(png_path)
+                if (i+1) % 2 == 0:
+                    answers = process_bubbles(png_path)
+                    grades[stnum] = {
+                    "fname": fname,
+                    "lname": lname,
+                    "stnum": stnum,
+                    "answers": answers,
+                    "image": encoded_image
+                    }
+            elif numquestions == "200":
+                if(i+1) % 2 == 1:
+                    stnum = process_stnum(png_path)
+                    answers = process_first_page_bubbles(png_path)
 
-            if (i+1) % 2 == 1:
-                fname = process_first_name(png_path)
-                lname = process_last_name(png_path)
-                stnum = process_stnum(png_path)
-            if (i+1) % 2 == 0:
-                answers = process_bubbles(png_path)
-                grades[stnum] = {
-                "fname": fname,
-                "lname": lname,
-                "stnum": stnum,
-                "answers": answers,
-                "image": encoded_image
-                }
+                if(i+1) % 2 == 0:
+                    stnum = process_stnum(png_path)
+                    answers2 = process_second_page_bubbles(png_path)
+                    print("Answers:", answers)
+                    print("Answers2:",answers2)
+                    combined_answers = [[],[],[]]
+                    combined_answers[0] = answers[0] + answers2[0]
+                    combined_answers[1] = answers[1] + answers2[1]
+                    combined_answers[2] = answers[2] + answers2[2]
+                    print(combined_answers)
+                    grades[stnum] = {
+                        "fname": 'unknown',
+                        "lname": 'unknown',
+                        "stnum": stnum,
+                        "answers": combined_answers,
+                        "image": encoded_image
+                    }
+            
+            else: 
+                print('Please enter valid test style: 100 or 200 questions')
         
         return jsonify({'message': 'PDF converted to PNG successfully', 'data': grades}), 200
     except Exception as e:
