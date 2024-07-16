@@ -279,4 +279,5 @@ module.exports = {
     editTest,
     calculateGrades,
     getExamAnswers,
+    addResponse,
 }
