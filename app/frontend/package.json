@@ -11,10 +11,12 @@
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "jwt-decode": "^4.0.0",
+    "pspdfkit": "^2024.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
+    "serve": "^14.2.3",
     "styled-components": "^6.1.11"
   },
   "scripts": {

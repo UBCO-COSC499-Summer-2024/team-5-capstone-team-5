@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers';
 import Toast from '../Toast';
 
 const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const { theme } = useTheme();
-  const [fileUploaded, setFileUploaded] = useState(1); // 1 = nothing, 2 = loading, 3 = uploaded
-  const [answerKeyUploaded, setAnswerKeyUploaded] = useState(1);
+  const [fileUploaded, setFileUploaded] = useState(localStorage.getItem('fileUploaded') || 1);
+  const [answerKeyUploaded, setAnswerKeyUploaded] = useState(localStorage.getItem('answerKeyUploaded') || 1);
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
-  const [reloadCorrectAnswers, setReloadCorrectAnswers] = useState(false); // Track reloading of correct answers
+  const [reloadCorrectAnswers, setReloadCorrectAnswers] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '', type: '', showConfirm: false });
+  const [uploadedFileUrl, setUploadedFileUrl] = useState(localStorage.getItem('uploadedFileUrl') || null);
+
+  useEffect(() => {
+    localStorage.setItem('fileUploaded', fileUploaded);
+  }, [fileUploaded]);
+
+  useEffect(() => {
+    localStorage.setItem('answerKeyUploaded', answerKeyUploaded);
+  }, [answerKeyUploaded]);
+
+  useEffect(() => {
+    localStorage.setItem('uploadedFileUrl', uploadedFileUrl);
+  }, [uploadedFileUrl]);
 
   const handleFileUpload = async (event) => {
     setFileUploaded(2);
@@ -17,14 +30,15 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-      await fetch('http://localhost/api/users/tests/upload', {
+      const response = await fetch('http://localhost/api/users/tests/upload', {
         method: 'POST',
         body: formData,
         headers: {
           'testid': test.id,
         },
       });
-      console.log('File uploaded:', file);
+      const data = await response.json();
+      setUploadedFileUrl(URL.createObjectURL(file));
       setFileUploaded(3);
     }
   };
@@ -43,21 +57,23 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
         },
       });
       const data = await response.json();
-      console.log('File uploaded:', file);
       setAnswerKeyUploaded(3);
-      setReloadCorrectAnswers(true); // Trigger reload of correct answers
+      setReloadCorrectAnswers(true);
       test.correctAnswers = data.correctAnswers;
     }
   };
 
   const handleFileRemove = () => {
     setFileUploaded(1);
+    setUploadedFileUrl(null);
+    localStorage.removeItem('uploadedFileUrl');
   };
 
   const handleAnswerKeyRemove = () => {
     setAnswerKeyUploaded(1);
-    setReloadCorrectAnswers(false); // Stop reloading of correct answers
+    setReloadCorrectAnswers(false);
     test.correctAnswers = [];
+    localStorage.removeItem('answerKeyUploaded');
   };
 
   const handleViewCorrectAnswers = () => {
@@ -70,7 +86,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
 
   const handleBackToDescription = () => {
     setShowCorrectAnswers(false);
-    setReloadCorrectAnswers(false); // Reset the reload state when navigating back
+    setReloadCorrectAnswers(false);
   };
 
   const handleDeleteTest = () => {
@@ -201,6 +217,7 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
           onEditTest={onEditTest}
           answerKeyUploaded={answerKeyUploaded}
           reloadCorrectAnswers={reloadCorrectAnswers}
+          uploadedFileUrl={uploadedFileUrl} // Pass the uploaded file URL
         />
       )}
     </div>
