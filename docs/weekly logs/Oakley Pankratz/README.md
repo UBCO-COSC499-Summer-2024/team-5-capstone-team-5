@@ -1,3 +1,69 @@
+## Wednesday (7/12 - 7/17) Oakley Pankratz
+Total Hours: 27
+
+Update clockify log
+![alt text](ClockifyLogJuly17.png)
+
+## Current Tasks
+ * Added a button to the spreadsheet and a cooresponding modal view. For now, it simply identifies the student information for the cell that was clicked. This is the first step in resolving Issue#146.
+ * Fixed a bug in the backend in which the query to fetch grades for a course was not returning a row for students that haven't written any tests, even though they are registered. This resolves Issue$146 and allowed me to begin working on Issue#136.
+ * Fixed a bug in the front end by refactoring and correting some code, so that grades now appear in the correct column for each student, resolving Issue#136.
+ * Highliught rows in the spreadsheet view which flags students that have written a test for a course they are not registered in. This closes Issue#191.
+ * Met with Nic to discuss our testing. 
+ * Code Review for PR #180, merge testing into development.
+
+### Progress Update (since 7/12/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <!-- Task/Issue # -->
+        <td>Making the spreadsheet component clickable
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #146)
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Working on a bug on the front end, which results from null/missing data
+        </td>
+        <!-- Status -->
+        <td>Completed (Issue #141)
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Fix Grades-Spreadsheet bugs (not showing some grades in the correct column)
+        </td>
+        <!-- Status -->
+        <td>Completed (Issue #136)
+        </td>
+    </tr>
+        <tr>
+        <!-- Task/Issue # -->
+        <td>Flag students which have tests for a course they aren;'t registered in.
+        </td>
+        <!-- Status -->
+        <td>Completed (Issue #191)
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+ * I feel quite happy with the amount I was able to complete this cycle. I'm looking forward to the nect cycle. 
+ * My overall understanding of our project is improving continuously, which is good to see!
+ 
+### Next Cycle Goals:
+* Finish Resolving Issue #146. I believe I'm fairly close to getting this one finnished, I just need to quickly meet with my team-mates.
+* Display grades in the spreadhseet as percents, I may possibly make this toggle-able for the instructor (Issue #145).
+* Adding a way for instructors to add a test for a single student (Issue #148) would be complete-able once Issue #146 is complete. 
+* Create an "Add Student" button (Issue#97). This should be fairly quick and straightforward. (Hopefully)
+
+
 ## Friday (7/10 - 7/12) Oakley Pankratz
 Total Hours: 9
 
