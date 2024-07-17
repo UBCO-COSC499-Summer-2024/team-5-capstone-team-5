@@ -1,3 +1,65 @@
+# Wednesday (7/12 - 7/17)
+## Date: July 16, 10:19PM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJuly16.png)
+
+### Task tldr:
+I encountered errors with Jay's implementation of the toast, correct answers, and handling of file uploads, so I worked on handling 200 question exams in the OMR. You will now be able to check a radio checkbox to select 100 or 200 question exam style, and the OMR will be able to handle it accordingly.
+
+I also met up with Oakley to discuss the testing implementation and our PRs
+
+### Current Tasks:
+  * #1: OMR 200 question exam handling
+  * #2: Add ability to edit exams and questions
+  * #3: Add ability to edit exam responses from students (as instructor)
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #1: OMR 200 question exam handling
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #2: Add ability to edit exams and questions
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #3: Add ability to edit exam responses (as instructor)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+- I did not finish testing. I have been having a hard time getting it to work as I would like it to.
+- I did not add any editing as I ran into errors with Jay's code. Too much was being handled on the frontend without checking with the backend data.
+- I did create functions to allow the OMR to handle 200-question exams. This works, but has not been tied into the front end yet.
+
+Overall, I am happy that I was able to get the OMR done, but I am unhappy with my task management. I was really hoping to get more flexibility in terms of altering and removing data as an instructor for our presentation Friday.
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Add ability to edit student's responses as an instructor
+  * Add a flagging ability so the instructor knows what questions might be incorrect
+
 # Friday (7/10 - 7/12)
 ## Date: July 11, 11:04PM
 
