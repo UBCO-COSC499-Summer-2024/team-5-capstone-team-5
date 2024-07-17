@@ -370,15 +370,21 @@ describe('User Controller', () => {
   });
 
   describe('calculateGrades', () => {
+    beforeEach(() => {
+      // Mock the db object
+      db.manyOrNone = jest.fn();
+      console.error = jest.fn();
+    });
+  
     it('should calculate grades', async () => {
       const mockGrades = [
         { exam_id: 1, course_id: 1, exam_name: 'Exam 1', user_id: 1, last_name: 'Doe', first_name: 'John', student_score: 10 },
         { exam_id: 2, course_id: 1, exam_name: 'Exam 2', user_id: 1, last_name: 'Doe', first_name: 'John', student_score: 20 },
       ];
       db.manyOrNone.mockResolvedValue(mockGrades);
-
+  
       const result = await calculateGrades(1);
-
+  
       expect(db.manyOrNone).toHaveBeenCalledWith(
         `WITH
                 registeredStudents AS (
@@ -400,7 +406,7 @@ describe('User Controller', () => {
 			        LEFT JOIN registration ON 
 				        responses.user_id = registration.user_id
 				        AND registration.course_id = 1
-	                WHERE exams.course_id = 1
+	                WHERE exams.course_id = 1 
 	                GROUP BY  users.id, users.last_name, users.first_name,
 			            exams.id, exams.name, registration.user_Id
             ),
@@ -420,12 +426,12 @@ describe('User Controller', () => {
       );
       expect(result).toEqual(mockGrades);
     });
-
+  
     it('should handle errors gracefully', async () => {
       db.manyOrNone.mockRejectedValue(new Error('Database error'));
-
+  
       await calculateGrades(1);
-
+  
       expect(db.manyOrNone).toHaveBeenCalledWith(
         `WITH
                 registeredStudents AS (
@@ -447,7 +453,7 @@ describe('User Controller', () => {
 			        LEFT JOIN registration ON 
 				        responses.user_id = registration.user_id
 				        AND registration.course_id = 1
-	                WHERE exams.course_id = 1
+	                WHERE exams.course_id = 1 
 	                GROUP BY  users.id, users.last_name, users.first_name,
 			            exams.id, exams.name, registration.user_Id
             ),
