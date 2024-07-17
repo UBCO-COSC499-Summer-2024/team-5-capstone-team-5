@@ -134,11 +134,11 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
     // Answer Section
     const startY = height - margin - 60;
     const columns = 3;
-    const rowsPerColumn = 25;
+    const rowsPerColumn = 30;
     const colWidth = (width - 2 * margin) / columns;
-    const colStartX = (width - columns * colWidth) / 2;
+    const colPadding = (width - columns * colWidth) ; // Calculate padding to center columns
     let currentY = startY;
-    let currentX = colStartX;
+    let currentX = colPadding; // Start X position adjusted to center columns
 
     for (let i = 0; i < questions.length; i++) {
       if (i % rowsPerColumn === 0 && i !== 0) {
@@ -150,11 +150,11 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
       const questionText = `${questionIndex}.`;
       page.drawText(questionText, {
         x: currentX,
-        y: currentY,
+        y: currentY - 7.5, // Adjusted for better alignment
       });
 
       for (let opt = 0; opt < options; opt++) {
-        drawCircleWithText(page, currentX + 30 + opt * 20, currentY, String.fromCharCode(65 + opt), fontSize);
+        drawCircleWithText(page, currentX + 30 + opt * 20, currentY - 5.5, String.fromCharCode(65 + opt), fontSize); // Adjusted for better alignment
       }
 
       currentY -= 20;
@@ -163,10 +163,10 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
 
   createIdentificationPage();
 
-  const totalPages = Math.ceil(totalQuestions / 75); // 25 questions per column * 3 columns per page
+  const totalPages = Math.ceil(totalQuestions / 90); // 30 questions per column * 3 columns per page
   for (let i = 0; i < totalPages; i++) {
-    const startQuestion = i * 75 + 1;
-    const endQuestion = Math.min(startQuestion + 74, totalQuestions);
+    const startQuestion = i * 90 + 1;
+    const endQuestion = Math.min(startQuestion + 89, totalQuestions);
     const questions = Array.from({ length: endQuestion - startQuestion + 1 }, (_, k) => startQuestion + k);
     createAnswerPage(questions, optionsPerQuestion);
   }
