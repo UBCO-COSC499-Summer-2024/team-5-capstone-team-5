@@ -33,14 +33,21 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
   };
 
   const handleSaveTest = async () => {
+    const letterMap = {
+      'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9,
+      'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18,
+      'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25
+  }
+    console.log(questions)
     const newTest = {
       name: examName,
       questions: questions.map(q => ({
         ...q,
-        correctAnswer: q.correctAnswer.map(a => parseInt(a, 10)), // Ensure correctAnswer is an array of integers
+        correctAnswer: q.correctAnswer.map(a => letterMap[a]), // Ensure correctAnswer is an array of integers
       })),
       courseId,
     };
+    console.log("New Test Questions:", newTest.questions)
     console.log("New Test:", newTest);
 
     try {
@@ -76,9 +83,8 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
       <div className={`rounded-lg p-6 w-full max-w-sm shadow-lg relative ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
         <h2 className="text-2xl font-bold mb-4">Add New Test</h2>
         <div className="mb-4">
-          <label htmlFor="examName" className="block text-sm font-bold mb-2">Exam Name</label>
+          <label className="block text-sm font-bold mb-2">Exam Name</label>
           <input
-            id="examName"
             type="text"
             placeholder="Enter exam name"
             value={examName}

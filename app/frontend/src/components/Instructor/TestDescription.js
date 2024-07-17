@@ -57,8 +57,6 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
   const handleEditTestName = async () => {
     await onEditTest(test.id, newName);
     setIsEditing(false);
-    // Update the test name in the component state
-    test.name = newName;
   };
 
   if (!test) return null;
@@ -98,10 +96,9 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
             {test.date_marked && <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>}
             {test.mean_score && <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>}
             <div className="mb-4">
-              <label htmlFor="student-tests" className="block text-sm font-medium mb-2">Upload Student Tests</label>
+              <label className="block text-sm font-medium mb-2">Upload Student Tests</label>
               <input
                 type="file"
-                id="student-tests"
                 accept="application/pdf"
                 onChange={handleFileUpload}
                 className={`block w-full text-sm text-gray-500
@@ -124,10 +121,9 @@ const TestDescription = ({ test, onBack, onDeleteTest, onEditTest }) => {
               )}
             </div>
             <div className="mb-4">
-              <label htmlFor="answer-key" className="block text-sm font-medium mb-2">Upload Answer Key</label>
+              <label className="block text-sm font-medium mb-2">Upload Answer Key</label>
               <input
                 type="file"
-                id="answer-key"
                 accept="application/pdf"
                 onChange={handleAnswerKeyUpload}
                 className={`block w-full text-sm text-gray-500
