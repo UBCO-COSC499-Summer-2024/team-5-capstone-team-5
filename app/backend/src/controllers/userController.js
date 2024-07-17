@@ -225,7 +225,6 @@ const addStudentAnswers = async (jsonData, examId) => {
     }
 }
 
-
 const addAnswerKey = async (jsonData, examId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {

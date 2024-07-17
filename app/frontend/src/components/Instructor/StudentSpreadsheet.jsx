@@ -22,7 +22,6 @@ function StudentSpreadsheet(props) {
         name: "",
         id: 0,
     });
-    
     const { theme } = useTheme();
 
     useEffect(() => {
@@ -37,7 +36,9 @@ function StudentSpreadsheet(props) {
                 id: info.userId,
               });
             //Queries the database to obtain the grades and exams for the course specified by courseId
-            setGradeList(await (getGrades(props.courseId)));
+            if(!gradeList) {
+                setGradeList(await (getGrades(props.courseId)));
+            }
           }
         };
     
@@ -54,7 +55,17 @@ function StudentSpreadsheet(props) {
     This will be used to make the header in the spreadsheet component. */
     let grades = gradeList ? parsedGrades.grades : null;
     let exams = gradeList ? parsedGrades.exams : null;
-    console.log(gradeList);
+
+    const onClose = () => {
+        setScanViewInfo({
+            isOpen: false,
+            student: 0,
+            exam: 0,
+            score: 0,
+            course: 0,
+        });
+    }
+
     return (<>
         <table>
             <thead>
@@ -64,6 +75,7 @@ function StudentSpreadsheet(props) {
                 {createRows(grades, theme, props.courseId, scanViewInfo, setScanViewInfo)}
             </tbody>
         </table>
+        <ScanView scanViewInfo = {scanViewInfo} onClose = {onClose}/>
         <p className = "mt-[5px]">Course ID: {props.courseId}</p>
         <p className = "mt-[5px]">Instructor name: {userInfo.name}</p>
         <p className = "mt-[5px]">Instructor ID: {userInfo.id}</p>
@@ -102,14 +114,14 @@ function createHeaders(exams, theme) {
         const examColumns = exams.map(exam => {
             return(<th key = {exam.examId} className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{exam.examName}</th>);
         });
-        return (
+        return (<>
             <tr key = "Header" >
                 <th key = "StudentId" className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Student ID</th>
                 <th key = "Last Name" className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Last Name</th>
                 <th key = "First Name" className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>First Name</th>
                 {examColumns}
             </tr>
-        );
+        </>);
     } else {
         return null;
     }
@@ -120,7 +132,6 @@ iterating through grades and caling a helper function for each student.
 Students who have been registered, but not written any exams, will still be included.
 Students who have not registered, but have written tests will also appear. */
 function createRows(grades, theme, course, scanViewInfo, setScanViewInfo) {
-    console.log(grades);
     if(grades) {
         let rows = [];
         for(let i = 0; i < grades.length; i++) {
@@ -146,15 +157,6 @@ function createSingleRow(studentGrades, theme, course, scanViewInfo, setScanView
                 exam: examId,
                 score: studentScore,
                 course: courseId,
-            });
-        }
-        const onClose = () => {
-            setScanViewInfo({
-                isOpen: false,
-                student: 0,
-                exam: 0,
-                score: 0,
-                course: 0,
             });
         }
 
@@ -188,7 +190,6 @@ function createSingleRow(studentGrades, theme, course, scanViewInfo, setScanView
                 <td className="p-4">{studentGrades.lastName}</td>
                 <td className="p-4">{studentGrades.firstName}</td>
                 {studentGradeList}
-                <ScanView scanViewInfo = {scanViewInfo} onClose = {onClose}/>
             </tr>
         );
     } else {
