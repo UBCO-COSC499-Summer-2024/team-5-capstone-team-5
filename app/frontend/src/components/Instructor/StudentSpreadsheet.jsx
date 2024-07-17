@@ -10,7 +10,13 @@ import ParseStudentGrades from './ParseStudentGrades.jsx'
 function StudentSpreadsheet(props) {
     const navigate = useNavigate();
     const [gradeList, setGradeList] = useState(null);
-    const [isScanViewOpen, setIsScanViewOpen] = useState(true);
+    const [scanViewInfo, setScanViewInfo] = useState({
+        isOpen: false,
+        student:0,
+        exam: 0,
+        score: 0,
+        course: 0,
+    });
     //Stores information for the instructor which is currently signed in.
     const [userInfo, setUserInfo] = useState({
         name: "",
@@ -48,13 +54,14 @@ function StudentSpreadsheet(props) {
     This will be used to make the header in the spreadsheet component. */
     let grades = gradeList ? parsedGrades.grades : null;
     let exams = gradeList ? parsedGrades.exams : null;
+    console.log(gradeList);
     return (<>
         <table>
             <thead>
             {   createHeaders(exams, theme)}
             </thead>
             <tbody>
-                {createRows(grades, theme, props.courseId, setIsScanViewOpen, isScanViewOpen)}
+                {createRows(grades, theme, props.courseId, scanViewInfo, setScanViewInfo)}
             </tbody>
         </table>
         <p className = "mt-[5px]">Course ID: {props.courseId}</p>
@@ -112,11 +119,12 @@ function createHeaders(exams, theme) {
 iterating through grades and caling a helper function for each student. 
 Students who have been registered, but not written any exams, will still be included.
 Students who have not registered, but have written tests will also appear. */
-function createRows(grades, theme, course, setIsScanViewOpen, isScanViewOpen) {
+function createRows(grades, theme, course, scanViewInfo, setScanViewInfo) {
+    console.log(grades);
     if(grades) {
         let rows = [];
         for(let i = 0; i < grades.length; i++) {
-            rows.push(createSingleRow(grades[i], theme, course, setIsScanViewOpen, isScanViewOpen));
+            rows.push(createSingleRow(grades[i], theme, course, scanViewInfo, setScanViewInfo));
         }
         return rows;
     } else {
@@ -129,30 +137,58 @@ function createRows(grades, theme, course, setIsScanViewOpen, isScanViewOpen) {
 logs the userID, examId, and score for the cell clicked. This will later be modifed
 to display a modal view containing the scan cooresponding to the cell, and allowing the 
 instructor to edit the responses stored by the system.*/
-function createSingleRow(studentGrades, theme, course, setIsScanViewOpen, isScanViewOpen) {
+function createSingleRow(studentGrades, theme, course, scanViewInfo, setScanViewInfo) {
     if(studentGrades) {
-        const clickHandler = (examId, studentScore, userId, isScanViewOpen) => {
-            setIsScanViewOpen(true);
-            console.log(`Clicked student ${userId} on exam ${examId} with score ${studentScore}`);
+        const clickHandler = (userId, examId, studentScore, courseId) => {
+            setScanViewInfo({
+                isOpen: true,
+                student: userId,
+                exam: examId,
+                score: studentScore,
+                course: courseId,
+            });
+        }
+        const onClose = () => {
+            setScanViewInfo({
+                isOpen: false,
+                student: 0,
+                exam: 0,
+                score: 0,
+                course: 0,
+            });
         }
 
         const studentGradeList = studentGrades.scores.map(grade => {
-            //<ScanView isOpen = {isScanViewOpen} studentId = {grade.userId} exam = {grade.examId} course = {course}/>
-            //TODO display scans in the modal view, and update the cell background colour to warn the instructor of unregistered students.
             return( <>
                     <td
-                        onClick = { () => clickHandler(grade.examId, grade.studentScore, studentGrades.userId)} 
-                        className="p-4  hover:bg-black/10">{grade.studentScore}
+                        onClick = { () => clickHandler(studentGrades.userId, grade.examId, grade.studentScore, course)} 
+                        className="p-4  hover:bg-black/10 cursor-pointer text-center">{grade.studentScore}
                     </td>
                 </>);
         });
-
+        
+        let colours = "";
+        if(theme === 'dark') {
+            if (studentGrades.isRegistered) {
+                colours = "bg-gray-700 text-white";
+            } else {
+                colours = "bg-[rgba(80,_50,_50,_1.0)] text-[white]";
+            }
+        } else {
+            if (studentGrades.isRegistered) {
+                colours = "bg-gray-200 text-black";
+            } else {
+                colours = "bg-[rgba(250,_150,_150,_1.0)] text-[black]";
+            }
+        }
+        //Add border? border-[1px] border-[solid] border-[black]
         return (
-            <tr key = {studentGrades.userId} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
+            <tr key = {studentGrades.userId} className={`rounded-lg ${colours}`}>
                 <td className="p-4">{String(studentGrades.userId).padStart(8,"0")}</td>
                 <td className="p-4">{studentGrades.lastName}</td>
                 <td className="p-4">{studentGrades.firstName}</td>
                 {studentGradeList}
+                <ScanView scanViewInfo = {scanViewInfo} onClose = {onClose}/>
             </tr>
         );
     } else {
