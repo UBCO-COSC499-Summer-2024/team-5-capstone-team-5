@@ -1,0 +1,30 @@
+// app/frontend/src/components/BubbleSheet/OMRBubble.js
+
+import React from 'react';
+
+const OMRBubble = ({ questionNum, options, onBubbleClick, isSelected }) => {
+  const handleBubbleClick = (option) => {
+    onBubbleClick(questionNum, option);
+  };
+
+  return (
+    <div className="flex space-x-2 mb-2">
+      <div className="w-8 h-8 flex items-center justify-center">
+        {questionNum}.
+      </div>
+      {options.map((option) => (
+        <div
+          key={option}
+          className={`w-8 h-8 flex items-center justify-center rounded-full border cursor-pointer ${
+            isSelected.includes(option) ? 'bg-black text-white' : 'bg-white text-black'
+          } hover:bg-gray-300`}
+          onClick={() => handleBubbleClick(option)}
+        >
+          {option}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default OMRBubble;

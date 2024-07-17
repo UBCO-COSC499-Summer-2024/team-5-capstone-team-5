@@ -22,6 +22,8 @@ import { ConfigProvider, theme as antdTheme } from 'antd';
 import ExamDetails from './components/ExamDetails';
 import TestDescription from './components/Instructor/TestDescription';
 import TestCorrectAnswers from './components/Instructor/TestCorrectAnswers';
+import GenerateSheetModal from './components/Instructor/GenerateSheetModal';
+import OMRSheetGenerator from './components/Instructor/OMRSheetGenerator';
 import './index.css';
 import ChangePass from './components/ChangePass';
 
@@ -101,6 +103,7 @@ function AppRoutes() {
             <Route path="/recent" element={<RecentTests id={userId} />} />
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
             <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers />} />
+            <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
           </Routes>
         </div>
