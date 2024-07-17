@@ -63,13 +63,14 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
 
     const idColumns = "0123456789".split("");
     const idYStart = height - margin - 60;
+    const idStartX = (width - idColumns.length * 20) / 2;
     idColumns.forEach((col, colIndex) => {
       page.drawText(col, {
-        x: margin + colIndex * 20 + 10,
+        x: idStartX + colIndex * 20 + 10,
         y: idYStart,
       });
       for (let i = 0; i < 10; i++) {
-        drawCircleWithText(page, margin + colIndex * 20 + 10, idYStart - (i + 1) * 20, String(i), fontSize);
+        drawCircleWithText(page, idStartX + colIndex * 20 + 10, idYStart - (i + 1) * 20, String(i), fontSize);
       }
     });
 
@@ -83,9 +84,10 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
 
       // Draw header (blank space and A-Z)
       const header = ["_", ...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))];
+      const headerStartX = (width - header.length * 20) / 2;
       header.forEach((char, charIndex) => {
         page.drawText(char, {
-          x: margin + charIndex * 20 + 10,
+          x: headerStartX + charIndex * 20 + 10,
           y: nameYStart - 20,
         });
       });
@@ -96,10 +98,10 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
         const rowYStart = nameYStart - 40 - (row + 1) * 20;
 
         // Draw empty rectangle for the student to write the letter
-        drawEmptyRectangle(page, margin + 10, rowYStart - boxHeight / 2, boxWidth, boxHeight);
+        drawEmptyRectangle(page, headerStartX + 10, rowYStart - boxHeight / 2, boxWidth, boxHeight);
 
         for (let col = 1; col < 27; col++) {  // 26 columns for A-Z
-          drawCircleWithText(page, margin + col * 20 + 10, rowYStart, alphabet[col - 1], fontSize);
+          drawCircleWithText(page, headerStartX + col * 20 + 10, rowYStart, alphabet[col - 1], fontSize);
         }
       }
     });
@@ -123,8 +125,9 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
     });
 
     const instructions = "Please fill in the entire circle that corresponds to your answer for each question.";
+    const instructionsWidth = font.widthOfTextAtSize(instructions, fontSize);
     page.drawText(instructions, {
-      x: margin,
+      x: (width - instructionsWidth) / 2,
       y: height - margin - 20,
     });
 
@@ -133,8 +136,9 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
     const columns = 3;
     const rowsPerColumn = 25;
     const colWidth = (width - 2 * margin) / columns;
+    const colStartX = (width - columns * colWidth) / 2;
     let currentY = startY;
-    let currentX = margin;
+    let currentX = colStartX;
 
     for (let i = 0; i < questions.length; i++) {
       if (i % rowsPerColumn === 0 && i !== 0) {
@@ -150,7 +154,7 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
       });
 
       for (let opt = 0; opt < options; opt++) {
-        drawCircleWithText(page, currentX + 30 + opt * 20, currentY - 5, String.fromCharCode(65 + opt), fontSize);
+        drawCircleWithText(page, currentX + 30 + opt * 20, currentY, String.fromCharCode(65 + opt), fontSize);
       }
 
       currentY -= 20;
