@@ -1,4 +1,3 @@
-// InstBubble.js
 import React from 'react';
 
 const InstBubble = ({ question, isEditing, onBubbleClick }) => {

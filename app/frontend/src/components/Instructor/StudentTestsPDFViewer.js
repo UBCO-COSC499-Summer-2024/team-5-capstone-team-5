@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import PSPDFKit from "pspdfkit";
 
-const PDFViewer = ({ documentUrl, onBack, theme }) => {
+const StudentTestsPDFViewer = ({ documentUrl, onBack, theme }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const PDFViewer = ({ documentUrl, onBack, theme }) => {
 
   return (
     <div style={{ width: "100%", height: "100vh" }}>
-      <h2 className="text-2xl font-bold mb-4">Answer Key PDF</h2>
+      <h2 className="text-2xl font-bold mb-4">Student Tests PDF</h2>
       <button
         onClick={onBack}
         className={`w-full px-4 py-2 rounded transition duration-200 mb-4 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-blue-600' : 'bg-gray-300 text-black hover:bg-blue-400'}`}
@@ -54,4 +54,4 @@ const PDFViewer = ({ documentUrl, onBack, theme }) => {
   );
 };
 
-export default PDFViewer;
+export default StudentTestsPDFViewer;
