@@ -60,34 +60,32 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
 
     // Name Sections
     ["First Name", "Last Name"].forEach((nameField, fieldIndex) => {
-      const nameYStart = idYStart - 220 - fieldIndex * 220;
+      const nameYStart = idYStart - 220 - fieldIndex * 300;
       page.drawText(nameField, {
         x: margin,
         y: nameYStart,
       });
 
       // Draw empty boxes for inputting letters
-      for (let i = 0; i < 20; i++) {
-        page.drawRectangle({
+      for (let i = 0; i < 10; i++) {
+        page.drawText(String.fromCharCode(65 + i), {
           x: margin + i * 20 + 10,
-          y: nameYStart - 30,
-          width: 10,
-          height: 10,
-          borderColor: rgb(0, 0, 0),
-          borderWidth: 1,
+          y: nameYStart - 20,
         });
       }
 
       // Draw letters A-Z
-      for (let i = 0; i < 26; i++) {
-        page.drawText(String.fromCharCode(65 + i), {
-          x: margin + i * 20 + 10,
-          y: nameYStart - 50,
+      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      alphabet.forEach((letter, letterIndex) => {
+        const rowYStart = nameYStart - 40 - (letterIndex + 1) * 20;
+        page.drawText(letter, {
+          x: margin,
+          y: rowYStart,
         });
-        for (let j = 0; j < 20; j++) {
-          drawCircleWithText(page, margin + j * 20 + 10, nameYStart - (i + 2) * 20, String.fromCharCode(65 + i), fontSize);
+        for (let j = 0; j < 10; j++) {
+          drawCircleWithText(page, margin + j * 20 + 10, rowYStart, letter, fontSize);
         }
-      }
+      });
     });
   };
 
