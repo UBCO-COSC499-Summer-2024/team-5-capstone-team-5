@@ -66,26 +66,31 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
         y: nameYStart,
       });
 
-      // Draw empty boxes for inputting letters
-      for (let i = 0; i < 10; i++) {
-        page.drawText(String.fromCharCode(65 + i), {
-          x: margin + i * 20 + 10,
+      // Draw header (blank space and A-Z)
+      const header = ["_", ...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))];
+      header.forEach((char, charIndex) => {
+        page.drawText(char, {
+          x: margin + charIndex * 20 + 10,
           y: nameYStart - 20,
         });
-      }
-
-      // Draw letters A-Z
-      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-      alphabet.forEach((letter, letterIndex) => {
-        const rowYStart = nameYStart - 40 - (letterIndex + 1) * 20;
-        page.drawText(letter, {
-          x: margin,
-          y: rowYStart,
-        });
-        for (let j = 0; j < 10; j++) {
-          drawCircleWithText(page, margin + j * 20 + 10, rowYStart, letter, fontSize);
-        }
       });
+
+      // Draw circles for each row starting with blank and followed by A-Z
+      const alphabet = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      for (let row = 0; row < 10; row++) {
+        const rowYStart = nameYStart - 40 - (row + 1) * 20;
+        for (let col = 0; col < 27; col++) {  // 27 columns: one for blank and 26 for A-Z
+          if (col === 0) {
+            // Draw the row label (A-J for first name, K-T for last name)
+            const rowLabel = String.fromCharCode(65 + row + (fieldIndex * 10));
+            page.drawText(rowLabel, {
+              x: margin,
+              y: rowYStart,
+            });
+          }
+          drawCircleWithText(page, margin + col * 20 + 10, rowYStart, alphabet[col], fontSize);
+        }
+      }
     });
   };
 
