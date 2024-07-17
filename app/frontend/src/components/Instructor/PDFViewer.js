@@ -9,6 +9,10 @@ const PDFViewer = ({ documentUrl }) => {
 
     const loadPdf = async () => {
       try {
+        if (!documentUrl) {
+          console.error("No documentUrl provided");
+          return;
+        }
         console.log("Loading PDF from:", documentUrl);
 
         await PSPDFKit.load({

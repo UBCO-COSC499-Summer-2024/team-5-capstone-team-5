@@ -1,4 +1,5 @@
-// Ensure all imports are correct
+// app/frontend/src/App.js
+
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './components/Home';
@@ -20,6 +21,7 @@ import getUserInfo from './hooks/getUserInfo';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import ExamDetails from './components/ExamDetails';
 import TestDescription from './components/Instructor/TestDescription';
+import TestCorrectAnswers from './components/Instructor/TestCorrectAnswers';
 import './index.css';
 import ChangePass from './components/ChangePass';
 
@@ -98,6 +100,7 @@ function AppRoutes() {
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
+            <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
           </Routes>
         </div>
