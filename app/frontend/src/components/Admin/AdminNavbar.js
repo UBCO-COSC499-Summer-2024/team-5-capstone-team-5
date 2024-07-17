@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import validateUser from '../../hooks/validateUser';
-import ProfileMenuModal from './ProfileMenuModal'; // Ensure the path is correct
+import ProfileMenuModal from '../../components/Instructor/ProfileMenuModal'; // Ensure the path is correct
 import { useTheme } from '../../App'; // Adjust the path as needed
 import getUserInfo from '../../hooks/getUserInfo';
+import UserManagementModal from './UserManagementModal';
+import { Button } from 'antd';
+
+
 
 const AdminNavbar = (props) => {
-  
-
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isUserManagementOpen, setIsUserManagementOpen] = useState(false);
+
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [user, setUser] = useState({
@@ -52,11 +56,38 @@ const AdminNavbar = (props) => {
         <nav>
           <div className={`pb-2 sticky top-0 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} pt-8`}>
             <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
+
+            <Button onClick={() => navigate('AdminDashboard')}
+          className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
+          >
+            Home
+            </Button>
+
           </div>
+          
+          <h1 >
+            Admin Features 
+          </h1>
+          
+          <Button
+          onClick={() => navigate('/UserList')}
+          className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
+          >
+            
+          Manage Users
+        </Button>
+        <Button
+          onClick={() => navigate('/UserList.js')}
+          className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
+          >
+            
+          Recent Changes 
+        </Button>
           
         </nav>
       </div>
       <div className={`flex flex-col p-4 sticky bottom-0 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'}`}>
+        
    
         <NavLink
           to="/about"
@@ -65,6 +96,7 @@ const AdminNavbar = (props) => {
               ? `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black'} font-bold`
               : `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black'}`
           }
+          
         >
           About
         </NavLink>
@@ -78,6 +110,7 @@ const AdminNavbar = (props) => {
         >
           Contact
         </NavLink>
+        
         <button
           onClick={() => setIsProfileMenuOpen(true)}
           className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}
@@ -93,6 +126,10 @@ const AdminNavbar = (props) => {
           onClose={() => setIsProfileMenuOpen(false)}
           user={user}
           onLogout={Logout}
+        />
+        <UserManagementModal
+          isOpen={isUserManagementOpen}
+          onClose={() => setIsUserManagementOpen(false)}
         />
       </div>
       

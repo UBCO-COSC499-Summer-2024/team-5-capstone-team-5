@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import getStudentData from '../../hooks/getStudentData';
+import getUserInfo from '../../hooks/getUserInfo';
 import { useTheme } from '../../App';
-/*
+
 const UserList= (props) => {
   const [users, setUsers] = useState([]);
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(1);
 
   const fetchData = useCallback(async () => {
-    const data = await getStudentData(props.courseId);
-    setStudents(data);
+    const data = await getUserInfo(props.courseId);
+    setUsers(data);
   }, [props.courseId]);
 
 const handleRosterUpload = async (event) => {
@@ -96,7 +96,7 @@ const handleRosterUpload = async (event) => {
     </div>
   );
 };
-*/
+
 export default UserList;
 
 
