@@ -2,7 +2,7 @@
 
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 
-const drawCircleWithText = (page, x, y, text, fontSize) => {
+const drawCircleWithText = (page, x, y, text, fontSize, drawText = true) => {
   const circleSize = 8;
   page.drawCircle({
     x,
@@ -11,10 +11,23 @@ const drawCircleWithText = (page, x, y, text, fontSize) => {
     borderColor: rgb(0, 0, 0),
     borderWidth: 1,
   });
-  page.drawText(text, {
-    x: x - fontSize / 4,
-    y: y - fontSize / 3,
-    size: fontSize,
+  if (drawText && text) {
+    page.drawText(text, {
+      x: x - fontSize / 4,
+      y: y - fontSize / 3,
+      size: fontSize,
+    });
+  }
+};
+
+const drawEmptyRectangle = (page, x, y, width, height) => {
+  page.drawRectangle({
+    x,
+    y,
+    width,
+    height,
+    borderColor: rgb(0, 0, 0),
+    borderWidth: 1,
   });
 };
 
@@ -27,6 +40,8 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
     const { width, height } = page.getSize();
     const fontSize = 6;
     const margin = 40;
+    const boxWidth = 10;
+    const boxHeight = 10;
 
     page.setFont(font);
     page.setFontSize(fontSize);
@@ -76,19 +91,15 @@ export const generateDetailedOMRSheet = async (totalQuestions, optionsPerQuestio
       });
 
       // Draw circles for each row starting with blank and followed by A-Z
-      const alphabet = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
       for (let row = 0; row < 10; row++) {
         const rowYStart = nameYStart - 40 - (row + 1) * 20;
-        for (let col = 0; col < 27; col++) {  // 27 columns: one for blank and 26 for A-Z
-          if (col === 0) {
-            // Draw the row label (A-J for first name, K-T for last name)
-            const rowLabel = String.fromCharCode(65 + row + (fieldIndex * 10));
-            page.drawText(rowLabel, {
-              x: margin,
-              y: rowYStart,
-            });
-          }
-          drawCircleWithText(page, margin + col * 20 + 10, rowYStart, alphabet[col], fontSize);
+
+        // Draw empty rectangle for the student to write the letter
+        drawEmptyRectangle(page, margin + 10, rowYStart - boxHeight / 2, boxWidth, boxHeight);
+
+        for (let col = 1; col < 27; col++) {  // 26 columns for A-Z
+          drawCircleWithText(page, margin + col * 20 + 10, rowYStart, alphabet[col - 1], fontSize);
         }
       }
     });
