@@ -1,12 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../../App'; // Adjust the path as needed
-import { useNavigate } from 'react-router-dom';
 
 const ProfileMenuModal = ({ isOpen, onClose, user, onLogout }) => {
-  const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
