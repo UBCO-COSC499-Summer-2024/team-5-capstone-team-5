@@ -57,7 +57,7 @@ const AdminNavbar = (props) => {
           <div className={`pb-2 sticky top-0 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} pt-8`}>
             <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
 
-            <Button onClick={() => navigate('AdminDashboard')}
+            <Button onClick={() => navigate('admin/dashboard')}
           className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
           >
             Home
@@ -70,14 +70,14 @@ const AdminNavbar = (props) => {
           </h1>
           
           <Button
-          onClick={() => navigate('/UserList')}
+          onClick={() => navigate('admin/user')}
           className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
           >
             
           Manage Users
         </Button>
         <Button
-          onClick={() => navigate('/UserList.js')}
+          onClick={() => navigate('')}
           className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
           >
             

@@ -2,10 +2,11 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers, getAllUsers } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
 const stream = require('stream');
+const { getAllCourses } = require('../controllers/courseController');
 
 const router = express.Router();
 const upload = multer();
@@ -179,6 +180,16 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         console.error('Error:', error);
         res.status(500).send('An error occurred while processing the file.');
 }
+  });
+
+  router.get('/all', async(req, res) =>{
+    try{
+        const users = await getAllUsers();
+        res.json(users);
+    }catch(error){
+        console.error('heres the error', error);
+        res.status(500).send('an error occoured while getAllUsers')
+    }
   });
 
 module.exports = router;

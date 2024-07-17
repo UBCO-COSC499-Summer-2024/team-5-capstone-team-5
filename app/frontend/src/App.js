@@ -15,6 +15,7 @@ import InstructorCourseDetails from './components/Instructor/InstructorCourseDet
 //admin
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminNavbar from './components/Admin/AdminNavbar';
+import UserList from './components/Admin/UserList';
 
 
 import StudentList from './components/Instructor/StudentList';
@@ -89,11 +90,12 @@ function AppRoutes() {
       !hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />
       */}
     
-      {hideNavbarPaths.includes(location.pathname) && role === 2 && <AdminNavbar id={userId} />}
+      {!hideNavbarPaths.includes(location.pathname) && role === 2 && <AdminNavbar id={userId} />}
 
       <div className="flex-grow flex flex-col ml-64">
         <div className="flex-grow p-8">
           <Routes>
+          
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
@@ -110,8 +112,9 @@ function AppRoutes() {
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
 
-          
-            {role === 2 && <Route path="/AdminDashboard" element={<AdminDashboard/>} />}
+            
+            {role === 2 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
+            {role === 2 && <Route path="/admin/user" element={<UserList/>} />}
           
           
           </Routes>

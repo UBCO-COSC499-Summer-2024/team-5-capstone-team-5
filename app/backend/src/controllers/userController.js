@@ -205,6 +205,17 @@ const editTest = async (testId, newName) => {
     }
 };
 
+const getAllUsers = async() =>  { 
+    try{
+        const users = await db.manyOrNone('SELECT id, first_name, last_name, email, role FROM users');
+        return users;
+
+    }catch(error){
+        console.error('Error Fetching Users:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
@@ -220,5 +231,6 @@ module.exports = {
     addAnswerKey,
     deleteTest,
     editTest,
-    getExamAnswers
+    getExamAnswers,
+    getAllUsers
 }
