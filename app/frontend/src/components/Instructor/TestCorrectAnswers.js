@@ -8,13 +8,8 @@ const TestCorrectAnswers = () => {
   const navigate = useNavigate();
   const { test } = location.state || {};
   const [questions, setQuestions] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState(test?.name || '');
   const [fileUploaded, setFileUploaded] = useState(localStorage.getItem('fileUploaded') || 1);
   const [answerKeyUploaded, setAnswerKeyUploaded] = useState(localStorage.getItem('answerKeyUploaded') || 1);
-  const [viewingAnswerKey, setViewingAnswerKey] = useState(false);
-  const [answerKeyUrl, setAnswerKeyUrl] = useState(null);
-  const [studentTestsUrl, setStudentTestsUrl] = useState(null);
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const [numQuestions, setNumQuestions] = useState(100);
 
