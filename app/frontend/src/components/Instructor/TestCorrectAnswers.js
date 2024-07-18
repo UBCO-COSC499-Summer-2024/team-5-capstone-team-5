@@ -10,46 +10,19 @@ const TestCorrectAnswers = () => {
   const [questions, setQuestions] = useState([]);
   const [fileUploaded, setFileUploaded] = useState(localStorage.getItem('fileUploaded') || 1);
   const [answerKeyUploaded, setAnswerKeyUploaded] = useState(localStorage.getItem('answerKeyUploaded') || 1);
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const [numQuestions, setNumQuestions] = useState(100);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await fetch(`http://localhost/api/users/questions/answers/${test.id}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        const data = await response.json();
-        console.log('Fetched questions:', data);
-        if (Array.isArray(data)) {
-          const uniqueQuestions = data.filter((item, index, self) =>
-            index === self.findIndex((q) => q.question_num === item.question_num)
-          );
-          const questionsWithAnswers = uniqueQuestions.map(q => ({
-            ...q,
-            correctAnswer: q.correct_answer ? q.correct_answer.map(pos => letters[pos]) : [],
-            hasError: !q.correct_answer || !Array.isArray(q.correct_answer) || q.correct_answer.some(pos => pos < 0 || pos >= letters.length),
-          }));
-          setQuestions(questionsWithAnswers);
-        } else {
-          setQuestions([]);
-        }
-      } catch (error) {
-        console.error('Error fetching questions:', error);
-        setQuestions([]);
-      }
-    };
-
-    if (answerKeyUploaded === 3) {
-      fetchQuestions();
+    const fetchData = async () => {
+      const data = await fetch(`http://localhost/api/users/questions/answers/${testId}`);
+      const results = await data.json();
+      setQuestions(results);
+      console.log(questions)
+      console.log(results);
+      setLoading(false);
     }
-  }, [test?.id, answerKeyUploaded]);
-
-  useEffect(() => {
-    console.log('Questions data being displayed:', questions);
-  }, [questions]);
+    fetchData();
+  }, [testId]);
 
   const handleFileUpload = async (event) => {
     setFileUploaded(2);
