@@ -212,4 +212,17 @@ router.get('/courses/grades/:id', async (req, res) => {
     }
 });
 
+router.post('/questions/answers/edit/:id', async (req, res) => {
+    try {
+        const questionId = req.params.id;
+        const correctAnswer = req.body.correct_answer;
+        console.log("Question ID:",questionId)
+        console.log("Correct Answers:",correctAnswer);
+        await editAnswer(questionId, correctAnswer);
+        res.status(200).send('Answer edited successfully')
+    } catch(error) {
+        res.status(400).json({error: error.message});
+    }
+});
+
 module.exports = router;
