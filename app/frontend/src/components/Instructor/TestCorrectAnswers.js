@@ -7,6 +7,8 @@ const TestCorrectAnswers = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { test } = location.state || {};
+  const { courseId, testId } = useParams();
+  const [loading, setLoading] = useState(true);
   const [questions, setQuestions] = useState([]);
   const [fileUploaded, setFileUploaded] = useState(localStorage.getItem('fileUploaded') || 1);
   const [answerKeyUploaded, setAnswerKeyUploaded] = useState(localStorage.getItem('answerKeyUploaded') || 1);
