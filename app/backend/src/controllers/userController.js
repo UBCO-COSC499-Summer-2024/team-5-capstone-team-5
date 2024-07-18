@@ -250,6 +250,15 @@ const editTest = async (testId, newName) => {
     }
 };
 
+const editAnswer = async (questionId, correctAnswer) => {
+    try {
+        await db.none('UPDATE questions SET correct_answer = $1 WHERE id = $2', [correctAnswer, questionId]);
+    } catch(error) {
+        console.error('Error updating answer for quesiton',questionId);
+        throw error;
+    }
+};
+
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
@@ -268,5 +277,6 @@ module.exports = {
     calculateGrades,
     getExamAnswers,
     addScan,
-    addResponse
+    addResponse,
+    editAnswer
 }

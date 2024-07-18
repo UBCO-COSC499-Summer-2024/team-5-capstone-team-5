@@ -4,7 +4,6 @@ import updateAnswer from '../../hooks/UpdateAnswer';
 const EditBubble = (props) => {
   const correctAnswer = props.question.correct_answer;
   const [options, setOptions] = useState(Array(props.question.num_options).fill(''));
-  const [selectedOption, setSelectedOption] = useState(null);
 
   useEffect(() => {
     const updatedOptions = Array(props.question.num_options).fill('');
@@ -17,14 +16,13 @@ const EditBubble = (props) => {
   }, [correctAnswer, props.question.num_options]);
 
   const handleBubbleClick = (index) => {
-    const updatedOptions = options;
+    const updatedOptions = [...options]; // Create a new copy of the options array
     if(updatedOptions[index] === 'green') {
         updatedOptions[index] = '';
     } else {
         updatedOptions[index] = 'green';
     }
     setOptions(updatedOptions);
-    setSelectedOption(index);
     console.log(updatedOptions);
     updateAnswer(props.question.question_id, updatedOptions);
   };
@@ -34,7 +32,7 @@ const EditBubble = (props) => {
       {options.map((color, index) => (
         <div
           key={index}
-          className={`${color === 'green' ? "bg-green-700" : ""} w-6 h-6 rounded-full border-white border-[0.5px] inline-block mx-1`}
+          className={`${color === 'green' ? "bg-green-700" : ""} w-6 h-6 rounded-full border-white border-[0.5px] inline-block mx-1 hover:cursor-pointer`}
           onClick={() => handleBubbleClick(index)}
         >
           <div className='text-center text-sm'>

@@ -2,7 +2,23 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers, calculateGrades } = require('../controllers/userController');
+const { 
+    getCoursesByUserId, 
+    getTestsByCourseId, 
+    getRecentExamsByUserId, 
+    getQuestionData, 
+    getStudentsByCourseId, 
+    addCourse, addStudent, 
+    deleteTest, 
+    editTest, 
+    register, 
+    addResponse, 
+    addAnswerKey, 
+    addStudentAnswers, 
+    getExamAnswers, 
+    calculateGrades, 
+    editAnswer
+ } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
 const stream = require('stream');
@@ -219,7 +235,7 @@ router.post('/questions/answers/edit/:id', async (req, res) => {
         console.log("Question ID:",questionId)
         console.log("Correct Answers:",correctAnswer);
         await editAnswer(questionId, correctAnswer);
-        res.status(200).send('Answer edited successfully')
+        res.status(200).json({message: 'Answer added successfully'})
     } catch(error) {
         res.status(400).json({error: error.message});
     }
