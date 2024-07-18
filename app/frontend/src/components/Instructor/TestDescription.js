@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers';
+import GenerateSheetModal from './GenerateSheetModal';
+import { useNavigate } from 'react-router-dom';
 
 const TestDescription = ({ test, onBack, onDeleteTest }) => {
   const { theme } = useTheme();

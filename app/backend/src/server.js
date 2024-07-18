@@ -10,7 +10,7 @@ const app = express();
 app.use(cors({
   origin: 'http://localhost:3000',
   methods: 'GET, POST, PUT, DELETE, OPTIONS',
-  allowedHeaders: 'Content-Type, Authorization, testid, userid',
+  allowedHeaders: 'Content-Type, Authorization, testid, userid, numquestions',
   credentials: true
 }));
 app.use(morgan("common"));
