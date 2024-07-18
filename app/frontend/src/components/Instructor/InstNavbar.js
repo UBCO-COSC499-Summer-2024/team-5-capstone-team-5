@@ -26,7 +26,7 @@ const InstNavbar = (props) => {
         navigate("/login");
       } else {
         const userInfo = await getUserInfo();
-        console.log(userInfo);
+        //console.log(userInfo);
         setUser({
           name: userInfo.name,
           email: userInfo.userEmail,

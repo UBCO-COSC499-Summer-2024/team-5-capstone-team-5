@@ -1,3 +1,5 @@
+// app/frontend/src/App.js
+
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './components/Home';
@@ -18,7 +20,10 @@ import InstNavbar from './components/Instructor/InstNavbar';
 import getUserInfo from './hooks/getUserInfo';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import ExamDetails from './components/ExamDetails';
-import TestDescription from './components/Instructor/TestDescription'; // Corrected path
+import TestDescription from './components/Instructor/TestDescription';
+import TestCorrectAnswers from './components/Instructor/TestCorrectAnswers';
+import GenerateSheetModal from './components/Instructor/GenerateSheetModal';
+import OMRSheetGenerator from './components/Instructor/OMRSheetGenerator';
 import './index.css';
 import ChangePass from './components/ChangePass';
 
@@ -61,7 +66,7 @@ function AppRoutes() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const user = await getUserInfo();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+      const user = await getUserInfo();
       if (user) {
         setRole(user.role);
         setUserId(user.userId);
@@ -87,7 +92,7 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            {role === 1 && <Route path="/student/course/:courseId" element={<CourseDetails />} />}
+            {role === 1 && <Route path="/student/course/:courseId" element={<CourseDetails id={userId} />} />}
             {role === 1 && <Route path="/student/exam/:examId" element={<ExamDetails id={userId} />} />}
             {role === 1 && <Route path="/student/dashboard" element={<StudentDashboard />} />}
             {role === 2 && <Route path="/instructor/course" element={<InstructorCourseList />} />}
@@ -97,6 +102,8 @@ function AppRoutes() {
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
+            <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers />} />
+            <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
           </Routes>
         </div>

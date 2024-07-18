@@ -31,21 +31,27 @@ router.get('/tests/:id', async (req, res) => {
 });
 
 router.get('/questions/answers/:examId', async (req, res) => {
-    try {
-        const questions = await getExamAnswers(req.params.examId);
-        res.status(200).json(questions);
-    } catch(error) {
-        res.status(404).json({ error: error.message });
+    if(req.params.examId) {
+        try {
+            const questions = await getExamAnswers(req.params.examId);
+            res.status(200).json(questions);
+        } catch(error) {
+            res.status(500).json({ error: error.message });
+        }
+    } else {
+        res.status(400).json({error: "examId parameter does not exist"})
     }
 });
 
 // URL = localhost/api/users/questions/exam_id
 router.get('/questions/:eid&:uid', async (req, res) => {
-    try {
-        const questions = await getQuestionData(req.params.uid, req.params.eid);
-        res.status(200).json(questions);
-    } catch(error) {
-        res.status(404).json({ error: error.message });
+    if(req.params.uid && req.params.eid) {
+        try {
+            const questions = await getQuestionData(req.params.uid, req.params.eid);
+            res.status(200).json(questions);
+        } catch(error) {
+            res.status(404).json({ error: error.message });
+        }
     }
 });
 
@@ -71,7 +77,7 @@ router.post('/courses/add', async (req, res) => {
             const newCourse = await addCourse(user_id, name, description, end_date);
             res.status(200).json(newCourse);
         } catch(error) {
-            res.status(400).json({error: error.message});
+            res.status(500).json({error: error.message});
         }
     } else {
         res.status(400).json({error: "Missing info for adding a course"});
@@ -92,9 +98,10 @@ router.delete('/tests/delete/:id', async (req, res) => {
 
 router.put('/tests/edit/:id', async (req, res) => {
     const { id } = req.params;
-    const { newName } = req.body;
+    const { name } = req.body;
     try {
-        await editTest(id, newName);
+        await editTest(id, name);
+        console.log("Test name: ",name)
         res.status(200).json({ message: `Test with id ${id} edited successfully` });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -109,23 +116,6 @@ router.get('/courses/students/:id', async (req, res) => {
         res.status(400).json({error: error.message});
     }
 });
-
-router.post('/tests/upload', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
-    const response = await fetch('http://python-cv:8000/upload', {
-        method: 'POST',
-        body: req.file.buffer,
-        headers: {
-            'Content-Type': 'application/json',
-            'testid': req.headers['testid']
-        }
-    });
-    const jsonData = await response.json();
-    const testid = req.headers['testid'];
-    const data = jsonData.data;
-    addStudentAnswers(data, testid);
-    res.status(200).json({message: "This will always pass"});
-  });
 
   router.post('/tests/answers', upload.single('file'), async (req, res) => {
     console.log(req.file.buffer)
@@ -193,9 +183,18 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         .on('data', (data) => results.push(data))
         .on('end', () => {
             console.log('Parsed CSV Data:', results); // This is the parsed CSV data
-
-            // You can now process the parsed CSV data as needed
-            res.send('File uploaded and parsed successfully.');
+            results.forEach((student) => {
+                const id = student.id;
+                const first = student.first_name;
+                const last = student.last_name;
+                const email = student.email;
+                const password = student.password || "changeme";
+                const courseId = req.headers["courseid"];
+                if(id && email) {
+                    addStudent(id, first, last, email, password, courseId);
+                };
+            });
+            res.status(200).send('File uploaded and parsed successfully.');
         });
     } catch (error) {
         console.error('Error:', error);
@@ -206,6 +205,7 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
 router.get('/courses/grades/:id', async (req, res) => {
     try {
         const grades = await calculateGrades(req.params.id);
+        console.log(grades)
         res.status(200).json(grades)
     } catch(error) {
         res.status(400).json({error: error.message});
