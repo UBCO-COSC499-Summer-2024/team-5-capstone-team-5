@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../App';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const TestCorrectAnswers = () => {
   const { theme } = useTheme();
@@ -10,8 +10,6 @@ const TestCorrectAnswers = () => {
   const { courseId, testId } = useParams();
   const [loading, setLoading] = useState(true);
   const [questions, setQuestions] = useState([]);
-  const [fileUploaded, setFileUploaded] = useState(localStorage.getItem('fileUploaded') || 1);
-  const [answerKeyUploaded, setAnswerKeyUploaded] = useState(localStorage.getItem('answerKeyUploaded') || 1);
   const [numQuestions, setNumQuestions] = useState(100);
 
   useEffect(() => {
@@ -136,6 +134,24 @@ const TestCorrectAnswers = () => {
           </div>
         </div>
       </div>
+      <table>
+          <thead>
+            <tr>
+              <th>Question Number</th>
+              <th>Correct Answer</th>
+              <th>Weight</th>
+            </tr>
+          </thead>
+          <tbody>
+            {questions.map(question => (
+              <tr key={question.id}>
+                <td>{question.question_num}</td>
+                <td><EditBubble question={question} /></td>
+                <td>{question.weight}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
     </div>
   );
 };
