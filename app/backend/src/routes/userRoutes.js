@@ -171,7 +171,8 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         body: req.file.buffer,
         headers: {
             'Content-Type': 'application/json',
-            'testid': req.headers['testid']
+            'testid': req.headers['testid'],
+            'numquestions': req.headers['numquestions']
         }
     });
     const jsonData = await response.json();
