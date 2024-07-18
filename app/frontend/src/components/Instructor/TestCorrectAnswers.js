@@ -11,6 +11,8 @@ const TestCorrectAnswers = () => {
   const { courseId, testId } = useParams();
   const [loading, setLoading] = useState(true);
   const [questions, setQuestions] = useState([]);
+  const [answerKeyUploaded, setAnswerKeyUploaded] = useState(1);
+  const [fileUploaded, setFileUploaded] = useState(1);
   const [numQuestions, setNumQuestions] = useState(100);
 
   useEffect(() => {
