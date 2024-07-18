@@ -3,9 +3,12 @@
 import React, { useState } from 'react';
 import { useTheme } from '../../App';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import GenerateSheetModal from './GenerateSheetModal';
 
 const TestDescription = ({ test, onBack, onDeleteTest }) => {
+  const { courseId } = useParams();
+  const [viewAnswers, setViewAnswers] = useState(false);
   const { theme } = useTheme();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +20,7 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
   };
 
   const handleViewCorrectAnswers = () => {
-    navigate(`/instructor/course/${test.courseId}/test/${test.id}/correct-answers`, { state: { test } });
+    navigate(`/instructor/course/${courseId}/test/${test.id}/correct-answers`, { state: { test } });
   };
 
   const handleGenerateSheet = () => {

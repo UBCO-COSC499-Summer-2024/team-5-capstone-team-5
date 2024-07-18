@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers, calculateGrades } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers, calculateGrades, editAnswer } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
 const stream = require('stream');
@@ -190,5 +190,18 @@ router.get('/courses/grades/:id', async (req, res) => {
         res.status(400).json({error: error.message});
     }
 });
+
+router.post('/questions/answers/edit/:id', async (req, res) => {
+    try {
+        const questionId = req.params.id;
+        const correctAnswer = req.body.correct_answer;
+        console.log("Question ID:",questionId)
+        console.log("Correct Answers:",correctAnswer);
+        await editAnswer(questionId, correctAnswer);
+        res.status(200).send('Answer edited successfully')
+    } catch(error) {
+        res.status(400).json({error: error.message});
+    }
+})
 
 module.exports = router;
