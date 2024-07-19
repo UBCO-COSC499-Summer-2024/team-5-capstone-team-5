@@ -163,22 +163,58 @@ const getScan = async (exam_id, user_id) => {
     }
 };
 
-const calculateGrades = async (course_id) => {
+const calculateGrades = async (courseId) => {
     try {
         const grades = await db.manyOrNone(
-            `SELECT exams.id AS exam_id, exams.course_id, exams.name AS exam_name, 
-	            user_id, users.last_name, users.first_name,
-	            SUM(weight*(CASE WHEN response=correct_answer THEN 1 ELSE 0 END))
-                AS student_score
-            FROM exams 
-	            JOIN questions ON exams.id = exam_id
-	            JOIN responses ON questions.id = responses.question_id
-	            JOIN users ON users.id = responses.user_id
-            WHERE course_id = ${course_id}
-            GROUP BY exams.id, exams.course_id, exams.name, user_id, users.last_name, users.first_name
-            ORDER BY user_id ASC, exams.id ASC;`
+           `WITH
+                registeredStudents AS (
+	                SELECT user_id AS "userId", users.last_name AS "lastName", users.first_name AS "firstName"
+	                FROM users JOIN registration ON users.id = user_id
+	                WHERE course_id = ${courseId}
+            ),
+
+                studentsWithExams AS (
+	                SELECT users.id AS "userId", users.last_name AS "lastName", users.first_name AS "firstName",
+			            registration.user_Id IS NOT NULL AS "isRegistered",
+			            exams.id AS "examId",  exams.name AS "examName",
+	    	            SUM(weight*(CASE WHEN response=correct_answer THEN 1 ELSE 0 END))
+        		        AS "studentScore"
+	                FROM users
+			        JOIN responses ON users.id = responses.user_id
+			        JOIN questions ON questions.id = question_id
+			        JOIN exams ON exams.id = exam_id
+			        LEFT JOIN registration ON 
+				        responses.user_id = registration.user_id
+				        AND registration.course_id = ${courseId}
+	                WHERE exams.course_id = ${courseId} 
+	                GROUP BY  users.id, users.last_name, users.first_name,
+			            exams.id, exams.name, registration.user_Id
+            ),
+
+                StudentsWithoutExams AS (
+	                SELECT registeredStudents."userId", registeredStudents."lastName",
+		                registeredStudents."firstName", 1=1 AS "isRegistered",
+		                -1 AS "examId", NULL AS "examName", 0 AS "studentScore"
+	                FROM studentsWithExams 
+	                RIGHT JOIN registeredStudents ON studentsWithExams."userId" = registeredStudents."userId"
+	                WHERE studentsWithExams."userId" IS NULL
+            )
+            SELECT * FROM StudentsWithoutExams
+            UNION
+            SELECT * FROM studentsWithExams
+            ORDER BY "userId" ASC, "examId" ASC;`
         );
-        return grades;
+        if (grades.length > 0) {
+            return grades;
+        } else  {
+            //maybe should be using getStudentsByCourseId?
+            const courseStudents = await db.manyOrNone(
+               `SELECT user_id AS "userId", users.last_name AS "lastName", users.first_name AS "firstName"
+                FROM users JOIN registration ON id = user_id
+                WHERE course_id = ${courseId};`
+            );
+            return courseStudents;
+        }
     } catch(error) {
         console.error(`Error calculating grades`);
     };

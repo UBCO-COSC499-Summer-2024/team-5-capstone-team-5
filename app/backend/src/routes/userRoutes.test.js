@@ -1,7 +1,6 @@
 const request = require("supertest");
 const app = require("../server");
 
-
 describe("Test the routes in userRoutes", () => {
 
     // Test for GET /api/users/courses/:id
@@ -122,6 +121,15 @@ describe("Test the routes in userRoutes", () => {
             .get("/api/users/questions/answers/")
             .then(response => {
                 expect(response.statusCode).toBe(404);
+                done();
+            }).catch(err => done(err));
+    });
+
+    test("GET /api/users/courses/grades/:id - It should return 200 when requested", done => {
+        request(app)
+            .get("/api/users/courses/grades/1")
+            .then(response => {
+                expect(response.statusCode).toBe(200);
                 done();
             }).catch(err => done(err));
     });
