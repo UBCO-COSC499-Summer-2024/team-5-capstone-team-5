@@ -1,3 +1,46 @@
+# Weekly Log - [Week 10: July 17-19]
+
+### Date: July 17  8:00 am
+### Author: Jack Mathisen
+
+
+## Hour Breakdown
+
+**Approximate Hours: 6.45**
+
+**Timesheet** 
+Clockify report alt text
+
+![July 17-19](<Screen Shot 2024-07-19 at 7.02.37 AM.png>)
+
+
+**Current Tasks (Provide sufficient detail)**
+#1: Finish change role feature for admin 
+#2: Set up role admin === 3 on all pages integrate said role
+#3: Help Front end testing make sure that the tests are completed and modified for future changes to code
+#4 Clean up admin page make it more interactive and pleasent on the eyes
+#5 Work on making site statistics for admin 
+#6 Help to refactor some of the code and make the project more organized and clean.  
+
+**Progress Update (since 10/5/2024)**
+TASK/ISSUE #STATUS
+Task A	Finished
+Task B	finished
+Task C  in progress
+Task D  in progress
+Task E  in progress
+Task F  in progress
+
+
+
+**Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)**
+The world load was a bit overwhelming I thought I could have more of the goals finished in time. However I can grind it out this weekend. Looking to have testing as well as interactivity finished 
+
+**Next Cycle Goals (What are you going to accomplish during the next cycle)**
+Goal 1: Finish front end testing for admin
+Goal 2: work on finishing site statistics for admin 
+Goal 3: clean up admin page make it more robust, interactive, and just overall a smoother design
+
 # Weekly Log - [Week 10: July 12-17]
 
 ### Date: July 17 8:00 am
@@ -24,7 +67,7 @@ Clockify report alt text
 **Progress Update (since 10/5/2024)**
 TASK/ISSUE #STATUS
 Task A	Finished
-Task B	finished
+Task B	in progress
 Task C  in progress
 Task D  in progress
 Task E  in progress
