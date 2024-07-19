@@ -3,7 +3,6 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const courseRoutes = require('./routes/courseRoutes');
-const express = require("express");
 const morgan = require("morgan");
 const path = require('path');
 
