@@ -195,12 +195,13 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
   });
 
 router.put('/role/:userId', async(req,res) =>{
-    const{user_id } = req.params;
+    const{userId } = req.params;
     const{role} = req.body;
-
+    console.log(role);
+    console.log(userId)
     try{
-    await changeUserRole(user_id,role);
-    res.status(200).json({message: 'role updaed succesfully'});
+    await changeUserRole(userId,role);
+    res.status(200).json({message: 'role updated succesfully'});
 
     }catch(error){
     res.status(200).json({message: 'an error occoured while changeUserRole'});

@@ -87,7 +87,6 @@ function AppRoutes() {
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
       {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
-    
       {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
 
       <div className="flex-grow flex flex-col ml-64">

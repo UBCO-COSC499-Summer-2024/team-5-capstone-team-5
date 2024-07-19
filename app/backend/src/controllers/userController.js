@@ -207,7 +207,7 @@ const editTest = async (testId, newName) => {
 //For Admin
 const getAllUsers = async() =>  { 
     try{
-        const users = await db.manyOrNone('SELECT id, first_name, last_name, email, role FROM users');
+        const users = await db.manyOrNone('SELECT id, first_name, last_name, email, role FROM users ORDER BY role DESC, last_name');
         return users;
 
     }catch(error){
@@ -216,9 +216,9 @@ const getAllUsers = async() =>  {
     }
 }
 
-const changeUserRole = async() => {
+const changeUserRole = async(userId, role) => {
     try{
-        await db.none('UPDATE users SET role = $1 WHERE id = $2', [newRole, user_id]);
+        await db.none('UPDATE users SET role = $1 WHERE id = $2', [role, userId]);
         return true;
     }catch(error){
         console.log('Error when updating role', error);
