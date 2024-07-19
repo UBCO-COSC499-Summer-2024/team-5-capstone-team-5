@@ -8,7 +8,8 @@ const {
     getRecentExamsByUserId, 
     getQuestionData, 
     getStudentsByCourseId, 
-    addCourse, addStudent, 
+    addCourse, 
+    addStudent, 
     deleteTest, 
     editTest, 
     register, 
@@ -180,6 +181,7 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         .on('end', () => {
             console.log('Parsed CSV Data:', results); // This is the parsed CSV data
             results.forEach((student) => {
+                console.log("Student",student);
                 const id = student.id;
                 const first = student.first_name;
                 const last = student.last_name;
