@@ -3,7 +3,8 @@ import { useTheme } from '../../App';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import EditBubble from '../BubbleSheet/EditableBubbles';
 
-const TestCorrectAnswers = () => {
+const TestCorrectAnswers = (props) => {
+  const userId = props.id;
   const { theme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
@@ -58,14 +59,33 @@ const TestCorrectAnswers = () => {
         headers: {
           'testid': test.id,
           'numquestions': numQuestions,
+          'userid': userId,
         },
       });
       const data = await response.json();
       console.log('File uploaded:', file);
+      console.log('userid in headers:',userId);
       setAnswerKeyUploaded(3);
       test.correctAnswers = data.correctAnswers;
     }
   };
+
+  const fetchImageUrl = async (examId, userId) => {
+    const response = await fetch(`http://localhost/api/users/scans/${examId}/${userId}`);
+    const data = await response.json();
+    console.log(data.path);
+    return data.path
+  }
+
+  const displayImage = (path) => {
+    const imgElement = document.createElement('img');
+    imgElement.src = path;
+    document.body.appendChild(imgElement);
+  }
+
+  const handleScanClick = () => {
+    fetchImageUrl('4', '67890123').then(path => displayImage(path))
+  }
 
   return (
     <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
@@ -84,7 +104,7 @@ const TestCorrectAnswers = () => {
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center">
               <label htmlFor="100q" className="mr-2">100 Questions</label>
-              <input type="radio" id="100q" name="numquestions" checked="checked" onClick={() => setNumQuestions(100)} />
+              <input type="radio" id="100q" name="numquestions" defaultChecked onClick={() => setNumQuestions(100)} />
               <label htmlFor="200q" className="mr-2 ml-4">200 Questions</label>
               <input type="radio" id="200q" name="numquestions" onClick={() => setNumQuestions(200)} />
             </div>
@@ -134,27 +154,32 @@ const TestCorrectAnswers = () => {
                 </p>
               )}
             </div>
+            <div>
+              <button onClick={handleScanClick()}>Show Scan</button>
+            </div>
           </div>
         </div>
       </div>
-      <table>
+      <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+        <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-              <th>Question Number</th>
-              <th>Correct Answer</th>
-              <th>Weight</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Question Number</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Correct Answer</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Weight</th>
             </tr>
           </thead>
-          <tbody>
-            {questions.map(question => (
-              <tr key={question.id}>
-                <td>{question.question_num}</td>
-                <td><EditBubble question={question} /></td>
-                <td>{question.weight}</td>
+          <tbody className="divide-y divide-gray-200">
+            {questions.map((question, index) => (
+              <tr key={index}>
+                <td className="px-6 py-4 whitespace-nowrap">{question.question_num}</td>
+                <td className="px-6 py-4 whitespace-nowrap"><EditBubble question={question} /></td>
+                <td className="px-6 py-4 whitespace-nowrap">{question.weight}</td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
     </div>
   );
 };

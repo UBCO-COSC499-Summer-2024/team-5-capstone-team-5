@@ -127,11 +127,18 @@ const addExam = async (course_id, name) => {
 const addQuestion = async (exam_id, num_options, correct_answer, weight, question_num) => {
     try {
         await db.none(
-            'INSERT INTO questions (exam_id, num_options, correct_answer, weight, question_num) VALUES ($1, $2, $3, $4, $5)', [exam_id, num_options, correct_answer, weight, question_num]
+            `INSERT INTO questions (exam_id, num_options, correct_answer, weight, question_num)
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (exam_id, question_num)
+             DO UPDATE SET
+                num_options = EXCLUDED.num_options,
+                correct_answer = EXCLUDED.correct_answer,
+                weight = EXCLUDED.weight`, 
+            [exam_id, num_options, correct_answer, weight, question_num]
         );
-    } catch(error) {
-        console.error(`Error adding question`);
-    };
+    } catch (error) {
+        console.error(`Error adding or updating question: ${error.message}`);
+    }
 };
 
 const addScan = async (exam_id, user_id, path) => {
@@ -142,7 +149,19 @@ const addScan = async (exam_id, user_id, path) => {
     } catch(error) {
         console.error('Error adding scan for user',user_id);
     }
-}
+};
+
+const getScan = async (exam_id, user_id) => {
+    try {
+        response = await db.oneOrNone(
+            'SELECT scan FROM scans WHERE exam_id = $1 AND user_id = $2', [exam_id, user_id]
+        );
+        return response;
+    } catch(error) {
+        console.error('Error getting scan for user',user_id,'and exam',exam_id);
+        throw error;
+    }
+};
 
 const calculateGrades = async (course_id) => {
     try {
@@ -206,27 +225,24 @@ const addAnswerKey = async (jsonData, examId, userId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
-            console.log(answerKey.answers[0])
             const responses = answerKey.answers[0];
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
             const image = answerKey.image;
             const imageBuffer = Buffer.from(image, 'base64');
-            const imagesDir = path.resolve(__dirname, '/images');
-            const imagePath = path.join(imagesDir, `${examId}_${answerKey.stnum}.png`);
-            console.log("Image path:", imagePath)
+            const imagesDir = path.resolve(__dirname, '../../images');
+            const imagePath = path.join(imagesDir, `${examId}_${userId}.png`);
             if (!fs.existsSync(imagesDir)) {
                 fs.mkdirSync(imagesDir, { recursive: true });
             }
             fs.writeFileSync(imagePath, imageBuffer);
 
             responses.forEach((response) => {
-                console.log(response.LetterPos);
                 const correctAnswer = Number(response.LetterPos);
                 const questionNum = Number(response.Question)
-                console.log(response);
                 addQuestion(examId, 5, [correctAnswer], 1, questionNum);
             })
+            console.log("Adding scan: examId, userId, imagePath:",examId,userId,imagePath);
             addScan(examId, userId, imagePath);
         };
     }
@@ -278,5 +294,6 @@ module.exports = {
     getExamAnswers,
     addScan,
     addResponse,
-    editAnswer
+    editAnswer,
+    getScan
 }

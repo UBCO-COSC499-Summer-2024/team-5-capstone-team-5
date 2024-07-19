@@ -102,7 +102,7 @@ function AppRoutes() {
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
-            <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers />} />
+            <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers id={userId} />} />
             <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
           </Routes>

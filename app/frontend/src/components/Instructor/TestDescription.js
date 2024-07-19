@@ -50,7 +50,7 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
           onClick={handleViewCorrectAnswers}
           className={`px-4 py-2 rounded transition duration-200 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-blue-600' : 'bg-gray-300 text-black hover:bg-blue-400'}`}
         >
-          Standard UBC Sheet
+          View / Edit Answer Key
         </button>
         <button
           onClick={handleGenerateSheet}

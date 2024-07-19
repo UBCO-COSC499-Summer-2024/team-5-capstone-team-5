@@ -17,7 +17,8 @@ const {
     addStudentAnswers, 
     getExamAnswers, 
     calculateGrades, 
-    editAnswer
+    editAnswer,
+    getScan
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
@@ -134,7 +135,6 @@ router.get('/courses/students/:id', async (req, res) => {
 });
 
   router.post('/tests/answers', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
     const response = await fetch('http://python-cv:8000/upload', {
         method: 'POST',
         body: req.file.buffer,
@@ -146,9 +146,8 @@ router.get('/courses/students/:id', async (req, res) => {
     });
     const jsonData = await response.json();
     const testid = req.headers['testid'];
-    console.log("Testid", testid);
     const data = jsonData.data;
-    addAnswerKey(data, testid);
+    addAnswerKey(data, testid, req.headers['userid']);
     res.status(200).json({message: "This will always pass"});
   });
 
@@ -167,25 +166,6 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const testid = req.headers['testid'];
     const data = jsonData.data;
     addStudentAnswers(data, testid);
-    res.status(200).json({message: "This will always pass"});
-  });
-
-  router.post('/tests/answers', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
-    const response = await fetch('http://python-cv:8000/upload', {
-        method: 'POST',
-        body: req.file.buffer,
-        headers: {
-            'Content-Type': 'application/json',
-            'testid': req.headers['testid'],
-            'numquestions': req.headers['numquestions']
-        }
-    });
-    const jsonData = await response.json();
-    const testid = req.headers['testid'];
-    console.log("Testid", testid);
-    const data = jsonData.data;
-    addAnswerKey(data, testid, req.headers['userid']);
     res.status(200).json({message: "This will always pass"});
   });
 
@@ -236,6 +216,17 @@ router.post('/questions/answers/edit/:id', async (req, res) => {
         console.log("Correct Answers:",correctAnswer);
         await editAnswer(questionId, correctAnswer);
         res.status(200).json({message: 'Answer added successfully'})
+    } catch(error) {
+        res.status(400).json({error: error.message});
+    }
+});
+
+router.get('/scans/:examId/:userId', async (req, res) => {
+    try {
+        const { examId, userId } = req.params
+        const path = await getScan(examId, userId);
+        console.log(path);
+        res.status(200).json({path: path.scan});
     } catch(error) {
         res.status(400).json({error: error.message});
     }

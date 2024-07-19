@@ -80,14 +80,16 @@ CREATE TABLE IF NOT EXISTS exams (
 );
 
 
-CREATE TABLE IF NOT EXISTS questions ( 
+CREATE TABLE IF NOT EXISTS questions (
     id serial PRIMARY KEY,
     question_num integer,
     exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
     num_options integer,
     correct_answer integer[],
-    weight float
+    weight float,
+    CONSTRAINT unique_exam_question UNIQUE (exam_id, question_num)
 );
+
 
 
 CREATE TABLE IF NOT EXISTS responses (
