@@ -1,3 +1,61 @@
+## Friday (7/17 - 7/19) Oakley Pankratz
+Total Hours: 8.5
+* Wokring on the modal view which displays the scan and responses for a student to the instructor, and allows the insstructor to edit the respective respoenses. 
+
+Update clockify log
+![alt text](ClockifyLogJuly19.png)
+
+### Progress Update (since 7/12/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <!-- Task/Issue # -->
+        <td>Making the spreadsheet component clickable
+        </td>
+        <!-- Status -->
+        <td>In Progress (but mostly complete) (Issue #146)
+        </td>
+    </tr>
+        <td> Display grades as percents
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #145)
+        </td>
+    </tr>
+        <td> Calculate statstics for exams
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #155)
+        </td>
+    </tr>
+        <td> Create an add student button
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #97)
+        </td>
+    </tr>
+        <td> Add a way for insttuctors scan an exam for a single student. (Issue#148)
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #97)
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+ * I didn't have quite enough time this cycle to complete all the goals that I wanted to complete. I also got stuck working on issue #146. However, I'm excited to tackle my goals in the upcoming cycle.
+ 
+### Next Cycle Goals:
+* Finish Resolving Issue #146. (Modal for instructors to edit student's respoenses.)
+* Display grades in the spreadhseet as percents, I may possibly make this toggle-able for the instructor (Issue #145).
+* Adding a way for instructors to add a test for a single student (Issue #148) would be complete-able once Issue #146 is complete. 
+* Create an "Add Student" button (Issue#97). This should be fairly quick and straightforward.
+* Cacluate statistics for exams (Issue#155)
+
 ## Wednesday (7/12 - 7/17) Oakley Pankratz
 Total Hours: 27
 
