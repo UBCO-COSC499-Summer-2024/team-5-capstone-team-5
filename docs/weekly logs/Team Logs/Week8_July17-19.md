@@ -2,7 +2,7 @@
 
 ## Date Range:
 
-- July 12 - July 17
+- July 17 - July 19
 
 ## Features in the Project Plan Cycle:
 
