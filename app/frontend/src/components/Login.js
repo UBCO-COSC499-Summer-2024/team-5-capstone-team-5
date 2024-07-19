@@ -1,14 +1,15 @@
-// app/frontend/src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import Toast from './Toast'; // Importing the Toast component
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '', type: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,22 +23,34 @@ const Login = () => {
         credentials: 'include'
       });
 
-      if (!response.ok) {
-        console.log("Login request unsuccessful");
-      } else {
+      if (response.status === 200) {
         const data = await response.json();
         localStorage.setItem('token', data.token);
-        console.log("Login successful, token: ", data.token);
-        navigate('/'); // Navigating to home route after successful login
-
+        setToast({ show: true, message: 'Login successful!', type: 'success' });
+        setTimeout(() => {
+          navigate('/');
+        }, 3000); // Navigate after showing the success message
+      } else if (response.status === 401) {
+        setToast({ show: true, message: 'Incorrect Credentials', type: 'error' });
+      } else if (response.status === 404) {
+        setToast({ show: true, message: 'Endpoint not found', type: 'error' });
+      } else {
+        setToast({ show: true, message: 'Login request unsuccessful', type: 'error' });
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      setToast({ show: true, message: 'Internal Server Error', type: 'error' });
     }
   };
 
   return (
     <div className="h-full content-center bg-[#1D1E21]">
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ show: false, message: '', type: '' })}
+        />
+      )}
       <div className="flex flex-col gap-16">
         <img src="/gradeit.svg" alt="Logo" className="w-2/5 flex self-center mb-12" />
         <form onSubmit={handleSubmit}>
