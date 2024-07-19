@@ -86,11 +86,9 @@ function AppRoutes() {
   return (
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
-      {/*
-      !hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />
-      */}
+      {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
     
-      {!hideNavbarPaths.includes(location.pathname) && role === 2 && <AdminNavbar id={userId} />}
+      {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
 
       <div className="flex-grow flex flex-col ml-64">
         <div className="flex-grow p-8">
@@ -99,12 +97,12 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            {/*role === 1 && <Route path="/student/course/:courseId" element={<CourseDetails />} />}
+            {role === 1 && <Route path="/student/course/:courseId" element={<CourseDetails />} />}
             {role === 1 && <Route path="/student/exam/:examId" element={<ExamDetails id={userId} />} />}
             {role === 1 && <Route path="/student/dashboard" element={<StudentDashboard />} />}
             {role === 2 && <Route path="/instructor/course" element={<InstructorCourseList />} />}
             {role === 2 && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
-            {role === 2 && <Route path="/instructor/course/:courseId/*" element={<InstructorCourseDetails />} />*/}
+            {role === 2 && <Route path="/instructor/course/:courseId/*" element={<InstructorCourseDetails />} />}
            
             <Route path="/contact" element={<Contact />} />
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
@@ -113,8 +111,8 @@ function AppRoutes() {
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
 
             
-            {role === 2 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
-            {role === 2 && <Route path="/admin/user" element={<UserList/>} />}
+            {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
+            {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
           
           
           </Routes>

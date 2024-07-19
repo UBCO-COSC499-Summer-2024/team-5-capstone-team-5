@@ -3,6 +3,7 @@ import getUserInfo from '../../hooks/getUserInfo';
 import getAllUsers from '../../hooks/GetAllUsers';
 import { useTheme } from '../../App';
 import SearchBar from './AdminSearchBar'; // Ensure the path is correct
+import changeUserRole from '../../hooks/changeUserRole';
 
 const UserList = () => {
 
@@ -19,10 +20,17 @@ const UserList = () => {
     fetchData();
   }, [fetchData]);
 
-  const handleRoleChange = (userId, newRole) => {
-    // New Role Change 
+  const handleRoleChange = async (userId, newRole) => {
     console.log(`User ID: ${userId}, New Role: ${newRole}`);
+    const success = await changeUserRole(userId, newRole);
+    if (success) {
+      setUsers(users.map(user => (user.id === userId ? { ...user, role: newRole } : user)));
+    } else {
+      console.error('Failed to update role');
+    }
   };
+
+  
 
   const filteredUsers = users.filter(user =>
     user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -30,7 +38,7 @@ const UserList = () => {
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  return (
+return (
     <div className="p-4 flex flex-col min-h-screen">
       <SearchBar onSearch={setSearchQuery} />
       <div className="flex-grow mt-4">
@@ -52,11 +60,12 @@ const UserList = () => {
                 <td className="p-4">{user.last_name}</td>
                 <td className="p-4">{user.first_name}</td>
                 <td className="p-4">{user.email}</td>
-                <td className="p-4">{user.role === 1 ? "Student" : user.role === 2 ? "Instructor" : "Admin"}</td>
+                <td className="p-4">{user.role === 1 ? "Student" : user.role === 2 ? "Instructor" :user.role === 3 ? "Admin": ""}</td>
                 <td className="p-4">
+                  
                   <select
                     value={user.role}
-                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                    onChange={(e) => handleRoleChange(user.id, parseInt(e.target.value))}
                     className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}
                   >
                     <option value="1">Student</option>
