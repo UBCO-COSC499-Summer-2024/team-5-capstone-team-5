@@ -230,8 +230,10 @@ const addAnswerKey = async (jsonData, examId, userId) => {
             const multiResponse = answerKey.answers[2];
             const image = answerKey.image;
             const imageBuffer = Buffer.from(image, 'base64');
-            const imagesDir = path.resolve(__dirname, '../../images');
+            const imagesDir = ('/images');
+            console.log(imagesDir);
             const imagePath = path.join(imagesDir, `${examId}_${userId}.png`);
+            console.log(imagePath);
             if (!fs.existsSync(imagesDir)) {
                 fs.mkdirSync(imagesDir, { recursive: true });
             }
