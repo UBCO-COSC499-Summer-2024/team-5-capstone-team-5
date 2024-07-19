@@ -125,4 +125,13 @@ describe("Test the routes in userRoutes", () => {
             }).catch(err => done(err));
     });
 
+    test("GET /api/users/courses/grades/:id - It should return 200 when requested", done => {
+        request(app)
+            .get("/api/users/courses/grades/1")
+            .then(response => {
+                expect(response.statusCode).toBe(200);
+                done();
+            }).catch(err => done(err));
+    });
+
 });
