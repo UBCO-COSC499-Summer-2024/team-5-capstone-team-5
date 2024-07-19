@@ -1,3 +1,60 @@
+# Friday (7/17 - 7/19)
+## Date: July 18, 11:00PM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJuly18.png)
+
+### Task tldr:
+I re-wrote our response editing / correct answer view for the instructor as it was too client-side heavy, and was not interacting with the backend. I worked on getting our OMR scan with all of the answers circled to display to the user for verification of responses.
+
+### Current Tasks:
+  * #1: OMR image rendering to user
+  * #2: Add ability to edit exams and questions
+  * #3: Add ability to edit exam responses from students (as instructor)
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #1: OMR image rendering
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #2: Add ability to edit exams and questions
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #3: Add ability to edit exam responses (as instructor)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+- I put a lot of work into getting the OMR scans to render. They currently store in the backend and the file path is stored in a scans table in the database, but it does not display to the user with the 'view scan' button yet.
+- I am nearly finished with the ability to edit exams and questions. I just want to make the weights editable for the instructor, and then make some more of the exam details editable.
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Add ability to edit weights of questions
+  * Render OMR scans with a frontend button
+
 # Wednesday (7/12 - 7/17)
 ## Date: July 16, 10:19PM
 
