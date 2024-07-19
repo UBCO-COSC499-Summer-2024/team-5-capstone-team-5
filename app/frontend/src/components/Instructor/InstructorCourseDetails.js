@@ -89,7 +89,7 @@ const InstructorCourseDetails = () => {
       <div className={`mb-4 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'}`}>
         <MenuBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       </div>
-      <SearchBar />
+      {/* <SearchBar /> */}
       {selectedMenu === 'tests' && (
         <div className="p-4 flex flex-col min-h-screen">
           <div className="flex-grow">
