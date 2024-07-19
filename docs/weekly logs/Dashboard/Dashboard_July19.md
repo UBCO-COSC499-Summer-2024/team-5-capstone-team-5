@@ -1,4 +1,4 @@
-# Dashboard for July 17 Logs
+# Dashboard for July 19 Logs
 ##### Team 5:
 Nathan Jacinto,
 Oakley Pankratz, 
@@ -8,19 +8,19 @@ Jack Mathisen
 
 
 # Times for Team/Individual 
-![Timesheet](../logScreenshots/teamTimesheetWeek8.png)
+![Timesheet](../logScreenshots/teamTimesheetWeek8.2.png)
 
 # Project Board Tasks
-![Kanban](../logScreenshots/kanbanWeek8.png)
+![Kanban](../logScreenshots/kanbanWeek8.2.png)
 
 # Burn-Up
-![Burnup](../logScreenshots/burnupWeek8.png)
+![Burnup](../logScreenshots/burnupWeek8.2.png)
 
 # Table of Completed Tasks:
-![Completed_Tasks](../logScreenshots/completedWeek8.png)
+![Completed_Tasks](../logScreenshots/completedWeek8.2.png)
 
 # Table of WIP Tasks
-![WIP_Tasks](../logScreenshots/wipWeek8.png)
+![WIP_Tasks](../logScreenshots/wipWeek8.2.png)
 
 # Tests
 ## Frontend
