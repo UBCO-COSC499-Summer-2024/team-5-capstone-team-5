@@ -66,7 +66,7 @@ function AppRoutes() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const user = await getUserInfo();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+      const user = await getUserInfo();
       if (user) {
         setRole(user.role);
         setUserId(user.userId);
