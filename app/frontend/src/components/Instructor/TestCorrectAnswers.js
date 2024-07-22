@@ -15,6 +15,7 @@ const TestCorrectAnswers = (props) => {
   const [answerKeyUploaded, setAnswerKeyUploaded] = useState(1);
   const [fileUploaded, setFileUploaded] = useState(1);
   const [numQuestions, setNumQuestions] = useState(100);
+  const [showingScan, setShowingScan] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,13 +79,24 @@ const TestCorrectAnswers = (props) => {
   }
 
   const displayImage = (path) => {
+    const imageContainer = document.getElementById('imageContainer');
+    imageContainer.innerHTML = '';
     const imgElement = document.createElement('img');
-    imgElement.src = path;
-    document.body.appendChild(imgElement);
+    imgElement.src = 'http://localhost'+path;
+    imgElement.alt = 'Scan Image';
+    imgElement.className = 'rounded-lg';
+    console.log("Displaying image from:"+imgElement.src);
+    imageContainer.appendChild(imgElement);
   }
 
   const handleScanClick = () => {
+    setShowingScan(true);
     fetchImageUrl('4', '67890123').then(path => displayImage(path))
+  }
+  const handleScanClose = () => {
+    const imageContainer = document.getElementById('imageContainer');
+    imageContainer.innerHTML = '';
+    setShowingScan(false);
   }
 
   return (
@@ -155,13 +167,13 @@ const TestCorrectAnswers = (props) => {
               )}
             </div>
             <div>
-              <button onClick={handleScanClick()}>Show Scan</button>
+              {!showingScan && <button onClick={handleScanClick}>Show Scan</button>}
+              {showingScan && <button onClick ={handleScanClose}>Close Scan</button>}
             </div>
           </div>
         </div>
-      </div>
-      <div className="bg-gray-800 rounded-lg shadow-lg p-6">
-        <table className="min-w-full divide-y divide-gray-200">
+        <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+        {!showingScan && <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Question Number</th>
@@ -178,7 +190,10 @@ const TestCorrectAnswers = (props) => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>}
+        <div id='imageContainer' className='mt-4'>
+        </div>
+      </div>
       </div>
     </div>
   );
