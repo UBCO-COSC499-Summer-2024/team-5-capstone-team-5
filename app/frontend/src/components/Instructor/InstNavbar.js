@@ -26,7 +26,6 @@ const InstNavbar = (props) => {
         navigate("/login");
       } else {
         const userInfo = await getUserInfo();
-        //console.log(userInfo);
         setUser({
           name: userInfo.name,
           email: userInfo.userEmail,
@@ -60,12 +59,11 @@ const InstNavbar = (props) => {
   }, [props.id]);
 
   const handleAddCourse = async (data) => {
-    console.log("data: ", data);
     const name = data.courseDept + " " + data.courseCode + "-" + data.courseSection;
     const description = data.description;
     const endDate = data.endDate;
     const newCourse = { name: name, description: description, end_date: endDate, user_id: props.id };
-    console.log("newCourse: ", newCourse);
+
     try {
       const response = await fetch('http://localhost/api/users/courses/add', {
         method: 'POST',
@@ -76,7 +74,6 @@ const InstNavbar = (props) => {
       });
       if (response.ok) {
         const addedCourse = await response.json();
-        console.log("addedCourse:", addedCourse);
         setCourses([...courses, addedCourse]);
       } else {
         console.error('Error adding course:', response.status, response.statusText);
@@ -94,7 +91,7 @@ const InstNavbar = (props) => {
             <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
           </div>
           <div className="mt-4">
-            <h2 className="ml-4 text-lg font-bold text-gray-300">Courses</h2>
+            <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
             <ul className="mt-4 space-y-4">
               {courses.length > 0 ? courses.map((course) => (
                 <li key={course.course_id}>
@@ -102,24 +99,24 @@ const InstNavbar = (props) => {
                     to={`/instructor/course/${course.course_id}`}
                     className={({ isActive }) =>
                       isActive
-                        ? `block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-300 hover:bg-gray-400'}`
-                        : `block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`
+                        ? `block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-400 text-black hover:bg-gray-500'}`
+                        : `block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-200 text-black hover:bg-gray-300'}`
                     }
                   >
                     <h3 className="font-bold">{course.name}</h3>
-                    <p className={`text-gray-400`}>{course.description}</p>
-                    <p className="text-gray-500">Ends: {course.end_date.slice(0, 10)}</p>
+                    <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>{course.description}</p>
+                    <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Ends: {course.end_date.slice(0, 10)}</p>
                   </NavLink>
                 </li>
               )) : (
                 <li className="text-center text-gray-400">No courses available</li>
               )}
               <li
-                className={`block p-4 mx-4 rounded-lg hover:bg-gray-600 text-white font-bold text-center cursor-pointer ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'} relative`}
+                className={`block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer relative`}
                 onClick={() => setIsModalOpen(true)}
               >
                 <div className="text-xl">+</div>
-                <div className="tooltip absolute bottom-[-1.5rem] left-1/2 transform -translate-x-1/2 bg-black text-white p-1 rounded opacity-0 transition-opacity duration-300">
+                <div className={`tooltip absolute bottom-[-1.5rem] left-1/2 transform -translate-x-1/2 bg-black text-white p-1 rounded opacity-0 transition-opacity duration-300`}>
                   Add Course
                 </div>
               </li>
@@ -150,7 +147,7 @@ const InstNavbar = (props) => {
         </NavLink>
         <button
           onClick={() => setIsProfileMenuOpen(true)}
-          className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}
+          className={`flex items-center mb-4 cursor-pointer p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
         >
           <img src={user.image} alt="User" className="w-10 h-10 rounded-full mr-4" />
           <div>

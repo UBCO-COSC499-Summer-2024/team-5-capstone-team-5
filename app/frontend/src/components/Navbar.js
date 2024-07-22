@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../hooks/getCourseData';
 import validateUser from '../hooks/validateUser';
@@ -86,7 +86,7 @@ const Navbar = (props) => {
               </NavLink>
             </div>
             <div className="mt-4">
-              <h2 className="ml-4 text-lg font-bold text-gray-300">Courses</h2>
+              <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
               <ul className="mt-4 space-y-4">
                 {courses.map((course) => {
                   return (
@@ -95,18 +95,17 @@ const Navbar = (props) => {
                         to={`/student/course/${course.course_id}`}
                         className={({ isActive }) =>
                           isActive
-                            ? `block bg-gray-700 p-4 mx-4 rounded-lg hover:bg-gray-600`
-                            : `block bg-gray-800 p-4 mx-4 rounded-lg hover:bg-gray-600`
+                            ? `block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-400 text-black hover:bg-gray-500'}`
+                            : `block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-200 text-black hover:bg-gray-300'}`
                         }
                       >
-                        <h3 className="text-white font-bold">{course.name}</h3>
-                        <p className="text-gray-400">{course.description}</p>
-                        <p className="text-gray-500">Ends: {course.end_date.slice(0, 10)}</p>
+                        <h3 className="font-bold">{course.name}</h3>
+                        <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>{course.description}</p>
+                        <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Ends: {course.end_date.slice(0, 10)}</p>
                       </NavLink>
                     </li>
                   )
                 })}
-                {/* Add more courses as needed */}
               </ul>
             </div>
           </nav>
@@ -134,7 +133,7 @@ const Navbar = (props) => {
           </NavLink>
           <button
             onClick={() => setIsProfileMenuOpen(true)}
-            className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}
+            className={`flex items-center mb-4 cursor-pointer p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
           >
             <img src={user.image} alt="User" className="w-10 h-10 rounded-full mr-4" />
             <div>
