@@ -19,7 +19,8 @@ const {
     getExamAnswers, 
     calculateGrades, 
     editAnswer,
-    getScan
+    getScan,
+    getCourseInfo,
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
@@ -237,5 +238,14 @@ router.get('/scans/:examId/:userId', async (req, res) => {
         res.status(400).json({error: error.message});
     }
 });
+
+router.get('/courses/info/:id', async (req, res) => {
+    try {
+        const data = await getCourseInfo(req.params.id);
+        res.status(200).json(data);
+    } catch(error) {
+        res.status(500).json({error: error.message});
+    }
+})
 
 module.exports = router;

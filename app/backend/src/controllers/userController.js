@@ -13,6 +13,17 @@ const getCoursesByUserId = async (id) => {
     };
 };
 
+const getCourseInfo = async (id) => {
+    try {
+        const response = await db.oneOrNone(
+            'SELECT * FROM courses WHERE id = $1', [id]
+        );
+        return response;
+    } catch(error) {
+        console.error(`Error getting course data for course id ${id}`, error);
+    }
+}
+
 const getTestsByCourseId = async (id) => {
     try {
         const response = await db.manyOrNone(
@@ -332,5 +343,6 @@ module.exports = {
     addScan,
     addResponse,
     editAnswer,
-    getScan
+    getScan,
+    getCourseInfo
 }

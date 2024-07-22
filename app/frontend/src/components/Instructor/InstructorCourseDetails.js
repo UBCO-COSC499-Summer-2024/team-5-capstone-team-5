@@ -8,6 +8,7 @@ import TestDescription from './TestDescription';
 import { useTheme } from '../../App';
 import InstructorTest from '../Modules/InstructorTestModule';
 import AddTestModal from './AddTestModal';
+import getCourseInfo from '../../hooks/getCourseInfo';
 import StudentSpreadsheet from './StudentSpreadsheet';
 
 const InstructorCourseDetails = () => {
@@ -22,8 +23,10 @@ const InstructorCourseDetails = () => {
 
   const fetchData = useCallback(async () => {
     const testData = await getTestData(courseId);
+    const courseData = await getCourseInfo(courseId);
+    console.log("Course Data:",courseData)
     setTests(testData);
-    setCourseName(testData[0].course_name);
+    setCourseName(courseData.name);
   }, [courseId, isAddTestModalOpen]);
 
   useEffect(() => {

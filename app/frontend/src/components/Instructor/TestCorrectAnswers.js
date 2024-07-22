@@ -91,7 +91,7 @@ const TestCorrectAnswers = (props) => {
 
   const handleScanClick = () => {
     setShowingScan(true);
-    fetchImageUrl('4', '67890123').then(path => displayImage(path))
+    fetchImageUrl(test.id, props.id).then(path => displayImage(path))
   }
   const handleScanClose = () => {
     const imageContainer = document.getElementById('imageContainer');
