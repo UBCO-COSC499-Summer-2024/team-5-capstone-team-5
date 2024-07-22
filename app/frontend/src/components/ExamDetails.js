@@ -1,10 +1,10 @@
 // app/frontend/src/components/ExamDetails.js
 
 import React, { useCallback, useEffect, useState } from 'react';
-import getQuestions from '../hooks/getQuestions';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../App'; // Assuming useTheme is available at this path
 import Bubble from './BubbleSheet/Bubbles'; // Ensure this path is correct
+import getQuestions from '../hooks/getQuestions';
 
 const ExamDetails = (props) => {
     const { examId } = useParams();
@@ -16,7 +16,16 @@ const ExamDetails = (props) => {
     const fetchData = useCallback(async () => {
         const data = await getQuestions(examId, props.id);
         console.log(data);
-        setQuestions(data);
+
+        // Calculate grade for each question safely
+        const calculatedQuestions = data.map(question => {
+            const correctCount = question.correct_answers ? question.correct_answers.length : 0;
+            const responseCount = question.response ? question.response.filter(ans => question.correct_answers && question.correct_answers.includes(ans)).length : 0;
+            const grade = (responseCount === correctCount && question.response.length === correctCount) ? 1 : 0;
+            return { ...question, grade };
+        });
+
+        setQuestions(calculatedQuestions);
         setLoading(false);
     }, [examId, props.id]);
 
@@ -25,7 +34,7 @@ const ExamDetails = (props) => {
     }, [examId, fetchData]);
 
     if (loading) {
-        return <div>Loading...</div>
+        return <div>Loading...</div>;
     } else {
         return (
             <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
