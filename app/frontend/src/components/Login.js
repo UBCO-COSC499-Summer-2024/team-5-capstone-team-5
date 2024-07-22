@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-full content-center bg-[#1D1E21]">
+    <div className="h-screen content-center bg-[#1D1E21]">
       {toast.show && (
         <Toast
           message={toast.message}
