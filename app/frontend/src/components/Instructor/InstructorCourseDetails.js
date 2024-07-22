@@ -8,7 +8,6 @@ import TestDescription from './TestDescription';
 import { useTheme } from '../../App';
 import InstructorTest from '../Modules/InstructorTestModule';
 import AddTestModal from './AddTestModal';
-import StudentSpreadsheet from './StudentSpreadsheet';
 
 const InstructorCourseDetails = () => {
   const { courseId } = useParams();
@@ -138,7 +137,7 @@ const InstructorCourseDetails = () => {
         </div>
       )}
       {selectedMenu === 'students' && (<>
-        <StudentList courseId={courseId} />
+        <StudentList courseId={courseId} courseName = {courseName}/>
         </>
       )}
       <AddTestModal
