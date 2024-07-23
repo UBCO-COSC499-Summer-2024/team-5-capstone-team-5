@@ -22,7 +22,7 @@ function ParseStudentGrades(grades) {
 }
 
 /*Scan the query for the different exams which have been marked. 
-Store each usiuqe examID/examName pair exactly once.*/
+Store each unique examID/examName pair exactly once.*/
 function getExams(grades) {
   let distinctExams = [];
   //helper function to see if our array of distinct exams already contains an exam or not.

@@ -1,7 +1,23 @@
 import React, {useState} from "react";
 
-let modifiedResponses = [];
+let responses = [];
+let responseData = [];
 //(exam_id, question_num, user_id, response, modifying = false)
+
+function ArraysContainSameElements(arr1, arr2) {
+  arr1.sort();
+  arr2.sort();
+  if(arr1.length === arr2.length) {
+    for(let i = 0; i < arr1.length; i++) {
+      if(arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function Bubble(props) {
   const isCorrect = props.isCorrect;
@@ -9,6 +25,18 @@ function Bubble(props) {
   const onSelect = (option) => {
     console.log(option);
     setIsSelected(!isSelected);
+    if (responses[props.index].response.includes(option)) {
+      responses[props.index].response = responses[props.index].response.filter((item) => {return (item !== option);});
+    } else {
+      responses[props.index].response.push(option);
+    }
+    if( ArraysContainSameElements(responses[props.index].response, responseData[props.index].response)) {
+      console.log("Arrays are equal");
+      props.setModified(false);
+    } else {
+      console.log("Arrays are not equal");
+      props.setModified(true);
+    }
   };
   let color = "bg-gray-700";
       if (isCorrect) {
@@ -36,8 +64,9 @@ function Bubble(props) {
 }
 
 function CreateBubbles(props) {
-  //const [modified, setModified] = useState(false);
+  const questionIndex = props.index;
   const responseItem = props.responseItem;
+  const [modified, setModified] = useState(responseItem.was_modified);
   if (typeof props.responseItem !== "undefined") {
     let bubbles = [];
     for (let i = 0; i < responseItem.num_options; i++) {
@@ -50,11 +79,13 @@ function CreateBubbles(props) {
           letter={String.fromCharCode(i + 65)}
           isSelected = {isSelected}
           isCorrect = {isCorrect}
-        />
+          modified = {modified}
+          setModified = {setModified}
+          responses = {props.responseItem.response}
+          index = {props.index}
+          />
       );
     }
-    //setModified(true);
-    let modified = false;
     let textColor = modified ? "text-yellow-600" : "text-white";
     return (
       <div
@@ -72,9 +103,11 @@ function CreateBubbles(props) {
 }
 
 function InstResponseBubbles(props) {
-  const responseData = props.responseData;
+  responseData = props.responseData;
   if (typeof props.responseData !== "undefined") {
     console.log(responseData);
+    let index = 0;
+    responses = [];
     return (
       <>
         <div
@@ -82,17 +115,24 @@ function InstResponseBubbles(props) {
           className="bg-gray-900 overflow-y-scroll absolute right-5 p-[5px] pr-[8px] m-5 h-[85%]"
         >
           {responseData.map((responseItem) => {
+            responses.push({
+              index: index,
+              question: responseItem.question_id,
+              response: responseItem.response,
+            });
+            index++;
             return (
               <CreateBubbles
                 responseItem={responseItem}
-                key={responseItem.question_num}
+                index = {index - 1}
+                key={responseItem.question_id}
               />
             );
           })}
         </div>
         <button
           onClick={() => {
-            console.log(modifiedResponses);
+            console.log(responses);
           }}
         >
           <p>Save!</p>
