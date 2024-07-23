@@ -270,7 +270,7 @@ const addStudentAnswers = async (jsonData, examId) => {
             responses.forEach((response) => {
                 const recordedAnswer = Number(response.LetterPos);
                 const questionNum = Number(response.Question)
-                addResponse(examId, questionNum, studentId, [recordedAnswer])
+                addResponse(examId, questionNum, studentId, recordedAnswer)
             });
             addScan(examId, studentId, databasePath);
         };
@@ -298,7 +298,7 @@ const addAnswerKey = async (jsonData, examId, userId) => {
             responses.forEach((response) => {
                 const correctAnswer = Number(response.LetterPos);
                 const questionNum = Number(response.Question)
-                addQuestion(examId, 5, [correctAnswer], 1, questionNum);
+                addQuestion(examId, 5, correctAnswer, 1, questionNum);
             })
             addScan(examId, userId, databasePath);
         };

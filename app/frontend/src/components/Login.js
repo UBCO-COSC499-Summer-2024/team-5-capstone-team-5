@@ -29,7 +29,7 @@ const Login = () => {
         setToast({ show: true, message: 'Login successful!', type: 'success' });
         setTimeout(() => {
           navigate('/');
-        }, 3000); // Navigate after showing the success message
+        }, 1000); // Navigate after showing the success message
       } else if (response.status === 401) {
         setToast({ show: true, message: 'Incorrect Credentials', type: 'error' });
       } else if (response.status === 404) {
