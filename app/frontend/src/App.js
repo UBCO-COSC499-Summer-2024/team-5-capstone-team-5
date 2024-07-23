@@ -88,6 +88,15 @@ function AppRoutes() {
     return <div>Loading...</div>;
   }
 
+  if(!userId) {
+    return (
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    )
+  }
+
   return (
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}

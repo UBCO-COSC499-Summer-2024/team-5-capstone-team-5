@@ -13,6 +13,17 @@ const getCoursesByUserId = async (id) => {
     };
 };
 
+const getCourseInfo = async (id) => {
+    try {
+        const response = await db.oneOrNone(
+            'SELECT * FROM courses WHERE id = $1', [id]
+        );
+        return response;
+    } catch(error) {
+        console.error(`Error getting course data for course id ${id}`, error);
+    }
+}
+
 const getTestsByCourseId = async (id) => {
     try {
         const response = await db.manyOrNone(
@@ -245,13 +256,23 @@ const addStudentAnswers = async (jsonData, examId) => {
             const responses = answerKey.answers[0]
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
+            const image = answerKey.combined_page;
+            const imageBuffer = Buffer.from(image, 'base64');
+            const imagesDir = '/code/images';
+            const imagePath = `/code/images/${examId}_${studentId}.png`;
+            const databasePath = `/images/${examId}_${studentId}.png`;
+
+            if (!fs.existsSync(imagesDir)) {
+                fs.mkdirSync(imagesDir, { recursive: true });
+            }
+            fs.writeFileSync(imagePath, imageBuffer);
+
             responses.forEach((response) => {
-                console.log(response.LetterPos);
                 const recordedAnswer = Number(response.LetterPos);
                 const questionNum = Number(response.Question)
-                console.log(response);
                 addResponse(examId, questionNum, studentId, [recordedAnswer])
             });
+            addScan(examId, studentId, databasePath);
         };
     }
 }
@@ -264,12 +285,11 @@ const addAnswerKey = async (jsonData, examId, userId) => {
             const responses = answerKey.answers[0];
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
-            const image = answerKey.image;
+            const image = answerKey.combined_page;
             const imageBuffer = Buffer.from(image, 'base64');
-            const imagesDir = ('/images');
-            console.log(imagesDir);
-            const imagePath = path.join(imagesDir, `${examId}_${userId}.png`);
-            console.log(imagePath);
+            const imagesDir = ('/code/images');
+            const imagePath = `/code/images/${examId}_${userId}.png`;
+            const databasePath = `/images/${examId}_${userId}.png`;
             if (!fs.existsSync(imagesDir)) {
                 fs.mkdirSync(imagesDir, { recursive: true });
             }
@@ -280,8 +300,7 @@ const addAnswerKey = async (jsonData, examId, userId) => {
                 const questionNum = Number(response.Question)
                 addQuestion(examId, 5, [correctAnswer], 1, questionNum);
             })
-            console.log("Adding scan: examId, userId, imagePath:",examId,userId,imagePath);
-            addScan(examId, userId, imagePath);
+            addScan(examId, userId, databasePath);
         };
     }
 }
@@ -334,6 +353,15 @@ const editAnswer = async (questionId, correctAnswer) => {
     }
 };
 
+const setExamMarked = async (examId) => {
+    try {
+
+    } catch(error) {
+        console.error('Error updating exam marked date for exam:',examId);
+        throw error;
+    }
+}
+
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
@@ -356,5 +384,7 @@ module.exports = {
     editAnswer,
     getScan,
     getAllUsers,
-    changeUserRole
+    changeUserRole,
+    getCourseInfo,
+    setExamMarked
 }

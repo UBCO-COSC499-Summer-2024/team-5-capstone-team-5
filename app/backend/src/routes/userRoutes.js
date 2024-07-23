@@ -8,7 +8,8 @@ const {
     getRecentExamsByUserId, 
     getQuestionData, 
     getStudentsByCourseId, 
-    addCourse, addStudent, 
+    addCourse, 
+    addStudent, 
     deleteTest, 
     editTest, 
     register, 
@@ -20,7 +21,8 @@ const {
     editAnswer,
     getScan,
     getAllUsers,
-    changeUserRole
+    changeUserRole,
+    getCourseInfo,
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
@@ -184,6 +186,7 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         .on('end', () => {
             console.log('Parsed CSV Data:', results); // This is the parsed CSV data
             results.forEach((student) => {
+                console.log("Student",student);
                 const id = student.id;
                 const first = student.first_name;
                 const last = student.last_name;
@@ -263,5 +266,14 @@ router.put('/role/:userId', async(req,res) =>{
     }
   });
 
+
+router.get('/courses/info/:id', async (req, res) => {
+    try {
+        const data = await getCourseInfo(req.params.id);
+        res.status(200).json(data);
+    } catch(error) {
+        res.status(500).json({error: error.message});
+    }
+})
 
 module.exports = router;
