@@ -92,11 +92,11 @@ const StudentList = (props) => {
           <p className={`mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
             Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
           </p>
-          <StudentSpreadsheet courseId={props.courseId} students={studentList} />
+          <StudentSpreadsheet courseId={props.courseId} students={studentList} courseName = {props.courseName} />
         </div>
       </div>
     );
   }
-};
+}
 
 export default StudentList;
