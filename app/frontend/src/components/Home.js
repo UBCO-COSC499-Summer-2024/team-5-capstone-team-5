@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useTheme } from '../App'; // Ensure this path is correct
 
 function Home() {
-  const [loading, setLoading] = useState(true); // This is a good example for how to handle loading instead of flashing the information
   const navigate = useNavigate();
-  
+  const { theme } = useTheme();
+
   return (
-    <div className="h-full content-center">
+    <div className={`h-full content-center ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       <div className="flex flex-col gap-16">
-      <img src="/gradeit.svg" alt="Logo" className="w-2/5 flex self-center mb-12" />
-      <h1 className='flex self-center'>You are viewing the Home page</h1>
+        <img src="/gradeit.svg" alt="Logo" className="w-2/5 flex self-center mb-12" />
+        <h1 className='flex self-center'>You are viewing the Home page</h1>
       </div>
     </div>
   );
