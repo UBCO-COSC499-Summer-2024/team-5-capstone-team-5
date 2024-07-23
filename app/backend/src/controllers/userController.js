@@ -189,14 +189,14 @@ const calculateGrades = async (courseId) => {
     };
 };
 
-const addResponse = async (exam_id, question_num, user_id, response) => {
+const addResponse = async (exam_id, question_num, user_id, response, modifying = false) => {
     try {
         questionId = await db.oneOrNone(
             'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [exam_id, question_num]
         );
         if(questionId.id) {
             await db.none(
-                'INSERT INTO responses (question_id, user_id, response, question_num) VALUES ($1, $2, $3, $4) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response', [questionId.id, user_id, response, question_num] 
+                'INSERT INTO responses (question_id, user_id, response, question_num, was_modified) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response, was_modified = excluded.was_modified', [questionId.id, user_id, response, question_num, modifying] 
             )
         } else {
 
@@ -212,7 +212,7 @@ const addStudentAnswers = async (jsonData, examId) => {
             const answerKey = jsonData[key];
             const studentId = answerKey.stnum
             const responses = answerKey.answers[0]
-            const noResponse = answerKey.answers[1];
+            const questionsWithNoResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
             responses.forEach((response) => {
                 console.log(response.LetterPos);
@@ -220,6 +220,14 @@ const addStudentAnswers = async (jsonData, examId) => {
                 const questionNum = Number(response.Question)
                 console.log(response);
                 addResponse(examId, questionNum, studentId, [recordedAnswer])
+            });
+            console.log(questionsWithNoResponse);
+            questionsWithNoResponse.forEach((question) => {
+                console.log(question.LetterPos);
+                const recordedAnswer = Number(question.LetterPos);
+                const questionNum = Number(question.Question)
+                console.log(question);
+                addResponse(examId, question, studentId, `{}`)
             });
         };
     }

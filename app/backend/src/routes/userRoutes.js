@@ -149,7 +149,17 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const testid = req.headers['testid'];
     const data = jsonData.data;
     addStudentAnswers(data, testid);
-    res.status(200).json({message: "This will always pass"});
+    res.status(200);
+  });
+
+  router.post('/responses/edit', async (req, res) =>  {
+    const examId = req.headers['examId']; 
+    const userId = req.headers['userId'];
+    const modifiedResponses = req.body.modifiedResponses;
+    modifiedResponses.forEach((response) => {
+        addResponse(examId, response.questionNum, userId, response.responseArray, true);
+    })
+    res.status(200);
   });
 
   router.post('/students/upload', upload.single('file'), async (req, res) => {
