@@ -56,11 +56,13 @@ def upload_file():
         lname = ""
         stnum = int
         answers = []
+        files_to_delete = []
         
         # Save each page as a PNG file
         for i, image in enumerate(images):
             png_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_page_{i + 1}.png')
             image.save(png_path, 'png')
+            files_to_delete.append(png_path)  # Track files to delete
 
             # Convert the image to a byte array
             img_byte_arr = io.BytesIO()
@@ -88,6 +90,7 @@ def upload_file():
                     
                     combined_image_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_combined_page_{(i + 1) // 2}.png')
                     combined_image.save(combined_image_path, 'png')
+                    files_to_delete.append(combined_image_path)
                     
                     # Convert the combined image to a byte array
                     combined_img_byte_arr = io.BytesIO()
@@ -127,8 +130,9 @@ def upload_file():
                     combined_image.paste(first_page_image, (0, 0))
                     combined_image.paste(second_page_image, (0, first_page_image.height))
                     
-                    combined_image_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_combined_page_{(i + 1) // 2}.png')
+                    combined_image_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_combined.png')
                     combined_image.save(combined_image_path, 'png')
+                    files_to_delete.append(combined_image_path)
                     
                     # Convert the combined image to a byte array
                     combined_img_byte_arr = io.BytesIO()
@@ -148,6 +152,11 @@ def upload_file():
             else:
                 print('Please enter valid test style: 100 or 200 questions')
         
+        # Delete the PNG files after processing
+        for file_path in files_to_delete:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        
         return jsonify({'message': 'PDF converted to PNG successfully', 'data': grades}), 200
     except Exception as e:
         print('error: '+str(e))
@@ -155,4 +164,3 @@ def upload_file():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
-

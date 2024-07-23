@@ -323,6 +323,15 @@ const editAnswer = async (questionId, correctAnswer) => {
     }
 };
 
+const setExamMarked = async (examId) => {
+    try {
+        
+    } catch(error) {
+        console.error('Error updating exam marked date for exam:',examId);
+        throw error;
+    }
+}
+
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
@@ -344,5 +353,6 @@ module.exports = {
     addResponse,
     editAnswer,
     getScan,
-    getCourseInfo
+    getCourseInfo,
+    setExamMarked
 }

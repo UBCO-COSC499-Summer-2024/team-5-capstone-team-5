@@ -371,6 +371,7 @@ def process_second_page_bubbles(file_path):
     bubble_coords = sorted(bubble_coords, key=lambda x: x['Question'])
 
     # Detect no answers or multiple answers
+    checked_questions = []
     no_answer_questions = []
     multiple_answer_questions = []
     answers = []
@@ -380,6 +381,8 @@ def process_second_page_bubbles(file_path):
         # Check if the question is already in answers
         if question in answers:
             multiple_answer_questions.append(question)
+            checked_questions.append(question)
+
         else:
             # Append the question to answers if it's not already there
             answers.append(question)
