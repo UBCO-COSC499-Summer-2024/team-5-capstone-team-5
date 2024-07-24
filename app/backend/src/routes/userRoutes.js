@@ -2,10 +2,31 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers, calculateGrades } = require('../controllers/userController');
+const { 
+    getCoursesByUserId, 
+    getTestsByCourseId, 
+    getRecentExamsByUserId, 
+    getQuestionData, 
+    getStudentsByCourseId, 
+    addCourse, 
+    addStudent, 
+    deleteTest, 
+    editTest, 
+    register, 
+    addResponse, 
+    addAnswerKey, 
+    addStudentAnswers, 
+    getExamAnswers, 
+    calculateGrades, 
+    editAnswer,
+    getScan,
+    getCourseInfo,
+ } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
 const stream = require('stream');
+const { getAllCourses } = require('../controllers/courseController');
+//const { getAllUsers, changeUserRole } = require('../controllers/userController'); // 
 
 const router = express.Router();
 const upload = multer();
@@ -118,20 +139,19 @@ router.get('/courses/students/:id', async (req, res) => {
 });
 
   router.post('/tests/answers', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
     const response = await fetch('http://python-cv:8000/upload', {
         method: 'POST',
         body: req.file.buffer,
         headers: {
             'Content-Type': 'application/json',
-            'testid': req.headers['testid']
+            'testid': req.headers['testid'],
+            'numquestions': req.headers['numquestions']
         }
     });
     const jsonData = await response.json();
     const testid = req.headers['testid'];
-    console.log("Testid", testid);
     const data = jsonData.data;
-    addAnswerKey(data, testid);
+    addAnswerKey(data, testid, req.headers['userid']);
     res.status(200).json({message: "This will always pass"});
   });
 
@@ -142,7 +162,8 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         body: req.file.buffer,
         headers: {
             'Content-Type': 'application/json',
-            'testid': req.headers['testid']
+            'testid': req.headers['testid'],
+            'numquestions': req.headers['numquestions']
         }
     });
     const jsonData = await response.json();
@@ -174,6 +195,7 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         .on('end', () => {
             console.log('Parsed CSV Data:', results); // This is the parsed CSV data
             results.forEach((student) => {
+                console.log("Student",student);
                 const id = student.id;
                 const first = student.first_name;
                 const last = student.last_name;
@@ -192,13 +214,77 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
 }
   });
 
+
+//admin
+  router.get('/all', async(req, res) =>{
+    try{
+        const users = await getAllUsers();
+        res.status(200).json(users);
+    }catch(error){
+        console.error('heres the error', error);
+        res.status(500).send('an error occoured while getAllUsers')
+    }
+  });
+
+router.put('/role/:userId', async(req,res) =>{
+    const{userId } = req.params;
+    const{role} = req.body;
+    console.log(role);
+    console.log(userId)
+    try{
+    await changeUserRole(userId,role);
+    res.status(200).json({message: 'role updated succesfully'});
+
+    }catch(error){
+    res.status(200).json({message: 'an error occoured while changeUserRole'});
+    }
+  });
+
 router.get('/courses/grades/:id', async (req, res) => {
+    const id = req.params.id;
+    if(id) {
+        try {
+            const grades = await calculateGrades(req.params.id);
+            res.status(200).json(grades);
+        } catch(error) {
+            res.status(400).json({error: error.message});
+        }
+    } else {
+        res.status(400).json({error: "id is not sent"});
+    }
+});
+
+router.post('/questions/answers/edit/:id', async (req, res) => {
     try {
-        const grades = await calculateGrades(req.params.id);
-        res.status(200).json(grades)
+        const questionId = req.params.id;
+        const correctAnswer = req.body.correct_answer;
+        console.log("Question ID:",questionId)
+        console.log("Correct Answers:",correctAnswer);
+        await editAnswer(questionId, correctAnswer);
+        res.status(200).json({message: 'Answer added successfully'})
     } catch(error) {
         res.status(400).json({error: error.message});
     }
 });
+
+router.get('/scans/:examId/:userId', async (req, res) => {
+    try {
+        const { examId, userId } = req.params
+        const path = await getScan(examId, userId);
+        console.log(path);
+        res.status(200).json({path: path.scan});
+    } catch(error) {
+        res.status(400).json({error: error.message});
+    }
+});
+
+router.get('/courses/info/:id', async (req, res) => {
+    try {
+        const data = await getCourseInfo(req.params.id);
+        res.status(200).json(data);
+    } catch(error) {
+        res.status(500).json({error: error.message});
+    }
+})
 
 module.exports = router;

@@ -55,4 +55,9 @@ def get_student_number_filled(image_path):
         bounding_boxes.append((x, y, w, h))
         cv2.rectangle(cropped_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
+    #cv2.imshow("Image", cropped_image)
+    #cv2.waitKey(0)
+
     return bounding_boxes
+
+#get_student_number_filled('data_images/test_2_page_1.png')

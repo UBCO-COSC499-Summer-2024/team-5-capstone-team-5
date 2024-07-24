@@ -1,3 +1,5 @@
+// app/frontend/src/App.js
+
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './components/Home';
@@ -12,15 +14,26 @@ import { UserProvider, useUser } from './contexts/UserContext';
 import InstructorDashboard from './components/Instructor/InstructorDashboard';
 import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
+//admin
+import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminNavbar from './components/Admin/AdminNavbar';
+import UserList from './components/Admin/UserList';
+import RecentChanges from './components/Admin/RecentChanges';
+
+
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
 import InstNavbar from './components/Instructor/InstNavbar';
 import getUserInfo from './hooks/getUserInfo';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import ExamDetails from './components/ExamDetails';
-import TestDescription from './components/Instructor/TestDescription'; // Corrected path
+import TestDescription from './components/Instructor/TestDescription';
+import TestCorrectAnswers from './components/Instructor/TestCorrectAnswers';
+import GenerateSheetModal from './components/Instructor/GenerateSheetModal';
+import OMRSheetGenerator from './components/Instructor/OMRSheetGenerator';
 import './index.css';
 import ChangePass from './components/ChangePass';
+
 
 const ThemeContext = createContext();
 
@@ -77,13 +90,25 @@ function AppRoutes() {
     return <div>Loading...</div>;
   }
 
+  if(!userId) {
+    return (
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    )
+  }
+
   return (
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
       {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
+      {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
+
       <div className="flex-grow flex flex-col ml-64">
         <div className="flex-grow p-8">
           <Routes>
+          
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
@@ -93,11 +118,21 @@ function AppRoutes() {
             {role === 2 && <Route path="/instructor/course" element={<InstructorCourseList />} />}
             {role === 2 && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
             {role === 2 && <Route path="/instructor/course/:courseId/*" element={<InstructorCourseDetails />} />}
+           
             <Route path="/contact" element={<Contact />} />
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
+            <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers id={userId} />} />
+            <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
+
+            
+            {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
+            {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
+            {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges/>} />}
+          
+          
           </Routes>
         </div>
       </div>

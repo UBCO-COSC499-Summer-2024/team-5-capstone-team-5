@@ -2,7 +2,7 @@ import cv2
 import os
 import numpy as np
 
-def get_first_name_filled(image_path):
+def get_student_number_filled(image_path):
     # Check if the file exists
     if not os.path.exists(image_path):
         raise FileNotFoundError(f"Error: File '{image_path}' not found.")
@@ -17,9 +17,11 @@ def get_first_name_filled(image_path):
     # Get the image dimensions
     height, width, channels = image.shape
 
+    # Calculate the height of the top 1/5 of the image
+    cut_off_height = height // 3
+
     # Crop the image to remove the top 1/5
-    # cropped_image = image[int(height // 1.6):height, width // 6:(width - (width // 9))] Last name
-    cropped_image = image[int(height // 3):int(height // 1.6), width // 7:(width - (width // 9))]
+    cropped_image = image[height // 9:cut_off_height, int(width // 2.7):int(width/1.5)]
 
     # Convert to grayscale
     gray = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
@@ -27,11 +29,14 @@ def get_first_name_filled(image_path):
     # Apply Median Blur to reduce noise
     median_blurred = cv2.medianBlur(gray, 5)
 
+    # Apply Gaussian blur
+    blurred = cv2.GaussianBlur(median_blurred, (5, 5), 0)
+
     # Apply Bilateral Filtering to reduce noise while preserving edges
     bilateral_filtered = cv2.bilateralFilter(median_blurred, 9, 75, 75)
 
     # Apply thresholding
-    _, contourThresh = cv2.threshold(bilateral_filtered, 170, 255, cv2.THRESH_BINARY_INV)
+    _, contourThresh = cv2.threshold(bilateral_filtered, 175, 255, cv2.THRESH_BINARY_INV)
 
     # Apply Morphological operations to remove noise
     kernel = np.ones((3, 3), np.uint8)
@@ -50,4 +55,9 @@ def get_first_name_filled(image_path):
         bounding_boxes.append((x, y, w, h))
         cv2.rectangle(cropped_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
+    #cv2.imshow("Image", cropped_image)
+    #cv2.waitKey(0)
+
     return bounding_boxes
+
+#get_student_number_filled('data_images/test_2_page_1.png')

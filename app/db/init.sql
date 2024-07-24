@@ -80,14 +80,16 @@ CREATE TABLE IF NOT EXISTS exams (
 );
 
 
-CREATE TABLE IF NOT EXISTS questions ( 
+CREATE TABLE IF NOT EXISTS questions (
     id serial PRIMARY KEY,
     question_num integer,
     exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
     num_options integer,
     correct_answer integer[],
-    weight float
+    weight float,
+    CONSTRAINT unique_exam_question UNIQUE (exam_id, question_num)
 );
+
 
 
 CREATE TABLE IF NOT EXISTS responses (
@@ -98,6 +100,13 @@ CREATE TABLE IF NOT EXISTS responses (
     grade float,
     was_modified boolean,
     PRIMARY KEY (question_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS scans (
+    exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
+    user_id integer REFERENCES users(id) ON DELETE CASCADE,
+    scan text,
+    PRIMARY KEY (exam_id, user_id)
 );
 
 -- Partially AI-Generated Sample Data
@@ -129,9 +138,10 @@ INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (000
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000005, 'Kevin', 'Wang', 'kevin.wang@email.com', 'password123', 1);
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000022, 'Nathan', 'Jacinto', 'nathan.jacinto2@email.com', 'password123', 1);
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000008, 'Jay', 'Bhullar', 'jay.bhullar@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000007, 'Jack', 'Mathisen', 'jack.mathisen@email.com', 'password123', 1);
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000006, 'Mqhamad', 'Khejezade', 'mqhamad.khejezade@email.com', 'password123', 1);
 
+-- Admin Users
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000007, 'Jack', 'Mathisen', 'jack.mathisen@email.com', 'password123', 3);
 
 
 -- Course Sample Data
