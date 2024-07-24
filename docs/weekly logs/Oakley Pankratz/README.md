@@ -1,3 +1,64 @@
+## Wednesday (7/19 - 7/24) Oakley Pankratz
+Total Hours: 20.5
+
+Update clockify log
+![alt text](ClockifyLogJuly24.png)
+
+## Current Tasks:
+* Working on the modal view which displays a student's response to the instructor and allows them to be editted. Mainly, I spent time getting these editted resposnes to be pushed to the database. I also added implementation for flagging questions that have been modified, so the instructor knows if any grades have changed since the initial scan. 
+* Modify the database to support storing a column which flags responses as having been modified.
+
+### Progress Update (since 7/24/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <!-- Task/Issue # -->
+        <td>Making the spreadsheet component clickable
+        </td>
+        <!-- Status -->
+        <td>Complete (making a PR to close this issue soon, hopefully today) (Issue #146)
+        </td>
+    </tr>
+        <td> Display grades as percents
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #145)
+        </td>
+    </tr>
+        <td> Calculate statstics for exams
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #155)
+        </td>
+    </tr>
+        <td> Create an add student button
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #97)
+        </td>
+    </tr>
+        <td> Add a way for instuctors scan an exam for a single student. (Issue#148)
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #97)
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+ * Issue #146 has proven to be much larger than anticipated. I ran into a lot of bugs when trying to get the responses edited by the instructor to push to the backend. I'm still trying to get a pdf viewer in this modal view, but I have a lot of other issues. I felt a little discouraged as I genuinely thought I would be able to accomplish more this cycle, I'm not happy that I've been working on the same thing for so long. This just goes to show how difficult it can be to estimate task difficulty somtimes. 
+ 
+### Next Cycle Goals:
+* Display grades in the spreadhseet as percents, I may possibly make this toggle-able for the instructor (Issue #145).
+* Adding a way for instructors to add a test for a single student (Issue #148) would be complete-able once Issue #146 is complete. 
+* Create an "Add Student" button (Issue#97). This should be fairly quick and straightforward.
+* Cacluate statistics for exams (Issue#155)
+
+
 ## Friday (7/17 - 7/19) Oakley Pankratz
 Total Hours: 8.5
 * Wokring on the modal view which displays the scan and responses for a student to the instructor, and allows the insstructor to edit the respective respoenses. 
