@@ -268,15 +268,14 @@ const addStudentAnswers = async (jsonData, examId) => {
             fs.writeFileSync(imagePath, imageBuffer);
 
             responses.forEach((response) => {
-                const recordedAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
+                const recordedAnswer = response.LetterPos;
+                const questionNum = response.Question;
                 addResponse(examId, questionNum, studentId, recordedAnswer)
             });
             addScan(examId, studentId, databasePath);
         };
     }
 }
-
 
 const addAnswerKey = async (jsonData, examId, userId) => {
     for (const key in jsonData) {
