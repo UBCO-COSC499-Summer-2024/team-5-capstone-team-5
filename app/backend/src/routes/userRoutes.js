@@ -2,10 +2,12 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers, calculateGrades } = require('../controllers/userController');
+const { getCoursesByUserId, getTestsByCourseId, getRecentExamsByUserId, getQuestionData, getStudentsByCourseId, addCourse, addStudent, deleteTest, editTest, register, addResponse, addAnswerKey, addStudentAnswers, getExamAnswers, getAllUsers, changeUserRole, calculateGrades } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
 const stream = require('stream');
+const { getAllCourses } = require('../controllers/courseController');
+//const { getAllUsers, changeUserRole } = require('../controllers/userController'); // 
 
 const router = express.Router();
 const upload = multer();
@@ -179,6 +181,32 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         console.error('Error:', error);
         res.status(500).send('An error occurred while processing the file.');
 }
+  });
+
+
+//admin
+  router.get('/all', async(req, res) =>{
+    try{
+        const users = await getAllUsers();
+        res.status(200).json(users);
+    }catch(error){
+        console.error('heres the error', error);
+        res.status(500).send('an error occoured while getAllUsers')
+    }
+  });
+
+router.put('/role/:userId', async(req,res) =>{
+    const{userId } = req.params;
+    const{role} = req.body;
+    console.log(role);
+    console.log(userId)
+    try{
+    await changeUserRole(userId,role);
+    res.status(200).json({message: 'role updated succesfully'});
+
+    }catch(error){
+    res.status(200).json({message: 'an error occoured while changeUserRole'});
+    }
   });
 
 router.get('/courses/grades/:id', async (req, res) => {

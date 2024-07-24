@@ -12,6 +12,13 @@ import { UserProvider, useUser } from './contexts/UserContext';
 import InstructorDashboard from './components/Instructor/InstructorDashboard';
 import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
+//admin
+import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminNavbar from './components/Admin/AdminNavbar';
+import UserList from './components/Admin/UserList';
+import RecentChanges from './components/Admin/RecentChanges';
+
+
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
 import InstNavbar from './components/Instructor/InstNavbar';
@@ -21,6 +28,7 @@ import ExamDetails from './components/ExamDetails';
 import TestDescription from './components/Instructor/TestDescription'; // Corrected path
 import './index.css';
 import ChangePass from './components/ChangePass';
+
 
 const ThemeContext = createContext();
 
@@ -81,9 +89,12 @@ function AppRoutes() {
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
       {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
+      {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
+
       <div className="flex-grow flex flex-col ml-64">
         <div className="flex-grow p-8">
           <Routes>
+          
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
@@ -93,11 +104,19 @@ function AppRoutes() {
             {role === 2 && <Route path="/instructor/course" element={<InstructorCourseList />} />}
             {role === 2 && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
             {role === 2 && <Route path="/instructor/course/:courseId/*" element={<InstructorCourseDetails />} />}
+           
             <Route path="/contact" element={<Contact />} />
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
+
+            
+            {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
+            {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
+            {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges/>} />}
+          
+          
           </Routes>
         </div>
       </div>
