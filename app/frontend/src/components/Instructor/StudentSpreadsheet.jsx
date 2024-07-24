@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import getUserInfo from "../../hooks/getUserInfo";
 import ScanView from "./ScanView";
 import ParseStudentGrades from "./ParseStudentGrades.jsx";
+import getGrades from '../../hooks/getGrades';
 
 function StudentSpreadsheet(props) {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ function StudentSpreadsheet(props) {
     };
 
     checkSession();
-  }, [navigate, gradeList]);
+  }, [navigate]);
 
   const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
   /*
@@ -60,7 +61,8 @@ function StudentSpreadsheet(props) {
   const grades = parsedGrades ? parsedGrades.grades : null;
   const exams = parsedGrades ? parsedGrades.exams : null;
 
-  const onClose = () => {
+  const onClose = async () => {
+    setGradeList(await getGrades(props.courseId));
     setScanViewInfo({
       isOpen: false,
       student: 0,
@@ -112,18 +114,6 @@ completed exams for the specifed course, but haven'y yet been registered
  Their scores for marked tests will later be paded with zeros by ParseStudentGrades.jsx
  - If a student writes some, but not all tests, only the tests they've written will be included.
 */
-const getGrades = async (courseId) => {
-  const response = await fetch(
-    `HTTP://localhost/API/users/courses/grades/${courseId}`
-  );
-  if (response.ok) {
-    const grades = await response.json();
-    return grades;
-  } else {
-    console.log("Error retrieving grades");
-    return null;
-  }
-};
 
 /* Creates the header row for the spreadsheet. By using exams as an argument, it is able
 to create columns dynamically. Columns are only created for exams which have been marked.*/

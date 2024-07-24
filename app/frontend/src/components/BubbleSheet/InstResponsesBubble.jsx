@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import getGrades from '../../hooks/getGrades';
 
 let responses = [];
 let responseData = [];
@@ -23,7 +24,6 @@ const saveResponses = async (onSave) => {
     }
   }
   try {
-    onSave();
     const response = await fetch(`HTTP://localhost/API/users/responses/edit/`, {
       method: "PUT",
       headers: {
@@ -36,6 +36,7 @@ const saveResponses = async (onSave) => {
         modifiedResponses: responsesToDatabase,
       }),
     });
+    onSave();
     if (response.ok) {
       console.error("updated resposnes successfully");
     }
