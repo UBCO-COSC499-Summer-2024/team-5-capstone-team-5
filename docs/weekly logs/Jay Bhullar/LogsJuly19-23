@@ -1,0 +1,100 @@
+# Week 9: July 19 - July 23
+
+### Date: July 23
+### Author: Jay Bhullar
+
+## Breakdown
+
+**Approximate Hours: 21.65**
+
+### Things worked on: ###
+
+- **Fixing Errors (5 hours):**
+  - Spent significant time debugging and fixing errors in the Student Dashboard.
+
+- **Turning All Components to Tables (5 hours):**
+  - Converted various UI components to tables for better data presentation and user experience.
+
+- **Routing Errors (3 hours):**
+  - Addressed and resolved routing errors to ensure smooth navigation within the application.
+
+- **Light Mode (3 hours):**
+  - Implemented light mode for the application to enhance user experience.
+
+- **Login Page Fixing (5.65 hours):**
+  - Worked on fixing issues related to the login page to improve authentication and user feedback.
+
+### Comments ###
+
+This week, my efforts were focused primarily on fixing errors and improving the Student Dashboard. The process involved converting components to tables, resolving routing issues, implementing light mode, and fixing the login page.
+
+## Timesheet
+
+### Clockify report
+![Clockify report](./screenshots/TimesheetJuly23.png)
+
+### Current Tasks (Provide sufficient detail)
+  * #1: Fixing Errors
+  * #2: Turning All Components to Tables
+  * #3: Routing Errors
+  * #4: Light Mode
+  * #5: Login Page Fixing
+
+### Progress Update (since 7/19/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Fixing Errors
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Turning All Components to Tables
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Routing Errors
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Light Mode
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Login Page Fixing
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review 
+Reflection: This cycle involved extensive work on the Student Dashboard, focusing on fixing errors and improving the overall user experience. The conversion to tables and implementation of light mode were key enhancements.
+
+Retrospective: Addressing the numerous errors in the Student Dashboard was crucial for stability and usability. Moving forward, focusing on new development tasks in collaboration with team members will be important.
+
+### Next Cycle Goals
+  * Work with Nic on making the course editable.
+  * Flagging of OMR Scan Anomalies.
