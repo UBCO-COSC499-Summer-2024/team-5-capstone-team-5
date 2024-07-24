@@ -1,11 +1,8 @@
-// app/frontend/src/components/Login.js
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import Toast from './Toast'; // Importing the Toast component
-import { useTheme } from '../App'; // Ensure this path is correct
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,7 +10,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '', type: '' });
-  const { theme } = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,8 +28,9 @@ const Login = () => {
         localStorage.setItem('token', data.token);
         setToast({ show: true, message: 'Login successful!', type: 'success' });
         setTimeout(() => {
+          setToast({ show: false, message: '', type: '' });
           navigate('/');
-        }, 3000); // Navigate after showing the success message
+        }, 150); 
       } else if (response.status === 401) {
         setToast({ show: true, message: 'Incorrect Credentials', type: 'error' });
       } else if (response.status === 404) {
@@ -55,38 +52,38 @@ const Login = () => {
           onClose={() => setToast({ show: false, message: '', type: '' })}
         />
       )}
-      <div className="flex flex-col gap-16 items-center justify-center min-h-screen">
-        <img src="/gradeit.svg" alt="Logo" className="w-2/5 mb-8" />
-        <form onSubmit={handleSubmit} className="w-full max-w-sm">
-          <div className={`flex flex-col w-full px-8 py-6 rounded-lg shadow-lg ${theme === 'dark' ? 'bg-[#26272A]' : 'bg-gray-100'}`}>
-            <label className="font-semibold mb-2">Email</label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email" 
-              placeholder="Enter your email" 
-              className={`px-3 py-2 rounded-md mb-4 ${theme === 'dark' ? 'bg-[#1D1E21] text-white' : 'bg-white text-black'} shadow-inner`} 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <div className="relative mb-4">
-              <label className="font-semibold mb-2">Password</label>
+      <div className="flex flex-col gap-16">
+        <img src="/gradeit.svg" alt="Logo" className="w-2/5 flex self-center mb-12" />
+        <form onSubmit={handleSubmit}>
+          <div className="flex justify-center">
+            <div className="flex flex-col w-2/5 bg-[#26272A] px-8 py-4 rounded-lg drop-shadow-lg">
+              <label className="text-white/80 font-semibold">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="Enter your email" 
+                className="px-2 rounded-md h-10 bg-[#1D1E21] my-2 text-sm shadow-inner" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <div className="relative flex flex-col">
+              <label className="text-white/80 font-semibold">Password</label>
               <input 
                 type={showPassword ? "text" : "password"} 
                 id="password" 
                 name="password" 
                 placeholder="Enter your password" 
-                className={`px-3 py-2 rounded-md w-full ${theme === 'dark' ? 'bg-[#1D1E21] text-white' : 'bg-white text-black'} shadow-inner`} 
+                className="px-2 rounded-md h-10 bg-[#1D1E21] my-2 text-sm shadow-inner" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="absolute right-3 top-10 transform -translate-y-1/2">
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className={`${theme === 'dark' ? 'text-[#32556F]' : 'text-gray-600'}`} />
-              </button>
+              <button type="button" onClick={() => {setShowPassword((prev => !prev))}} className="absolute right-2 top-1/2 transform -translate-y-1/5"><FontAwesomeIcon icon={showPassword? faEyeSlash : faEye} className='text-[#32556F]' /></button>
+              </div>
+              <div className="flex flex-row justify-center">
+                <button type="submit" className="bg-[#293C4A] w-full h-10 mt-6 rounded-md mb-2 hover:bg-[#32556F] font-semibold">Login</button>
+              </div>
             </div>
-            <button type="submit" className={`w-full py-2 rounded-md mt-4 font-semibold ${theme === 'dark' ? 'bg-[#293C4A] text-white hover:bg-[#32556F]' : 'bg-blue-600 text-white hover:bg-blue-700'}`}>
-              Login
-            </button>
           </div>
         </form>
       </div>

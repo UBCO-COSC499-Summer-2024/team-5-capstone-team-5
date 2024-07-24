@@ -1,12 +1,12 @@
 // app/frontend/src/components/ProfileMenuModal.js
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../App';
 import Avatar from './Avatar';
 
-const ProfileMenuModal = ({ isOpen, onClose, user, onLogout }) => {
+const ProfileMenuModal = ({ isOpen, onClose, user, onLogout, onAvatarSelect }) => {
   const { theme, toggleTheme } = useTheme();
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [selectedAvatarOptions, setSelectedAvatarOptions] = useState({ seed: 'initial' });
@@ -17,16 +17,14 @@ const ProfileMenuModal = ({ isOpen, onClose, user, onLogout }) => {
 
   const handleAvatarSelect = (options) => {
     setSelectedAvatarOptions(options);
+    onAvatarSelect(options);
     setIsAvatarModalOpen(false);
   };
 
-  const avatarOptionsList = [
-    { seed: 'avatar1' },
-    { seed: 'avatar2' },
-    { seed: 'avatar3' },
-    { seed: 'avatar4' },
-    { seed: 'avatar5' }
-  ];
+  // Generate a large number of avatar options dynamically
+  const avatarOptionsList = useMemo(() => {
+    return Array.from({ length: 50 }, (_, index) => ({ seed: `avatar${index + 1}` }));
+  }, []);
 
   return (
     <>
@@ -41,7 +39,7 @@ const ProfileMenuModal = ({ isOpen, onClose, user, onLogout }) => {
             </button>
             <div className="flex items-center mb-4">
               <div className="cursor-pointer" onClick={handleAvatarClick}>
-                <Avatar options={selectedAvatarOptions} />
+                <Avatar options={selectedAvatarOptions} size={64} />
               </div>
               <div>
                 <p className="text-lg font-bold">{user.name}</p>
@@ -78,14 +76,14 @@ const ProfileMenuModal = ({ isOpen, onClose, user, onLogout }) => {
         isOpen={isAvatarModalOpen}
         onRequestClose={() => setIsAvatarModalOpen(false)}
         contentLabel="Select Avatar"
-        className={`p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}
+        className={`p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'} max-h-[80vh] overflow-y-auto`}
         overlayClassName="fixed inset-0 bg-black/50 flex items-center justify-center"
       >
         <h2 className="text-lg font-bold mb-4">Select Avatar</h2>
         <div className="grid grid-cols-3 gap-4">
           {avatarOptionsList.map((options, index) => (
             <div key={index} className="cursor-pointer" onClick={() => handleAvatarSelect(options)}>
-              <Avatar options={options} />
+              <Avatar options={options} size={128} /> {/* Set larger size for selection */}
             </div>
           ))}
         </div>

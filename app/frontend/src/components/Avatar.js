@@ -3,13 +3,13 @@ import React, { useMemo } from 'react';
 import * as avatars from '@dicebear/avatars';
 import * as style from '@dicebear/avatars-avataaars-sprites';
 
-const Avatar = ({ options }) => {
+const Avatar = ({ options, size = 128 }) => {
   const avatar = useMemo(() => {
     return avatars.createAvatar(style, {
-      size: 128,
+      size,
       ...options
     });
-  }, [options]);
+  }, [options, size]);
 
   return <img src={`data:image/svg+xml;utf8,${encodeURIComponent(avatar)}`} alt="Avatar" />;
 };

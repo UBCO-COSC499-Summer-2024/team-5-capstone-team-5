@@ -1,3 +1,5 @@
+// app/frontend/src/App.js
+
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './components/Home';
@@ -129,12 +131,8 @@ function AppRoutes() {
             <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers id={userId} />} />
             <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
-
-            
             {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
             {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
-          
-          
           </Routes>
         </div>
       </div>
