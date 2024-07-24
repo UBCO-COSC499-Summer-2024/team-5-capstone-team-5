@@ -141,7 +141,7 @@ const InstructorCourseDetails = () => {
         </div>
       )}
       {selectedMenu === 'students' && (<>
-        <StudentList courseId={courseId} />
+        <StudentList courseId={courseId} courseName = {courseName}/>
         </>
       )}
       <AddTestModal
