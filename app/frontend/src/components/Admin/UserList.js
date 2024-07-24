@@ -25,9 +25,25 @@ const UserList = () => {
     const success = await changeUserRole(userId, newRole);
     if (success) {
       setUsers(users.map(user => (user.id === userId ? { ...user, role: newRole } : user)));
+      logChange(userId, users.find(user => user.id === userId).role, newRole);
     } else {
       console.error('Failed to update role');
     }
+  };
+
+  const logChange = (userId, oldRole, newRole) => {
+    const changes = JSON.parse(localStorage.getItem('changes')) || [];
+    const user = users.find(user => user.id === userId);
+    const changeLog = {
+      userId,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      oldRole,
+      newRole,
+      timestamp: new Date().toLocaleString()
+    };
+    changes.push(changeLog);
+    localStorage.setItem('changes', JSON.stringify(changes));
   };
 
   

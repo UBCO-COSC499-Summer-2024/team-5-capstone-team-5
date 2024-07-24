@@ -57,19 +57,22 @@ const AdminNavbar = (props) => {
           <div className={`pb-2 sticky top-0 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} pt-8`}>
             <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
 
+            <div className="flex flex-col items-center font-bold mt-8">
             <Button onClick={() => navigate('admin/dashboard')}
           className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
           >
             Home
             </Button>
+          </div>
+           
 
           </div>
           
-          <h1 >
+          <h1 className="text-center mb-4 mt-4">
             Admin Features 
           </h1>
-          
-          <Button
+          <div className="flex flex-col items-center font-bold mt-8">
+          <Button 
           onClick={() => navigate('admin/user')}
           className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
           >
@@ -77,13 +80,13 @@ const AdminNavbar = (props) => {
           Manage Users
         </Button>
         <Button
-          onClick={() => navigate('')}
+          onClick={() => navigate('admin/recentchanges')}
           className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
           >
             
           Recent Changes 
         </Button>
-          
+        </div>
         </nav>
       </div>
       <div className={`flex flex-col p-4 sticky bottom-0 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'}`}>

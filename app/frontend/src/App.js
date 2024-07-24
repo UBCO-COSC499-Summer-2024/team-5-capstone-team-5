@@ -16,6 +16,7 @@ import InstructorCourseDetails from './components/Instructor/InstructorCourseDet
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminNavbar from './components/Admin/AdminNavbar';
 import UserList from './components/Admin/UserList';
+import RecentChanges from './components/Admin/RecentChanges';
 
 
 import StudentList from './components/Instructor/StudentList';
@@ -27,6 +28,7 @@ import ExamDetails from './components/ExamDetails';
 import TestDescription from './components/Instructor/TestDescription'; // Corrected path
 import './index.css';
 import ChangePass from './components/ChangePass';
+
 
 const ThemeContext = createContext();
 
@@ -112,6 +114,7 @@ function AppRoutes() {
             
             {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
             {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
+            {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges/>} />}
           
           
           </Routes>
