@@ -81,17 +81,38 @@ const Navbar = (props) => {
     }));
   };
 
+  const handleSaveCourse = (courseId, updatedCourse) => {
+    setCourses(prevCourses =>
+      prevCourses.map(course =>
+        course.course_id === courseId ? { ...course, ...updatedCourse } : course
+      )
+    );
+  };
+
+  const handleCardClick = (courseId) => {
+    if (!flippedCourses[courseId]) {
+      navigate(`/course/${courseId}`);
+    }
+  };
+
+  const containerStyle = theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-200 text-black';
+  const headerStyle = theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300';
+  const linkActiveStyle = theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black';
+  const linkInactiveStyle = theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black';
+  const cardStyle = theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black';
+  const iconStyle = theme === 'dark' ? 'text-gray-400' : 'text-gray-600';
+
   if (props.id) {
     return (
-      <div className={`h-full w-64 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-200 text-black'} flex flex-col fixed overflow-hidden`}>
-        <div className={`pb-2 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'} pt-8`}>
+      <div className={`h-full w-64 ${containerStyle} flex flex-col fixed overflow-hidden`}>
+        <div className={`pb-2 ${headerStyle} pt-8`}>
           <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
           <NavLink
             to="/recent"
             className={({ isActive }) =>
               isActive
-                ? `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black'} font-bold`
-                : `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black'}`
+                ? `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${linkActiveStyle} font-bold`
+                : `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${linkInactiveStyle}`
             }
           >
             Recent Courses
@@ -102,29 +123,33 @@ const Navbar = (props) => {
           <ul className="mt-4 space-y-4">
             {courses.map((course) => (
               <li key={course.course_id} className="relative">
-                <div className="relative p-4 rounded-lg bg-gray-800 text-white shadow-md">
+                <div className={`relative p-4 rounded-lg ${cardStyle} shadow-md cursor-pointer`} onClick={() => handleCardClick(course.course_id)} style={{ minHeight: '150px' }}>
                   <Flip
                     course={course}
                     flipped={flippedCourses[course.course_id] || false}
-                    handleFlipClick={() => handleFlipClick(course.course_id)}
+                    onFlip={handleFlipClick}
+                    onSave={handleSaveCourse}
                   />
                   <FontAwesomeIcon
                     icon={faEllipsis}
-                    className="absolute top-4 right-4 cursor-pointer text-gray-600"
-                    onClick={() => handleFlipClick(course.course_id)}
+                    className={`absolute top-4 right-4 cursor-pointer ${iconStyle}`}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent triggering the card click event
+                      handleFlipClick(course.course_id);
+                    }}
                   />
                 </div>
               </li>
             ))}
           </ul>
         </div>
-        <div className={`p-4 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300'}`}>
+        <div className={`p-4 ${headerStyle}`}>
           <NavLink
             to="/about"
             className={({ isActive }) =>
               isActive
-                ? `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black'} font-bold`
-                : `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black'}`
+                ? `block py-2 px-4 mb-2 rounded-lg ${linkActiveStyle} font-bold`
+                : `block py-2 px-4 mb-2 rounded-lg ${linkInactiveStyle}`
             }
           >
             About
@@ -133,8 +158,8 @@ const Navbar = (props) => {
             to="/contact"
             className={({ isActive }) =>
               isActive
-                ? `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black'} font-bold`
-                : `block py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black'}`
+                ? `block py-2 px-4 mb-2 rounded-lg ${linkActiveStyle} font-bold`
+                : `block py-2 px-4 mb-2 rounded-lg ${linkInactiveStyle}`
             }
           >
             Contact

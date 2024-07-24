@@ -113,6 +113,7 @@ function AppRoutes() {
             <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers id={userId} />} />
             <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
+            <Route path="/course/:courseId" element={<CourseDetails />} /> {/* Added route for /course/:courseId */}
           </Routes>
         </div>
       </div>
