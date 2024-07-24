@@ -268,8 +268,8 @@ const addStudentAnswers = async (jsonData, examId) => {
             fs.writeFileSync(imagePath, imageBuffer);
 
             responses.forEach((response) => {
-                const recordedAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
+                const recordedAnswer = response.LetterPos;
+                const questionNum = response.Question;
                 addResponse(examId, questionNum, studentId, recordedAnswer)
             });
             questionsWithNoResponse.forEach((question) => {
@@ -281,7 +281,8 @@ const addStudentAnswers = async (jsonData, examId) => {
     }
 }
 
-const addAnswerKey = async (jsonData, examId) => {
+
+const addAnswerKey = async (jsonData, examId, userId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
