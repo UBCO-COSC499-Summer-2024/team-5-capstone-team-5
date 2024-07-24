@@ -3,7 +3,7 @@ const getCourseData = async (user_id) => {
     const response = await fetch(`http://localhost/api/users/courses/${user_id}`);
     if(response.ok) {
       const courses = await response.json();
-      console.log(courses);
+      //console.log(courses);
       return courses;
     }
     else {
