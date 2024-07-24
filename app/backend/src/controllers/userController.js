@@ -49,7 +49,7 @@ const getRecentExamsByUserId = async (id) => {
 const getQuestionData = async (userId, examId) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
+            'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name, was_modified FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
         );
         return response;
     } catch(error) {
@@ -231,14 +231,14 @@ const calculateGrades = async (courseId) => {
     };
 };
 
-const addResponse = async (exam_id, question_num, user_id, response) => {
+const addResponse = async (exam_id, question_num, user_id, response, modifying = false) => {
     try {
         questionId = await db.oneOrNone(
             'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [exam_id, question_num]
         );
         if(questionId.id) {
             await db.none(
-                'INSERT INTO responses (question_id, user_id, response, question_num) VALUES ($1, $2, $3, $4) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response', [questionId.id, user_id, response, question_num] 
+                'INSERT INTO responses (question_id, user_id, response, question_num, was_modified) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response, was_modified = excluded.was_modified', [questionId.id, user_id, response, question_num, modifying] 
             )
         } else {
 
@@ -254,7 +254,7 @@ const addStudentAnswers = async (jsonData, examId) => {
             const answerKey = jsonData[key];
             const studentId = answerKey.stnum
             const responses = answerKey.answers[0]
-            const noResponse = answerKey.answers[1];
+            const questionsWithNoResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
             const image = answerKey.combined_page;
             const imageBuffer = Buffer.from(image, 'base64');
@@ -272,13 +272,16 @@ const addStudentAnswers = async (jsonData, examId) => {
                 const questionNum = Number(response.Question)
                 addResponse(examId, questionNum, studentId, recordedAnswer)
             });
-            addScan(examId, studentId, databasePath);
+            questionsWithNoResponse.forEach((question) => {
+                const recordedAnswer = Number(question.LetterPos);
+                const questionNum = Number(question.Question)
+                addResponse(examId, question, studentId, `{}`)
+            });
         };
     }
 }
 
-
-const addAnswerKey = async (jsonData, examId, userId) => {
+const addAnswerKey = async (jsonData, examId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
