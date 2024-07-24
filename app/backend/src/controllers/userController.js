@@ -270,7 +270,7 @@ const addStudentAnswers = async (jsonData, examId) => {
             responses.forEach((response) => {
                 const recordedAnswer = Number(response.LetterPos);
                 const questionNum = Number(response.Question)
-                addResponse(examId, questionNum, studentId, [recordedAnswer])
+                addResponse(examId, questionNum, studentId, recordedAnswer)
             });
             addScan(examId, studentId, databasePath);
             console.log(questionsWithNoResponse);
@@ -304,9 +304,10 @@ const addAnswerKey = async (jsonData, examId, userId) => {
             fs.writeFileSync(imagePath, imageBuffer);
 
             responses.forEach((response) => {
-                const correctAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
-                addQuestion(examId, 5, [correctAnswer], 1, questionNum);
+                const correctAnswer = response.LetterPos;
+                const questionNum = response.Question;
+                console.log("Correct Answer:",correctAnswer)
+                addQuestion(examId, 5, correctAnswer, 1, questionNum);
             })
             addScan(examId, userId, databasePath);
         };
