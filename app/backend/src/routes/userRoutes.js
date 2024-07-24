@@ -152,9 +152,10 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     res.status(200);
   });
 
-  router.post('/responses/edit', async (req, res) =>  {
-    const examId = req.headers['examId']; 
-    const userId = req.headers['userId'];
+  router.put('/responses/edit', async (req, res) =>  {
+    console.log(req.body);
+    const examId = req.body.exam_id;
+    const userId = req.body.student_id;
     const modifiedResponses = req.body.modifiedResponses;
     modifiedResponses.forEach((response) => {
         addResponse(examId, response.questionNum, userId, response.responseArray, true);

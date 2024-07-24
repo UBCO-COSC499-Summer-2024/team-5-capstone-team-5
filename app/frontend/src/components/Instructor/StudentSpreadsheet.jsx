@@ -45,7 +45,7 @@ function StudentSpreadsheet(props) {
     };
 
     checkSession();
-  }, [navigate]);
+  }, [navigate, gradeList]);
 
   const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
   /*
@@ -85,7 +85,12 @@ function StudentSpreadsheet(props) {
           )}
         </tbody>
       </table>
-      <ScanView scanViewInfo={scanViewInfo} onClose={onClose} courseName = {props.courseName} />
+      <ScanView
+        scanViewInfo={scanViewInfo}
+        onClose={onClose}
+        courseName={props.courseName}
+        setScanViewInfo={setScanViewInfo}
+      />
       <p className="mt-[5px]">Course ID: {props.courseId}</p>
       <p className="mt-[5px]">Instructor name: {userInfo.name}</p>
       <p className="mt-[5px]">Instructor ID: {userInfo.id}</p>
@@ -211,7 +216,15 @@ function createSingleRow(
   setScanViewInfo
 ) {
   if (studentGrades) {
-    const handleClick = (userId, examId, studentScore, courseId, firstName, lastName, examName) => {
+    const handleClick = (
+      userId,
+      examId,
+      studentScore,
+      courseId,
+      firstName,
+      lastName,
+      examName
+    ) => {
       console.log(userId);
       console.log(examId);
       setScanViewInfo({
@@ -229,7 +242,7 @@ function createSingleRow(
       return (
         <>
           <td
-            key = {grade.examId}
+            key={grade.examId}
             onClick={() =>
               handleClick(
                 studentGrades.userId,
@@ -266,9 +279,15 @@ function createSingleRow(
     //Add border? border-[1px] border-[solid] border-[black]
     return (
       <tr key={studentGrades.userId} className={`rounded-lg ${colors}`}>
-        <td key = "userId" className="p-4">{String(studentGrades.userId).padStart(8, "0")}</td>
-        <td key = "lastName" className="p-4">{studentGrades.lastName}</td>
-        <td key = "firstName" className="p-4">{studentGrades.firstName}</td>
+        <td key="userId" className="p-4">
+          {String(studentGrades.userId).padStart(8, "0")}
+        </td>
+        <td key="lastName" className="p-4">
+          {studentGrades.lastName}
+        </td>
+        <td key="firstName" className="p-4">
+          {studentGrades.firstName}
+        </td>
         {studentGradeList}
       </tr>
     );
