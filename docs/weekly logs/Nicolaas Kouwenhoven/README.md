@@ -1,3 +1,62 @@
+# Wednesday (7/19 - 7/24)
+## Date: July 24, 8:04AM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJuly24.png)
+
+### Task tldr:
+I changed parts of our OMR to save scans to the backend, wrote frontend code to view the scans on the frontend, and I changed our OMR to handle multiple answer questions.
+
+### Current Tasks:
+  * #1: OMR image rendering to user
+  * #2: Add ability to edit exams and questions
+  * #3: Add ability to edit exam responses from students (as instructor)
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #1: OMR image rendering
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #2: Add ability to edit exams and questions
+        </td>
+        <!-- Status -->
+        <td>In Progress (completed question editing)
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #3: Add ability to edit exam responses (as instructor)
+        </td>
+        <!-- Status -->
+        <td>In Progress (Oakley is working on this)
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+- I managed to get the OMR scans to render with a frontend button for the instructor, and I got the scans saving on the backend for the student. I just need to merge my work with Oakley's to get the student's scan to show.
+- I did not add the editing of weights of a question. I plan to re-do the way my questions handle editing, then I will include the weights in the backend call for editing the questions.
+
+Overall, I am happy with the progress I made on the OMR portion of our project. I think we will be able to have it pretty much complete by August 2.
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Add ability to edit weights of questions
+  * Make exam information editable
+
 # Friday (7/17 - 7/19)
 ## Date: July 18, 11:00PM
 
