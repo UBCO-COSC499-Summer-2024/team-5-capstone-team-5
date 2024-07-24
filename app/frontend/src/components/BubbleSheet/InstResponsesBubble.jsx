@@ -8,7 +8,7 @@ let exam;
 //(exam_id, question_num, user_id, response, modifying = false)
 //{ modifiedResponses: responsesToDatabase }
 
-const saveResponses = async (onSave) => {
+const saveResponses = async () => {
   let responsesToDatabase = [];
   for (let i = 0; i < responses.length; i++) {
     if (
@@ -36,9 +36,8 @@ const saveResponses = async (onSave) => {
         modifiedResponses: responsesToDatabase,
       }),
     });
-    onSave();
     if (response.ok) {
-      console.error("updated resposnes successfully");
+      console.log("updated resposnes successfully");
     }
   } catch (error) {
     console.error("Error updating resposnes", error);
@@ -182,8 +181,9 @@ function InstResponseBubbles(props) {
           })}
         </div>
         <button
-          onClick={() => {
-            saveResponses(props.onSave);
+          onClick={ () => {
+            saveResponses();
+            setTimeout(() => {props.onClose()}, 1000);
           }}
         >
           <p>Save!</p>

@@ -63,7 +63,7 @@ function ScanView(props) {
             student={scanViewInfo.student}
             exam={scanViewInfo.exam}
             setScanViewInfo={props.setScanViewInfo}
-            onSave = {props.onClose}
+            onClose = {props.onClose}
           />
         </div>
       </div>

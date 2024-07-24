@@ -46,7 +46,7 @@ function StudentSpreadsheet(props) {
     };
 
     checkSession();
-  }, [navigate]);
+  }, [navigate, gradeList]);
 
   const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
   /*
@@ -62,7 +62,6 @@ function StudentSpreadsheet(props) {
   const exams = parsedGrades ? parsedGrades.exams : null;
 
   const onClose = async () => {
-    setGradeList(await getGrades(props.courseId));
     setScanViewInfo({
       isOpen: false,
       student: 0,
@@ -71,6 +70,7 @@ function StudentSpreadsheet(props) {
       score: 0,
       course: 0,
     });
+    setGradeList(await getGrades(props.courseId));
   };
 
   return (
