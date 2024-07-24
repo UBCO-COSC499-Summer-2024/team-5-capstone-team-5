@@ -50,7 +50,7 @@ function ScanView(props) {
           </button>
           <div className="flex space-x-2 flex-right">
             <h3 className="mx-5 my-1 text-[24px]">
-              Viewing grades for {scanViewInfo.firstName}{" "}
+              Editing grades for {scanViewInfo.firstName}{" "}
               {scanViewInfo.lastName} on {scanViewInfo.examName}
             </h3>
             {
@@ -58,7 +58,13 @@ function ScanView(props) {
               //Score: {scanViewInfo.score}</h3>
             }
           </div>
-          <InstResponseBubbles responseData={responseData} />
+          <InstResponseBubbles
+            responseData={responseData}
+            student={scanViewInfo.student}
+            exam={scanViewInfo.exam}
+            setScanViewInfo={props.setScanViewInfo}
+            onSave = {props.onClose}
+          />
         </div>
       </div>
     );

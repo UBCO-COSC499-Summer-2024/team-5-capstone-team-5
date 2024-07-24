@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import getUserInfo from "../../hooks/getUserInfo";
 import ScanView from "./ScanView";
 import ParseStudentGrades from "./ParseStudentGrades.jsx";
+import getGrades from '../../hooks/getGrades';
 
 function StudentSpreadsheet(props) {
   const navigate = useNavigate();
@@ -60,7 +61,8 @@ function StudentSpreadsheet(props) {
   const grades = parsedGrades ? parsedGrades.grades : null;
   const exams = parsedGrades ? parsedGrades.exams : null;
 
-  const onClose = () => {
+  const onClose = async () => {
+    setGradeList(await getGrades(props.courseId));
     setScanViewInfo({
       isOpen: false,
       student: 0,
@@ -85,7 +87,12 @@ function StudentSpreadsheet(props) {
           )}
         </tbody>
       </table>
-      <ScanView scanViewInfo={scanViewInfo} onClose={onClose} courseName = {props.courseName} />
+      <ScanView
+        scanViewInfo={scanViewInfo}
+        onClose={onClose}
+        courseName={props.courseName}
+        setScanViewInfo={setScanViewInfo}
+      />
       <p className="mt-[5px]">Course ID: {props.courseId}</p>
       <p className="mt-[5px]">Instructor name: {userInfo.name}</p>
       <p className="mt-[5px]">Instructor ID: {userInfo.id}</p>
@@ -107,18 +114,6 @@ completed exams for the specifed course, but haven'y yet been registered
  Their scores for marked tests will later be paded with zeros by ParseStudentGrades.jsx
  - If a student writes some, but not all tests, only the tests they've written will be included.
 */
-const getGrades = async (courseId) => {
-  const response = await fetch(
-    `HTTP://localhost/API/users/courses/grades/${courseId}`
-  );
-  if (response.ok) {
-    const grades = await response.json();
-    return grades;
-  } else {
-    console.log("Error retrieving grades");
-    return null;
-  }
-};
 
 /* Creates the header row for the spreadsheet. By using exams as an argument, it is able
 to create columns dynamically. Columns are only created for exams which have been marked.*/
@@ -211,7 +206,15 @@ function createSingleRow(
   setScanViewInfo
 ) {
   if (studentGrades) {
-    const handleClick = (userId, examId, studentScore, courseId, firstName, lastName, examName) => {
+    const handleClick = (
+      userId,
+      examId,
+      studentScore,
+      courseId,
+      firstName,
+      lastName,
+      examName
+    ) => {
       console.log(userId);
       console.log(examId);
       setScanViewInfo({
@@ -229,7 +232,7 @@ function createSingleRow(
       return (
         <>
           <td
-            key = {grade.examId}
+            key={grade.examId}
             onClick={() =>
               handleClick(
                 studentGrades.userId,
@@ -266,9 +269,15 @@ function createSingleRow(
     //Add border? border-[1px] border-[solid] border-[black]
     return (
       <tr key={studentGrades.userId} className={`rounded-lg ${colors}`}>
-        <td key = "userId" className="p-4">{String(studentGrades.userId).padStart(8, "0")}</td>
-        <td key = "lastName" className="p-4">{studentGrades.lastName}</td>
-        <td key = "firstName" className="p-4">{studentGrades.firstName}</td>
+        <td key="userId" className="p-4">
+          {String(studentGrades.userId).padStart(8, "0")}
+        </td>
+        <td key="lastName" className="p-4">
+          {studentGrades.lastName}
+        </td>
+        <td key="firstName" className="p-4">
+          {studentGrades.firstName}
+        </td>
         {studentGradeList}
       </tr>
     );
