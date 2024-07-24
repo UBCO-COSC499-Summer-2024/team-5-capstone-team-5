@@ -323,6 +323,27 @@ const editTest = async (testId, newName) => {
         throw error;
     }
 };
+//For Admin
+const getAllUsers = async() =>  { 
+    try{
+        const users = await db.manyOrNone('SELECT id, first_name, last_name, email, role FROM users ORDER BY role DESC, last_name');
+        return users;
+
+    }catch(error){
+        console.error('Error Fetching Users:', error);
+        throw error;
+    }
+}
+
+const changeUserRole = async(userId, role) => {
+    try{
+        await db.none('UPDATE users SET role = $1 WHERE id = $2', [role, userId]);
+        return true;
+    }catch(error){
+        console.log('Error when updating role', error);
+        throw error;
+    }
+}
 
 const editAnswer = async (questionId, correctAnswer) => {
     try {
@@ -357,9 +378,11 @@ module.exports = {
     addAnswerKey,
     deleteTest,
     editTest,
-    calculateGrades,
     getExamAnswers,
     addScan,
+    getAllUsers,
+    changeUserRole,
+    calculateGrades,
     addResponse,
     editAnswer,
     getScan,
