@@ -16,19 +16,21 @@ Clockify report alt text
 **Current Tasks (Provide sufficient detail)**
 #1: Clean up admin page make it more interactive and pleasent on the eyes
 #2: Finished final features for Admin, made it as interactive and simple as possible
-#3: Troubleshoot the admin tests, have them finished for admin frontend and tests for admin 
-#4: Finish the site statistics for admin and tables for statistics in admin view
-#5: Work on cleaning up the kanban, doing minute tasks such as adding working search bar to other components
-#6:  Help to refactor some of the code and make the project more organized and clean.  
+#3: Get Site statistics working 
+#4: Troubleshoot the admin tests, have them finished for admin frontend and tests for admin 
+#5: Finish the all features regarding site view statistics
+#6: Work on cleaning up the kanban, doing minute tasks such as adding working search bar to other components
+#7:  Help to refactor some of the code and make the project more organized and clean.  
 
 **Progress Update (since 10/5/2024)**
 TASK/ISSUE #STATUS
 Task A	Finished
-Task B  Finished
-Task C	in Progress
-Task D  in progress
+Task B Finished
+Task C	Finished
+Task D	 in Progress
 Task E  in progress
 Task F  in progress
+Task G  in progress
 
 **Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)**
 I feel much more comfortable troubleshooting problems that would usually take way longer I know how to actually solve them. Had lots of trouble setting up the admin tests and figuring out how to use jest. As well as was confused on what was meant by Admin view statistics. Somewhat ambiguous. Will have both finished by friday. 
