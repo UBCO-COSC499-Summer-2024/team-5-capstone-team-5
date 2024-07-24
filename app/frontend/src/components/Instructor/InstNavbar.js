@@ -1,3 +1,4 @@
+// app/frontend/src/components/Instructor/InstNavbar.js
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../../hooks/getCourseData';
@@ -6,11 +7,13 @@ import AddCourseModal from './AddCourseModal';
 import ProfileMenuModal from './ProfileMenuModal'; // Ensure the path is correct
 import { useTheme } from '../../App'; // Adjust the path as needed
 import getUserInfo from '../../hooks/getUserInfo';
+import Avatar from '../Avatar'; // Import Avatar component
 
 const InstNavbar = (props) => {
   const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [avatarOptions, setAvatarOptions] = useState({ seed: 'initial' }); // State to store selected avatar options
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [user, setUser] = useState({
@@ -149,8 +152,8 @@ const InstNavbar = (props) => {
           onClick={() => setIsProfileMenuOpen(true)}
           className={`flex items-center mb-4 cursor-pointer p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
         >
-          <img src={user.image} alt="User" className="w-10 h-10 rounded-full mr-4" />
-          <div>
+          <Avatar options={avatarOptions} size={32} /> {/* Use Avatar component */}
+          <div className="ml-2">
             <p className="text-sm font-bold">{user.name}</p>
             <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{user.email}</p>
           </div>
@@ -160,6 +163,7 @@ const InstNavbar = (props) => {
           onClose={() => setIsProfileMenuOpen(false)}
           user={user}
           onLogout={Logout}
+          onAvatarSelect={setAvatarOptions} // Pass the callback to update avatar options
         />
       </div>
       <AddCourseModal
