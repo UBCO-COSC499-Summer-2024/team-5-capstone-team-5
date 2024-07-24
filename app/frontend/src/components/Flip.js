@@ -21,7 +21,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
   const frontCardStyle = theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black';
   const backCardStyle = theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black';
   const inputStyle = theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black';
-  const buttonStyle = theme === 'dark' ? 'bg-blue-600 text-white hover:bg-blue-500' : 'bg-blue-400 text-black hover:bg-blue-300';
+  const buttonStyle = theme === 'dark' ? 'bg-gray-600 text-white hover:bg-gray-500' : 'bg-gray-300 text-black hover:bg-gray-400';
 
   return (
     <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
@@ -53,7 +53,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
         />
         <button
           onClick={handleSave}
-          className={`mt-4 px-4 py-2 rounded ${theme === 'dark' ? 'bg-blue-600 text-white hover:bg-blue-500' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+          className={`mt-4 px-4 py-2 rounded ${buttonStyle}`}
         >
           Save
         </button>
