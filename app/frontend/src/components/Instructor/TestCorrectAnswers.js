@@ -190,7 +190,7 @@ const TestCorrectAnswers = (props) => {
           placeholder="Search by question #"
           value={searchQuery}
           onChange={handleSearchChange}
-          className="mb-4 p-2 rounded border"
+          className="mb-4 p-2 rounded border text-black"
         />
         {!showingScan && <table className="min-w-full divide-y divide-gray-200">
           <thead>

@@ -296,8 +296,9 @@ const addAnswerKey = async (jsonData, examId, userId) => {
             fs.writeFileSync(imagePath, imageBuffer);
 
             responses.forEach((response) => {
-                const correctAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
+                const correctAnswer = response.LetterPos;
+                const questionNum = response.Question;
+                console.log("Correct Answer:",correctAnswer)
                 addQuestion(examId, 5, correctAnswer, 1, questionNum);
             })
             addScan(examId, userId, databasePath);

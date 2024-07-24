@@ -147,38 +147,41 @@ def process_bubbles(file_path):
     
     bubble_coords = []
     bubble_options = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    questions_marked = []
+    questions_marked = set()
 
     for bubble in filled_sorted:
         question_marked = {}
-        if bubble[0] <= 4:
-            question_marked["Question"] = bubble[1] + 1
-            question_marked["Letter"] = [bubble_options[bubble[0]]]
-            question_marked["LetterPos"] = [bubble[0]]
-        elif bubble[0] > 4 and bubble[0] <= 9:
-            question_marked["Question"] = (bubble[1] + 26)
-            question_marked["Letter"] = [bubble_options[bubble[0] - 5]]
-            question_marked["LetterPos"] = [bubble[0]-5]
-        elif bubble[0] > 9 and bubble[0] <= 14:
-            question_marked["Question"] = (bubble[1] + 51)
-            question_marked["Letter"] = [bubble_options[bubble[0] - 10]]
-            question_marked["LetterPos"] = [bubble[0]-10]
-        elif bubble[0] > 14 and bubble[0] <= 19:
-            question_marked["Question"] = (bubble[1] + 76)
-            question_marked["Letter"] = [bubble_options[bubble[0] - 15]]
-            question_marked["LetterPos"] = [bubble[0]-15]
-        if(question_marked):
-            if(question_marked["Question"] not in questions_marked):
-                bubble_coords.append(question_marked)
-                questions_marked.append(question_marked["Question"])
-            else:
-                for question in bubble_coords:
-                    if(question["Question"] == question_marked["Question"]):
-                        question["Letter"] = question["Letter"] + question_marked["Letter"]
-                        question["LetterPos"] = question["LetterPos"] + question_marked["LetterPos"]
+        col, row = bubble[0], bubble[1]
 
+        if col <= 4:
+            question_number = row + 1
+            letter_index = col
+        elif col <= 9:
+            question_number = row + 26
+            letter_index = col - 5
+        elif col <= 14:
+            question_number = row + 51
+            letter_index = col - 10
+        elif col <= 19:
+            question_number = row + 76
+            letter_index = col - 15
+
+        letter = bubble_options[letter_index]
+
+        if question_number not in questions_marked:
+            question_marked["Question"] = question_number
+            question_marked["Letter"] = [letter]
+            question_marked["LetterPos"] = [letter_index]
+            bubble_coords.append(question_marked)
+            questions_marked.add(question_number)
+        else:
+            for question in bubble_coords:
+                if question["Question"] == question_number:
+                    question["Letter"].append(letter)
+                    question["LetterPos"].append(letter_index)
 
     bubble_coords = sorted(bubble_coords, key=lambda x: x['Question'])
+
 
     # Detect no answers or multiple answers
     no_answer_questions = []
@@ -188,7 +191,7 @@ def process_bubbles(file_path):
         question = bubble["Question"]
 
         # Check if the question is already in answers
-        if question in answers:
+        if len(bubble["LetterPos"]) > 1:
             multiple_answer_questions.append(question)
         else:
             # Append the question to answers if it's not already there
