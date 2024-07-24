@@ -80,14 +80,16 @@ CREATE TABLE IF NOT EXISTS exams (
 );
 
 
-CREATE TABLE IF NOT EXISTS questions ( 
+CREATE TABLE IF NOT EXISTS questions (
     id serial PRIMARY KEY,
     question_num integer,
     exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
     num_options integer,
     correct_answer integer[],
-    weight float
+    weight float,
+    CONSTRAINT unique_exam_question UNIQUE (exam_id, question_num)
 );
+
 
 
 CREATE TABLE IF NOT EXISTS responses (
@@ -97,6 +99,13 @@ CREATE TABLE IF NOT EXISTS responses (
     response integer[],
     grade float,
     PRIMARY KEY (question_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS scans (
+    exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
+    user_id integer REFERENCES users(id) ON DELETE CASCADE,
+    scan text,
+    PRIMARY KEY (exam_id, user_id)
 );
 
 -- Partially AI-Generated Sample Data

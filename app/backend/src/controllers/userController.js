@@ -1,4 +1,6 @@
 const { db } = require('../database');
+const fs = require('fs');
+const path = require('path');
 
 const getCoursesByUserId = async (id) => {
     try {
@@ -10,6 +12,17 @@ const getCoursesByUserId = async (id) => {
         console.log(`Error getting course data for id ${id}`,error);
     };
 };
+
+const getCourseInfo = async (id) => {
+    try {
+        const response = await db.oneOrNone(
+            'SELECT * FROM courses WHERE id = $1', [id]
+        );
+        return response;
+    } catch(error) {
+        console.error(`Error getting course data for course id ${id}`, error);
+    }
+}
 
 const getTestsByCourseId = async (id) => {
     try {
@@ -125,11 +138,40 @@ const addExam = async (course_id, name) => {
 const addQuestion = async (exam_id, num_options, correct_answer, weight, question_num) => {
     try {
         await db.none(
-            'INSERT INTO questions (exam_id, num_options, correct_answer, weight, question_num) VALUES ($1, $2, $3, $4, $5)', [exam_id, num_options, correct_answer, weight, question_num]
+            `INSERT INTO questions (exam_id, num_options, correct_answer, weight, question_num)
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (exam_id, question_num)
+             DO UPDATE SET
+                num_options = EXCLUDED.num_options,
+                correct_answer = EXCLUDED.correct_answer,
+                weight = EXCLUDED.weight`, 
+            [exam_id, num_options, correct_answer, weight, question_num]
+        );
+    } catch (error) {
+        console.error(`Error adding or updating question: ${error.message}`);
+    }
+};
+
+const addScan = async (exam_id, user_id, path) => {
+    try {
+        await db.none(
+            'INSERT INTO scans (exam_id, user_id, scan) VALUES ($1, $2, $3)', [exam_id, user_id, path]
         );
     } catch(error) {
-        console.error(`Error adding question`);
-    };
+        console.error('Error adding scan for user',user_id);
+    }
+};
+
+const getScan = async (exam_id, user_id) => {
+    try {
+        response = await db.oneOrNone(
+            'SELECT scan FROM scans WHERE exam_id = $1 AND user_id = $2', [exam_id, user_id]
+        );
+        return response;
+    } catch(error) {
+        console.error('Error getting scan for user',user_id,'and exam',exam_id);
+        throw error;
+    }
 };
 
 const calculateGrades = async (courseId) => {
@@ -214,32 +256,52 @@ const addStudentAnswers = async (jsonData, examId) => {
             const responses = answerKey.answers[0]
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
+            const image = answerKey.combined_page;
+            const imageBuffer = Buffer.from(image, 'base64');
+            const imagesDir = '/code/images';
+            const imagePath = `/code/images/${examId}_${studentId}.png`;
+            const databasePath = `/images/${examId}_${studentId}.png`;
+
+            if (!fs.existsSync(imagesDir)) {
+                fs.mkdirSync(imagesDir, { recursive: true });
+            }
+            fs.writeFileSync(imagePath, imageBuffer);
+
             responses.forEach((response) => {
-                console.log(response.LetterPos);
                 const recordedAnswer = Number(response.LetterPos);
                 const questionNum = Number(response.Question)
-                console.log(response);
-                addResponse(examId, questionNum, studentId, [recordedAnswer])
+                addResponse(examId, questionNum, studentId, recordedAnswer)
             });
+            addScan(examId, studentId, databasePath);
         };
     }
 }
 
 
-const addAnswerKey = async (jsonData, examId) => {
+const addAnswerKey = async (jsonData, examId, userId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
-            const responses = answerKey.answers[0]
+            const responses = answerKey.answers[0];
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
+            const image = answerKey.combined_page;
+            const imageBuffer = Buffer.from(image, 'base64');
+            const imagesDir = ('/code/images');
+            const imagePath = `/code/images/${examId}_${userId}.png`;
+            const databasePath = `/images/${examId}_${userId}.png`;
+            if (!fs.existsSync(imagesDir)) {
+                fs.mkdirSync(imagesDir, { recursive: true });
+            }
+            fs.writeFileSync(imagePath, imageBuffer);
+
             responses.forEach((response) => {
-                console.log(response.LetterPos);
-                const correctAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
-                console.log(response);
-                addQuestion(examId, 5, [correctAnswer], 1, questionNum);
+                const correctAnswer = response.LetterPos;
+                const questionNum = response.Question;
+                console.log("Correct Answer:",correctAnswer)
+                addQuestion(examId, 5, correctAnswer, 1, questionNum);
             })
+            addScan(examId, userId, databasePath);
         };
     }
 }
@@ -283,6 +345,24 @@ const changeUserRole = async(userId, role) => {
     }
 }
 
+const editAnswer = async (questionId, correctAnswer) => {
+    try {
+        await db.none('UPDATE questions SET correct_answer = $1 WHERE id = $2', [correctAnswer, questionId]);
+    } catch(error) {
+        console.error('Error updating answer for quesiton',questionId);
+        throw error;
+    }
+};
+
+const setExamMarked = async (examId) => {
+    try {
+
+    } catch(error) {
+        console.error('Error updating exam marked date for exam:',examId);
+        throw error;
+    }
+}
+
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
@@ -299,8 +379,13 @@ module.exports = {
     deleteTest,
     editTest,
     getExamAnswers,
+    addScan,
     getAllUsers,
     changeUserRole,
     calculateGrades,
     addResponse,
+    editAnswer,
+    getScan,
+    getCourseInfo,
+    setExamMarked
 }
