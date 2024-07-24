@@ -1,3 +1,5 @@
+// app/frontend/src/App.js
+
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './components/Home';
@@ -86,11 +88,13 @@ function AppRoutes() {
     return <div>Loading...</div>;
   }
 
+  const showNavbar = !hideNavbarPaths.includes(location.pathname);
+  const isInstructor = role === 2;
+
   return (
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
-      {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
-      <div className="flex-grow flex flex-col ml-64">
+      {showNavbar && (isInstructor ? <InstNavbar id={userId} /> : <Navbar id={userId} />)}
+      <div className={`flex-grow flex flex-col ${showNavbar ? 'ml-64' : ''}`}>
         <div className="flex-grow p-8">
           <Routes>
             <Route path="/" element={<Home />} />

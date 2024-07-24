@@ -28,8 +28,9 @@ const Login = () => {
         localStorage.setItem('token', data.token);
         setToast({ show: true, message: 'Login successful!', type: 'success' });
         setTimeout(() => {
+          setToast({ show: false, message: '', type: '' });
           navigate('/');
-        }, 3000); // Navigate after showing the success message
+        }, 150); 
       } else if (response.status === 401) {
         setToast({ show: true, message: 'Incorrect Credentials', type: 'error' });
       } else if (response.status === 404) {
@@ -91,4 +92,3 @@ const Login = () => {
 };
 
 export default Login;
-

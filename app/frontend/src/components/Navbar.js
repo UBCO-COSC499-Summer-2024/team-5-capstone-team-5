@@ -1,3 +1,4 @@
+// app/frontend/src/components/Navbar.js
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../hooks/getCourseData';
@@ -5,10 +6,12 @@ import validateUser from '../hooks/validateUser';
 import ProfileMenuModal from './ProfileMenuModal'; // Ensure the path is correct
 import { useTheme } from '../App'; // Adjust the path as needed
 import getUserInfo from '../hooks/getUserInfo';
+import Avatar from './Avatar'; // Import Avatar component
 
 const Navbar = (props) => {
   const [courses, setCourses] = useState([]);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [avatarOptions, setAvatarOptions] = useState({ seed: 'initial' }); // State to store selected avatar options
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [user, setUser] = useState({
@@ -135,8 +138,8 @@ const Navbar = (props) => {
             onClick={() => setIsProfileMenuOpen(true)}
             className={`flex items-center mb-4 cursor-pointer p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
           >
-            <img src={user.image} alt="User" className="w-10 h-10 rounded-full mr-4" />
-            <div>
+            <Avatar options={avatarOptions} size={32} /> {/* Set the avatar size to 32 */}
+            <div className="ml-2">
               <p className="text-sm font-bold">{user.name}</p>
               <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{user.email}</p>
               <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{getRoleName(user.role)}</p>
@@ -147,6 +150,7 @@ const Navbar = (props) => {
             onClose={() => setIsProfileMenuOpen(false)}
             user={user}
             onLogout={Logout}
+            onAvatarSelect={setAvatarOptions} // Pass the callback to update avatar options
           />
         </div>
       </div>
