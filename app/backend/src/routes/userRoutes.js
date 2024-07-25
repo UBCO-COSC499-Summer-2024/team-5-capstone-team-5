@@ -169,8 +169,8 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const jsonData = await response.json();
     const testid = req.headers['testid'];
     const data = jsonData.data;
-    addStudentAnswers(data, testid);
-    res.status(200);
+    const flags = await addStudentAnswers(data, testid);
+    res.status(200).json(flags);
   });
 
   router.put('/responses/edit', async (req, res) =>  {

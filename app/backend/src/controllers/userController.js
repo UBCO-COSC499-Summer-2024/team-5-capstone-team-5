@@ -249,6 +249,13 @@ const addResponse = async (exam_id, question_num, user_id, response, modifying =
 }
 
 const addStudentAnswers = async (jsonData, examId) => {
+    const flaggedQuestions = {
+        "NoStudentId": [],
+        "DuplicateStudentId": [],
+        "MultipleResponses": {},
+        "NoResponses": {},
+    }
+    const studentIds = []
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
@@ -256,6 +263,7 @@ const addStudentAnswers = async (jsonData, examId) => {
             const responses = answerKey.answers[0]
             const questionsWithNoResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
+            const page = answerKey.page;
             const image = answerKey.combined_page;
             const imageBuffer = Buffer.from(image, 'base64');
             const imagesDir = '/code/images';
@@ -267,18 +275,32 @@ const addStudentAnswers = async (jsonData, examId) => {
             }
             fs.writeFileSync(imagePath, imageBuffer);
 
-            responses.forEach((response) => {
-                const recordedAnswer = response.LetterPos;
-                const questionNum = response.Question;
-                addResponse(examId, questionNum, studentId, recordedAnswer)
-            });
-            questionsWithNoResponse.forEach((question) => {
-                const recordedAnswer = Number(question.LetterPos);
-                const questionNum = Number(question.Question)
-                addResponse(examId, question, studentId, `{}`)
-            });
+            if(studentId) {
+                if(studentId in studentIds) {
+                    flaggedQuestions["DuplicateStudentId"].push(studentId);
+                } else {
+                    studentIds.push(studentId);
+                }
+                if(multiResponse.length > 0) {
+                    flaggedQuestions["MultipleResponses"][String(studentId)] = multiResponse;
+                }
+                if(questionsWithNoResponse.length > 0) {
+                    flaggedQuestions["NoResponses"][String(studentId)] = questionsWithNoResponse;
+                }
+                responses.forEach((response) => {
+                    const recordedAnswer = response.LetterPos;
+                    const questionNum = response.Question;
+                    addResponse(examId, questionNum, studentId, recordedAnswer)
+                });
+                questionsWithNoResponse.forEach((question) => {
+                    addResponse(examId, question, studentId, `{}`)
+                });
+            } else {
+                flaggedQuestions["NoStudentId"].push(`Page ${page} / ${page+1}`);
+            }
         };
     }
+    return flaggedQuestions;
 }
 
 
