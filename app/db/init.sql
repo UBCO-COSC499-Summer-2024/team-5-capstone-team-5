@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS responses (
     response integer[],
     grade float,
     was_modified boolean,
+    flag text,
     PRIMARY KEY (question_id, user_id)
 );
 

@@ -156,7 +156,6 @@ router.get('/courses/students/:id', async (req, res) => {
   });
 
 router.post('/tests/upload', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
     const response = await fetch('http://python-cv:8000/upload', {
         method: 'POST',
         body: req.file.buffer,
@@ -174,7 +173,6 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
   });
 
   router.put('/responses/edit', async (req, res) =>  {
-    console.log(req.body);
     const examId = req.body.exam_id;
     const userId = req.body.student_id;
     const modifiedResponses = req.body.modifiedResponses;

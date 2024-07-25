@@ -248,6 +248,23 @@ const addResponse = async (exam_id, question_num, user_id, response, modifying =
     }
 }
 
+const flagResponse = async (examId, userId, questionNum, flagText) => {
+    try {
+        questionId = await db.oneOrNone(
+            'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [examId, questionNum]
+        );
+        if(questionId.id) {
+            await db.none(
+                'UPDATE responses SET flag = $1 WHERE question_id = $2 AND user_id = $3', [flagText, questionId.id, userId]
+            )
+        } else {
+
+        }
+    } catch(error) {
+        console.error('Error adding response')
+    }
+}
+
 const addStudentAnswers = async (jsonData, examId) => {
     const flaggedQuestions = {
         "NoStudentId": [],
@@ -281,12 +298,6 @@ const addStudentAnswers = async (jsonData, examId) => {
                 } else {
                     studentIds.push(studentId);
                 }
-                if(multiResponse.length > 0) {
-                    flaggedQuestions["MultipleResponses"][String(studentId)] = multiResponse;
-                }
-                if(questionsWithNoResponse.length > 0) {
-                    flaggedQuestions["NoResponses"][String(studentId)] = questionsWithNoResponse;
-                }
                 responses.forEach((response) => {
                     const recordedAnswer = response.LetterPos;
                     const questionNum = response.Question;
@@ -295,6 +306,18 @@ const addStudentAnswers = async (jsonData, examId) => {
                 questionsWithNoResponse.forEach((question) => {
                     addResponse(examId, question, studentId, `{}`)
                 });
+                if(multiResponse.length > 0) {
+                    flaggedQuestions["MultipleResponses"][String(studentId)] = multiResponse;
+                    multiResponse.forEach((question) => {
+                        flagResponse(examId, studentId, question, "Multiple answers were detected")
+                    });
+                }
+                if(questionsWithNoResponse.length > 0) {
+                    flaggedQuestions["NoResponses"][String(studentId)] = questionsWithNoResponse;
+                    questionsWithNoResponse.forEach((question) => {
+                        flagResponse(examId, studentId, question, "No answers were detected")
+                    });
+                }
             } else {
                 flaggedQuestions["NoStudentId"].push(`Page ${page} / ${page+1}`);
             }
@@ -413,5 +436,6 @@ module.exports = {
     editAnswer,
     getScan,
     getCourseInfo,
-    setExamMarked
+    setExamMarked,
+    flagResponse
 }
