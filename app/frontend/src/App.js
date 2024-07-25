@@ -33,6 +33,7 @@ import GenerateSheetModal from './components/Instructor/GenerateSheetModal';
 import OMRSheetGenerator from './components/Instructor/OMRSheetGenerator';
 import './index.css';
 import ChangePass from './components/ChangePass';
+import NotificationBell from './components/Instructor/NotificationBell';
 
 
 const ThemeContext = createContext();
@@ -104,8 +105,10 @@ function AppRoutes() {
       {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
       {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
       {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
-
       <div className="flex-grow flex flex-col ml-64">
+      <div className="flex justify-end text-white pr-8 pt-4">
+        <NotificationBell />
+      </div>
         <div className="flex-grow p-8">
           <Routes>
           

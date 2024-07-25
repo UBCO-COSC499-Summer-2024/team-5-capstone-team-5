@@ -405,10 +405,20 @@ const editAnswer = async (questionId, correctAnswer) => {
 
 const setExamMarked = async (examId) => {
     try {
-
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().split("T")[0];
+        await db.none('UPDATE exams SET date_marked = $1 WHERE id = $2', [formattedDate, examId]);
     } catch(error) {
         console.error('Error updating exam marked date for exam:',examId);
         throw error;
+    }
+}
+
+const getFlagged = async (userId, courseId) => {
+    try {
+
+    } catch(error) {
+        console.error('Error getting flagged responses for course', courseId);
     }
 }
 

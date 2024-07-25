@@ -21,6 +21,7 @@ const {
     editAnswer,
     getScan,
     getCourseInfo,
+    setExamMarked,
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
@@ -179,6 +180,7 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     modifiedResponses.forEach((response) => {
         addResponse(examId, response.questionNum, userId, response.responseArray, true);
     })
+    setExamMarked;
     res.status(200);
   });
 
@@ -282,6 +284,15 @@ router.get('/courses/info/:id', async (req, res) => {
         res.status(200).json(data);
     } catch(error) {
         res.status(500).json({error: error.message});
+    }
+})
+
+router.get('/courses/flagged/:courseId/:userId', async (req, res) => {
+    try {
+        const { courseId, userId } = req.params
+
+    } catch(error) {
+        res.status(500).json({error: error.message})
     }
 })
 

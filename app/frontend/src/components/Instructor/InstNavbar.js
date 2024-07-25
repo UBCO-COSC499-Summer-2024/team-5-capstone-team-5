@@ -6,6 +6,7 @@ import AddCourseModal from './AddCourseModal';
 import ProfileMenuModal from './ProfileMenuModal'; // Ensure the path is correct
 import { useTheme } from '../../App'; // Adjust the path as needed
 import getUserInfo from '../../hooks/getUserInfo';
+import NotificationBell from './NotificationBell';
 
 const InstNavbar = (props) => {
   const [courses, setCourses] = useState([]);
