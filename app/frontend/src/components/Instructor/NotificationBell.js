@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const NotificationBell = () => {
-
+const NotificationBell = (props) => {
+    const { userId } = props;
     
+    
+
+
 
     return(
         <div className="flex m-4">

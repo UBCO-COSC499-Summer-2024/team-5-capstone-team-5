@@ -107,7 +107,7 @@ function AppRoutes() {
       {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
       <div className="flex-grow flex flex-col ml-64">
       <div className="flex justify-end text-white pr-8 pt-4">
-        <NotificationBell />
+        <NotificationBell userId = {userId} />
       </div>
         <div className="flex-grow p-8">
           <Routes>

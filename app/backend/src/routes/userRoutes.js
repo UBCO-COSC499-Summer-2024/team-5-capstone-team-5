@@ -22,6 +22,7 @@ const {
     getScan,
     getCourseInfo,
     setExamMarked,
+    getFlagged,
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
@@ -287,10 +288,11 @@ router.get('/courses/info/:id', async (req, res) => {
     }
 })
 
-router.get('/courses/flagged/:courseId/:userId', async (req, res) => {
+router.get('/courses/flagged/:userId', async (req, res) => {
     try {
-        const { courseId, userId } = req.params
-
+        const { userId } = req.params
+        const flags = await getFlagged(userId);
+        res.status(200).json(flags);
     } catch(error) {
         res.status(500).json({error: error.message})
     }

@@ -414,11 +414,21 @@ const setExamMarked = async (examId) => {
     }
 }
 
-const getFlagged = async (userId, courseId) => {
+const getFlagged = async (userId) => {
     try {
-
+        const response = await db.manyOrNone(
+            `SELECT flag, responses.question_num, response, courses.name AS course_name, exams.name AS exam_name
+            FROM responses
+            JOIN questions on questions.id = responses.question_id
+            JOIN exams on exams.id = questions.exam_id
+            JOIN courses on courses.id = exams.course_id
+            JOIN registration on registration.course_id = courses.id
+            JOIN users on users.id = registration.user_id
+            WHERE flag IS NOT NULL AND users.id = $1`, [userId]
+        );
+        return response;
     } catch(error) {
-        console.error('Error getting flagged responses for course', courseId);
+        console.error('Error getting flagged responses for instructor', userId);
     }
 }
 
@@ -447,5 +457,6 @@ module.exports = {
     getScan,
     getCourseInfo,
     setExamMarked,
-    flagResponse
+    flagResponse,
+    getFlagged,
 }
