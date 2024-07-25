@@ -19,8 +19,6 @@ import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminNavbar from './components/Admin/AdminNavbar';
 import UserList from './components/Admin/UserList';
 import RecentChanges from './components/Admin/RecentChanges';
-
-
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
 import InstNavbar from './components/Instructor/InstNavbar';
@@ -33,6 +31,7 @@ import GenerateSheetModal from './components/Instructor/GenerateSheetModal';
 import OMRSheetGenerator from './components/Instructor/OMRSheetGenerator';
 import './index.css';
 import ChangePass from './components/ChangePass';
+import Signup from './components/Signup';
 
 
 const ThemeContext = createContext();
@@ -95,6 +94,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     )
   }
@@ -112,6 +112,7 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             {role === 1 && <Route path="/student/course/:courseId" element={<CourseDetails />} />}
             {role === 1 && <Route path="/student/exam/:examId" element={<ExamDetails id={userId} />} />}
             {role === 1 && <Route path="/student/dashboard" element={<StudentDashboard />} />}

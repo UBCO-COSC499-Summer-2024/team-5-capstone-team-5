@@ -82,6 +82,7 @@ const Login = () => {
               <div className="flex flex-row justify-center">
                 <button type="submit" className="bg-[#293C4A] w-full h-10 mt-6 rounded-md mb-2 hover:bg-[#32556F] font-semibold">Login</button>
               </div>
+              <p>Don't have an account? <a href='/signup' className='underline'>Sign up</a></p>
             </div>
           </div>
         </form>
