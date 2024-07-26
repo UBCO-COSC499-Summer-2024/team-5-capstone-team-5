@@ -1,3 +1,55 @@
+# Weekly Log - [Week 10: July 24-26]
+
+### Date: July 24 8:15 am
+### Author: Jack Mathisen
+
+
+## Hour Breakdown
+
+**Approximate Hours: 7:45**
+
+*Pull request merging: 1hr*
+*Site Statistics: 4hrs*
+*Refactoring: 1hr*
+*Testing: 2 hrs*
+
+
+**Timesheet** 
+Clockify report alt text
+
+![July 24-26](<July 24 - 26.png>)
+
+
+
+**Current Tasks (Provide sufficient detail)**
+
+#1: Finish the all features regarding site view statistics
+#2: Work on cleaning up the kanban, doing minute tasks such as adding working search bar to other components
+#3: Finish pull requests for admin troubleshoot why that arent importing into development
+#4: Troubleshoot the admin tests
+#5: Help to refactor some of the code and make the project more organized and clean.  
+#6: Work on finishing tests and helping to refactor and rewrite the project so as to have tests finished
+#7: Have documentation for admin finished
+
+**Progress Update (since 10/5/2024)**
+TASK/ISSUE #STATUS
+Task A Finished
+Task B Finished
+Task C Finished
+Task D	in Progress
+Task E  in progress
+Task F  in progress
+Task G  in progress
+
+**Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)**
+I feel like this cycle went by quick was having some serious issues figuring out the PR and why the site statistics wasnt working Logged alot of hours on that. Now that its working however will be able to apply similar code to other User Roles. Finally testing was quite hard. Still trying to wrap my mind around jest. Also trying to figure out what to refactor and how it works/what to do. 
+
+**Next Cycle Goals (What are you going to accomplish during the next cycle)**
+Goal 1: Finish front end testing for admin
+Goal 2: Have most of the code base for front end refactored
+Goal 3: have most of the Testing for front end and backend finsished
+Goal 4: Have documentation finished for front end
+
 # Weekly Log - [Week 10: July 19-24]
 
 ### Date: July 24 8:15 am
