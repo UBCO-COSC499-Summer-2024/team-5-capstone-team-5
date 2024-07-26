@@ -1,3 +1,65 @@
+## Friday (7/24 - 7/26) Oakley Pankratz
+Total Hours: 11
+
+Update clockify log
+![alt text](ClockifyLogJuly26.png)
+
+## Current Tasks:
+* Adding the ability for instructors to register students should they have exams in a course for which they aren't registered. Instructors will also have the ability to delete these tests. (needs styling)
+* Displaying an individual students scan in the modal view returned from the spreadhseet (needs styling)
+* Fixing an issue with Docker where after merging, it was having issues with the "RUN NPM CI" line. 
+* Statistics functions to support the completion of (Issue #155)
+
+### Progress Update (since 7/26/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <td> Display grades as percents
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #145)
+        </td>
+    </tr>
+        <td> Calculate statstics for exams
+        </td>
+        <!-- Status -->
+        <td>In Progress, closer to completion than wednesday (Issue #155)
+        </td>
+    </tr>
+        <td> Create an add student button
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #97)
+        </td>
+    </tr>
+        <td> Add a way for instuctors to scan an exam for a single student. (Issue#148)
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    </tr>
+        <td> Handling students which are unregistered in a course, but have exams in it. (I will be creating an issue for this.)
+        </td>
+        <!-- Status -->
+        <td> Near complete, just needs some final touches. (Issue #97)
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+ * Issue #146 has finally been completed, which is very rewarding. I was able to make progress on some of the other issues to whcih I have been assigned quite quickly having 146 out of the way. I feel good about my progress this cycle. 
+ 
+### Next Cycle Goals:
+* Display grades in the spreadhseet as percents, I may possibly make this toggle-able for the instructor (Issue #145).
+* Adding a way for instructors to add a test for a single student (Issue #148) 
+* Create an "Add Student" button (Issue#97). This should be fairly quick and straightforward. I can re-use the code which I used to register students. I may need to move this code to a seperate file to be accessible. 
+* Cacluate statistics for exams. I have the stats functions written up, I just need to tie them into the front-end. (Issue#155)
+
 ## Wednesday (7/19 - 7/24) Oakley Pankratz
 Total Hours: 20.5
 
