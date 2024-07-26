@@ -21,7 +21,7 @@ const MenuBar = ({ selectedMenu, setSelectedMenu }) => {
           onClick={() => setSelectedMenu(item.key)}
           className={classNames(
             selectedMenu === item.key ? `${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-400 text-black'}` : `${theme === 'dark' ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-800 hover:bg-gray-500 hover:text-black'}`,
-            'flex-1 text-center px-3 py-2 text-sm font-medium',
+            'flex-1 text-center px-4 py-3 text-lg font-medium', // Increased padding and font size
           )}
           aria-current={selectedMenu === item.key ? 'page' : undefined}
         >
