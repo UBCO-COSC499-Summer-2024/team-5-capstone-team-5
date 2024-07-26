@@ -9,7 +9,7 @@ Clockify Report
 
   * #1: Familiarizing myself with the current state of the project
 
-    * #2: Picked up the exporting functionality
+* #2: Picked up the exporting functionality
 
 * #3: Conducting Unit Tests for each model
 
@@ -28,7 +28,7 @@ Clockify Report
         <td> Getting Familiarized with Current Progress
         </td>
         <!-- Status -->
-In progress
+        <td> In Progress
         </td>
     </tr>
     <tr>
@@ -41,7 +41,7 @@ In progress
     </tr>
     <tr>
         <!-- Task/Issue # -->
-        <td> Setting up tests
+        <td> Conducting Unit Tests
         </td>
         <!-- Status -->
         <td>In Progress
