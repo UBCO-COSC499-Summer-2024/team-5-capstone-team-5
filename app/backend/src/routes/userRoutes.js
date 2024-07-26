@@ -23,6 +23,7 @@ const {
     getCourseInfo,
     setExamMarked,
     getFlagged,
+    flagResponse,
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
@@ -286,7 +287,7 @@ router.get('/courses/info/:id', async (req, res) => {
     } catch(error) {
         res.status(500).json({error: error.message});
     }
-})
+});
 
 router.get('/courses/flagged/:userId', async (req, res) => {
     try {
@@ -296,6 +297,16 @@ router.get('/courses/flagged/:userId', async (req, res) => {
     } catch(error) {
         res.status(500).json({error: error.message})
     }
-})
+});
+
+router.post('/courses/flagged/set', async (req, res) => {
+    try {
+        const { examId, userId, questionNum, flagText } = req.body;
+        await flagResponse(examId, userId, questionNum, flagText);
+        res.status(200).json({message: `Flagged response for question ${questionNum}`});
+    } catch(error) {
+        res.status(500).json({error: error.message});
+    }
+});
 
 module.exports = router;

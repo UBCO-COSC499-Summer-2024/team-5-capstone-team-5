@@ -417,7 +417,7 @@ const setExamMarked = async (examId) => {
 const getFlagged = async (userId) => {
     try {
         const response = await db.manyOrNone(
-            `SELECT flag, responses.question_num, response, courses.name AS course_name, exams.name AS exam_name
+            `SELECT flag, responses.question_num, response, responses.user_id, courses.name AS course_name, exams.name AS exam_name
             FROM responses
             JOIN questions on questions.id = responses.question_id
             JOIN exams on exams.id = questions.exam_id
