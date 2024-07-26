@@ -13,6 +13,7 @@ const {
     deleteTest, 
     editTest, 
     register, 
+    getAllUsers,
     addResponse, 
     addAnswerKey, 
     addStudentAnswers, 
