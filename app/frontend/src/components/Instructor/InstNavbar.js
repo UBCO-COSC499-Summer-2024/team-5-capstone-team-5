@@ -8,12 +8,17 @@ import ProfileMenuModal from './ProfileMenuModal'; // Ensure the path is correct
 import { useTheme } from '../../App'; // Adjust the path as needed
 import getUserInfo from '../../hooks/getUserInfo';
 import Avatar from '../Avatar'; // Import Avatar component
+import ReactCardFlip from 'react-card-flip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 const InstNavbar = (props) => {
   const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [avatarOptions, setAvatarOptions] = useState({ seed: 'initial' }); // State to store selected avatar options
+  const [isFlipped, setIsFlipped] = useState({});
+  const [editedCourse, setEditedCourse] = useState({});
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [user, setUser] = useState({
@@ -86,6 +91,29 @@ const InstNavbar = (props) => {
     }
   };
 
+  const handleCardFlip = (course_id) => {
+    setIsFlipped(prevState => ({ ...prevState, [course_id]: !prevState[course_id] }));
+  };
+
+  const handleCourseEditChange = (course_id, field, value) => {
+    setEditedCourse(prevState => ({
+      ...prevState,
+      [course_id]: {
+        ...prevState[course_id],
+        [field]: value
+      }
+    }));
+  };
+
+  const handleSaveCourseDetails = (course_id) => {
+    // Update the course details in the state or send to the server
+    const updatedCourses = courses.map(course => 
+      course.course_id === course_id ? { ...course, ...editedCourse[course_id] } : course
+    );
+    setCourses(updatedCourses);
+    handleCardFlip(course_id);
+  };
+
   return (
     <div className={`h-full w-64 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} flex flex-col justify-between fixed overflow-scroll`}>
       <div>
@@ -97,20 +125,52 @@ const InstNavbar = (props) => {
             <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
             <ul className="mt-4 space-y-4">
               {courses.length > 0 ? courses.map((course) => (
-                <li key={course.course_id}>
-                  <NavLink
-                    to={`/instructor/course/${course.course_id}`}
-                    className={({ isActive }) =>
-                      isActive
-                        ? `block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-400 text-black hover:bg-gray-500'}`
-                        : `block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-200 text-black hover:bg-gray-300'}`
-                    }
-                  >
-                    <h3 className="font-bold">{course.name}</h3>
-                    <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>{course.description}</p>
-                    <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Ends: {course.end_date.slice(0, 10)}</p>
-                  </NavLink>
-                </li>
+                <ReactCardFlip key={course.course_id} isFlipped={isFlipped[course.course_id]} flipDirection="vertical">
+                  <li key={course.course_id}>
+                    <div
+                      className={`block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
+                      onClick={() => navigate(`/instructor/course/${course.course_id}`)}
+                    >
+                      <h3 className="font-bold">{course.name}</h3>
+                      <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>{course.description}</p>
+                      <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Ends: {course.end_date.slice(0, 10)}</p>
+                      <FontAwesomeIcon 
+                        icon={faEllipsis} 
+                        className="absolute top-2 right-2 cursor-pointer"
+                        onClick={(e) => { e.stopPropagation(); handleCardFlip(course.course_id); }}
+                      />
+                    </div>
+                  </li>
+
+                  <li key={course.course_id}>
+                    <div className={`block p-4 mx-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>
+                      <h3 className="font-bold">Edit Course Details</h3>
+                      <input
+                        type="text"
+                        value={editedCourse[course.course_id]?.name || course.name}
+                        onChange={(e) => handleCourseEditChange(course.course_id, 'name', e.target.value)}
+                        className="block w-full p-2 mt-2 rounded"
+                      />
+                      <textarea
+                        value={editedCourse[course.course_id]?.description || course.description}
+                        onChange={(e) => handleCourseEditChange(course.course_id, 'description', e.target.value)}
+                        className="block w-full p-2 mt-2 rounded"
+                      />
+                      <input
+                        type="date"
+                        value={editedCourse[course.course_id]?.end_date || course.end_date.slice(0, 10)}
+                        onChange={(e) => handleCourseEditChange(course.course_id, 'end_date', e.target.value)}
+                        className="block w-full p-2 mt-2 rounded"
+                      />
+                      <button
+                        onClick={() => handleSaveCourseDetails(course.course_id)}
+                        className={`block w-full py-2 px-4 mt-4 rounded-lg ${theme === 'dark' ? 'bg-blue-500 text-white hover:bg-blue-400' : 'bg-blue-300 text-black hover:bg-blue-400'}`}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </li>
+                </ReactCardFlip>
               )) : (
                 <li className="text-center text-gray-400">No courses available</li>
               )}
