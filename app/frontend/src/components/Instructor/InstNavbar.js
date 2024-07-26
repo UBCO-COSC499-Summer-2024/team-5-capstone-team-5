@@ -89,7 +89,7 @@ const InstNavbar = (props) => {
 
   const handleCardClick = (courseId) => {
     if (!flippedCourses[courseId]) {
-      navigate(`/course/${courseId}`);
+      navigate(`/instructor/course/${courseId}`);
     }
   };
 
@@ -140,7 +140,7 @@ const InstNavbar = (props) => {
           Recent Courses
         </NavLink>
       </div>
-      <div className="flex-grow overflow-y-auto mt-4">
+      <div className={`mt-4 ${headerStyle} sticky top-0 z-10`}>
         <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
         <li
           className={`block p-4 mx-4 mt-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
@@ -148,6 +148,8 @@ const InstNavbar = (props) => {
         >
           <div className="text-xl">+</div>
         </li>
+      </div>
+      <div className="flex-grow overflow-y-auto">
         <ul className="mt-4 space-y-4">
           {courses.map((course) => (
             <li key={course.course_id} className="relative">

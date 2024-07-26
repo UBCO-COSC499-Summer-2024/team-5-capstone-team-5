@@ -5,11 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../App';
 import Avatar from './Avatar';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileMenuModal = ({ isOpen, onClose, user, onLogout, onAvatarSelect }) => {
   const { theme, toggleTheme } = useTheme();
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [selectedAvatarOptions, setSelectedAvatarOptions] = useState({ seed: 'initial' });
+  const navigate = useNavigate();
 
   const handleAvatarClick = () => {
     setIsAvatarModalOpen(true);
@@ -19,6 +21,11 @@ const ProfileMenuModal = ({ isOpen, onClose, user, onLogout, onAvatarSelect }) =
     setSelectedAvatarOptions(options);
     onAvatarSelect(options);
     setIsAvatarModalOpen(false);
+  };
+
+  const handleChangePassword = () => {
+    onClose();
+    navigate('/change-password');
   };
 
   // Generate a large number of avatar options dynamically
@@ -48,7 +55,7 @@ const ProfileMenuModal = ({ isOpen, onClose, user, onLogout, onAvatarSelect }) =
             </div>
             <button
               className={`block w-full py-2 px-4 mb-2 rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'} text-left`}
-              onClick={() => console.log('Change Password')}
+              onClick={handleChangePassword}
             >
               Change Password
             </button>
