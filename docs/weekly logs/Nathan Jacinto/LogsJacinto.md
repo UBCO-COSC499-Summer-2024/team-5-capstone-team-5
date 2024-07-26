@@ -8,8 +8,8 @@ Clockify Report
 ### Current Tasks (Provide sufficient detail)
 
   * #1: Familiarizing myself with the current state of the project
-    *
-#2: Picked up the exporting functionality
+
+    * #2: Picked up the exporting functionality
 
 * #3: Conducting Unit Tests for each model
 
@@ -54,8 +54,6 @@ In progress
 ### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
 1) Going to familiarize myself with the current state of the project and get the things that need to be done
 2) I encountered a bug while conducting a PR pull request which halted my current progress (faulty packages) which was frustrating to fix
-
-
 
 
 ### Next Cycle Goals (What are you going to accomplish during the next cycle)
