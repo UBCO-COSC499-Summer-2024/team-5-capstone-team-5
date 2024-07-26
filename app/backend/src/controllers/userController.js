@@ -282,6 +282,15 @@ const changeUserRole = async(userId, role) => {
         throw error;
     }
 }
+const getUserStatistics = async () => {
+    try {
+      const statistics = await db.any('SELECT role, COUNT(*) as count FROM users GROUP BY role');
+      return statistics;
+    } catch (error) {
+      console.error('Error fetching user statistics:', error);
+      throw error;
+    }
+  };
 
 module.exports = {
     getCoursesByUserId,
@@ -303,4 +312,5 @@ module.exports = {
     changeUserRole,
     calculateGrades,
     addResponse,
+    getUserStatistics
 }

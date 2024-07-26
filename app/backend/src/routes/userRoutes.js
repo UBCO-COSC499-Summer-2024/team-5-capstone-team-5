@@ -223,4 +223,17 @@ router.get('/courses/grades/:id', async (req, res) => {
     }
 });
 
+router.get('/sitestatistics', async (req, res) => {
+    try {
+      const users = await getAllUsers(); 
+      const statistics = users.reduce((acc, user) => {
+        acc[user.role] = (acc[user.role] || 0) + 1;
+        return acc;
+      }, {});
+      res.status(200).json(statistics);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching user statistics' });
+    }
+  });
+
 module.exports = router;
