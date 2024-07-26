@@ -8,6 +8,7 @@ import TestDescription from './TestDescription';
 import { useTheme } from '../../App';
 import InstructorTest from '../Modules/InstructorTestModule';
 import AddTestModal from './AddTestModal';
+import getCourseInfo from '../../hooks/getCourseInfo';
 import StudentSpreadsheet from './StudentSpreadsheet';
 
 const InstructorCourseDetails = () => {
@@ -22,8 +23,10 @@ const InstructorCourseDetails = () => {
 
   const fetchData = useCallback(async () => {
     const testData = await getTestData(courseId);
+    const courseData = await getCourseInfo(courseId);
+    console.log("Course Data:",courseData)
     setTests(testData);
-    setCourseName(testData[0].course_name);
+    setCourseName(courseData.name);
   }, [courseId, isAddTestModalOpen]);
 
   useEffect(() => {
@@ -89,7 +92,7 @@ const InstructorCourseDetails = () => {
       <div className={`mb-4 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'}`}>
         <MenuBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       </div>
-      <SearchBar />
+      {/* <SearchBar /> */}
       {selectedMenu === 'tests' && (
         <div className="p-4 flex flex-col min-h-screen">
           <div className="flex-grow">
@@ -138,7 +141,7 @@ const InstructorCourseDetails = () => {
         </div>
       )}
       {selectedMenu === 'students' && (<>
-        <StudentList courseId={courseId} />
+        <StudentList courseId={courseId} courseName = {courseName}/>
         </>
       )}
       <AddTestModal

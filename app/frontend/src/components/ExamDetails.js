@@ -24,7 +24,7 @@ const ExamDetails = (props) => {
     } else {
         return (
             <div>
-                <h1 className="mx-4">{questions[0].course_name + " " + questions[0].exam_name}</h1>
+                <h1 className="mx-4">{questions.length > 0 && (questions[0].course_name + " " + questions[0].exam_name)}</h1>
                 <ul>
                 {questions.map((question, index) => (
                     <Exam question={question} key={index} />

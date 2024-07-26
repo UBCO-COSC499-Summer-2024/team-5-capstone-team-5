@@ -1,4 +1,6 @@
 const { db } = require('../database');
+const fs = require('fs');
+const path = require('path');
 
 const getCoursesByUserId = async (id) => {
     try {
@@ -10,6 +12,17 @@ const getCoursesByUserId = async (id) => {
         console.log(`Error getting course data for id ${id}`,error);
     };
 };
+
+const getCourseInfo = async (id) => {
+    try {
+        const response = await db.oneOrNone(
+            'SELECT * FROM courses WHERE id = $1', [id]
+        );
+        return response;
+    } catch(error) {
+        console.error(`Error getting course data for course id ${id}`, error);
+    }
+}
 
 const getTestsByCourseId = async (id) => {
     try {
@@ -36,7 +49,7 @@ const getRecentExamsByUserId = async (id) => {
 const getQuestionData = async (userId, examId) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
+            'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name, was_modified FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
         );
         return response;
     } catch(error) {
@@ -125,11 +138,40 @@ const addExam = async (course_id, name) => {
 const addQuestion = async (exam_id, num_options, correct_answer, weight, question_num) => {
     try {
         await db.none(
-            'INSERT INTO questions (exam_id, num_options, correct_answer, weight, question_num) VALUES ($1, $2, $3, $4, $5)', [exam_id, num_options, correct_answer, weight, question_num]
+            `INSERT INTO questions (exam_id, num_options, correct_answer, weight, question_num)
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (exam_id, question_num)
+             DO UPDATE SET
+                num_options = EXCLUDED.num_options,
+                correct_answer = EXCLUDED.correct_answer,
+                weight = EXCLUDED.weight`, 
+            [exam_id, num_options, correct_answer, weight, question_num]
+        );
+    } catch (error) {
+        console.error(`Error adding or updating question: ${error.message}`);
+    }
+};
+
+const addScan = async (exam_id, user_id, path) => {
+    try {
+        await db.none(
+            'INSERT INTO scans (exam_id, user_id, scan) VALUES ($1, $2, $3)', [exam_id, user_id, path]
         );
     } catch(error) {
-        console.error(`Error adding question`);
-    };
+        console.error('Error adding scan for user',user_id);
+    }
+};
+
+const getScan = async (exam_id, user_id) => {
+    try {
+        response = await db.oneOrNone(
+            'SELECT scan FROM scans WHERE exam_id = $1 AND user_id = $2', [exam_id, user_id]
+        );
+        return response;
+    } catch(error) {
+        console.error('Error getting scan for user',user_id,'and exam',exam_id);
+        throw error;
+    }
 };
 
 const calculateGrades = async (courseId) => {
@@ -189,14 +231,14 @@ const calculateGrades = async (courseId) => {
     };
 };
 
-const addResponse = async (exam_id, question_num, user_id, response) => {
+const addResponse = async (exam_id, question_num, user_id, response, modifying = false) => {
     try {
         questionId = await db.oneOrNone(
             'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [exam_id, question_num]
         );
         if(questionId.id) {
             await db.none(
-                'INSERT INTO responses (question_id, user_id, response, question_num) VALUES ($1, $2, $3, $4) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response', [questionId.id, user_id, response, question_num] 
+                'INSERT INTO responses (question_id, user_id, response, question_num, was_modified) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response, was_modified = excluded.was_modified', [questionId.id, user_id, response, question_num, modifying] 
             )
         } else {
 
@@ -212,34 +254,58 @@ const addStudentAnswers = async (jsonData, examId) => {
             const answerKey = jsonData[key];
             const studentId = answerKey.stnum
             const responses = answerKey.answers[0]
-            const noResponse = answerKey.answers[1];
+            const questionsWithNoResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
+            const image = answerKey.combined_page;
+            const imageBuffer = Buffer.from(image, 'base64');
+            const imagesDir = '/code/images';
+            const imagePath = `/code/images/${examId}_${studentId}.png`;
+            const databasePath = `/images/${examId}_${studentId}.png`;
+
+            if (!fs.existsSync(imagesDir)) {
+                fs.mkdirSync(imagesDir, { recursive: true });
+            }
+            fs.writeFileSync(imagePath, imageBuffer);
+
             responses.forEach((response) => {
-                console.log(response.LetterPos);
-                const recordedAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
-                console.log(response);
-                addResponse(examId, questionNum, studentId, [recordedAnswer])
+                const recordedAnswer = response.LetterPos;
+                const questionNum = response.Question;
+                addResponse(examId, questionNum, studentId, recordedAnswer)
+            });
+            questionsWithNoResponse.forEach((question) => {
+                const recordedAnswer = Number(question.LetterPos);
+                const questionNum = Number(question.Question)
+                addResponse(examId, question, studentId, `{}`)
             });
         };
     }
 }
 
 
-const addAnswerKey = async (jsonData, examId) => {
+const addAnswerKey = async (jsonData, examId, userId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
-            const responses = answerKey.answers[0]
+            const responses = answerKey.answers[0];
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
+            const image = answerKey.combined_page;
+            const imageBuffer = Buffer.from(image, 'base64');
+            const imagesDir = ('/code/images');
+            const imagePath = `/code/images/${examId}_${userId}.png`;
+            const databasePath = `/images/${examId}_${userId}.png`;
+            if (!fs.existsSync(imagesDir)) {
+                fs.mkdirSync(imagesDir, { recursive: true });
+            }
+            fs.writeFileSync(imagePath, imageBuffer);
+
             responses.forEach((response) => {
-                console.log(response.LetterPos);
-                const correctAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
-                console.log(response);
-                addQuestion(examId, 5, [correctAnswer], 1, questionNum);
+                const correctAnswer = response.LetterPos;
+                const questionNum = response.Question;
+                console.log("Correct Answer:",correctAnswer)
+                addQuestion(examId, 5, correctAnswer, 1, questionNum);
             })
+            addScan(examId, userId, databasePath);
         };
     }
 }
@@ -292,6 +358,24 @@ const getUserStatistics = async () => {
     }
   };
 
+const editAnswer = async (questionId, correctAnswer) => {
+    try {
+        await db.none('UPDATE questions SET correct_answer = $1 WHERE id = $2', [correctAnswer, questionId]);
+    } catch(error) {
+        console.error('Error updating answer for quesiton',questionId);
+        throw error;
+    }
+};
+
+const setExamMarked = async (examId) => {
+    try {
+
+    } catch(error) {
+        console.error('Error updating exam marked date for exam:',examId);
+        throw error;
+    }
+}
+
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
@@ -308,9 +392,14 @@ module.exports = {
     deleteTest,
     editTest,
     getExamAnswers,
+    addScan,
     getAllUsers,
     changeUserRole,
     calculateGrades,
     addResponse,
-    getUserStatistics
+    getUserStatistics,
+    editAnswer,
+    getScan,
+    getCourseInfo,
+    setExamMarked
 }
