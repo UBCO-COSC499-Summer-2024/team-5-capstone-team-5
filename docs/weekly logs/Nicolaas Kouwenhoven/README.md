@@ -1,3 +1,63 @@
+# Friday (7/24 - 7/26)
+## Date: July 26, 8:10AM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJuly26.png)
+
+### Task tldr:
+I added a flags section to responses as text that will store a string describing an issue. I then made the OMR results automatically flag in the database for the instructor to see.
+
+### Current Tasks:
+  * #1: Adding notification section with a bell icon to display notifications to the user
+  * #2: Add ability to edit exams and questions
+  * #3: Adding flagging handling in the backend to allow for implementation of student flagging
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #1: Notification Section & Bell
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #2: Add ability to edit exams and questions
+        </td>
+        <!-- Status -->
+        <td>In Progress (completed question editing)
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #3: Flagging handling in backend
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+- After working the OMR for a bit, I added flagging to our backend. Now, each response has a column for flagging, and when the OMR scans questions with no or multiple answers, it will flag it for the instructor to review.
+- I also met with Oakley and Nathan for a long time trying to get their Docker to work on a branch, but I was unable to help them fix it.
+
+Overall, I am happy with the progress I managed to make with the backend.
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Add ability to edit weights of questions
+  * Make exam information editable
+  * Complete notification bell
+
 # Wednesday (7/19 - 7/24)
 ## Date: July 24, 8:04AM
 
