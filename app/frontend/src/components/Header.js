@@ -13,8 +13,8 @@ const Header = (props) => {
   };
 
   return (
-    <div className="border-b border-white text-white justify-end flex my-8 mx-12">
-      {props.role === 2 && <NotificationBell userId={props.userId}/>}
+    <div className="border-b border-white text-white justify-end flex my-8 mt-8">
+      {props.role === 2 && <NotificationBell userId={props.userId} notifications={props.notifications} fetchNotifications={props.fetchNotifications}/>}
         <div className="flex items-center">
           <button onClick={handleLogout} className="text-red-500 hover:text-red-700 mr-4">
             Logout

@@ -72,6 +72,7 @@ function AppRoutes() {
   const location = useLocation();
   const hideNavbarPaths = ['/login'];
   const { theme } = useTheme();
+  const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,6 +87,18 @@ function AppRoutes() {
     };
     fetchData();
   }, [location]);
+
+  useEffect(() => {
+    if(userId && role === 2) {
+      fetchNotifications();
+    }
+  }, [userId])
+
+  const fetchNotifications = async () => {
+    const response = await fetch(`http://localhost/api/users/courses/flagged/${userId}`);
+    const notifications = await response.json();
+    setNotifications(notifications);
+}
 
   if (loading) {
     return <div>Loading...</div>;
@@ -106,7 +119,7 @@ function AppRoutes() {
       {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
       {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
       <div className="flex-grow flex flex-col ml-64">
-        <Header userId={userId} role={role} />
+        {!hideNavbarPaths.includes(location.pathname) && <Header userId={userId} role={role} notifications={notifications} fetchNotifications={fetchNotifications} />}
         <div className="flex-grow p-8">
           <Routes>
           
