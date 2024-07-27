@@ -216,4 +216,4 @@ def process_bubbles(file_path):
 
     return bubble_coords, no_answer_questions, multiple_answer_questions
 
-#process_bubbles('data_images/test_3_page_34.png')
+#process_bubbles('data_images/test_4_page_8.png')

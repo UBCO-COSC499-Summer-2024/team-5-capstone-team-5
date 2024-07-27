@@ -249,21 +249,48 @@ const addResponse = async (exam_id, question_num, user_id, response, modifying =
 }
 
 const flagResponse = async (examId, userId, questionNum, flagText) => {
+    console.log(examId, userId, questionNum, flagText)
     try {
         questionId = await db.oneOrNone(
             'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [examId, questionNum]
         );
         if(questionId.id) {
             await db.none(
-                'UPDATE responses SET flag = $1 WHERE question_id = $2 AND user_id = $3', [flagText, questionId.id, userId]
-            )
-        } else {
-
+                'INSERT INTO flags (exam_id, question_id, user_id, issue) VALUES ($1, $2, $3, $4)', [examId, questionId.id, userId, flagText]
+            );
         }
     } catch(error) {
-        console.error('Error adding response')
+        console.error('Error adding response');
     }
 }
+
+const flagExam = async (examId, flagText) => {
+    try {
+        await db.none(
+            'INSERT INTO flags (exam_id, issue) VALUES ($1, $2)', [examId, flagText]
+        );
+    } catch(error) {
+        console.error('Error flagging exam',examId)
+    }
+}
+
+const resolveFlag = async (flagId) => {
+    try {
+        const response = await db.oneOrNone(
+            'DELETE FROM flags WHERE id = $1 RETURNING id', [flagId]
+        );
+
+        if (!response) {
+            throw new Error('No flag found with the provided ID');
+        }
+
+        return response;
+    } catch (error) {
+        console.error('Error resolving flag:', error.message);
+        throw new Error('Failed to resolve flag: ' + error.message);
+    }
+}
+
 
 const addStudentAnswers = async (jsonData, examId) => {
     const flaggedQuestions = {
@@ -295,6 +322,7 @@ const addStudentAnswers = async (jsonData, examId) => {
             if(studentId) {
                 if(studentId in studentIds) {
                     flaggedQuestions["DuplicateStudentId"].push(studentId);
+                    flagExam(examId, `Duplicate student ID for scan on page ${page} / ${page+1}`)
                 } else {
                     studentIds.push(studentId);
                 }
@@ -320,6 +348,7 @@ const addStudentAnswers = async (jsonData, examId) => {
                 }
             } else {
                 flaggedQuestions["NoStudentId"].push(`Page ${page} / ${page+1}`);
+                flagExam(examId, `No student ID for scan on page ${page} / ${page+1}`);
             }
         };
     }
@@ -417,14 +446,30 @@ const setExamMarked = async (examId) => {
 const getFlagged = async (userId) => {
     try {
         const response = await db.manyOrNone(
-            `SELECT flag, responses.question_num, response, responses.user_id, courses.name AS course_name, exams.name AS exam_name
-            FROM responses
-            JOIN questions on questions.id = responses.question_id
-            JOIN exams on exams.id = questions.exam_id
-            JOIN courses on courses.id = exams.course_id
-            JOIN registration on registration.course_id = courses.id
-            JOIN users on users.id = registration.user_id
-            WHERE flag IS NOT NULL AND users.id = $1`, [userId]
+            `SELECT 
+                flags.id, 
+                flags.exam_id, 
+                flags.user_id, 
+                flags.issue, 
+                exams.name AS exam_name, 
+                courses.name AS course_name, 
+                questions.question_num 
+            FROM 
+                flags
+            LEFT JOIN 
+                questions ON flags.question_id = questions.id
+            LEFT JOIN 
+                exams ON flags.exam_id = exams.id
+            LEFT JOIN 
+                courses ON exams.course_id = courses.id
+            LEFT JOIN 
+                registration ON courses.id = registration.course_id
+            LEFT JOIN 
+                users ON registration.user_id = users.id
+            WHERE 
+                flags.issue IS NOT NULL AND 
+                (users.id = $1 OR users.id IS NULL) AND 
+                users.role = 2`, [userId]
         );
         return response;
     } catch(error) {
@@ -459,4 +504,5 @@ module.exports = {
     setExamMarked,
     flagResponse,
     getFlagged,
+    resolveFlag
 }

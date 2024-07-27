@@ -24,6 +24,7 @@ const {
     setExamMarked,
     getFlagged,
     flagResponse,
+    resolveFlag,
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
@@ -299,14 +300,22 @@ router.get('/courses/flagged/:userId', async (req, res) => {
     }
 });
 
-router.post('/courses/flagged/set', async (req, res) => {
+router.post('/courses/flagged/resolve', async (req, res) => {
     try {
-        const { examId, userId, questionNum, flagText } = req.body;
-        await flagResponse(examId, userId, questionNum, flagText);
-        res.status(200).json({message: `Flagged response for question ${questionNum}`});
-    } catch(error) {
-        res.status(500).json({error: error.message});
+        const { id } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ error: 'Flag ID is required' });
+        }
+
+        await resolveFlag(id);
+
+        res.status(200).json({ message: `Flagged response with ID ${id} has been resolved` });
+    } catch (error) {
+        console.error('Error resolving flag:', error.message);
+        res.status(500).json({ error: error.message });
     }
 });
+
 
 module.exports = router;

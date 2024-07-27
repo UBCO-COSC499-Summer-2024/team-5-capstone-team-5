@@ -2,20 +2,19 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import NotificationBell from './Instructor/NotificationBell';
 
-const Header = () => {
+const Header = (props) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Implement your logout logic here
+    localStorage.removeItem("token");
     navigate('/login'); // Redirect to login page after logout
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full bg-gray-900 text-white flex justify-between items-center p-4 z-50">
-      <div className="flex items-center">
-        <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-32" />
-      </div>
+    <div className="border-b border-white text-white justify-end flex my-8 mt-8">
+      {props.role === 2 && <NotificationBell userId={props.userId} notifications={props.notifications} fetchNotifications={props.fetchNotifications}/>}
         <div className="flex items-center">
           <button onClick={handleLogout} className="text-red-500 hover:text-red-700 mr-4">
             Logout
@@ -23,6 +22,6 @@ const Header = () => {
         </div>
     </div>
   );
-};
+}
 
 export default Header;
