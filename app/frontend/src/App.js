@@ -53,6 +53,10 @@ function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    document.title = 'GradeIT OMR';
+  }, [])
+
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <ConfigProvider
