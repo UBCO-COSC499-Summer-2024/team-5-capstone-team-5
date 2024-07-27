@@ -19,7 +19,7 @@ import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminNavbar from './components/Admin/AdminNavbar';
 import UserList from './components/Admin/UserList';
 import RecentChanges from './components/Admin/RecentChanges';
-
+import SiteStatistics from './components/Admin/SiteStatistics';
 
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
@@ -131,6 +131,7 @@ function AppRoutes() {
             {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
             {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
             {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges/>} />}
+            {role === 3 && <Route path="/admin/sitestatistics" element={<SiteStatistics/>}/>} 
           
           
           </Routes>
