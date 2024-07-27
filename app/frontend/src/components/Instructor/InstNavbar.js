@@ -18,6 +18,7 @@ const InstNavbar = (props) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [avatarOptions, setAvatarOptions] = useState({ seed: 'initial' });
   const [flippedCourses, setFlippedCourses] = useState({});
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [user, setUser] = useState({
@@ -89,6 +90,7 @@ const InstNavbar = (props) => {
 
   const handleCardClick = (courseId) => {
     if (!flippedCourses[courseId]) {
+      setSelectedCourseId(courseId); // Set selected course ID
       navigate(`/instructor/course/${courseId}`);
     }
   };
@@ -124,6 +126,7 @@ const InstNavbar = (props) => {
   const linkInactiveStyle = theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black';
   const cardStyle = theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black';
   const iconStyle = theme === 'dark' ? 'text-gray-400' : 'text-gray-600';
+  const borderStyle = theme === 'dark' ? 'border-white' : 'border-black';
 
   return (
     <div className={`h-full w-64 ${containerStyle} flex flex-col fixed overflow-hidden`}>
@@ -153,7 +156,11 @@ const InstNavbar = (props) => {
         <ul className="mt-4 space-y-4">
           {courses.map((course) => (
             <li key={course.course_id} className="relative">
-              <div className={`relative p-4 rounded-lg ${cardStyle} shadow-md cursor-pointer`} onClick={() => handleCardClick(course.course_id)} style={{ minHeight: '150px' }}>
+              <div
+                className={`relative p-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${selectedCourseId === course.course_id ? `border-l-4 ${borderStyle}` : ''}`}
+                onClick={() => handleCardClick(course.course_id)}
+                style={{ minHeight: '150px' }}
+              >
                 <Flip
                   course={course}
                   flipped={flippedCourses[course.course_id] || false}
