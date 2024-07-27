@@ -1,3 +1,132 @@
+
+
+## July (24-26)
+Clockify Report 
+![alt text](https://app.clockify.me/shared/66a3d53519d40c7af9a3c8bd)
+
+
+### Current Tasks (Provide sufficient detail)
+
+  * #1: Familiarizing myself with the current state of the project
+
+* #2: Picked up the exporting functionality
+
+* #3: Conducting Unit Tests for each model
+
+
+
+### Progress Update 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Getting Familiarized with Current Progress
+        </td>
+        <!-- Status -->
+        <td> In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Working on the export functionality
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Conducting Unit Tests
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+    
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+1) Going to familiarize myself with the current state of the project and get the things that need to be done
+2) I encountered a bug while conducting a PR pull request which halted my current progress (faulty packages) which was frustrating to fix
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Export and trying to get another Key Use Case functionality finished
+  * Conducting Unit Tests
+
+
+
+
+
+
+
+## July (19-24)
+Clockify Report 
+![alt text](https://app.clockify.me/reports/summary?start=2024-07-21T00:00:00.000Z&end=2024-07-27T23:59:59.999Z)
+
+
+### Current Tasks (Provide sufficient detail)
+
+  * #1: Familiarizing myself with the current state of the project
+    #2: Picked up the exporting functionality
+
+### Progress Update 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Getting Familiarized with Current Progress
+        </td>
+        <!-- Status -->
+        <td>Complete
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Working on the export functionality
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Train the dataset
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+    
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+OMR taking longer than expected due to complexity: 
+1) Going to familiarize myself with the current state of the project and get the things that need to be done
+2) 
+
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Export and trying to get another Key Use Case functionality finished
+
+
+
+
+
+
+
+
 ## June (19-21)
 
 ### Timesheet
@@ -60,12 +189,6 @@ OMR taking longer than expected due to complexity:
 
 ### Next Cycle Goals (What are you going to accomplish during the next cycle)
   * OMR
-
-
-
-
-
-
 
 
 ## June (11- 19)
