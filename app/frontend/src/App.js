@@ -20,7 +20,7 @@ import AdminNavbar from './components/Admin/AdminNavbar';
 import UserList from './components/Admin/UserList';
 import RecentChanges from './components/Admin/RecentChanges';
 
-
+import Header from './components/Header';
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
 import InstNavbar from './components/Instructor/InstNavbar';
@@ -106,9 +106,7 @@ function AppRoutes() {
       {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
       {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
       <div className="flex-grow flex flex-col ml-64">
-      <div className="flex justify-end text-white pr-8 pt-4">
-        <NotificationBell userId = {userId} />
-      </div>
+        <Header userId={userId} role={role} />
         <div className="flex-grow p-8">
           <Routes>
           

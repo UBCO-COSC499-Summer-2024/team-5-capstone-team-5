@@ -5,12 +5,9 @@ const Exam = (props) => {
     const question = props.question;
 
     const compareAnswers = (correct_answer, responses, weight) => {
-        if(correct_answer.length !== responses.length) {
-            throw new Error("Arrays must be the same length (answers and responses)");
-        }
         let count = 0;
         for(let i = 0; i < correct_answer.length; i++) {
-            if(correct_answer[i] === responses[i]) {
+            if(responses[i] in correct_answer) {
                 count+= 1/weight;
             }
         }
