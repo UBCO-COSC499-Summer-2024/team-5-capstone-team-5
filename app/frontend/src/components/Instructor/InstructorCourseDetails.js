@@ -9,7 +9,8 @@ import { useTheme } from '../../App';
 import InstructorTest from '../Modules/InstructorTestModule';
 import AddTestModal from './AddTestModal';
 import getCourseInfo from '../../hooks/getCourseInfo';
-import StudentSpreadsheet from './StudentSpreadsheet';
+import getGrades from '../../hooks/getGrades';
+import ParseStudentGrades from './ParseStudentGrades';
 
 const InstructorCourseDetails = () => {
   const { courseId } = useParams();
@@ -17,6 +18,7 @@ const InstructorCourseDetails = () => {
   const [courseName, setCourseName] = useState('Loading');
   const [selectedMenu, setSelectedMenu] = useState('tests');
   const [selectedTest, setSelectedTest] = useState(null);
+  const [gradeList, setGradeList] = useState(null);
   const [isAddTestModalOpen, setIsAddTestModalOpen] = useState(false); 
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -24,14 +26,16 @@ const InstructorCourseDetails = () => {
   const fetchData = useCallback(async () => {
     const testData = await getTestData(courseId);
     const courseData = await getCourseInfo(courseId);
-    console.log("Course Data:",courseData)
+    setGradeList(await getGrades(courseId));
     setTests(testData);
     setCourseName(courseData.name);
   }, [courseId, isAddTestModalOpen]);
 
+  const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
+
   useEffect(() => {
     fetchData();
-  }, [courseId, fetchData]);
+  }, [courseId, fetchData, gradeList]);
 
   const handleAddClick = () => {
     setIsAddTestModalOpen(true);
@@ -108,12 +112,18 @@ const InstructorCourseDetails = () => {
                 <thead>
                   <tr>
                     <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Test</th>
-                    <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Mean</th>
+                    <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Mean</th>
+                    <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Stdev</th>
+                    <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Min</th>
+                    <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Q1</th>
+                    <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Median</th>
+                    <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Q3</th>
+                    <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Max</th>
                   </tr>
                 </thead>
                 <tbody>
                   {tests.map((test, index) => (
-                    <InstructorTest test={test} key={index} state={selectedTest} setState={setSelectedTest} />
+                    <InstructorTest test={test} key={index} state={selectedTest} setState={setSelectedTest} parsedGrades = {parsedGrades} />
                   ))}
                   <tr
                     className="cursor-pointer items-center justify-center"
@@ -127,7 +137,7 @@ const InstructorCourseDetails = () => {
                       textAlign: 'center',
                     }}
                   >
-                    <td colSpan="2" className="p-4">
+                    <td colSpan="8" className="p-4">
                       <div className="text-2xl">+</div>
                       <div className="absolute bottom-full mb-2 w-max bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 tooltip">
                         Add Test

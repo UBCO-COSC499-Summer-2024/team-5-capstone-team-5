@@ -120,7 +120,7 @@ const register = async (userId, courseId) => {
             'INSERT INTO registration (user_id, course_id) VALUES ($1, $2) ON CONFLICT (user_id, course_id) DO NOTHING', [userId, courseId]
         )
     } catch(error) {
-        console.error('Error registering user with ID ',userId,"into course with ID",courseId)
+        console.error('Error registering user with ID ', userId, "into course with ID", courseId)
     }
 }
 
@@ -268,20 +268,18 @@ const addStudentAnswers = async (jsonData, examId) => {
             fs.writeFileSync(imagePath, imageBuffer);
 
             responses.forEach((response) => {
-                const recordedAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
+                const recordedAnswer = response.LetterPos;
+                const questionNum = response.Question;
                 addResponse(examId, questionNum, studentId, recordedAnswer)
             });
             questionsWithNoResponse.forEach((question) => {
-                const recordedAnswer = Number(question.LetterPos);
-                const questionNum = Number(question.Question)
                 addResponse(examId, question, studentId, `{}`)
             });
         };
     }
 }
 
-const addAnswerKey = async (jsonData, examId) => {
+const addAnswerKey = async (jsonData, examId, userId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
@@ -317,6 +315,26 @@ const deleteTest = async (testId) => {
         throw error;
     }
 };
+
+const deleteResponses = async (userId, examId) => {
+    try {
+        await db.none(`DELETE 
+        FROM responses 
+        WHERE 
+            question_id IN (
+                SELECT
+                    questions.id 
+                FROM 
+                    questions 
+                WHERE
+                    exam_id = ${examId}
+            )
+            AND user_id = ${userId};`);
+    } catch(error) {
+        console.error(`Error deleting responses for user: ${userId} on exam ${examId}`);
+        throw error;
+    }
+}
 
 const editTest = async (testId, newName) => {
     try {
@@ -390,5 +408,6 @@ module.exports = {
     editAnswer,
     getScan,
     getCourseInfo,
-    setExamMarked
+    setExamMarked,
+    deleteResponses
 }

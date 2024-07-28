@@ -7,6 +7,8 @@ import ScanView from "./ScanView";
 import ParseStudentGrades from "./ParseStudentGrades.jsx";
 import getGrades from '../../hooks/getGrades';
 
+let courseName = "";
+
 function StudentSpreadsheet(props) {
   const navigate = useNavigate();
   const [gradeList, setGradeList] = useState(null);
@@ -17,9 +19,12 @@ function StudentSpreadsheet(props) {
     examName: "",
     score: 0,
     course: 0,
+    courseName: "",
     firstName: "",
     lastName: "",
+    isRegistered: false,
   });
+  courseName = props.courseName;
   //Stores information for the instructor which is currently signed in.
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -69,13 +74,15 @@ function StudentSpreadsheet(props) {
       examName: "",
       score: 0,
       course: 0,
+      courseName: "",
+      isRegistered: false,
     });
     setGradeList(await getGrades(props.courseId));
   };
 
   return (
     <>
-      <table>
+      <table className = "overflow-x-scroll">
         <thead>{createHeaders(exams, theme)}</thead>
         <tbody>
           {createRows(
@@ -129,7 +136,7 @@ function createHeaders(exams, theme) {
               : "bg-gray-300 text-black"
           }`}
         >
-          {exam.examName}
+          {exam.examName.length < 24 ? exam.examName : exam.examName.substring(0, 21) + "..."}
         </th>
       );
     });
@@ -138,7 +145,7 @@ function createHeaders(exams, theme) {
         <tr key="Header">
           <th
             key="StudentId"
-            className={`p-4 ${
+            className={`p-4 text-left ${
               theme === "dark"
                 ? "bg-gray-800 text-white"
                 : "bg-gray-300 text-black"
@@ -148,7 +155,7 @@ function createHeaders(exams, theme) {
           </th>
           <th
             key="Last Name"
-            className={`p-4 ${
+            className={`p-4 text-left ${
               theme === "dark"
                 ? "bg-gray-800 text-white"
                 : "bg-gray-300 text-black"
@@ -158,7 +165,7 @@ function createHeaders(exams, theme) {
           </th>
           <th
             key="First Name"
-            className={`p-4 ${
+            className={`p-4 text-left ${
               theme === "dark"
                 ? "bg-gray-800 text-white"
                 : "bg-gray-300 text-black"
@@ -226,6 +233,8 @@ function createSingleRow(
         course: courseId,
         firstName: firstName,
         lastName: lastName,
+        courseName: courseName,
+        isRegistered: studentGrades.isRegistered,
       });
     };
     const studentGradeList = studentGrades.scores.map((grade) => {

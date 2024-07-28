@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import getGrades from '../../hooks/getGrades';
 
 let responses = [];
 let responseData = [];
 let student;
 let exam;
-//(exam_id, question_num, user_id, response, modifying = false)
-//{ modifiedResponses: responsesToDatabase }
 
-const saveResponses = async () => {
+const saveResponses = async (onClose) => {
   let responsesToDatabase = [];
   for (let i = 0; i < responses.length; i++) {
     if (
@@ -24,7 +21,7 @@ const saveResponses = async () => {
     }
   }
   try {
-    const response = await fetch(`HTTP://localhost/API/users/responses/edit/`, {
+    const response = await fetch(`HTTP://localhost/API/users/responses/edit`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -38,6 +35,7 @@ const saveResponses = async () => {
     });
     if (response.ok) {
       console.log("updated resposnes successfully");
+      onClose();
     }
   } catch (error) {
     console.error("Error updating resposnes", error);
@@ -181,9 +179,8 @@ function InstResponseBubbles(props) {
           })}
         </div>
         <button
-          onClick={ () => {
-            saveResponses();
-            setTimeout(() => {props.onClose()}, 1000);
+          onClick={() => {
+            saveResponses(props.onClose);
           }}
         >
           <p>Save!</p>
