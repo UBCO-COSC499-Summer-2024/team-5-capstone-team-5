@@ -12,17 +12,17 @@ const InstructorTest = ({ setState, test, parsedGrades }) => {
             break;
         }
     }
-    const examMean = mean(examGrades).toFixed(3);
-    const examStdev = stdev(examGrades).toFixed(3);
-    const [min, Q1, median, Q3, max] = fiveNumSummary(examGrades);
+    const examMean = examGrades.length > 0 ? mean(examGrades).toFixed(3) : '-';
+    const examStdev = examGrades.length > 0 ? stdev(examGrades).toFixed(3) : '-';
+    const [min, Q1, median, Q3, max] = examGrades.length > 0 ? fiveNumSummary(examGrades) : ['-', '-', '-', '-', '-'];
     return(
         <tr
           className={`cursor-pointer ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
           onClick={() => setState(test)}
         >
           <td className="p-4">{test.name.length < 32 ? test.name : test.name.substring(0, 29) + "..."}</td>
-          <td className="p-4 text-center">{examMean || 'N/A'}</td>
-          <td className="p-4 text-center">{examStdev || 'N/A'}</td>
+          <td className="p-4 text-center">{examMean}</td>
+          <td className="p-4 text-center">{examStdev}</td>
           <td className="p-4 text-center">{min}</td>
           <td className="p-4 text-center">{Q1}</td>
           <td className="p-4 text-center">{median}</td>
