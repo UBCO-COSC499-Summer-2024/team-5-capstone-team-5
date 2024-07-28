@@ -40,7 +40,6 @@ const ExamDetails = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Submit the issue here
         await fetch('http://localhost/api/users/courses/flagged/set', {
             method: 'POST',
             headers: {
@@ -70,6 +69,7 @@ const ExamDetails = (props) => {
             >
                 Back
             </button>
+
             {questions.length === 0 ? (
                 <div className="text-center text-xl text-red-500">This Exam has not been checked by the instructor</div>
             ) : (
@@ -82,13 +82,13 @@ const ExamDetails = (props) => {
                                 <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Weight</th>
                                 <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Correct Answers</th>
                                 <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Grade</th>
-                                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Flag Question?</th>
+                                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Issues</th>
                             </tr>
                         </thead>
                         <tbody>
                             {questions.map((question, index) => (
                                 <tr key={index} className="cursor-pointer">
-                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{`Question: ${index + 1}`}</td>
+                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.question_num}</td>
                                     <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.num_options}</td>
                                     <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.weight}</td>
                                     <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>
@@ -96,7 +96,7 @@ const ExamDetails = (props) => {
                                     </td>
                                     <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.grade}</td>
                                     <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white justify-center' : 'bg-gray-300 text-black justify-center'}`}>
-                                        <FontAwesomeIcon icon={faFlag} onClick={() => handleFlagClick(question)} />
+                                        {question.issue ? question.issue : <FontAwesomeIcon icon={faFlag} onClick={() => handleFlagClick(question)} />}
                                     </td>
                                 </tr>
                             ))}

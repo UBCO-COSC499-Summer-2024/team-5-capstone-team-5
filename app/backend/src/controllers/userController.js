@@ -49,7 +49,35 @@ const getRecentExamsByUserId = async (id) => {
 const getQuestionData = async (userId, examId) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name, was_modified FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
+            `SELECT 
+                r.question_id, 
+                r.user_id, 
+                r.response, 
+                r.grade, 
+                q.num_options, 
+                q.correct_answer, 
+                q.question_num, 
+                q.weight, 
+                c.name AS course_name, 
+                e.name AS exam_name, 
+                r.was_modified, 
+                f.issue 
+            FROM 
+                responses r 
+            LEFT JOIN 
+                flags f ON f.question_id = r.question_id AND f.user_id = r.user_id
+            LEFT JOIN 
+                questions q ON r.question_id = q.id 
+            LEFT JOIN 
+                exams e ON q.exam_id = e.id 
+            LEFT JOIN 
+                courses c ON e.course_id = c.id 
+            WHERE 
+                e.id = $1 
+                AND r.user_id = $2 
+            ORDER BY 
+                q.question_num;
+            `, [examId, userId]
         );
         return response;
     } catch(error) {
@@ -320,11 +348,14 @@ const addStudentAnswers = async (jsonData, examId) => {
             fs.writeFileSync(imagePath, imageBuffer);
 
             if(studentId) {
-                if(studentId in studentIds) {
+                console.log(studentId);
+                if(studentIds.includes(studentId)) {
                     flaggedQuestions["DuplicateStudentId"].push(studentId);
+                    console.log("Duplicate ID")
                     flagExam(examId, `Duplicate student ID for scan on page ${page} / ${page+1}`)
                 } else {
                     studentIds.push(studentId);
+                    console.log(studentIds);
                 }
                 responses.forEach((response) => {
                     const recordedAnswer = response.LetterPos;
