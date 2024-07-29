@@ -41,6 +41,7 @@ function ScanView(props) {
       );
     };
     setResponses();
+    setLoading(true);
   }, [scanViewInfo]);
 
   useEffect(() => {
@@ -52,15 +53,13 @@ function ScanView(props) {
     const results = await data.json();
     //setQuestions(results);
     //console.log(questions)
-    console.log(results);
-    setLoading(false);
   }
 
   const fetchImageUrl = async (examId, userId) => {
     const response = await fetch(`http://localhost/api/users/scans/${examId}/${userId}`);
     const data = await response.json();
     console.log(data.path);
-    return data.path
+    return data.path;
   }
 
   const displayImage = (path) => {
@@ -72,6 +71,7 @@ function ScanView(props) {
     imgElement.className = 'rounded-lg';
     console.log("Displaying image from:"+imgElement.src);
     imageContainer.appendChild(imgElement);
+    setLoading(false);
   }
 
   const handleFileUpload = async (event) => {
@@ -97,7 +97,9 @@ function ScanView(props) {
   if (scanViewInfo.isOpen && responseData.length > 0) {
 
     //fetchImageUrl(scanViewInfo.exam, scanViewInfo.student).then(path => displayImage(path));
-    fetchImageUrl(scanViewInfo.exam, 67890123).then(path => displayImage(path));
+    if(loading) {
+      fetchImageUrl(scanViewInfo.exam, 67890123).then(path => displayImage(path));
+    }
 
     const registerStudent = async (userId, courseId) => {
       console.log("registering student!");

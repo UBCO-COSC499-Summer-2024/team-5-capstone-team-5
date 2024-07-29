@@ -35,7 +35,7 @@ const InstructorCourseDetails = () => {
 
   useEffect(() => {
     fetchData();
-  }, [courseId, fetchData, gradeList]);
+  }, [courseId, fetchData, selectedMenu]);
 
   const handleAddClick = () => {
     setIsAddTestModalOpen(true);

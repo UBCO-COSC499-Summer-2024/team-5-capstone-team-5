@@ -79,7 +79,7 @@ function StudentSpreadsheet(props) {
     });
     setGradeList(await getGrades(props.courseId));
   };
-
+  
   return (
     <>
       <table className = "overflow-x-scroll">
@@ -222,8 +222,6 @@ function createSingleRow(
       lastName,
       examName
     ) => {
-      console.log(userId);
-      console.log(examId);
       setScanViewInfo({
         isOpen: true,
         student: userId,

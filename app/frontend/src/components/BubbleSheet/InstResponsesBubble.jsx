@@ -21,7 +21,7 @@ const saveResponses = async (onClose) => {
     }
   }
   try {
-    const response = await fetch(`HTTP://localhost/API/users/responses/edit`, {
+    const response = await fetch(`HTTP://localhost/API/users/responses/edit/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
