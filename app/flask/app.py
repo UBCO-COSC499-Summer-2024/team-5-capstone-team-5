@@ -44,7 +44,6 @@ def upload_file():
         print('id null')
         return jsonify({'error': 'id is null'}),400
     
-
     try:
         # Read the PDF file
         pdf_bytes = data
@@ -57,10 +56,13 @@ def upload_file():
         lname = ""
         stnum = int
         answers = []
+        files_to_delete = []
+        
         # Save each page as a PNG file
         for i, image in enumerate(images):
             png_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_page_{i + 1}.png')
             image.save(png_path, 'png')
+            files_to_delete.append(png_path)  # Track files to delete
 
             # Convert the image to a byte array
             img_byte_arr = io.BytesIO()
@@ -73,40 +75,87 @@ def upload_file():
                     fname = process_first_name(png_path)
                     lname = process_last_name(png_path)
                     stnum = process_stnum(png_path)
+                    first_page = encoded_image
+                    first_page_image = image
                 if (i+1) % 2 == 0:
                     answers = process_bubbles(png_path)
+                    second_page = encoded_image
+                    second_page_image = image
+                    
+                    # Combine the images vertically
+                    combined_height = first_page_image.height + second_page_image.height
+                    combined_image = Image.new('RGB', (first_page_image.width, combined_height))
+                    combined_image.paste(first_page_image, (0, 0))
+                    combined_image.paste(second_page_image, (0, first_page_image.height))
+                    
+                    combined_image_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_combined_page_{(i + 1) // 2}.png')
+                    combined_image.save(combined_image_path, 'png')
+                    files_to_delete.append(combined_image_path)
+                    
+                    # Convert the combined image to a byte array
+                    combined_img_byte_arr = io.BytesIO()
+                    combined_image.save(combined_img_byte_arr, format='PNG')
+                    combined_img_byte_arr = combined_img_byte_arr.getvalue()
+                    combined_encoded_image = base64.b64encode(combined_img_byte_arr).decode('utf-8')
+                    
                     grades[stnum] = {
-                    "fname": fname,
-                    "lname": lname,
-                    "stnum": stnum,
-                    "answers": answers,
-                    "image": encoded_image
+                        "fname": fname,
+                        "lname": lname,
+                        "stnum": stnum,
+                        "answers": answers,
+                        "first_page": first_page,
+                        "second_page": second_page,
+                        "combined_page": combined_encoded_image
                     }
             elif numquestions == "200":
-                if(i+1) % 2 == 1:
+                if (i+1) % 2 == 1:
                     stnum = process_stnum(png_path)
                     answers = process_first_page_bubbles(png_path)
-
-                if(i+1) % 2 == 0:
+                    first_page = encoded_image
+                    first_page_image = image
+                if (i+1) % 2 == 0:
                     stnum = process_stnum(png_path)
                     answers2 = process_second_page_bubbles(png_path)
-                    print("Answers:", answers)
-                    print("Answers2:",answers2)
+                    second_page = encoded_image
+                    second_page_image = image
+                    
                     combined_answers = [[],[],[]]
                     combined_answers[0] = answers[0] + answers2[0]
                     combined_answers[1] = answers[1] + answers2[1]
                     combined_answers[2] = answers[2] + answers2[2]
-                    print(combined_answers)
+                    
+                    # Combine the images vertically
+                    combined_height = first_page_image.height + second_page_image.height
+                    combined_image = Image.new('RGB', (first_page_image.width, combined_height))
+                    combined_image.paste(first_page_image, (0, 0))
+                    combined_image.paste(second_page_image, (0, first_page_image.height))
+                    
+                    combined_image_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_combined.png')
+                    combined_image.save(combined_image_path, 'png')
+                    files_to_delete.append(combined_image_path)
+                    
+                    # Convert the combined image to a byte array
+                    combined_img_byte_arr = io.BytesIO()
+                    combined_image.save(combined_img_byte_arr, format='PNG')
+                    combined_img_byte_arr = combined_img_byte_arr.getvalue()
+                    combined_encoded_image = base64.b64encode(combined_img_byte_arr).decode('utf-8')
+                    
                     grades[stnum] = {
                         "fname": 'unknown',
                         "lname": 'unknown',
                         "stnum": stnum,
                         "answers": combined_answers,
-                        "image": encoded_image
+                        "first_page": first_page,
+                        "second_page": second_page,
+                        "combined_page": combined_encoded_image
                     }
-            
-            else: 
+            else:
                 print('Please enter valid test style: 100 or 200 questions')
+        
+        # Delete the PNG files after processing
+        for file_path in files_to_delete:
+            if os.path.exists(file_path):
+                os.remove(file_path)
         
         return jsonify({'message': 'PDF converted to PNG successfully', 'data': grades}), 200
     except Exception as e:

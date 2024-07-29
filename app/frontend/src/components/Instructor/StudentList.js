@@ -12,40 +12,57 @@ const StudentList = (props) => {
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
+    setLoading(true); // Set loading to true before starting the fetch
     const data = await getStudentData(props.courseId);
     setStudents(data);
+    setLoading(false); // Set loading to false after the data is fetched
   }, [props.courseId]);
 
   const handleRosterUpload = async (event) => {
-    setFileUploaded(2)
-    const file = event.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      const response = await fetch('http://localhost/api/users/students/upload', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'courseid': props.courseId
+    try {
+      setFileUploaded(2);
+      const file = event.target.files[0];
+  
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+  
+        const response = await fetch('http://localhost/api/users/students/upload', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'courseid': props.courseId
+          }
+        });
+  
+        if (response.ok) {
+          console.log('File uploaded successfully:', file.name);
+          setFileUploaded(3);
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          await fetchData(); // Ensure fetchData is awaited
+        } else {
+          console.error('File upload failed:', response.statusText);
+          setFileUploaded(4);
+          const errorText = await response.text();
+          console.error('Error response:', errorText);
         }
-      });
-      if(response.ok) {
-        console.log('File uploaded:', file);
-        setFileUploaded(3);
-        fetchData();
+      } else {
+        console.warn('No file selected for upload');
       }
+    } catch (error) {
+      console.error('An error occurred during file upload:', error);
+      setFileUploaded(4);
     }
   };
 
   useEffect(() => {
     fetchData();
-    setLoading(false);
   }, [props.courseId, fetchData]);
 
   const instructor = students.find(student => student.role === 2);
   const studentList = students.filter(student => student.role === 1);
 
-  if(loading) {
+  if (loading) {
     return <div>Loading...</div>
   } else {
     return (
@@ -57,7 +74,6 @@ const StudentList = (props) => {
               <h3 className="text-xl font-semibold">Instructor: {instructor.first_name} {instructor.last_name}</h3>
             </div>
           )}
-
           <button
             className={`mb-4 p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-300 text-black hover:bg-gray-400'} flex items-center`}
             onClick={() => {/* Handle invite action here */}}
@@ -90,6 +106,7 @@ const StudentList = (props) => {
       </div>
     );
   }
+
 };
 
 export default StudentList;

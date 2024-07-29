@@ -14,6 +14,13 @@ import { UserProvider, useUser } from './contexts/UserContext';
 import InstructorDashboard from './components/Instructor/InstructorDashboard';
 import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
+//admin
+import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminNavbar from './components/Admin/AdminNavbar';
+import UserList from './components/Admin/UserList';
+import RecentChanges from './components/Admin/RecentChanges';
+import SiteStatistics from './components/Admin/SiteStatistics';
+
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
 import InstNavbar from './components/Instructor/InstNavbar';
@@ -26,6 +33,7 @@ import GenerateSheetModal from './components/Instructor/GenerateSheetModal';
 import OMRSheetGenerator from './components/Instructor/OMRSheetGenerator';
 import './index.css';
 import ChangePass from './components/ChangePass';
+
 
 const ThemeContext = createContext();
 
@@ -88,6 +96,7 @@ function AppRoutes() {
     return <div>Loading...</div>;
   }
 
+
   const showNavbar = !hideNavbarPaths.includes(location.pathname);
   const isInstructor = role === 2;
 
@@ -97,6 +106,7 @@ function AppRoutes() {
       <div className={`flex-grow flex flex-col ${showNavbar ? 'ml-64' : ''}`}>
         <div className="flex-grow p-8">
           <Routes>
+          
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
@@ -106,6 +116,7 @@ function AppRoutes() {
             {role === 2 && <Route path="/instructor/course" element={<InstructorCourseList />} />}
             {role === 2 && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
             {role === 2 && <Route path="/instructor/course/:courseId/*" element={<InstructorCourseDetails />} />}
+           
             <Route path="/contact" element={<Contact />} />
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
@@ -114,6 +125,10 @@ function AppRoutes() {
             <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
             <Route path="/course/:courseId" element={<CourseDetails />} /> {/* Added route for /course/:courseId */}
+            {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
+            {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
+            {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges/>} />}
+            {role === 3 && <Route path="/admin/sitestatistics" element={<SiteStatistics/>}/>} 
           </Routes>
         </div>
       </div>

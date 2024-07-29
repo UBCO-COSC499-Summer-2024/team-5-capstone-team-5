@@ -32,7 +32,7 @@ const EditBubble = (props) => {
       {options.map((color, index) => (
         <div
           key={index}
-          className={`${color === 'green' ? "bg-green-700" : ""} w-6 h-6 rounded-full border-white border-[0.5px] inline-block mx-2 hover:cursor-pointer`}
+          className={`${color === 'green' ? "bg-green-700" : ""} w-6 h-6 rounded-full border-white border-[0.5px] inline-block mx-1 hover:cursor-pointer`}
           onClick={() => handleBubbleClick(index)}
         >
           <div className='text-center text-sm'>
