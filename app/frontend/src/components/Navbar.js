@@ -1,8 +1,7 @@
-// app/frontend/src/components/Navbar.js
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsis, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import getCourseData from '../hooks/getCourseData';
 import validateUser from '../hooks/validateUser';
 import ProfileMenuModal from './ProfileMenuModal';
@@ -121,8 +120,16 @@ const Navbar = (props) => {
             Recent Courses
           </NavLink>
         </div>
-        <div className={`mt-4 ${headerStyle} sticky top-0 z-10`}>
+        <div className={`mt-4 ${headerStyle} sticky top-0 z-10 flex items-center justify-between`}>
           <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
+          <button
+            className={`mr-4 p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-300 text-black hover:bg-gray-400'}`}
+            onClick={() => { /* Handle invite action here */ }}
+          >
+            <FontAwesomeIcon icon={faEnvelope} />
+          </button>
+        </div>
+        <div className={`mt-2 ${headerStyle} sticky top-0 z-10`}>
           <li
             className={`block p-4 mx-4 mt-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
             onClick={() => { /* Add Course Modal Open */ }}

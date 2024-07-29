@@ -4,9 +4,11 @@ import { useTheme } from '../../App';
 import StudentSpreadsheet from './StudentSpreadsheet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons'; // Import specific icon
+import InviteStudentModal from './InviteStudentModal'; // Import the modal component
 
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false); // State for modal
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -37,6 +39,30 @@ const StudentList = (props) => {
     }
   };
 
+  const handleInviteClick = () => {
+    setIsInviteModalOpen(true);
+  };
+
+  const handleInviteSubmit = async (email) => {
+    try {
+      const response = await fetch('http://localhost/api/users/invite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, courseId: props.courseId }),
+      });
+      if (response.ok) {
+        console.log('Invitation sent:', email);
+        setIsInviteModalOpen(false);
+      } else {
+        console.error('Error sending invitation:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error sending invitation:', error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
     setLoading(false);
@@ -60,7 +86,7 @@ const StudentList = (props) => {
 
           <button
             className={`mb-4 p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-300 text-black hover:bg-gray-400'} flex items-center`}
-            onClick={() => {/* Handle invite action here */}}
+            onClick={handleInviteClick}
           >
             <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
             Invite
@@ -87,6 +113,11 @@ const StudentList = (props) => {
           </p>
           <StudentSpreadsheet courseId={props.courseId} students={studentList}/>
         </div>
+        <InviteStudentModal
+          isOpen={isInviteModalOpen}
+          onClose={() => setIsInviteModalOpen(false)}
+          onSubmit={handleInviteSubmit}
+        />
       </div>
     );
   }
