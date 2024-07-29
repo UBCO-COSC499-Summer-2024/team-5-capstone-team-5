@@ -13,6 +13,7 @@ const {
     deleteTest, 
     editTest, 
     register, 
+    getAllUsers,
     addResponse, 
     addAnswerKey, 
     addStudentAnswers, 
@@ -281,6 +282,20 @@ router.get('/courses/grades/:id', async (req, res) => {
     }
 });
 
+
+router.get('/sitestatistics', async (req, res) => {
+    try {
+      const users = await getAllUsers(); 
+      const statistics = users.reduce((acc, user) => {
+        acc[user.role] = (acc[user.role] || 0) + 1;
+        return acc;
+      }, {});
+      res.status(200).json(statistics);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching user statistics' });
+    }
+  });
+
 router.post('/questions/answers/edit/:id', async (req, res) => {
     try {
         const questionId = req.params.id;
@@ -313,6 +328,6 @@ router.get('/courses/info/:id', async (req, res) => {
     } catch(error) {
         res.status(500).json({error: error.message});
     }
-})
+});
 
 module.exports = router;
