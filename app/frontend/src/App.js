@@ -40,11 +40,17 @@ const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 
 function App() {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
   };
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -74,7 +80,7 @@ function AppRoutes() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const user = await getUserInfo();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+      const user = await getUserInfo();
       if (user) {
         setRole(user.role);
         setUserId(user.userId);
@@ -90,22 +96,14 @@ function AppRoutes() {
     return <div>Loading...</div>;
   }
 
-  if(!userId) {
-    return (
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    )
-  }
+
+  const showNavbar = !hideNavbarPaths.includes(location.pathname);
+  const isInstructor = role === 2;
 
   return (
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
-      {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
-      {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
-
-      <div className="flex-grow flex flex-col ml-64">
+      {showNavbar && (isInstructor ? <InstNavbar id={userId} /> : <Navbar id={userId} />)}
+      <div className={`flex-grow flex flex-col ${showNavbar ? 'ml-64' : ''}`}>
         <div className="flex-grow p-8">
           <Routes>
           
@@ -126,14 +124,11 @@ function AppRoutes() {
             <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers id={userId} />} />
             <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
-
-            
+            <Route path="/course/:courseId" element={<CourseDetails />} /> {/* Added route for /course/:courseId */}
             {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
             {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
             {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges/>} />}
             {role === 3 && <Route path="/admin/sitestatistics" element={<SiteStatistics/>}/>} 
-          
-          
           </Routes>
         </div>
       </div>

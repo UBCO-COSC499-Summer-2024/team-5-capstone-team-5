@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import MenuBar from './MenuBar'; 
 import SearchBar from './SearchBar'; 
 import StudentList from './StudentList'; 
@@ -19,7 +19,6 @@ const InstructorCourseDetails = () => {
   const [selectedTest, setSelectedTest] = useState(null);
   const [isAddTestModalOpen, setIsAddTestModalOpen] = useState(false); 
   const { theme } = useTheme();
-  const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     const testData = await getTestData(courseId);
@@ -92,9 +91,16 @@ const InstructorCourseDetails = () => {
       <div className={`mb-4 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'}`}>
         <MenuBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       </div>
-      {/* <SearchBar /> */}
       {selectedMenu === 'tests' && (
         <div className="p-4 flex flex-col min-h-screen">
+          <div className="mb-4">
+            <button
+              onClick={handleAddClick}
+              className={`block w-full text-2xl p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} cursor-pointer`}
+            >
+              +
+            </button>
+          </div>
           <div className="flex-grow">
             {selectedTest ? (
               <TestDescription
@@ -115,34 +121,14 @@ const InstructorCourseDetails = () => {
                   {tests.map((test, index) => (
                     <InstructorTest test={test} key={index} state={selectedTest} setState={setSelectedTest} />
                   ))}
-                  <tr
-                    className="cursor-pointer items-center justify-center"
-                    onClick={handleAddClick}
-                    style={{
-                      height: '4.5rem',
-                      backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-                      color: theme === 'dark' ? 'white' : 'black',
-                      border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 0, 0, 0.2)',
-                      width: '100%',
-                      textAlign: 'center',
-                    }}
-                  >
-                    <td colSpan="2" className="p-4">
-                      <div className="text-2xl">+</div>
-                      <div className="absolute bottom-full mb-2 w-max bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 tooltip">
-                        Add Test
-                      </div>
-                    </td>
-                  </tr>
                 </tbody>
               </table>
             )}
           </div>
         </div>
       )}
-      {selectedMenu === 'students' && (<>
-        <StudentList courseId={courseId} courseName = {courseName}/>
-        </>
+      {selectedMenu === 'students' && (
+        <StudentList courseId={courseId} />
       )}
       <AddTestModal
         isOpen={isAddTestModalOpen}
