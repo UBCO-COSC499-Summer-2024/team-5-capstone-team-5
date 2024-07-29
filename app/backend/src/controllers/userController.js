@@ -189,7 +189,7 @@ const calculateGrades = async (courseId) => {
 			            registration.user_Id IS NOT NULL AS "isRegistered",
 			            exams.id AS "examId",  exams.name AS "examName",
 	    	            SUM(weight*(CASE WHEN response=correct_answer THEN 1 ELSE 0 END))
-        		        AS "studentScore"
+        		        AS "studentScore", SUM(weight) AS "maxScore"
 	                FROM users
 			        JOIN responses ON users.id = responses.user_id
 			        JOIN questions ON questions.id = question_id
@@ -205,7 +205,7 @@ const calculateGrades = async (courseId) => {
                 StudentsWithoutExams AS (
 	                SELECT registeredStudents."userId", registeredStudents."lastName",
 		                registeredStudents."firstName", 1=1 AS "isRegistered",
-		                -1 AS "examId", NULL AS "examName", 0 AS "studentScore"
+		                -1 AS "examId", NULL AS "examName", 0 AS "studentScore",  1 AS "maxScore"
 	                FROM studentsWithExams 
 	                RIGHT JOIN registeredStudents ON studentsWithExams."userId" = registeredStudents."userId"
 	                WHERE studentsWithExams."userId" IS NULL

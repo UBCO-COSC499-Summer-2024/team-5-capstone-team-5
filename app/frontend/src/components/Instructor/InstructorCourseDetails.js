@@ -15,6 +15,7 @@ import ParseStudentGrades from './ParseStudentGrades';
 const InstructorCourseDetails = () => {
   const { courseId } = useParams();
   const [tests, setTests] = useState([]);
+  const [asPercents, setAsPercents] = useState(true);
   const [courseName, setCourseName] = useState('Loading');
   const [selectedMenu, setSelectedMenu] = useState('tests');
   const [selectedTest, setSelectedTest] = useState(null);
@@ -96,6 +97,12 @@ const InstructorCourseDetails = () => {
       <div className={`mb-4 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'}`}>
         <MenuBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       </div>
+      <div className={`mb-4 text-center ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'}`}>
+        <button className = "text-center" onClick = {() => {setAsPercents(!asPercents)}}>
+          <p className = "text-center">Toggle percents</p>
+        </button>
+      </div>
+      
       {/* <SearchBar /> */}
       {selectedMenu === 'tests' && (
         <div className="p-4 flex flex-col min-h-screen">
@@ -123,7 +130,7 @@ const InstructorCourseDetails = () => {
                 </thead>
                 <tbody>
                   {tests.map((test, index) => (
-                    <InstructorTest test={test} key={index} state={selectedTest} setState={setSelectedTest} parsedGrades = {parsedGrades} />
+                    <InstructorTest test={test} key={index} state={selectedTest} setState={setSelectedTest} parsedGrades = {parsedGrades} asPercents = {asPercents}/>
                   ))}
                   <tr
                     className="cursor-pointer items-center justify-center"
@@ -151,7 +158,7 @@ const InstructorCourseDetails = () => {
         </div>
       )}
       {selectedMenu === 'students' && (<>
-        <StudentList courseId={courseId} courseName = {courseName}/>
+        <StudentList courseId={courseId} courseName = {courseName} asPercents = {asPercents}/>
         </>
       )}
       <AddTestModal

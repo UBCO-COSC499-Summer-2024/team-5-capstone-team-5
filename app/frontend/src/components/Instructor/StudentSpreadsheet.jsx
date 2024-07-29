@@ -90,7 +90,8 @@ function StudentSpreadsheet(props) {
             theme,
             props.courseId,
             scanViewInfo,
-            setScanViewInfo
+            setScanViewInfo,
+            props.asPercents,
           )}
         </tbody>
       </table>
@@ -186,12 +187,12 @@ function createHeaders(exams, theme) {
 iterating through grades and caling a helper function for each student. 
 Students who have been registered, but not written any exams, will still be included.
 Students who have not registered, but have written tests will also appear. */
-function createRows(grades, theme, course, scanViewInfo, setScanViewInfo) {
+function createRows(grades, theme, course, scanViewInfo, setScanViewInfo, asPercents) {
   if (grades) {
     let rows = [];
     for (let i = 0; i < grades.length; i++) {
       rows.push(
-        createSingleRow(grades[i], theme, course, scanViewInfo, setScanViewInfo)
+        createSingleRow(grades[i], theme, course, scanViewInfo, setScanViewInfo, asPercents)
       );
     }
     return rows;
@@ -210,7 +211,8 @@ function createSingleRow(
   theme,
   course,
   scanViewInfo,
-  setScanViewInfo
+  setScanViewInfo,
+  asPercents
 ) {
   if (studentGrades) {
     const handleClick = (
@@ -252,7 +254,7 @@ function createSingleRow(
             }
             className="p-4 hover:bg-black/10 cursor-pointer text-center"
           >
-            {grade.studentScore}
+            {asPercents ? `${100*grade.studentScore/grade.maxScore}%`: grade.studentScore}
           </td>
       );
     });
