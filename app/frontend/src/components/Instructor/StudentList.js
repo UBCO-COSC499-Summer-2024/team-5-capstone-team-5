@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import getStudentData from '../../hooks/getStudentData';
 import { useTheme } from '../../App';
 import StudentSpreadsheet from './StudentSpreadsheet';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons'; // Import specific icon
 
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
@@ -72,26 +74,34 @@ const StudentList = (props) => {
               <h3 className="text-xl font-semibold">Instructor: {instructor.first_name} {instructor.last_name}</h3>
             </div>
           )}
+          <button
+            className={`mb-4 p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-300 text-black hover:bg-gray-400'} flex items-center`}
+            onClick={() => {/* Handle invite action here */}}
+          >
+            <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+            Invite
+          </button>
 
-        <label className="block text-sm font-medium mb-2">
-          Upload Student Data
-        </label>
-        <input 
-          type="file" 
-          id="studentFile" 
-          name="studentFile" 
-          onChange={handleRosterUpload}
-          className={`block w-full text-sm text-gray-500
-            file:mr-4 file:py-2 file:px-4
-            file:rounded-full file:border-0
-            file:text-sm file:font-semibold
-            file:cursor-pointer
-            ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
-          `}
-        />
-        <p className={`mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-          Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
-        </p>
+          <label className="block text-sm font-medium mb-2">
+            Upload Student Data
+          </label>
+          <input 
+            type="file" 
+            id="studentFile" 
+            name="studentFile" 
+            onChange={handleRosterUpload}
+            className={`block w-full text-sm text-gray-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:cursor-pointer
+              ${theme === 'dark' ? 'file:bg-gray-700 file:text-white' : 'file:bg-gray-300 file:text-black'}
+            `}
+          />
+          <p className={`mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+            Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
+          </p>
+        </div>
       </div>
       <StudentSpreadsheet courseId = {props.courseId} students = {studentList} courseName = {props.courseName} asPercents = {props.asPercents}/>
     </div>

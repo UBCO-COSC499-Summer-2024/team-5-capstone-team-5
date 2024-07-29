@@ -1,18 +1,18 @@
 const getQuestions = async (exam_id, user_id) => {
-    try {
+  try {
       const response = await fetch(`http://localhost/api/users/questions/${exam_id}&${user_id}`);
-      if(response.ok) {
-        const questions = await response.json();
-        return questions;
+      if (response.ok) {
+          const questions = await response.json();
+          console.log(`Total questions fetched: ${questions.length}`); // Add this line for debugging
+          return questions;
+      } else {
+          console.error('Error fetching questions:', response.status, response.statusText);
+          return [];
       }
-      else {
-        console.error('POST Error',response.status, response.statusText);
-        return;
-      }
-    } catch(error) {
-      console.error('Failure fetching data: ',error);
-      return;
-    };
-  };
+  } catch (error) {
+      console.error('Failure fetching data:', error);
+      return [];
+  }
+};
 
-  export default getQuestions;
+export default getQuestions;

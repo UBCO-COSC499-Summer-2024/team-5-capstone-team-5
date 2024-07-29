@@ -1,3 +1,5 @@
+// app/frontend/src/components/BubbleSheet/Bubbles.js
+
 import React, { useState, useEffect } from 'react';
 
 const Bubble = (props) => {
@@ -29,9 +31,14 @@ const Bubble = (props) => {
             {compared.map((color, index) => (
                 <div
                     key={index}
-                    className={`${color === 'green' ? "bg-green-700" : color === 'red' ? "bg-red-700" : color === 'yellow' ? "bg-yellow-500" : ""} w-6 h-6 rounded-full border-white border-[0.5px] inline-block mx-1`}
+                    className={`w-6 h-6 rounded-full inline-block mx-1 ${color === 'green' ? "bg-green-700" : color === 'red' ? "bg-red-700" : color === 'yellow' ? "bg-yellow-500" : ""}`}
+                    style={{
+                        borderColor: props.theme === 'dark' ? 'white' : 'black',
+                        borderWidth: '0.5px',
+                        borderStyle: 'solid'
+                    }}
                 >
-                    <div className="text-center text-sm">{String.fromCharCode(65 + index)}</div>
+                    <div className={`text-center text-sm ${props.theme === 'dark' ? 'text-white' : 'text-black'}`}>{String.fromCharCode(65 + index)}</div>
                 </div>
             ))}
         </div>

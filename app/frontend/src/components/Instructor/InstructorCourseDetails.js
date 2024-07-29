@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import MenuBar from './MenuBar'; 
 import SearchBar from './SearchBar'; 
 import StudentList from './StudentList'; 
@@ -22,7 +22,6 @@ const InstructorCourseDetails = () => {
   const [gradeList, setGradeList] = useState(null);
   const [isAddTestModalOpen, setIsAddTestModalOpen] = useState(false); 
   const { theme } = useTheme();
-  const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     const testData = await getTestData(courseId);
@@ -102,10 +101,17 @@ const InstructorCourseDetails = () => {
           <p className = "text-center">Toggle percents</p>
         </button>
       </div>
-      
       {/* <SearchBar /> */}
       {selectedMenu === 'tests' && (
         <div className="p-4 flex flex-col min-h-screen">
+          <div className="mb-4">
+            <button
+              onClick={handleAddClick}
+              className={`block w-full text-2xl p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} cursor-pointer`}
+            >
+              +
+            </button>
+          </div>
           <div className="flex-grow">
             {selectedTest ? (
               <TestDescription
