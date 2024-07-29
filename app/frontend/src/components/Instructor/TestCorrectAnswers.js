@@ -15,18 +15,21 @@ const TestCorrectAnswers = (props) => {
   const [answerKeyUploaded, setAnswerKeyUploaded] = useState(1);
   const [fileUploaded, setFileUploaded] = useState(1);
   const [numQuestions, setNumQuestions] = useState(100);
+  const [showingScan, setShowingScan] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetch(`http://localhost/api/users/questions/answers/${testId}`);
-      const results = await data.json();
-      setQuestions(results);
-      console.log(questions)
-      console.log(results);
-      setLoading(false);
-    }
     fetchData();
   }, [testId]);
+
+  const fetchData = async () => {
+    const data = await fetch(`http://localhost/api/users/questions/answers/${testId}`);
+    const results = await data.json();
+    setQuestions(results);
+    console.log(questions)
+    console.log(results);
+    setLoading(false);
+  }
 
   const handleFileUpload = async (event) => {
     setFileUploaded(2);
@@ -44,6 +47,7 @@ const TestCorrectAnswers = (props) => {
       });
       console.log('File uploaded:', file);
       setFileUploaded(3);
+      setTimeout(fetchData, 500);
     }
   };
 
@@ -65,8 +69,9 @@ const TestCorrectAnswers = (props) => {
       const data = await response.json();
       console.log('File uploaded:', file);
       console.log('userid in headers:',userId);
-      setAnswerKeyUploaded(3);
       test.correctAnswers = data.correctAnswers;
+      setAnswerKeyUploaded(3);
+      setTimeout(fetchData, 500);
     }
   };
 
@@ -78,14 +83,33 @@ const TestCorrectAnswers = (props) => {
   }
 
   const displayImage = (path) => {
+    const imageContainer = document.getElementById('imageContainer');
+    imageContainer.innerHTML = '';
     const imgElement = document.createElement('img');
-    imgElement.src = path;
-    document.body.appendChild(imgElement);
+    imgElement.src = 'http://localhost'+path;
+    imgElement.alt = 'Scan Image';
+    imgElement.className = 'rounded-lg';
+    console.log("Displaying image from:"+imgElement.src);
+    imageContainer.appendChild(imgElement);
   }
 
   const handleScanClick = () => {
-    fetchImageUrl('4', '67890123').then(path => displayImage(path))
+    setShowingScan(true);
+    fetchImageUrl(test.id, props.id).then(path => displayImage(path))
   }
+  const handleScanClose = () => {
+    const imageContainer = document.getElementById('imageContainer');
+    imageContainer.innerHTML = '';
+    setShowingScan(false);
+  }
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredQuestions = questions.filter(question =>
+    question.question_num.toString().includes(searchQuery)
+  );
 
   return (
     <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
@@ -155,30 +179,40 @@ const TestCorrectAnswers = (props) => {
               )}
             </div>
             <div>
-              <button onClick={handleScanClick()}>Show Scan</button>
+              {!showingScan && <button onClick={handleScanClick}>Show Scan</button>}
+              {showingScan && <button onClick={handleScanClose}>Close Scan</button>}
             </div>
           </div>
         </div>
-      </div>
-      <div className="bg-gray-800 rounded-lg shadow-lg p-6">
-        <table className="min-w-full divide-y divide-gray-200">
+        <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+        <input
+          type="text"
+          placeholder="Search by question #"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="mb-4 p-2 rounded border text-black"
+        />
+        {!showingScan && <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Question Number</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Correct Answer</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Weight</th>
+              <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Question Number</th>
+              <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Correct Answer</th>
+              <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Weight</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {questions.map((question, index) => (
+            {filteredQuestions.map((question, index) => (
               <tr key={index}>
-                <td className="px-6 py-4 whitespace-nowrap">{question.question_num}</td>
-                <td className="px-6 py-4 whitespace-nowrap"><EditBubble question={question} /></td>
-                <td className="px-6 py-4 whitespace-nowrap">{question.weight}</td>
+                <td className="px-6 py-2 whitespace-nowrap">{question.question_num}</td>
+                <td className="px-6 py-2 whitespace-nowrap"><EditBubble question={question} /></td>
+                <td className="px-6 py-2 whitespace-nowrap">{question.weight}</td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>}
+        <div id='imageContainer' className='mt-4'>
+        </div>
+      </div>
       </div>
     </div>
   );

@@ -13,6 +13,17 @@ const getCoursesByUserId = async (id) => {
     };
 };
 
+const getCourseInfo = async (id) => {
+    try {
+        const response = await db.oneOrNone(
+            'SELECT * FROM courses WHERE id = $1', [id]
+        );
+        return response;
+    } catch(error) {
+        console.error(`Error getting course data for course id ${id}`, error);
+    }
+}
+
 const getTestsByCourseId = async (id) => {
     try {
         const response = await db.manyOrNone(
@@ -38,7 +49,7 @@ const getRecentExamsByUserId = async (id) => {
 const getQuestionData = async (userId, examId) => {
     try {
         const response = await db.manyOrNone(
-            'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
+            'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name, was_modified FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
         );
         return response;
     } catch(error) {
@@ -220,14 +231,14 @@ const calculateGrades = async (courseId) => {
     };
 };
 
-const addResponse = async (exam_id, question_num, user_id, response) => {
+const addResponse = async (exam_id, question_num, user_id, response, modifying = false) => {
     try {
         questionId = await db.oneOrNone(
             'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [exam_id, question_num]
         );
         if(questionId.id) {
             await db.none(
-                'INSERT INTO responses (question_id, user_id, response, question_num) VALUES ($1, $2, $3, $4) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response', [questionId.id, user_id, response, question_num] 
+                'INSERT INTO responses (question_id, user_id, response, question_num, was_modified) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response, was_modified = excluded.was_modified', [questionId.id, user_id, response, question_num, modifying] 
             )
         } else {
 
@@ -243,14 +254,28 @@ const addStudentAnswers = async (jsonData, examId) => {
             const answerKey = jsonData[key];
             const studentId = answerKey.stnum
             const responses = answerKey.answers[0]
-            const noResponse = answerKey.answers[1];
+            const questionsWithNoResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
+            const image = answerKey.combined_page;
+            const imageBuffer = Buffer.from(image, 'base64');
+            const imagesDir = '/code/images';
+            const imagePath = `/code/images/${examId}_${studentId}.png`;
+            const databasePath = `/images/${examId}_${studentId}.png`;
+
+            if (!fs.existsSync(imagesDir)) {
+                fs.mkdirSync(imagesDir, { recursive: true });
+            }
+            fs.writeFileSync(imagePath, imageBuffer);
+
             responses.forEach((response) => {
-                console.log(response.LetterPos);
-                const recordedAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
-                console.log(response);
-                addResponse(examId, questionNum, studentId, [recordedAnswer])
+                const recordedAnswer = response.LetterPos;
+                const questionNum = response.Question;
+                addResponse(examId, questionNum, studentId, recordedAnswer)
+            });
+            questionsWithNoResponse.forEach((question) => {
+                const recordedAnswer = Number(question.LetterPos);
+                const questionNum = Number(question.Question)
+                addResponse(examId, question, studentId, `{}`)
             });
         };
     }
@@ -264,24 +289,23 @@ const addAnswerKey = async (jsonData, examId, userId) => {
             const responses = answerKey.answers[0];
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
-            const image = answerKey.image;
+            const image = answerKey.combined_page;
             const imageBuffer = Buffer.from(image, 'base64');
-            const imagesDir = ('/images');
-            console.log(imagesDir);
-            const imagePath = path.join(imagesDir, `${examId}_${userId}.png`);
-            console.log(imagePath);
+            const imagesDir = ('/code/images');
+            const imagePath = `/code/images/${examId}_${userId}.png`;
+            const databasePath = `/images/${examId}_${userId}.png`;
             if (!fs.existsSync(imagesDir)) {
                 fs.mkdirSync(imagesDir, { recursive: true });
             }
             fs.writeFileSync(imagePath, imageBuffer);
 
             responses.forEach((response) => {
-                const correctAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
-                addQuestion(examId, 5, [correctAnswer], 1, questionNum);
+                const correctAnswer = response.LetterPos;
+                const questionNum = response.Question;
+                console.log("Correct Answer:",correctAnswer)
+                addQuestion(examId, 5, correctAnswer, 1, questionNum);
             })
-            console.log("Adding scan: examId, userId, imagePath:",examId,userId,imagePath);
-            addScan(examId, userId, imagePath);
+            addScan(examId, userId, databasePath);
         };
     }
 }
@@ -303,6 +327,36 @@ const editTest = async (testId, newName) => {
         throw error;
     }
 };
+//For Admin
+const getAllUsers = async() =>  { 
+    try{
+        const users = await db.manyOrNone('SELECT id, first_name, last_name, email, role FROM users ORDER BY role DESC, last_name');
+        return users;
+
+    }catch(error){
+        console.error('Error Fetching Users:', error);
+        throw error;
+    }
+}
+
+const changeUserRole = async(userId, role) => {
+    try{
+        await db.none('UPDATE users SET role = $1 WHERE id = $2', [role, userId]);
+        return true;
+    }catch(error){
+        console.log('Error when updating role', error);
+        throw error;
+    }
+}
+const getUserStatistics = async () => {
+    try {
+      const statistics = await db.any('SELECT role, COUNT(*) as count FROM users GROUP BY role');
+      return statistics;
+    } catch (error) {
+      console.error('Error fetching user statistics:', error);
+      throw error;
+    }
+  };
 
 const editAnswer = async (questionId, correctAnswer) => {
     try {
@@ -312,6 +366,15 @@ const editAnswer = async (questionId, correctAnswer) => {
         throw error;
     }
 };
+
+const setExamMarked = async (examId) => {
+    try {
+
+    } catch(error) {
+        console.error('Error updating exam marked date for exam:',examId);
+        throw error;
+    }
+}
 
 module.exports = {
     getCoursesByUserId,
@@ -328,10 +391,15 @@ module.exports = {
     addAnswerKey,
     deleteTest,
     editTest,
-    calculateGrades,
     getExamAnswers,
     addScan,
+    getAllUsers,
+    changeUserRole,
+    calculateGrades,
     addResponse,
+    getUserStatistics,
     editAnswer,
-    getScan
+    getScan,
+    getCourseInfo,
+    setExamMarked
 }

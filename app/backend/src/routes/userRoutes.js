@@ -8,21 +8,26 @@ const {
     getRecentExamsByUserId, 
     getQuestionData, 
     getStudentsByCourseId, 
-    addCourse, addStudent, 
+    addCourse, 
+    addStudent, 
     deleteTest, 
     editTest, 
     register, 
+    getAllUsers,
     addResponse, 
     addAnswerKey, 
     addStudentAnswers, 
     getExamAnswers, 
     calculateGrades, 
     editAnswer,
-    getScan
+    getScan,
+    getCourseInfo,
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
 const stream = require('stream');
+const { getAllCourses } = require('../controllers/courseController');
+//const { getAllUsers, changeUserRole } = require('../controllers/userController'); // 
 
 const router = express.Router();
 const upload = multer();
@@ -166,7 +171,18 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const testid = req.headers['testid'];
     const data = jsonData.data;
     addStudentAnswers(data, testid);
-    res.status(200).json({message: "This will always pass"});
+    res.status(200);
+  });
+
+  router.put('/responses/edit', async (req, res) =>  {
+    console.log(req.body);
+    const examId = req.body.exam_id;
+    const userId = req.body.student_id;
+    const modifiedResponses = req.body.modifiedResponses;
+    modifiedResponses.forEach((response) => {
+        addResponse(examId, response.questionNum, userId, response.responseArray, true);
+    })
+    res.status(200);
   });
 
   router.post('/students/upload', upload.single('file'), async (req, res) => {
@@ -180,6 +196,7 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         .on('end', () => {
             console.log('Parsed CSV Data:', results); // This is the parsed CSV data
             results.forEach((student) => {
+                console.log("Student",student);
                 const id = student.id;
                 const first = student.first_name;
                 const last = student.last_name;
@@ -198,6 +215,32 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
 }
   });
 
+
+//admin
+  router.get('/all', async(req, res) =>{
+    try{
+        const users = await getAllUsers();
+        res.status(200).json(users);
+    }catch(error){
+        console.error('heres the error', error);
+        res.status(500).send('an error occoured while getAllUsers')
+    }
+  });
+
+router.put('/role/:userId', async(req,res) =>{
+    const{userId } = req.params;
+    const{role} = req.body;
+    console.log(role);
+    console.log(userId)
+    try{
+    await changeUserRole(userId,role);
+    res.status(200).json({message: 'role updated succesfully'});
+
+    }catch(error){
+    res.status(200).json({message: 'an error occoured while changeUserRole'});
+    }
+  });
+
 router.get('/courses/grades/:id', async (req, res) => {
     const id = req.params.id;
     if(id) {
@@ -211,6 +254,20 @@ router.get('/courses/grades/:id', async (req, res) => {
         res.status(400).json({error: "id is not sent"});
     }
 });
+
+
+router.get('/sitestatistics', async (req, res) => {
+    try {
+      const users = await getAllUsers(); 
+      const statistics = users.reduce((acc, user) => {
+        acc[user.role] = (acc[user.role] || 0) + 1;
+        return acc;
+      }, {});
+      res.status(200).json(statistics);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching user statistics' });
+    }
+  });
 
 router.post('/questions/answers/edit/:id', async (req, res) => {
     try {
@@ -233,6 +290,15 @@ router.get('/scans/:examId/:userId', async (req, res) => {
         res.status(200).json({path: path.scan});
     } catch(error) {
         res.status(400).json({error: error.message});
+    }
+});
+
+router.get('/courses/info/:id', async (req, res) => {
+    try {
+        const data = await getCourseInfo(req.params.id);
+        res.status(200).json(data);
+    } catch(error) {
+        res.status(500).json({error: error.message});
     }
 });
 
