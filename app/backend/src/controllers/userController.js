@@ -181,7 +181,7 @@ const calculateGrades = async (courseId) => {
                 registeredStudents AS (
 	                SELECT user_id AS "userId", users.last_name AS "lastName", users.first_name AS "firstName"
 	                FROM users JOIN registration ON users.id = user_id
-	                WHERE course_id = ${courseId}
+	                WHERE course_id = ${courseId} AND users.role = 1
             ),
 
                 studentsWithExams AS (
@@ -197,7 +197,7 @@ const calculateGrades = async (courseId) => {
 			        LEFT JOIN registration ON 
 				        responses.user_id = registration.user_id
 				        AND registration.course_id = ${courseId}
-	                WHERE exams.course_id = ${courseId} 
+	                WHERE exams.course_id = ${courseId} AND users.role = 1
 	                GROUP BY  users.id, users.last_name, users.first_name,
 			            exams.id, exams.name, registration.user_Id
             ),
