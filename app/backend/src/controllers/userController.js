@@ -120,7 +120,7 @@ const register = async (userId, courseId) => {
             'INSERT INTO registration (user_id, course_id) VALUES ($1, $2) ON CONFLICT (user_id, course_id) DO NOTHING', [userId, courseId]
         )
     } catch(error) {
-        console.error('Error registering user with ID ',userId,"into course with ID",courseId)
+        console.error('Error registering user with ID ', userId, "into course with ID", courseId)
     }
 }
 
@@ -181,7 +181,7 @@ const calculateGrades = async (courseId) => {
                 registeredStudents AS (
 	                SELECT user_id AS "userId", users.last_name AS "lastName", users.first_name AS "firstName"
 	                FROM users JOIN registration ON users.id = user_id
-	                WHERE course_id = ${courseId}
+	                WHERE course_id = ${courseId} AND users.role = 1
             ),
 
                 studentsWithExams AS (
@@ -189,7 +189,7 @@ const calculateGrades = async (courseId) => {
 			            registration.user_Id IS NOT NULL AS "isRegistered",
 			            exams.id AS "examId",  exams.name AS "examName",
 	    	            SUM(weight*(CASE WHEN response=correct_answer THEN 1 ELSE 0 END))
-        		        AS "studentScore"
+        		        AS "studentScore", SUM(weight) AS "maxScore"
 	                FROM users
 			        JOIN responses ON users.id = responses.user_id
 			        JOIN questions ON questions.id = question_id
@@ -197,7 +197,7 @@ const calculateGrades = async (courseId) => {
 			        LEFT JOIN registration ON 
 				        responses.user_id = registration.user_id
 				        AND registration.course_id = ${courseId}
-	                WHERE exams.course_id = ${courseId} 
+	                WHERE exams.course_id = ${courseId} AND users.role = 1
 	                GROUP BY  users.id, users.last_name, users.first_name,
 			            exams.id, exams.name, registration.user_Id
             ),
@@ -205,7 +205,7 @@ const calculateGrades = async (courseId) => {
                 StudentsWithoutExams AS (
 	                SELECT registeredStudents."userId", registeredStudents."lastName",
 		                registeredStudents."firstName", 1=1 AS "isRegistered",
-		                -1 AS "examId", NULL AS "examName", 0 AS "studentScore"
+		                -1 AS "examId", NULL AS "examName", 0 AS "studentScore",  1 AS "maxScore"
 	                FROM studentsWithExams 
 	                RIGHT JOIN registeredStudents ON studentsWithExams."userId" = registeredStudents."userId"
 	                WHERE studentsWithExams."userId" IS NULL
@@ -273,14 +273,11 @@ const addStudentAnswers = async (jsonData, examId) => {
                 addResponse(examId, questionNum, studentId, recordedAnswer)
             });
             questionsWithNoResponse.forEach((question) => {
-                const recordedAnswer = Number(question.LetterPos);
-                const questionNum = Number(question.Question)
                 addResponse(examId, question, studentId, `{}`)
             });
         };
     }
 }
-
 
 const addAnswerKey = async (jsonData, examId, userId) => {
     for (const key in jsonData) {
@@ -318,6 +315,26 @@ const deleteTest = async (testId) => {
         throw error;
     }
 };
+
+const deleteResponses = async (userId, examId) => {
+    try {
+        await db.none(`DELETE 
+        FROM responses 
+        WHERE 
+            question_id IN (
+                SELECT
+                    questions.id 
+                FROM 
+                    questions 
+                WHERE
+                    exam_id = ${examId}
+            )
+            AND user_id = ${userId};`);
+    } catch(error) {
+        console.error(`Error deleting responses for user: ${userId} on exam ${examId}`);
+        throw error;
+    }
+}
 
 const editTest = async (testId, newName) => {
     try {
@@ -401,5 +418,6 @@ module.exports = {
     editAnswer,
     getScan,
     getCourseInfo,
-    setExamMarked
+    setExamMarked,
+    deleteResponses
 }
