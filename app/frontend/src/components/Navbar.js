@@ -1,8 +1,7 @@
-// app/frontend/src/components/Navbar.js
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsis, faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Import faEnvelope icon
 import getCourseData from '../hooks/getCourseData';
 import validateUser from '../hooks/validateUser';
 import ProfileMenuModal from './ProfileMenuModal';
@@ -97,6 +96,11 @@ const Navbar = (props) => {
     }
   };
 
+  const handleInvite = () => {
+    // Handle the invite action here
+    console.log('Invite button clicked');
+  };
+
   const containerStyle = theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-200 text-black';
   const headerStyle = theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300';
   const linkActiveStyle = theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black';
@@ -121,14 +125,15 @@ const Navbar = (props) => {
             Recent Courses
           </NavLink>
         </div>
-        <div className={`mt-4 ${headerStyle} sticky top-0 z-10`}>
+        <div className={`mt-4 ${headerStyle} sticky top-0 z-10 flex justify-between items-center`}>
           <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
-          <li
-            className={`block p-4 mx-4 mt-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
-            onClick={() => { /* Add Course Modal Open */ }}
+          <button
+            className={`mr-4 p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-300 text-black hover:bg-gray-400'} flex items-center`}
+            onClick={handleInvite}
           >
-            <div className="text-xl">+</div>
-          </li>
+            <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+            Invite
+          </button>
         </div>
         <div className="flex-grow overflow-y-auto">
           <ul className="mt-4 space-y-4">

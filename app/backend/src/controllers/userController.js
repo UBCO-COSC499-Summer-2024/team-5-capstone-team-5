@@ -1,6 +1,7 @@
 const { db } = require('../database');
 const fs = require('fs');
 const path = require('path');
+const nodemailer = require('nodemailer');
 
 const getCoursesByUserId = async (id) => {
     try {
@@ -153,7 +154,7 @@ const addScan = async (exam_id, user_id, path) => {
 
 const getScan = async (exam_id, user_id) => {
     try {
-        response = await db.oneOrNone(
+        const response = await db.oneOrNone(
             'SELECT scan FROM scans WHERE exam_id = $1 AND user_id = $2', [exam_id, user_id]
         );
         return response;
@@ -222,7 +223,7 @@ const calculateGrades = async (courseId) => {
 
 const addResponse = async (exam_id, question_num, user_id, response) => {
     try {
-        questionId = await db.oneOrNone(
+        const questionId = await db.oneOrNone(
             'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [exam_id, question_num]
         );
         if(questionId.id) {
@@ -230,7 +231,7 @@ const addResponse = async (exam_id, question_num, user_id, response) => {
                 'INSERT INTO responses (question_id, user_id, response, question_num) VALUES ($1, $2, $3, $4) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response', [questionId.id, user_id, response, question_num] 
             )
         } else {
-
+            console.error('Question ID not found for exam:', exam_id, 'question number:', question_num);
         }
     } catch(error) {
         console.error('Error adding response')
@@ -241,8 +242,8 @@ const addStudentAnswers = async (jsonData, examId) => {
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
-            const studentId = answerKey.stnum
-            const responses = answerKey.answers[0]
+            const studentId = answerKey.stnum;
+            const responses = answerKey.answers[0];
             const noResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
             responses.forEach((response) => {
@@ -266,7 +267,7 @@ const addAnswerKey = async (jsonData, examId, userId) => {
             const multiResponse = answerKey.answers[2];
             const image = answerKey.image;
             const imageBuffer = Buffer.from(image, 'base64');
-            const imagesDir = ('/images');
+            const imagesDir = path.join(__dirname, '../images');
             console.log(imagesDir);
             const imagePath = path.join(imagesDir, `${examId}_${userId}.png`);
             console.log(imagePath);
@@ -313,6 +314,41 @@ const editAnswer = async (questionId, correctAnswer) => {
     }
 };
 
+const inviteStudent = async (req, res) => {
+  const { email, number, courseId } = req.body;
+
+  try {
+    console.log(`Inviting student ${number} (${email}) to course ${courseId}`);
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'your-email@gmail.com', // Replace with your email
+        pass: 'your-email-password'   // Replace with your email password
+      }
+    });
+
+    const mailOptions = {
+      from: 'your-email@gmail.com', // Replace with your email
+      to: email,
+      subject: 'Course Invitation',
+      text: `You have been invited to join the course with ID: ${courseId}. Please use the student number ${number} to register.`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.error(`Error sending email: ${error}`);
+      }
+      console.log(`Email sent: ${info.response}`);
+    });
+
+    res.status(200).json({ message: 'Invitation sent successfully' });
+  } catch (error) {
+    console.error(`Error inviting student: ${error}`);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
     getCoursesByUserId,
     getTestsByCourseId,
@@ -321,17 +357,17 @@ module.exports = {
     getStudentsByCourseId,
     addStudent,
     addCourse,
+    register,
     addExam,
     addQuestion,
-    register,
+    addScan,
+    getScan,
+    calculateGrades,
+    addResponse,
     addStudentAnswers,
     addAnswerKey,
     deleteTest,
     editTest,
-    calculateGrades,
-    getExamAnswers,
-    addScan,
-    addResponse,
     editAnswer,
-    getScan
+    inviteStudent
 }

@@ -18,7 +18,8 @@ const {
     getExamAnswers, 
     calculateGrades, 
     editAnswer,
-    getScan
+    getScan,
+    inviteStudent // Import the inviteStudent function
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
@@ -134,7 +135,7 @@ router.get('/courses/students/:id', async (req, res) => {
     }
 });
 
-  router.post('/tests/answers', upload.single('file'), async (req, res) => {
+router.post('/tests/answers', upload.single('file'), async (req, res) => {
     const response = await fetch('http://python-cv:8000/upload', {
         method: 'POST',
         body: req.file.buffer,
@@ -149,7 +150,7 @@ router.get('/courses/students/:id', async (req, res) => {
     const data = jsonData.data;
     addAnswerKey(data, testid, req.headers['userid']);
     res.status(200).json({message: "This will always pass"});
-  });
+});
 
 router.post('/tests/upload', upload.single('file'), async (req, res) => {
     console.log(req.file.buffer)
@@ -167,18 +168,17 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const data = jsonData.data;
     addStudentAnswers(data, testid);
     res.status(200).json({message: "This will always pass"});
-  });
+});
 
-  router.post('/students/upload', upload.single('file'), async (req, res) => {
+router.post('/students/upload', upload.single('file'), async (req, res) => {
     try {
         const bufferStream = new stream.PassThrough();
         bufferStream.end(req.file.buffer);
-        // Parse the CSV data from the buffer
         const results = [];
         bufferStream.pipe(csv())
         .on('data', (data) => results.push(data))
         .on('end', () => {
-            console.log('Parsed CSV Data:', results); // This is the parsed CSV data
+            console.log('Parsed CSV Data:', results);
             results.forEach((student) => {
                 const id = student.id;
                 const first = student.first_name;
@@ -195,8 +195,8 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     } catch (error) {
         console.error('Error:', error);
         res.status(500).send('An error occurred while processing the file.');
-}
-  });
+    }
+});
 
 router.get('/courses/grades/:id', async (req, res) => {
     const id = req.params.id;
@@ -234,6 +234,10 @@ router.get('/scans/:examId/:userId', async (req, res) => {
     } catch(error) {
         res.status(400).json({error: error.message});
     }
+});
+
+router.post('/invite', async (req, res) => {
+    await inviteStudent(req, res);
 });
 
 module.exports = router;

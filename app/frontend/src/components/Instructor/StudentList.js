@@ -2,14 +2,16 @@ import React, { useEffect, useState, useCallback } from 'react';
 import getStudentData from '../../hooks/getStudentData';
 import { useTheme } from '../../App';
 import StudentSpreadsheet from './StudentSpreadsheet';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons'; // Import specific icon
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import InviteStudentModal from './InviteStudentModal'; // Import InviteStudentModal
 
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
   const { theme } = useTheme();
   const [fileUploaded, setFileUploaded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
 
   const fetchData = useCallback(async () => {
     const data = await getStudentData(props.courseId);
@@ -37,6 +39,22 @@ const StudentList = (props) => {
     }
   };
 
+  const handleInvite = async (email, number) => {
+    // Send invite request to backend
+    const response = await fetch('http://localhost/api/users/students/invite', {
+      method: 'POST',
+      body: JSON.stringify({ email, number, courseId: props.courseId }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.ok) {
+      console.log('Invitation sent');
+      fetchData();
+    }
+    setInviteModalOpen(false);
+  };
+
   useEffect(() => {
     fetchData();
     setLoading(false);
@@ -60,11 +78,18 @@ const StudentList = (props) => {
 
           <button
             className={`mb-4 p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-300 text-black hover:bg-gray-400'} flex items-center`}
-            onClick={() => {/* Handle invite action here */}}
+            onClick={() => setInviteModalOpen(true)}
           >
             <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
             Invite
           </button>
+
+          <InviteStudentModal
+            isOpen={inviteModalOpen}
+            onClose={() => setInviteModalOpen(false)}
+            onInvite={handleInvite}
+            courseId={props.courseId}
+          />
 
           <label className="block text-sm font-medium mb-2">
             Upload Student Data
