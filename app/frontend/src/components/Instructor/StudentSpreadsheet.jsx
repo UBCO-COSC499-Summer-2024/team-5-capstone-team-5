@@ -237,7 +237,6 @@ function createSingleRow(
     };
     const studentGradeList = studentGrades.scores.map((grade) => {
       return (
-        <>
           <td
             key={grade.examId}
             onClick={() =>
@@ -255,7 +254,6 @@ function createSingleRow(
           >
             {grade.studentScore}
           </td>
-        </>
       );
     });
 
@@ -276,13 +274,13 @@ function createSingleRow(
     //Add border? border-[1px] border-[solid] border-[black]
     return (
       <tr key={studentGrades.userId} className={`rounded-lg ${colors}`}>
-        <td key="userId" className="p-4">
+        <td key={studentGrades.userId} className="p-4">
           {String(studentGrades.userId).padStart(8, "0")}
         </td>
-        <td key="lastName" className="p-4">
+        <td key={studentGrades.lastName} className="p-4">
           {studentGrades.lastName}
         </td>
-        <td key="firstName" className="p-4">
+        <td key={studentGrades.firstName} className="p-4">
           {studentGrades.firstName}
         </td>
         {studentGradeList}
