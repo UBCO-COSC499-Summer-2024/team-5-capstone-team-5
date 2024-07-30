@@ -1,4 +1,5 @@
 const { db } = require('../database');
+const { register } = require('./userController');
 
 const addCourse = async (user_id, name, description, end_date) => {
   try {
