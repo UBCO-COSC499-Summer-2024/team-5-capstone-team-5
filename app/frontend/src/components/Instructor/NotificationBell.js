@@ -26,7 +26,7 @@ const NotificationBell = (props) => {
     return (
         <div>
             <div className="flex m-4 cursor-pointer" onClick={handleBellClick}>
-                <div className='w-3 h-3 rounded-full bg-red-700 translate-x-8'></div>
+                <div className={(notifications.length > 0 ? 'bg-red-700 ' : '') + 'w-3 h-3 rounded-full translate-x-8'}></div>
                 <FontAwesomeIcon icon={faBell} size="2xl" />
             </div>
             {showNotifications && (
