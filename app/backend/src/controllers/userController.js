@@ -1,6 +1,7 @@
 const { db } = require('../database');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const getStudentsByCourseId = async (courseId) => {
     try {
@@ -15,8 +16,9 @@ const getStudentsByCourseId = async (courseId) => {
 
 const addStudent = async (id, first, last, email, password, courseId) => {
     try {
+        const hashedPassword = await bcrypt.hash(password, 10)
         await db.none(
-            'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING', [id, first, last, email, password]
+            'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING', [id, first, last, email, hashedPassword]
         );
         if(courseId) {
             register(id, courseId)
