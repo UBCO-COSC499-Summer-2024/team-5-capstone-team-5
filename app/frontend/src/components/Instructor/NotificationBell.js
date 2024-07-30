@@ -36,7 +36,7 @@ const NotificationBell = (props) => {
                         {notifications.length > 0 ? (
                             notifications.map((flag, index) => (
                                 <div key={index} className="mb-2 bg-gray-800 rounded-lg p-2">
-                                    <h1><span className='font-semibold'>Exam: </span>{flag.exam_name ? flag.exam_name : "N/A"}</h1>
+                                    <h1><span className='font-semibold'>Exam: </span>{flag.course_dept && flag.course_code && flag.course_section ? (flag.course_dept + " " + flag.course_code + "-" + flag.course_section): "N/A"}</h1>
                                     <p><span className='font-semibold'>Question: </span>{flag.question_num ? flag.question_num : "N/A"}</p>
                                     <p><span className='font-semibold'>Student ID: </span>{flag.user_id ? flag.user_id : "N/A"}</p>
                                     <p><span className='font-semibold'>Issue: </span>{flag.issue}</p>

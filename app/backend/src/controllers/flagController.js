@@ -52,7 +52,9 @@ const getFlagged = async (userId) => {
                 flags.user_id, 
                 flags.issue, 
                 exams.name AS exam_name, 
-                courses.name AS course_name, 
+                courses.department AS course_dept,
+                courses.code AS course_code,
+                courses.section AS course_section, 
                 questions.question_num 
             FROM 
                 flags

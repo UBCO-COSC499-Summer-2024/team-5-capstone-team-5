@@ -58,8 +58,11 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS courses (
     id serial PRIMARY KEY,
-    name text,
+    department text,
+    code text,
+    section integer,
     description text,
+    start_date date,
     end_date date
 );
 
@@ -151,15 +154,15 @@ INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (000
 
 
 -- Course Sample Data
-INSERT INTO courses (name, description, end_date) VALUES ('MATH 100-001', 'Differential Calculus with Applications to Physical Sciences and Engineering', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('PHYS 101-001', 'Introduction to Physics', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('CHEM 101-001', 'General Chemistry', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('BIOL 101-001', 'Introduction to Biology', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('COMP 101-001', 'Introduction to Computer Science', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('ECON 101-001', 'Principles of Microeconomics', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('HIST 101-001', 'World History', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('PSYC 101-001', 'Introduction to Psychology', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('ENGL 101-001', 'English Composition', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('MATH', '100', '001', 'Differential Calculus with Applications to Physical Sciences and Engineering', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('PHYS', '101', '001', 'Introduction to Physics', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('CHEM', '101', '001', 'General Chemistry', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('BIOL', '101', '001', 'Introduction to Biology', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('COMP', '101', '001', 'Introduction to Computer Science', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('ECON', '101', '001', 'Principles of Microeconomics', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('HIST', '101', '001', 'World History', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('PSYC', '101', '001', 'Introduction to Psychology', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('ENGL', '101', '001', 'English Composition', '2024-09-04', '2025-01-01');
 
 -- Registration Sample Data
 -- Users 1-5 registered in 5 courses each

@@ -24,10 +24,10 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/add', async (req, res) => {
-    const { name, description, end_date, user_id } = req.body;
-    if(name && description && end_date && user_id) {
+    const { department, code, section, description, start_date, end_date, user_id } = req.body;
+    if(department && code && section && description && start_date && end_date && user_id) {
         try {
-            const newCourse = await addCourse(user_id, name, description, end_date);
+            const newCourse = await addCourse(user_id, department, code, section, description, start_date, end_date);
             res.status(200).json(newCourse);
         } catch(error) {
             res.status(500).json({error: error.message});

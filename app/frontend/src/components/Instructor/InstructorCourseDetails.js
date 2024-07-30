@@ -28,7 +28,7 @@ const InstructorCourseDetails = () => {
     const courseData = await getCourseInfo(courseId);
     setGradeList(await getGrades(courseId));
     setTests(testData);
-    setCourseName(courseData.name);
+    setCourseName(courseData.department + " " + courseData.code + "-" + String(courseData.section).padStart(3, '0'));
   }, [courseId, isAddTestModalOpen]);
 
   const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
