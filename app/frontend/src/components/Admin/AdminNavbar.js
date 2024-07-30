@@ -86,6 +86,13 @@ const AdminNavbar = (props) => {
             
           Recent Changes 
         </Button>
+        <Button
+          onClick={() => navigate('admin/sitestatistics')}
+          className={`flex items-center mb-4 cursor-pointer hover:bg-gray-700 p-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'} manage-users-btn`}
+          >
+          
+          Admin Statistics
+        </Button>
         </div>
         </nav>
       </div>

@@ -74,6 +74,7 @@ function appendSingleGrade(grades, exams, user) {
           examId: exams[i].examId,
           examName: exams[i].examName,
           studentScore: 0,
+          maxScore: 1,
         });
       }
     } else {
@@ -88,6 +89,7 @@ function appendSingleGrade(grades, exams, user) {
             examId: grades[userIdx].examId,
             examName: grades[userIdx].examName,
             studentScore: grades[userIdx].studentScore,
+            maxScore: grades[userIdx].maxScore,
           });
           userIdx++;
           examsIdx++;
@@ -97,6 +99,7 @@ function appendSingleGrade(grades, exams, user) {
             examId: exams[examsIdx].examId,
             examName: exams[examsIdx].examName,
             studentScore: 0,
+            maxScore: 1,
           });
           examsIdx++;
         }
@@ -115,6 +118,7 @@ function appendSingleGrade(grades, exams, user) {
           examId: exams[examsIdx].examId,
           examName: exams[examsIdx].examName,
           studentScore: 0,
+          maxScore: 1
         });
       }
     }
