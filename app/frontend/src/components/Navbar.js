@@ -16,6 +16,7 @@ const Navbar = (props) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [avatarOptions, setAvatarOptions] = useState({ seed: 'initial' });
   const [flippedCourses, setFlippedCourses] = useState({});
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
   const navigate = useNavigate();
   const { theme } = useTheme();
   const [user, setUser] = useState({
@@ -91,6 +92,7 @@ const Navbar = (props) => {
 
   const handleCardClick = (courseId) => {
     if (!flippedCourses[courseId]) {
+      setSelectedCourseId(courseId); // Set selected course ID
       navigate(`/course/${courseId}`);
     }
   };
@@ -101,6 +103,7 @@ const Navbar = (props) => {
   const linkInactiveStyle = theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black';
   const cardStyle = theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black';
   const iconStyle = theme === 'dark' ? 'text-gray-400' : 'text-gray-600';
+  const borderStyle = theme === 'dark' ? 'border-white' : 'border-black';
 
   if (props.id) {
     return (
@@ -118,12 +121,24 @@ const Navbar = (props) => {
             Recent Courses
           </NavLink>
         </div>
-        <div className="flex-grow overflow-y-auto mt-4">
+        <div className={`mt-4 ${headerStyle} sticky top-0 z-10`}>
           <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
+          <li
+            className={`block p-4 mx-4 mt-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
+            onClick={() => { /* Add Course Modal Open */ }}
+          >
+            <div className="text-xl">+</div>
+          </li>
+        </div>
+        <div className="flex-grow overflow-y-auto">
           <ul className="mt-4 space-y-4">
             {courses.map((course) => (
               <li key={course.course_id} className="relative">
-                <div className={`relative p-4 rounded-lg ${cardStyle} shadow-md cursor-pointer`} onClick={() => handleCardClick(course.course_id)} style={{ minHeight: '150px' }}>
+                <div
+                  className={`relative p-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${selectedCourseId === course.course_id ? `border-l-4 ${borderStyle}` : ''}`}
+                  onClick={() => handleCardClick(course.course_id)}
+                  style={{ minHeight: '150px' }}
+                >
                   <Flip
                     course={course}
                     flipped={flippedCourses[course.course_id] || false}

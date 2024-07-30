@@ -13,6 +13,7 @@ const {
     deleteTest, 
     editTest, 
     register, 
+    getAllUsers,
     addResponse, 
     addAnswerKey, 
     addStudentAnswers, 
@@ -25,6 +26,7 @@ const {
     getFlagged,
     flagResponse,
     resolveFlag,
+    deleteResponses,
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
 const csv = require('csv-parser');
@@ -121,6 +123,18 @@ router.delete('/tests/delete/:id', async (req, res) => {
     }
 });
 
+router.delete('/responses/delete', async (req, res) => {
+    const userId = req.body.userId;
+    const examId = req.body.examId;
+    try {
+        await deleteResponses(userId, examId);
+        res.status(200).json({message: `responses successfully deleted for student: ${userId} on exam: ${examId}`})
+    } catch(error) {
+        console.error(error)
+        res.status(500);
+    }
+})
+
 router.put('/tests/edit/:id', async (req, res) => {
     const { id } = req.params;
     const { name } = req.body;
@@ -129,6 +143,18 @@ router.put('/tests/edit/:id', async (req, res) => {
         console.log("Test name: ",name)
         res.status(200).json({ message: `Test with id ${id} edited successfully` });
     } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.post('/courses/students/register', async (req, res) => {
+    const courseId = req.body.courseId;
+    const studentId = req.body.studentId;
+    try {
+        await register(studentId, courseId)
+        console.log(`registering ${studentId} in course ${courseId}`);
+        res.status(200).json({ message: `student ${studentId} sucessfully registered in ${courseId}`});
+    } catch {
         res.status(500).json({ error: error.message });
     }
 });
@@ -180,11 +206,13 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const examId = req.body.exam_id;
     const userId = req.body.student_id;
     const modifiedResponses = req.body.modifiedResponses;
-    modifiedResponses.forEach((response) => {
-        addResponse(examId, response.questionNum, userId, response.responseArray, true);
-    })
-    setExamMarked;
-    res.status(200);
+    const upDateResponses = async () => {
+        for(let i = 0; i < modifiedResponses.length; i++) {
+            await addResponse(examId, modifiedResponses[i].questionNum, userId, modifiedResponses[i].responseArray, true);
+        }
+    }
+    await upDateResponses();
+    res.status(200).json({message: `responses successfully saved for student: ${userId} on exam: ${examId}`})
   });
 
   router.post('/students/upload', upload.single('file'), async (req, res) => {
@@ -216,7 +244,6 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
         res.status(500).send('An error occurred while processing the file.');
 }
   });
-
 
 //admin
   router.get('/all', async(req, res) =>{
@@ -257,6 +284,20 @@ router.get('/courses/grades/:id', async (req, res) => {
     }
 });
 
+
+router.get('/sitestatistics', async (req, res) => {
+    try {
+      const users = await getAllUsers(); 
+      const statistics = users.reduce((acc, user) => {
+        acc[user.role] = (acc[user.role] || 0) + 1;
+        return acc;
+      }, {});
+      res.status(200).json(statistics);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching user statistics' });
+    }
+  });
+
 router.post('/questions/answers/edit/:id', async (req, res) => {
     try {
         const questionId = req.params.id;
@@ -274,6 +315,7 @@ router.get('/scans/:examId/:userId', async (req, res) => {
     try {
         const { examId, userId } = req.params
         const path = await getScan(examId, userId);
+        console.log(`GETTING SCAN FOR EXAM: ${examId}, USER: ${userId}`);
         console.log(path);
         res.status(200).json({path: path.scan});
     } catch(error) {

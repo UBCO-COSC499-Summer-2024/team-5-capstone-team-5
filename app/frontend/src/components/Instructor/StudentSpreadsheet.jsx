@@ -7,6 +7,8 @@ import ScanView from "./ScanView";
 import ParseStudentGrades from "./ParseStudentGrades.jsx";
 import getGrades from '../../hooks/getGrades';
 
+let courseName = "";
+
 function StudentSpreadsheet(props) {
   const navigate = useNavigate();
   const [gradeList, setGradeList] = useState(null);
@@ -17,9 +19,12 @@ function StudentSpreadsheet(props) {
     examName: "",
     score: 0,
     course: 0,
+    courseName: "",
     firstName: "",
     lastName: "",
+    isRegistered: false,
   });
+  courseName = props.courseName;
   //Stores information for the instructor which is currently signed in.
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -69,13 +74,15 @@ function StudentSpreadsheet(props) {
       examName: "",
       score: 0,
       course: 0,
+      courseName: "",
+      isRegistered: false,
     });
     setGradeList(await getGrades(props.courseId));
   };
-
+  
   return (
     <>
-      <table>
+      <table className = "overflow-x-scroll">
         <thead>{createHeaders(exams, theme)}</thead>
         <tbody>
           {createRows(
@@ -83,7 +90,8 @@ function StudentSpreadsheet(props) {
             theme,
             props.courseId,
             scanViewInfo,
-            setScanViewInfo
+            setScanViewInfo,
+            props.asPercents,
           )}
         </tbody>
       </table>
@@ -129,7 +137,7 @@ function createHeaders(exams, theme) {
               : "bg-gray-300 text-black"
           }`}
         >
-          {exam.examName}
+          {exam.examName.length < 24 ? exam.examName : exam.examName.substring(0, 21) + "..."}
         </th>
       );
     });
@@ -138,7 +146,7 @@ function createHeaders(exams, theme) {
         <tr key="Header">
           <th
             key="StudentId"
-            className={`p-4 ${
+            className={`p-4 text-left ${
               theme === "dark"
                 ? "bg-gray-800 text-white"
                 : "bg-gray-300 text-black"
@@ -148,7 +156,7 @@ function createHeaders(exams, theme) {
           </th>
           <th
             key="Last Name"
-            className={`p-4 ${
+            className={`p-4 text-left ${
               theme === "dark"
                 ? "bg-gray-800 text-white"
                 : "bg-gray-300 text-black"
@@ -158,7 +166,7 @@ function createHeaders(exams, theme) {
           </th>
           <th
             key="First Name"
-            className={`p-4 ${
+            className={`p-4 text-left ${
               theme === "dark"
                 ? "bg-gray-800 text-white"
                 : "bg-gray-300 text-black"
@@ -179,12 +187,12 @@ function createHeaders(exams, theme) {
 iterating through grades and caling a helper function for each student. 
 Students who have been registered, but not written any exams, will still be included.
 Students who have not registered, but have written tests will also appear. */
-function createRows(grades, theme, course, scanViewInfo, setScanViewInfo) {
+function createRows(grades, theme, course, scanViewInfo, setScanViewInfo, asPercents) {
   if (grades) {
     let rows = [];
     for (let i = 0; i < grades.length; i++) {
       rows.push(
-        createSingleRow(grades[i], theme, course, scanViewInfo, setScanViewInfo)
+        createSingleRow(grades[i], theme, course, scanViewInfo, setScanViewInfo, asPercents)
       );
     }
     return rows;
@@ -203,7 +211,8 @@ function createSingleRow(
   theme,
   course,
   scanViewInfo,
-  setScanViewInfo
+  setScanViewInfo,
+  asPercents
 ) {
   if (studentGrades) {
     const handleClick = (
@@ -215,8 +224,6 @@ function createSingleRow(
       lastName,
       examName
     ) => {
-      console.log(userId);
-      console.log(examId);
       setScanViewInfo({
         isOpen: true,
         student: userId,
@@ -226,11 +233,12 @@ function createSingleRow(
         course: courseId,
         firstName: firstName,
         lastName: lastName,
+        courseName: courseName,
+        isRegistered: studentGrades.isRegistered,
       });
     };
     const studentGradeList = studentGrades.scores.map((grade) => {
       return (
-        <>
           <td
             key={grade.examId}
             onClick={() =>
@@ -246,9 +254,8 @@ function createSingleRow(
             }
             className="p-4 hover:bg-black/10 cursor-pointer text-center"
           >
-            {grade.studentScore}
+            {asPercents ? `${100*grade.studentScore/grade.maxScore}%`: grade.studentScore}
           </td>
-        </>
       );
     });
 
@@ -269,13 +276,13 @@ function createSingleRow(
     //Add border? border-[1px] border-[solid] border-[black]
     return (
       <tr key={studentGrades.userId} className={`rounded-lg ${colors}`}>
-        <td key="userId" className="p-4">
+        <td key={studentGrades.userId} className="p-4">
           {String(studentGrades.userId).padStart(8, "0")}
         </td>
-        <td key="lastName" className="p-4">
+        <td key={studentGrades.lastName} className="p-4">
           {studentGrades.lastName}
         </td>
-        <td key="firstName" className="p-4">
+        <td key={studentGrades.firstName} className="p-4">
           {studentGrades.firstName}
         </td>
         {studentGradeList}

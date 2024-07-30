@@ -14,13 +14,12 @@ import { UserProvider, useUser } from './contexts/UserContext';
 import InstructorDashboard from './components/Instructor/InstructorDashboard';
 import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
-//admin
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminNavbar from './components/Admin/AdminNavbar';
 import UserList from './components/Admin/UserList';
 import RecentChanges from './components/Admin/RecentChanges';
-
 import Header from './components/Header';
+import SiteStatistics from './components/Admin/SiteStatistics';
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
 import InstNavbar from './components/Instructor/InstNavbar';
@@ -115,11 +114,8 @@ function AppRoutes() {
 
   return (
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      {!hideNavbarPaths.includes(location.pathname) && role === 1 && <Navbar id={userId} />}
-      {!hideNavbarPaths.includes(location.pathname) && role === 2 && <InstNavbar id={userId} />}
-      {!hideNavbarPaths.includes(location.pathname) && role === 3 && <AdminNavbar id={userId} />}
-      <div className="flex-grow flex flex-col ml-64">
-        {!hideNavbarPaths.includes(location.pathname) && <Header userId={userId} role={role} notifications={notifications} fetchNotifications={fetchNotifications} />}
+      {showNavbar && (isInstructor ? <InstNavbar id={userId} /> : <Navbar id={userId} />)}
+      <div className={`flex-grow flex flex-col ${showNavbar ? 'ml-64' : ''}`}>
         <div className="flex-grow p-8">
           <Routes>
           
@@ -141,12 +137,10 @@ function AppRoutes() {
             <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
             <Route path="/course/:courseId" element={<CourseDetails />} />
-            
             {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
             {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
             {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges/>} />}
-          
-          
+            {role === 3 && <Route path="/admin/sitestatistics" element={<SiteStatistics/>}/>} 
           </Routes>
         </div>
       </div>

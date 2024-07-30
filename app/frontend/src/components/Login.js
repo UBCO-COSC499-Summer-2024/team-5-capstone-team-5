@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <div className={`h-screen content-center ${theme === 'dark' ? 'bg-[#1D1E21]' : 'bg-white'}`}>
+    <div className={`h-full content-center ${theme === 'dark' ? 'bg-[#1D1E21]' : 'bg-white'}`}>
       {toast.show && (
         <Toast
           message={toast.message}
