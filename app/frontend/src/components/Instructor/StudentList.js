@@ -102,9 +102,8 @@ const StudentList = (props) => {
             Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
           </p>
         </div>
+        <StudentSpreadsheet courseId = {props.courseId} students = {studentList} courseName = {props.courseName} asPercents = {props.asPercents}/>
       </div>
-      <StudentSpreadsheet courseId = {props.courseId} students = {studentList} courseName = {props.courseName} asPercents = {props.asPercents}/>
-    </div>
   );
 }
 };
