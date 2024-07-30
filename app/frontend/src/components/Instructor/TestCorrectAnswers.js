@@ -124,7 +124,7 @@ const TestCorrectAnswers = (props) => {
         Back
       </button>
       <div className="flex-grow">
-        <div className={`rounded-lg p-6 shadow-lg relative mb-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+        <div className={`rounded-lg p-6 shadow-lg mb-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
           <h2 className="text-2xl font-bold mb-4">{test?.name} - Correct Answers</h2>
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center">

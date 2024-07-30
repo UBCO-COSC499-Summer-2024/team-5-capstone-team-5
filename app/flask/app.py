@@ -105,7 +105,8 @@ def upload_file():
                         "answers": answers,
                         "first_page": first_page,
                         "second_page": second_page,
-                        "combined_page": combined_encoded_image
+                        "combined_page": combined_encoded_image,
+                        "page": i
                     }
             elif numquestions == "200":
                 if (i+1) % 2 == 1:
@@ -147,7 +148,8 @@ def upload_file():
                         "answers": combined_answers,
                         "first_page": first_page,
                         "second_page": second_page,
-                        "combined_page": combined_encoded_image
+                        "combined_page": combined_encoded_image,
+                        "page": i
                     }
             else:
                 print('Please enter valid test style: 100 or 200 questions')

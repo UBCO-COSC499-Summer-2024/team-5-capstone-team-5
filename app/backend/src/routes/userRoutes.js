@@ -22,6 +22,10 @@ const {
     editAnswer,
     getScan,
     getCourseInfo,
+    setExamMarked,
+    getFlagged,
+    flagResponse,
+    resolveFlag,
     deleteResponses,
  } = require('../controllers/userController');
 const { addTest } = require('../controllers/testController'); // Import the testController
@@ -182,7 +186,6 @@ router.get('/courses/students/:id', async (req, res) => {
   });
 
 router.post('/tests/upload', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
     const response = await fetch('http://python-cv:8000/upload', {
         method: 'POST',
         body: req.file.buffer,
@@ -195,12 +198,11 @@ router.post('/tests/upload', upload.single('file'), async (req, res) => {
     const jsonData = await response.json();
     const testid = req.headers['testid'];
     const data = jsonData.data;
-    addStudentAnswers(data, testid);
-    res.status(200);
+    const flags = await addStudentAnswers(data, testid);
+    res.status(200).json(flags);
   });
 
   router.put('/responses/edit', async (req, res) =>  {
-    console.log(req.body);
     const examId = req.body.exam_id;
     const userId = req.body.student_id;
     const modifiedResponses = req.body.modifiedResponses;
@@ -329,5 +331,43 @@ router.get('/courses/info/:id', async (req, res) => {
         res.status(500).json({error: error.message});
     }
 });
+
+router.get('/courses/flagged/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params
+        const flags = await getFlagged(userId);
+        res.status(200).json(flags);
+    } catch(error) {
+        res.status(500).json({error: error.message})
+    }
+});
+
+router.post('/courses/flagged/resolve', async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ error: 'Flag ID is required' });
+        }
+
+        await resolveFlag(id);
+
+        res.status(200).json({ message: `Flagged response with ID ${id} has been resolved` });
+    } catch (error) {
+        console.error('Error resolving flag:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.post('/courses/flagged/set', async (req, res) => {
+    try {
+        const { examId, userId, questionNum, flagText } = req.body;
+        await flagResponse(examId, userId, questionNum, flagText);
+        res.status(200).json({message: 'Added issue for question',questionNum})
+    } catch(error) {
+        res.status(500).json({error: error.message})
+    }
+})
+
 
 module.exports = router;

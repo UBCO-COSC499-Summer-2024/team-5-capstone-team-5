@@ -7,20 +7,10 @@ const Exam = (props) => {
     const question = props.question;
 
     const compareAnswers = (correct_answer, responses, weight) => {
-        if (!correct_answer || !responses) {
-            console.warn("Correct answers or responses are missing.");
-            return null; // Indicate that the exam was not checked
-        }
-        
-        if (correct_answer.length !== responses.length) {
-            console.warn("Correct answers and responses arrays must be the same length.");
-            return null; // Indicate that the exam was not checked
-        }
-        
         let count = 0;
-        for (let i = 0; i < correct_answer.length; i++) {
-            if (correct_answer[i] === responses[i]) {
-                count += 1;
+        for(let i = 0; i < correct_answer.length; i++) {
+            if(responses[i] in correct_answer) {
+                count+= 1/weight;
             }
         }
         return (count / correct_answer.length) * weight;

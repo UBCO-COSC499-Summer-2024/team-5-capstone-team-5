@@ -3,6 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../App'; // Assuming useTheme is available at this path
 import Bubble from './BubbleSheet/Bubbles'; // Ensure this path is correct
 import getQuestions from '../hooks/getQuestions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFlag } from '@fortawesome/free-solid-svg-icons';
+import Modal from './issueModal'; // Ensure this path is correct
 
 const ExamDetails = (props) => {
     const { examId } = useParams();
@@ -10,6 +13,9 @@ const ExamDetails = (props) => {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const { theme } = useTheme();
+    const [showModal, setShowModal] = useState(false);
+    const [selectedQuestion, setSelectedQuestion] = useState(null);
+    const [issue, setIssue] = useState('');
 
     const fetchData = useCallback(async () => {
         const data = await getQuestions(examId, props.id);
@@ -21,6 +27,34 @@ const ExamDetails = (props) => {
     useEffect(() => {
         fetchData();
     }, [examId, fetchData]);
+
+    const handleFlagClick = (question) => {
+        setSelectedQuestion(question);
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setIssue('');
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await fetch('http://localhost/api/users/courses/flagged/set', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                examId,
+                userId: props.id,
+                questionNum: selectedQuestion.question_num,
+                flagText: issue,
+            }),
+        });
+
+        handleCloseModal();
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -35,6 +69,7 @@ const ExamDetails = (props) => {
             >
                 Back
             </button>
+
             {questions.length === 0 ? (
                 <div className="text-center text-xl text-red-500">This Exam has not been checked by the instructor</div>
             ) : (
@@ -47,26 +82,37 @@ const ExamDetails = (props) => {
                                 <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Weight</th>
                                 <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Correct Answers</th>
                                 <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Grade</th>
+                                <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Issues</th>
                             </tr>
                         </thead>
                         <tbody>
                             {questions.map((question, index) => (
                                 <tr key={index} className="cursor-pointer">
-                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{`Question: ${index + 1}`}</td>
+                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.question_num}</td>
                                     <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.num_options}</td>
                                     <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.weight}</td>
                                     <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>
                                         <Bubble question={question} theme={theme} />
                                     </td>
                                     <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.grade}</td>
+                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white justify-center' : 'bg-gray-300 text-black justify-center'}`}>
+                                        {question.issue ? question.issue : <FontAwesomeIcon icon={faFlag} onClick={() => handleFlagClick(question)} />}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
             )}
+            <Modal 
+                show={showModal} 
+                handleClose={handleCloseModal} 
+                handleSubmit={handleSubmit} 
+                issue={issue} 
+                setIssue={setIssue} 
+            />
         </div>
     );
-}
+};
 
 export default ExamDetails;

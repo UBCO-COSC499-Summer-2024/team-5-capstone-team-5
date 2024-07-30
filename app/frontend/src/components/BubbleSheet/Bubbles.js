@@ -1,5 +1,3 @@
-// app/frontend/src/components/BubbleSheet/Bubbles.js
-
 import React, { useState, useEffect } from 'react';
 
 const Bubble = (props) => {
@@ -13,7 +11,7 @@ const Bubble = (props) => {
         for (let i = 0; i < props.question.num_options; i++) {
             const responseIndex = response.indexOf(i);
             const answerIndex = answers.indexOf(i);
-            
+
             if (responseIndex !== -1 && answerIndex !== -1) {
                 updatedCompared[i] = 'green';
             } else if (responseIndex !== -1 && answerIndex === -1) {
@@ -26,6 +24,19 @@ const Bubble = (props) => {
         setCompared(updatedCompared);
     }, [response, answers, props.question.num_options]);
 
+    const getTitle = (color) => {
+        switch (color) {
+            case 'green':
+                return 'Answer chosen (correct)';
+            case 'red':
+                return 'Answer chosen (wrong)';
+            case 'yellow':
+                return 'Correct answer (not chosen)';
+            default:
+                return '';
+        }
+    };
+
     return (
         <div>
             {compared.map((color, index) => (
@@ -37,6 +48,7 @@ const Bubble = (props) => {
                         borderWidth: '0.5px',
                         borderStyle: 'solid'
                     }}
+                    title={getTitle(color)}
                 >
                     <div className={`text-center text-sm ${props.theme === 'dark' ? 'text-white' : 'text-black'}`}>{String.fromCharCode(65 + index)}</div>
                 </div>
