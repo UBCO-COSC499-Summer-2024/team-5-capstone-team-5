@@ -40,7 +40,7 @@ const ExamDetails = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await fetch('http://localhost/api/users/courses/flagged/set', {
+        await fetch('http://localhost/api/flags/set', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -103,7 +103,7 @@ const InstNavbar = (props) => {
     const newCourse = { name, description, end_date: endDate, user_id: props.id };
 
     try {
-      const response = await fetch('http://localhost/api/users/courses/add', {
+      const response = await fetch('http://localhost/api/courses/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -2,7 +2,7 @@ const changeUserRole = async(userId,newRole) => {
     const token = localStorage.getItem("token");
   if (token) {
     try {
-      const response = await fetch(`http://localhost:80/api/users/role/${userId}`, {
+      const response = await fetch(`http://localhost:80/api/users/changerole/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -1,3 +1,5 @@
+const { db } = require('../database');
+
 const addQuestion = async (exam_id, num_options, correct_answer, weight, question_num) => {
     try {
         await db.none(
@@ -72,5 +74,12 @@ const getExamAnswers = async (examId) => {
     } catch(error) {
         console.log('Error getting questions for exam', examId, error);
     }
+}
+
+module.exports = {
+    addQuestion,
+    editAnswer,
+    getQuestionData,
+    getExamAnswers
 }
 

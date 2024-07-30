@@ -27,7 +27,7 @@ const StudentList = (props) => {
         const formData = new FormData();
         formData.append('file', file);
   
-        const response = await fetch('http://localhost/api/users/students/upload', {
+        const response = await fetch('http://localhost/api/users/upload', {
           method: 'POST',
           body: formData,
           headers: {

@@ -1,4 +1,9 @@
 const express = require('express');
+const csv = require('csv-parser');
+const stream = require('stream');
+const router = express.Router();
+const multer = require('multer');
+const upload = multer();
 const { 
     getStudentsByCourseId, 
     addStudent,  
@@ -6,12 +11,8 @@ const {
     getAllUsers,
     getScan,
  } = require('../controllers/userController');
-const csv = require('csv-parser');
-const stream = require('stream');
-const router = express.Router();
-const upload = multer();
 
-router.post('/courses/students/register', async (req, res) => {
+router.post('/register', async (req, res) => {
     const courseId = req.body.courseId;
     const studentId = req.body.studentId;
     try {
@@ -23,16 +24,16 @@ router.post('/courses/students/register', async (req, res) => {
     }
 });
 
-router.get('/courses/students/:id', async (req, res) => {
+router.get('/:courseId', async (req, res) => {
     try {
-        const studentList = await getStudentsByCourseId(req.params.id);
+        const studentList = await getStudentsByCourseId(req.params.courseId);
         res.status(200).json(studentList);
     } catch(error) {
         res.status(400).json({error: error.message});
     }
 });
 
-router.post('/students/upload', upload.single('file'), async (req, res) => {
+router.post('/upload', upload.single('file'), async (req, res) => {
   try {
       const bufferStream = new stream.PassThrough();
       bufferStream.end(req.file.buffer);
@@ -72,7 +73,7 @@ router.get('/all', async(req, res) =>{
   }
 });
 
-router.put('/role/:userId', async(req,res) =>{
+router.put('/changerole/:userId', async(req,res) =>{
     const{userId } = req.params;
     const{role} = req.body;
     console.log(role);

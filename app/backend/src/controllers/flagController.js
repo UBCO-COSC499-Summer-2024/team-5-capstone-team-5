@@ -1,3 +1,5 @@
+const { db } = require('../database');
+
 const flagResponse = async (examId, userId, questionNum, flagText) => {
     console.log(examId, userId, questionNum, flagText)
     try {
@@ -73,4 +75,12 @@ const getFlagged = async (userId) => {
     } catch(error) {
         console.error('Error getting flagged responses for instructor', userId);
     }
+}
+
+module.exports = {
+    flagResponse,
+    flagExam,
+    resolveFlag,
+    getFlagged,
+
 }

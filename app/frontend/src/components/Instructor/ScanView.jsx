@@ -49,7 +49,7 @@ function ScanView(props) {
   }, [scanViewInfo.exam]);
 
   const fetchData = async () => {
-    const data = await fetch(`http://localhost/api/users/questions/answers/${scanViewInfo.exam}`);
+    const data = await fetch(`http://localhost/api/questions/answers/${scanViewInfo.exam}`);
     const results = await data.json();
     //setQuestions(results);
     //console.log(questions)
@@ -80,7 +80,7 @@ function ScanView(props) {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
-      await fetch('http://localhost/api/users/tests/upload', {
+      await fetch('http://localhost/api/tests/upload/responses', {
         method: 'POST',
         body: formData,
         headers: {
@@ -103,7 +103,7 @@ function ScanView(props) {
 
     const registerStudent = async (userId, courseId) => {
       console.log("registering student!");
-      try {const response = await fetch(`HTTP://localhost/api/users/courses/students/register`, {
+      try {const response = await fetch(`HTTP://localhost/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -123,7 +123,7 @@ function ScanView(props) {
     }
 
     const deleteResponses = async (userId, examId) => {
-      try {const response = await fetch(`HTTP://localhost/api/users/responses/delete`, {
+      try {const response = await fetch(`HTTP://localhost/api/responses/delete`, {
         method: "delete",
         headers: {
           "Content-Type": "application/json",
@@ -222,7 +222,7 @@ function ScanView(props) {
 
 const getResponses = async (userId, examId) => {
   const response = await fetch(
-    `HTTP://localhost/api/users/questions/${examId}&${userId}`
+    `HTTP://localhost/api/questions/responses/${examId}&${userId}`
   );
   if (response.ok) {
     const selectedResponses = await response.json();

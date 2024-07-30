@@ -1,6 +1,6 @@
 const getGrades = async (courseId) => {
     const response = await fetch(
-      `HTTP://localhost/API/users/courses/grades/${courseId}`
+      `HTTP://localhost/API/courses/grades/${courseId}`
     );
     if (response.ok) {
       const grades = await response.json();

@@ -6,7 +6,7 @@ const updateAnswer = async (id, updatedAnswer) => {
                 correctAnswers.push(i);
             }
         }
-      const response = await fetch(`http://localhost/api/users/questions/answers/edit/${id}`, {
+      const response = await fetch(`http://localhost/api/questions/edit/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

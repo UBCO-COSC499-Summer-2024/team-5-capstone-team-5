@@ -11,7 +11,7 @@ const NotificationBell = (props) => {
     }
 
     const handleResolve = async (flagId) => {
-        await fetch('http://localhost/api/users/courses/flagged/resolve', {
+        await fetch('http://localhost/api/flags/resolve', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

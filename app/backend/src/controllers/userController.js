@@ -78,12 +78,23 @@ const getUserStatistics = async () => {
     }
   };
 
+  const register = async (userId, courseId) => {
+    try {
+        await db.none(
+            'INSERT INTO registration (user_id, course_id) VALUES ($1, $2) ON CONFLICT (user_id, course_id) DO NOTHING', [userId, courseId]
+        )
+    } catch(error) {
+        console.error('Error registering user with ID ', userId, "into course with ID", courseId)
+    }
+}
+
 module.exports = {
     getStudentsByCourseId,
     addStudent,
     addScan,
+    getScan,
     getAllUsers,
     changeUserRole,
     getUserStatistics,
-    getScan
+    register
 }

@@ -1,6 +1,6 @@
 const getTestData = async (course_id) => {
     try {
-      const response = await fetch(`http://localhost/api/users/tests/${course_id}`);
+      const response = await fetch(`http://localhost/api/tests/${course_id}`);
       if(response.ok) {
         const tests = await response.json();
         return tests;
