@@ -19,8 +19,8 @@ import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminNavbar from './components/Admin/AdminNavbar';
 import UserList from './components/Admin/UserList';
 import RecentChanges from './components/Admin/RecentChanges';
+import Header from './components/Header';
 import SiteStatistics from './components/Admin/SiteStatistics';
-
 import StudentList from './components/Instructor/StudentList';
 import Navbar from './components/Navbar';
 import InstNavbar from './components/Instructor/InstNavbar';
@@ -33,6 +33,7 @@ import GenerateSheetModal from './components/Instructor/GenerateSheetModal';
 import OMRSheetGenerator from './components/Instructor/OMRSheetGenerator';
 import './index.css';
 import ChangePass from './components/ChangePass';
+import NotificationBell from './components/Instructor/NotificationBell';
 
 
 const ThemeContext = createContext();
@@ -77,6 +78,7 @@ function AppRoutes() {
   const location = useLocation();
   const hideNavbarPaths = ['/login'];
   const { theme } = useTheme();
+  const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,6 +93,18 @@ function AppRoutes() {
     };
     fetchData();
   }, [location]);
+
+  useEffect(() => {
+    if(userId && role === 2) {
+      fetchNotifications();
+    }
+  }, [userId])
+
+  const fetchNotifications = async () => {
+    const response = await fetch(`http://localhost/api/users/courses/flagged/${userId}`);
+    const notifications = await response.json();
+    setNotifications(notifications);
+}
 
   if (loading) {
     return <div>Loading...</div>;
@@ -124,7 +138,7 @@ function AppRoutes() {
             <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers id={userId} />} />
             <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
-            <Route path="/course/:courseId" element={<CourseDetails />} /> {/* Added route for /course/:courseId */}
+            <Route path="/course/:courseId" element={<CourseDetails />} />
             {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
             {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
             {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges/>} />}

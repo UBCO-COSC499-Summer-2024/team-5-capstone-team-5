@@ -193,6 +193,7 @@ def process_bubbles(file_path):
         # Check if the question is already in answers
         if len(bubble["LetterPos"]) > 1:
             multiple_answer_questions.append(question)
+            answers.append(question)
         else:
             # Append the question to answers if it's not already there
             answers.append(question)
@@ -215,4 +216,4 @@ def process_bubbles(file_path):
 
     return bubble_coords, no_answer_questions, multiple_answer_questions
 
-#process_bubbles('data_images/test_3_page_34.png')
+#process_bubbles('data_images/test_4_page_8.png')

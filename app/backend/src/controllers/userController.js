@@ -248,7 +248,58 @@ const addResponse = async (exam_id, question_num, user_id, response, modifying =
     }
 }
 
+const flagResponse = async (examId, userId, questionNum, flagText) => {
+    console.log(examId, userId, questionNum, flagText)
+    try {
+        questionId = await db.oneOrNone(
+            'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [examId, questionNum]
+        );
+        if(questionId.id) {
+            await db.none(
+                'INSERT INTO flags (exam_id, question_id, user_id, issue) VALUES ($1, $2, $3, $4)', [examId, questionId.id, userId, flagText]
+            );
+        }
+    } catch(error) {
+        console.error('Error adding response');
+    }
+}
+
+const flagExam = async (examId, flagText) => {
+    try {
+        await db.none(
+            'INSERT INTO flags (exam_id, issue) VALUES ($1, $2)', [examId, flagText]
+        );
+    } catch(error) {
+        console.error('Error flagging exam',examId)
+    }
+}
+
+const resolveFlag = async (flagId) => {
+    try {
+        const response = await db.oneOrNone(
+            'DELETE FROM flags WHERE id = $1 RETURNING id', [flagId]
+        );
+
+        if (!response) {
+            throw new Error('No flag found with the provided ID');
+        }
+
+        return response;
+    } catch (error) {
+        console.error('Error resolving flag:', error.message);
+        throw new Error('Failed to resolve flag: ' + error.message);
+    }
+}
+
+
 const addStudentAnswers = async (jsonData, examId) => {
+    const flaggedQuestions = {
+        "NoStudentId": [],
+        "DuplicateStudentId": [],
+        "MultipleResponses": {},
+        "NoResponses": {},
+    }
+    const studentIds = []
     for (const key in jsonData) {
         if(jsonData.hasOwnProperty(key)) {
             const answerKey = jsonData[key];
@@ -256,6 +307,7 @@ const addStudentAnswers = async (jsonData, examId) => {
             const responses = answerKey.answers[0]
             const questionsWithNoResponse = answerKey.answers[1];
             const multiResponse = answerKey.answers[2];
+            const page = answerKey.page;
             const image = answerKey.combined_page;
             const imageBuffer = Buffer.from(image, 'base64');
             const imagesDir = '/code/images';
@@ -267,16 +319,40 @@ const addStudentAnswers = async (jsonData, examId) => {
             }
             fs.writeFileSync(imagePath, imageBuffer);
 
-            responses.forEach((response) => {
-                const recordedAnswer = response.LetterPos;
-                const questionNum = response.Question;
-                addResponse(examId, questionNum, studentId, recordedAnswer)
-            });
-            questionsWithNoResponse.forEach((question) => {
-                addResponse(examId, question, studentId, `{}`)
-            });
+            if(studentId) {
+                if(studentId in studentIds) {
+                    flaggedQuestions["DuplicateStudentId"].push(studentId);
+                    flagExam(examId, `Duplicate student ID for scan on page ${page} / ${page+1}`)
+                } else {
+                    studentIds.push(studentId);
+                }
+                responses.forEach((response) => {
+                    const recordedAnswer = response.LetterPos;
+                    const questionNum = response.Question;
+                    addResponse(examId, questionNum, studentId, recordedAnswer)
+                });
+                questionsWithNoResponse.forEach((question) => {
+                    addResponse(examId, question, studentId, `{}`)
+                });
+                if(multiResponse.length > 0) {
+                    flaggedQuestions["MultipleResponses"][String(studentId)] = multiResponse;
+                    multiResponse.forEach((question) => {
+                        flagResponse(examId, studentId, question, "Multiple answers were detected")
+                    });
+                }
+                if(questionsWithNoResponse.length > 0) {
+                    flaggedQuestions["NoResponses"][String(studentId)] = questionsWithNoResponse;
+                    questionsWithNoResponse.forEach((question) => {
+                        flagResponse(examId, studentId, question, "No answers were detected")
+                    });
+                }
+            } else {
+                flaggedQuestions["NoStudentId"].push(`Page ${page} / ${page+1}`);
+                flagExam(examId, `No student ID for scan on page ${page} / ${page+1}`);
+            }
         };
     }
+    return flaggedQuestions;
 }
 
 const addAnswerKey = async (jsonData, examId, userId) => {
@@ -386,10 +462,46 @@ const editAnswer = async (questionId, correctAnswer) => {
 
 const setExamMarked = async (examId) => {
     try {
-
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().split("T")[0];
+        await db.none('UPDATE exams SET date_marked = $1 WHERE id = $2', [formattedDate, examId]);
     } catch(error) {
         console.error('Error updating exam marked date for exam:',examId);
         throw error;
+    }
+}
+
+const getFlagged = async (userId) => {
+    try {
+        const response = await db.manyOrNone(
+            `SELECT 
+                flags.id, 
+                flags.exam_id, 
+                flags.user_id, 
+                flags.issue, 
+                exams.name AS exam_name, 
+                courses.name AS course_name, 
+                questions.question_num 
+            FROM 
+                flags
+            LEFT JOIN 
+                questions ON flags.question_id = questions.id
+            LEFT JOIN 
+                exams ON flags.exam_id = exams.id
+            LEFT JOIN 
+                courses ON exams.course_id = courses.id
+            LEFT JOIN 
+                registration ON courses.id = registration.course_id
+            LEFT JOIN 
+                users ON registration.user_id = users.id
+            WHERE 
+                flags.issue IS NOT NULL AND 
+                (users.id = $1 OR users.id IS NULL) AND 
+                users.role = 2`, [userId]
+        );
+        return response;
+    } catch(error) {
+        console.error('Error getting flagged responses for instructor', userId);
     }
 }
 
@@ -419,5 +531,8 @@ module.exports = {
     getScan,
     getCourseInfo,
     setExamMarked,
+    flagResponse,
+    getFlagged,
+    resolveFlag,
     deleteResponses
 }

@@ -90,8 +90,6 @@ CREATE TABLE IF NOT EXISTS questions (
     CONSTRAINT unique_exam_question UNIQUE (exam_id, question_num)
 );
 
-
-
 CREATE TABLE IF NOT EXISTS responses (
     question_id integer REFERENCES questions(id) ON DELETE CASCADE,
     user_id integer REFERENCES users(id) ON DELETE CASCADE,
@@ -107,6 +105,14 @@ CREATE TABLE IF NOT EXISTS scans (
     user_id integer REFERENCES users(id) ON DELETE CASCADE,
     scan text,
     PRIMARY KEY (exam_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS flags (
+    id serial PRIMARY KEY,
+    exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
+    question_id integer REFERENCES questions(id) ON DELETE CASCADE,
+    user_id integer REFERENCES users(id) ON DELETE CASCADE,
+    issue text
 );
 
 -- Partially AI-Generated Sample Data
