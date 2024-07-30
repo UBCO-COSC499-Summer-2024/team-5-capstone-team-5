@@ -68,7 +68,6 @@ const StudentList = (props) => {
     return (
       <div className="p-4 flex flex-col min-h-screen">
         <div className="flex-grow">
-
           {instructor && (
             <div className={`p-4 mb-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>
               <h3 className="text-xl font-semibold">Instructor: {instructor.first_name} {instructor.last_name}</h3>
@@ -102,11 +101,10 @@ const StudentList = (props) => {
             Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
           </p>
         </div>
+        <StudentSpreadsheet courseId = {props.courseId} students = {studentList} courseName = {props.courseName} asPercents = {props.asPercents}/>
       </div>
-      <StudentSpreadsheet courseId = {props.courseId} students = {studentList} courseName = {props.courseName} asPercents = {props.asPercents}/>
-    </div>
-  );
-}
+    );
+  }
 };
 
 export default StudentList;
