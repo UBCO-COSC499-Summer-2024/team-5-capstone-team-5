@@ -38,7 +38,9 @@ const getQuestionData = async (userId, examId) => {
                 q.correct_answer, 
                 q.question_num, 
                 q.weight, 
-                c.name AS course_name, 
+                c.department,
+                c.code,
+                c.section, 
                 e.name AS exam_name, 
                 r.was_modified, 
                 f.issue 
