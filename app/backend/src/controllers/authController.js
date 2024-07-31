@@ -1,6 +1,7 @@
 const { db } = require('../database');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { sendPasswordResetEmail } = require('../mailer');
 
 const authUser = async (email, password) => {
   try {
@@ -80,8 +81,48 @@ const verifyPass = async (userId, oldPass, newPass) => {
   }
 };
 
+const sendPasswordReset = async (email) => {
+  const user = await db.oneOrNone(
+    'SELECT * FROM users WHERE email = $1', [email]
+  );
+  if(!user) {
+    return null;
+  }
+  console.log(user)
+  const token = jwt.sign(
+    {
+      userId: user.id,
+      role: user.role,
+      name: user.first_name + " " + user.last_name,
+      userEmail: user.email
+    },
+    "coscrules",
+    { expiresIn: "1h" }
+  );
+  await sendPasswordResetEmail(email, token);
+  return {message: 'Password reset link sent to your email'};
+}
+
+const resetPassword = async (token, password) => {
+  try {
+    const decoded = jwt.verify(token, "coscrules");
+    console.log('decoded',decoded)
+    console.log(password)
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await db.none(
+      'UPDATE users SET password = $1 WHERE email = $2', [hashedPassword, decoded.userEmail]
+    );
+    return {message: "Password reset successful"};
+  } catch(error) {
+    return null;
+  }
+}
+
 module.exports = {
   authUser,
   verifyUser,
-  verifyPass
+  verifyPass,
+  sendPasswordReset,
+  resetPassword
 };

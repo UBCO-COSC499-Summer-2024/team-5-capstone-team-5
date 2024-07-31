@@ -33,6 +33,8 @@ import OMRSheetGenerator from './components/Instructor/OMRSheetGenerator';
 import './index.css';
 import ChangePass from './components/ChangePass';
 import NotificationBell from './components/Instructor/NotificationBell';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 
 const ThemeContext = createContext();
@@ -124,6 +126,8 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
             {role === 1 && <Route path="/student/course/:courseId" element={<CourseDetails />} />}
             {role === 1 && <Route path="/student/exam/:examId" element={<ExamDetails id={userId} />} />}
             {role === 1 && <Route path="/student/dashboard" element={<StudentDashboard />} />}

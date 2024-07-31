@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const saltRounds = 10;
 const users = [
+    { id: 18273645, firstName: 'Nic', lastName: 'Kouwen', email: 'nic.kouwen@gmail.com', password: 'capstonerocks', role: 1},
     { id: 12345678, firstName: 'Nic', lastName: 'Kouwen', email: 'nk@email.com', password: 'ilovecosc', role: 1 },
     { id: 23456789, firstName: 'Jane', lastName: 'Doe', email: 'janedoe@email.com', password: 'password123', role: 1 },
     { id: 34567890, firstName: 'John', lastName: 'Smith', email: 'johnsmith@email.com', password: 'securepass456', role: 1 },

@@ -1,5 +1,5 @@
 const express = require('express');
-const { authUser, verifyUser, verifyPass } = require('../controllers/authController');
+const { authUser, verifyUser, verifyPass, resetPassword, sendPasswordReset } = require('../controllers/authController');
 
 const router = express.Router();
 
@@ -64,6 +64,36 @@ router.post("/change", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
+});
+
+router.post('/forgot-password', async (req, res) => {
+    try {
+    const { email } = req.body;
+    const response = await sendPasswordReset(email);
+    if(response) {
+        res.status(200).json(response);
+    } else {
+        res.status(400).json({message: "User not found"});
+    }
+    } catch(error) {
+        res.status(500).json({message: "Server error occurred"});
+    }
+});
+
+router.post('/reset-password/:token', async (req, res) => {
+    try {
+        const { token } = req.params;
+        const { password } = req.body;
+        const response = await resetPassword(token, password);
+        if(response) {
+            res.status(200).json(response);
+        } else {
+            res.status(400).json({message: "Reset password failed"})
+        }
+    } catch(error) {
+        res.status(500).json({message: "Server error occurred"});
+    }
+    
 });
 
 module.exports = router;

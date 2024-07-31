@@ -85,6 +85,7 @@ const Login = () => {
               <div className="flex flex-row justify-center">
                 <button type="submit" className={`w-full h-10 mt-6 rounded-md mb-2 ${theme === 'dark' ? 'bg-[#293C4A] text-white hover:bg-[#32556F]' : 'bg-gray-300 text-black hover:bg-gray-400'} font-semibold`}>Login</button>
               </div>
+              <p className="text-sm text-white/80">Forgot password? <a href="/forgot-password" className="underline hover:text-white">Click here</a></p>
             </div>
           </div>
         </form>
