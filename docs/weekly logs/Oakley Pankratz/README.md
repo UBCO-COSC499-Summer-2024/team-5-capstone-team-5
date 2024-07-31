@@ -1,3 +1,84 @@
+## Wednesday (7/26 - 7/31) Oakley Pankratz
+Total Hours: 20
+
+Update clockify log
+![alt text](ClockifyLogJuly31.png)
+
+## Current Tasks:
+* Adding the ability for instructors to register students should they have exams in a course for which they aren't registered. Instructors will also have the ability to delete these tests. (needs styling)
+* Displaying an individual students scan in the modal view returned from the spreadhseet (needs styling)
+* Allowing instructors to add/edit/delete resposnes for students. I've been working on this for a number of cycles, but its finally complete, and doesn't seem to have any bugs!
+* Displaying statstics for exams to the instructor (Issue #155)
+* Displaying grades as percents or raw scores. This is togglabe and complete.
+
+### Progress Update (since 7/31/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+        <td> Display grades as percents
+        </td>
+        <!-- Status -->
+        <td>Complete (Issue #145)
+        </td>
+    </tr>
+        <td> Calculate statstics for exams
+        </td>
+        <!-- Status -->
+        <td>Complete (Issue #155)
+        </td>
+    </tr>
+        <td> Create an add student button
+        </td>
+        <!-- Status -->
+        <td>In Progress (Issue #97)
+        </td>
+    </tr>
+        <td> Add a way for instuctors to scan an exam for a single student.
+        </td>
+        <!-- Status -->
+        <td>Complete (Issue #148)
+        </td>
+    </tr>
+    </tr>
+        <td> Handling students which are unregistered in a course, but have exams in it. 
+        </td>
+        <!-- Status -->
+        <td> Complete (Issue #176)
+        </td>
+    </tr>
+        <td> Add a way for instuctors to add resposnes for students
+        </td>
+        <!-- Status -->
+        <td>Complete (Issue #165)
+        </td>
+    </tr>
+    <td> Add a way for instuctors to delete resposnes for students
+        </td>
+        <!-- Status -->
+        <td>Complete (Issue #166)
+        </td>
+    </tr>
+    <td> Add a way for instuctors to edit resposnes for students
+        </td>
+        <!-- Status -->
+        <td>Complete (Issue #167)
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+ * This cycles I made the final touches on a large number of issues/goals which I've been working on for a long time. It feels really good to close 9 issues all in once cycle! 
+ 
+### Next Cycle Goals:
+* Create an "Add Student" button (Issue#97). This should be fairly quick and straightforward. I can re-use the code which I used to register students. I may need to move this code to a seperate file to be accessible. 
+* Many of the features I implemented in this cycle I've only given functionality to, but haven't spent a lot of time styling. As such, A goal for this upcoming cycle is for me to re-style some of these components. I will need to create an issue for this on the KanBan board. A teammate has expressed they would like to help me with this.
+* I also need to check the test coverage for features I implemetned this cycles. I will likely need to write some tests in this cycle.
+* Provided I have the time, I would also like to write some documentation for the features I've worked on throughout the last few cycles.
+
 ## Friday (7/24 - 7/26) Oakley Pankratz
 Total Hours: 11
 
