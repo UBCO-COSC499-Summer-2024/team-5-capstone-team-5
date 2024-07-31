@@ -133,16 +133,6 @@ const InstNavbar = (props) => {
     <div className={`h-full w-64 ${containerStyle} flex flex-col fixed overflow-hidden`}>
       <div className={`pb-2 ${headerStyle} pt-8`}>
         <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
-        <NavLink
-          to="/recent"
-          className={({ isActive }) =>
-            isActive
-              ? `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${linkActiveStyle} font-bold`
-              : `block mt-4 mx-4 py-2 px-4 mb-2 rounded-lg ${linkInactiveStyle}`
-          }
-        >
-          Recent Courses
-        </NavLink>
       </div>
       <div className={`mt-4 ${headerStyle} sticky top-0 z-10`}>
         <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
@@ -157,8 +147,9 @@ const InstNavbar = (props) => {
         <ul className="mt-4 space-y-4">
           {courses.map((course) => (
             <li key={course.course_id} className="relative">
+              <div className="flex h-[0.5px] taperedline mx-4"></div>
               <div
-                className={`relative p-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${selectedCourseId === course.course_id ? `border-l-4 ${borderStyle}` : ''}`}
+                className={`relative p-2 m-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${selectedCourseId === course.course_id ? `border-l-4 ${borderStyle}` : ''}`}
                 onClick={() => handleCardClick(course.course_id)}
                 style={{ minHeight: '150px' }}
               >
