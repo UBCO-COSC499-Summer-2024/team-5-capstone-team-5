@@ -1,3 +1,53 @@
+# Weekly Log - [Week 11: July 26-31]
+
+### Date: July 31 8:5 am
+### Author: Jack Mathisen
+
+
+## Hour Breakdown
+
+**Approximate Hours: 11.15**
+
+*Pull request merging: 1hr*
+*Refactoring: 2hr*
+*Testing: 6:30 hrs*
+*PostHog User traffic: 1:45hr* 
+
+
+**Timesheet** 
+Clockify report alt text
+
+![July 26 - 31](<July 26 - 31.png>)
+
+
+
+**Current Tasks (Provide sufficient detail)**
+
+#1: Have Admin tests working as well as most of the frontend. 
+#2: Help to refactor some of the code and make the project more organized and clean.  
+#3: Have the entire testing framework finished including refactored backend. 
+#4: Have user traffic and site analysis finished using postHog
+#5: Have documentation for Admin finished
+
+**Progress Update (since 26/8/2024)**
+TASK/ISSUE #STATUS
+
+Task A	Finished
+Task B	Finished
+Task C  in progress
+Task D  in progress
+Task E  in progress
+
+**Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)**
+I managed to get sick over the weekend so Ive been dealing with that recently. However I have been feeling better since monday night. Didnt get all the testing finished like I wanted too last week. However I am quite nearing the finish for most of the tests, as well as those in the backend. Also I spent abit of time researching and figuring out how to add website traffic as well as web analytics to our code. 
+
+**Next Cycle Goals (What are you going to accomplish during the next cycle)**
+Goal 1: Finish the refactoring neccessary for the frontend
+Goal 2: Finish all testing frontend and backend
+Goal 3: Have the site traffic and analytics finished
+Goal 4: Get started on documentation/ have admin finished
+
+
 # Weekly Log - [Week 10: July 24-26]
 
 ### Date: July 24 8:15 am
