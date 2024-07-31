@@ -1,3 +1,63 @@
+## July (26 -31)
+Clockify Report 
+
+![clockify report]((https://app.clockify.me/shared/66aa6cacf60fc6517306182c))
+
+### Current Tasks (Provide sufficient detail)
+
+ * #1: Familiarizing myself with the current state of the project
+
+* #2: Performing Code Reviews and Documentation
+
+* #3: Export Functionality
+
+* ### Progress Update 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Getting Familiarized with Current Progress
+        </td>
+        <!-- Status -->
+        <td> In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Working on the export functionality
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td> Conducting Unit Tests and Documentation
+        </td>
+        <!-- Status -->
+        <td>In Progress
+        </td>
+    </tr>
+</table>
+    
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+1) Going to familiarize myself with the current state of the project and get the things that need to be done
+2) Conducting Code Documentation 
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Export and trying to get another Key Use Case functionality finished
+  * Conducting Unit Tests and Finishing up the Code Documentation
+
+
+
+
 
 
 ## July (24-26)
