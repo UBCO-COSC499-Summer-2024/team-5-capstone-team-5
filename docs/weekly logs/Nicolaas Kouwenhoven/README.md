@@ -1,3 +1,95 @@
+# Wednesday (7/26 - 7/31)
+## Date: July 30, 11:30PM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportJuly31.png)
+
+### Task tldr:
+- Added the ability for students ot view scans
+- Completed logic for notification section and bell icon
+- Refactored the backend, re-worked the course relation (table)
+- Implemented password recovery via email (only works locally)
+- Finally added hashing to the password storage
+- Tied course editing into the backend from Jay's frontend implementation
+
+### Current Tasks:
+  * #1: Add scans to student view
+  * #2: Notification Section & Bell
+  * #3: Backend Refactoring
+  * #4: Password Recovery Implementation
+  * #5: Password hashing
+  * #6: Tie course editing to backend
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #1: Add scans to student view
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #2: Notification section and bell
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #3: Refactor backend
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #4: Password recovery
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #5: Password hashing
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #6: Course details editing
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+While I did not get around to editing the weights of questions, I managed to get a lot of features worked on that are listed as core requirements for the project, such as password recovery.
+I also completed the notification bell, and refactored our backend to allow for year-over-year statistics analysis (maybe)
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Add ability to edit weights of questions
+  * Make exam information editable
+  * Styling changes
+  * Show more statistics (maybe)
+
+
 # Friday (7/24 - 7/26)
 ## Date: July 26, 8:10AM
 
