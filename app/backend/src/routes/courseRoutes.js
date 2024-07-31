@@ -7,6 +7,7 @@ const {
     getCoursesByUserId,
     getCourseInfo,
     calculateGrades,
+    editCourse
 } = require('../controllers/courseController');
 
 // URL Begins With: localhost/api/courses
@@ -36,6 +37,20 @@ router.post('/add', async (req, res) => {
         res.status(400).json({error: "Missing info for adding a course"});
     }
 });
+
+router.post('/edit', async (req, res) => {
+    const { department, code, section, description, start_date, end_date, course_id } = req.body;
+    if(department && code && section && description && start_date && end_date && course_id) {
+        try {
+            const response = await editCourse(department, code, section, description, start_date, end_date, course_id);
+            res.status(200).json(response);
+        } catch(error) {
+            res.status(500).json({error: error.message});
+        }
+    } else {
+        res.status(400).json({error: "Missing info for editing a course"});
+    }
+})
 
 router.get('/info/:id', async (req, res) => {
     try {

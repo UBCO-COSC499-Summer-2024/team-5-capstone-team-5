@@ -20,6 +20,16 @@ const addCourse = async (user_id, department, code, section, description, start_
   };
 };
 
+const editCourse = async (department, code, section, description, start_date, end_date, courseId) => {
+  try {
+    await db.none(
+      'UPDATE courses SET department = $1, code = $2, section = $3, description = $4, start_date = $5, end_date = $6 WHERE id = $7', [department, code, section, description, start_date, end_date, courseId]
+    );
+  } catch(error) {
+    console.error('Error updating course ',(department + " " + code + "-" + section));
+  }
+}
+
 const getAllCourses = async (req, res) => {
   try {
     const courses = await db.any('SELECT * FROM courses');
@@ -33,7 +43,7 @@ const getAllCourses = async (req, res) => {
 const getCoursesByUserId = async (id) => {
   try {
       const response = await db.manyOrNone(
-          'SELECT course_id, department, code, section, description, start_date, end_date FROM users JOIN registration ON registration.user_id = users.id JOIN courses ON registration.course_id = courses.id WHERE users.id = $1', [id]
+          'SELECT course_id, department, code, section, description, start_date, end_date FROM users JOIN registration ON registration.user_id = users.id JOIN courses ON registration.course_id = courses.id WHERE users.id = $1 ORDER BY department', [id]
       );
       return response;
   } catch(error) {
@@ -115,5 +125,5 @@ module.exports = {
   getCoursesByUserId,
   getCourseInfo,
   calculateGrades,
-
+  editCourse
 };
