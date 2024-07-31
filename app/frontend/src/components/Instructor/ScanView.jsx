@@ -160,8 +160,10 @@ function ScanView(props) {
           </div>
           <div className = "text-red-400"> {!scanViewInfo.isRegistered ? <>
             <h3>Warning: {scanViewInfo.firstName} {scanViewInfo.lastName} is not registered in {scanViewInfo.courseName}, yet has responses recorded for this course.</h3>
-            <button className= "hover:text-red-500" onClick = { () => registerStudent(scanViewInfo.student, scanViewInfo.course)}><p>Register student </p></button>
-            <button className= "hover:text-red-500" onClick = { () => deleteResponses(scanViewInfo.student, scanViewInfo.exam)}><p>Delete resposnes </p></button>
+            <div className="flex space-x-24 mx-12">
+              <button className= "hover:text-red-500 bg-gray-900 p-2 rounded-lg" onClick = { () => registerStudent(scanViewInfo.student, scanViewInfo.course)}>Register student</button>
+              <button className= "hover:text-red-500 bg-gray-900 p-2 rounded-lg" onClick = { () => deleteResponses(scanViewInfo.student, scanViewInfo.exam)}>Delete responses</button>
+            </div>
             </>
           : null }
           </div>
@@ -172,7 +174,7 @@ function ScanView(props) {
             setScanViewInfo={props.setScanViewInfo}
             onClose = {props.onClose}
           />
-          <div id='imageContainer' className='mt-4'>
+          <div id='imageContainer' className='mt-4 w-1/2 mx-12 h-[75%] overflow-auto rounded-lg'>
           </div>
         </div>
       </div>
