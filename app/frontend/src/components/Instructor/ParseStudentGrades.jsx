@@ -36,6 +36,10 @@ function getExams(grades) {
   };
   for (let i = 0; i < grades.length; i++) {
     let examInfo = {
+
+
+
+      
       examId: grades[i].examId,
       examName: grades[i].examName,
     };
