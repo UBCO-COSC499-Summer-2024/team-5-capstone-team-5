@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import getStudentData from '../../hooks/getStudentData';
 import { useTheme } from '../../App';
 import StudentSpreadsheet from './StudentSpreadsheet';
+//import exportStudents from '../../hooks/exportStudents';
 
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
@@ -92,6 +93,9 @@ const StudentList = (props) => {
         <p className={`mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
           Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
         </p>
+        
+        <button onClick={console.log("export Successful")}>Export Students</button>
+
       </div>
       <StudentSpreadsheet courseId = {props.courseId} students = {studentList} courseName = {props.courseName}/>
     </div>

@@ -102,6 +102,7 @@ const InstructorCourseDetails = () => {
                 onBack={() => setSelectedTest(null)}
                 onDeleteTest={handleDeleteTest}
                 onEditTest={handleEditTest}
+
               />
             ) : (
               <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
@@ -126,6 +127,8 @@ const InstructorCourseDetails = () => {
                       width: '100%',
                       textAlign: 'center',
                     }}
+
+
                   >
                     <td colSpan="2" className="p-4">
                       <div className="text-2xl">+</div>
@@ -152,6 +155,8 @@ const InstructorCourseDetails = () => {
       />
     </div>
   );
+ 
+  
 };
 
 export default InstructorCourseDetails;
