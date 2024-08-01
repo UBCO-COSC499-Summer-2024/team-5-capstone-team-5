@@ -103,7 +103,7 @@ const InstructorCourseDetails = () => {
       </div>
       {/* <SearchBar /> */}
       {selectedMenu === 'tests' && (
-        <div className="p-4 flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen">
           <div className="mb-4">
             <button
               onClick={handleAddClick}

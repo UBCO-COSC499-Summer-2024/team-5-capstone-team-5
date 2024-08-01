@@ -118,10 +118,10 @@ function AppRoutes() {
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {showNavbar && (isInstructor ? <InstNavbar id={userId} /> : <Navbar id={userId} />)}
       <div className={`flex-grow flex flex-col ${showNavbar ? 'ml-64' : ''}`}>
-        <div className="flex justify-end translate-y-20">
-          {role == 2 && <NotificationBell userId = {userId} fetchNotifications={fetchNotifications} notifications={notifications} />}
+        <div className="flex">
+         {showNavbar && <Header userId = {userId} fetchNotifications={fetchNotifications} notifications={notifications} role={role} />}
         </div>
-        <div className="flex-grow p-8">
+        <div className="flex-grow px-8">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
