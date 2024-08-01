@@ -80,3 +80,32 @@ input:checked + .slider:before {
   visibility: visible;
   opacity: 1;
 }
+
+/* Custom separator line */
+.separator-line {
+  width: 100%;
+  height: 4px; /* Increased thickness */
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.5), transparent);
+  margin: 0.5rem 0;
+}
+
+.separator-line.border-gray-700 {
+  background: linear-gradient(to right, transparent, rgba(75, 85, 99, 0.5), transparent);
+}
+
+.separator-line.border-gray-300 {
+  background: linear-gradient(to right, transparent, rgba(209, 213, 219, 0.5), transparent);
+}
+
+/* Custom styles for course hover and selected */
+.course-item {
+  transition: background-color 0.3s;
+}
+
+.course-item:hover {
+  background-color: rgba(128, 128, 128, 0.3); /* Light gray background on hover */
+}
+
+.course-item.selected {
+  background-color: rgba(128, 128, 128, 0.5); /* Slightly darker gray background when selected */
+}
