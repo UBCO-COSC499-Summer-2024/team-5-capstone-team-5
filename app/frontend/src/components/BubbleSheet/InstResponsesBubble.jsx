@@ -156,7 +156,7 @@ function InstResponseBubbles(props) {
       <>
         <div
           key={responseData[0].userId}
-          className="bg-gray-900 overflow-y-scroll absolute right-5 top-32 p-[5px] pr-[8px] m-10 h-[75%] rounded-lg"
+          className="bg-gray-900 overflow-y-scroll absolute right-5 top-14 p-[5px] pr-[8px] m-10 h-[75%] rounded-lg"
         >
           {responseData.map((responseItem) => {
             let response = [];

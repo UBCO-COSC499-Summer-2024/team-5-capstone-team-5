@@ -96,7 +96,7 @@ function ScanView(props) {
 
   if (scanViewInfo.isOpen && responseData.length > 0) {
 
-    //fetchImageUrl(scanViewInfo.exam, scanViewInfo.student).then(path => displayImage(path));
+    fetchImageUrl(scanViewInfo.exam, scanViewInfo.student).then(path => displayImage(path));
     if(loading) {
       fetchImageUrl(scanViewInfo.exam, 67890123).then(path => displayImage(path));
     }
