@@ -134,13 +134,14 @@ const InstNavbar = (props) => {
       <div className={`pb-2 ${headerStyle} pt-8`}>
         <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-48 mx-auto" />
       </div>
-      <div className={`my-4 ${headerStyle} sticky top-0`}>
+      <div className={`my-4 flex justify-evenly ${headerStyle} sticky top-0`}>
         <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
         <li
-          className={`block p-4 mx-4 mt-2 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
+          className={`align-middle flex px-8 mr-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
           onClick={() => setIsModalOpen(true)}
+          title="Add Course"
         >
-          <div className="text-xl">+</div>
+          <span className="align-middle inline-block">+</span>
         </li>
       </div>
       <div className="flex h-[0.5px] taperedline mx-4"></div>
@@ -150,9 +151,8 @@ const InstNavbar = (props) => {
             <li key={course.course_id} className="relative">
               
               <div
-                className={`relative p-2 m-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-300'} ${selectedCourseId === course.course_id ? theme === 'dark' ? `bg-gray-800 ${borderStyle}` : `bg-gray-300 ${borderStyle}` : ''}`}
+                className={`relative mb-4 mx-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-300'} ${selectedCourseId === course.course_id ? theme === 'dark' ? `bg-gray-800 ${borderStyle}` : `bg-gray-300 ${borderStyle}` : ''}`}
                 onClick={() => handleCardClick(course.course_id)}
-                style={{ minHeight: '150px' }}
               >
                 <Flip
                   course={course}
@@ -164,7 +164,7 @@ const InstNavbar = (props) => {
                   icon={faEllipsis}
                   className={`absolute top-4 right-4 cursor-pointer ${iconStyle}`}
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent triggering the card click event
+                    e.stopPropagation();
                     handleFlipClick(course.course_id);
                   }}
                 />

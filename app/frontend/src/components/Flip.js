@@ -62,7 +62,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
 
   return (
     <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
-      <div className={`front p-4 rounded-lg shadow-lg ${frontCardStyle}`} style={{ minHeight: '100px' }}>
+      <div className={`front p-4 rounded-lg shadow-lg ${frontCardStyle}`}>
         <h3 className="font-bold text-lg">{`${course.department} ${course.code}-${String(course.section).padStart(3, "0")}`}</h3>
         <p className="mt-2">{course.description}</p>
         <p className="mt-2 text-gray-400">Ends: {course.end_date.slice(0, 10)}</p>
