@@ -106,6 +106,7 @@ const InstructorCourseDetails = () => {
         <div className="p-4 flex flex-col min-h-screen">
           <div className="mb-4">
             <button
+              title="Add Test"
               onClick={handleAddClick}
               className={`block w-full text-2xl p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} cursor-pointer`}
             >
@@ -150,12 +151,6 @@ const InstructorCourseDetails = () => {
                       textAlign: 'center',
                     }}
                   >
-                    <td colSpan="8" className="p-4">
-                      <div className="text-2xl">+</div>
-                      <div className="absolute bottom-full mb-2 w-max bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 tooltip">
-                        Add Test
-                      </div>
-                    </td>
                   </tr>
                 </tbody>
               </table>
