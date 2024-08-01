@@ -98,7 +98,7 @@ function ScanView(props) {
 
     fetchImageUrl(scanViewInfo.exam, scanViewInfo.student).then(path => displayImage(path));
     if(loading) {
-      fetchImageUrl(scanViewInfo.exam, 67890123).then(path => displayImage(path));
+      
     }
 
     const registerStudent = async (userId, courseId) => {
