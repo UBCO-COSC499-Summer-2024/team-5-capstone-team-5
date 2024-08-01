@@ -14,7 +14,6 @@ import { UserProvider, useUser } from './contexts/UserContext';
 import InstructorDashboard from './components/Instructor/InstructorDashboard';
 import InstructorCourseList from './components/Instructor/InstructorCourseList';
 import InstructorCourseDetails from './components/Instructor/InstructorCourseDetails';
-//admin
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminNavbar from './components/Admin/AdminNavbar';
 import UserList from './components/Admin/UserList';
@@ -110,7 +109,6 @@ function AppRoutes() {
     return <div>Loading...</div>;
   }
 
-
   const showNavbar = !hideNavbarPaths.includes(location.pathname);
   const isInstructor = role === 2;
 
@@ -118,9 +116,11 @@ function AppRoutes() {
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {showNavbar && (isInstructor ? <InstNavbar id={userId} /> : <Navbar id={userId} />)}
       <div className={`flex-grow flex flex-col ${showNavbar ? 'ml-64' : ''}`}>
+        <div className="flex justify-end">
+          {role == 2 && <NotificationBell userId = {userId} fetchNotifications={fetchNotifications} notifications={notifications} />}
+        </div>
         <div className="flex-grow p-8">
           <Routes>
-          
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />

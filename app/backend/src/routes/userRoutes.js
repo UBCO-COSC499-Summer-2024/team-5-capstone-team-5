@@ -359,5 +359,15 @@ router.post('/courses/flagged/resolve', async (req, res) => {
     }
 });
 
+router.post('/courses/flagged/set', async (req, res) => {
+    try {
+        const { examId, userId, questionNum, flagText } = req.body;
+        await flagResponse(examId, userId, questionNum, flagText);
+        res.status(200).json({message: 'Added issue for question',questionNum})
+    } catch(error) {
+        res.status(500).json({error: error.message})
+    }
+})
+
 
 module.exports = router;
