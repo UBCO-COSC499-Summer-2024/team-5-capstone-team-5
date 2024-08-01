@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  background-color: #000000; /* Set body background to black for dark theme */
+  color: #FFFFFF; /* Ensure text is readable in dark theme */
+}
+
+body.light {
+  background-color: #ffffff; /* Set body background to white for light theme */
+  color: #000000; /* Ensure text is readable in light theme */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Custom styles for the switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Tooltip styles */
+.tooltip {
+  transition: opacity 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.relative:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Custom separator line */
+.separator-line {
+  width: 100%;
+  height: 4px; /* Increased thickness */
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.5), transparent);
+  margin: 0.5rem 0;
+}
+
+.separator-line.border-gray-700 {
+  background: linear-gradient(to right, transparent, rgba(75, 85, 99, 0.5), transparent);
+}
+
+.separator-line.border-gray-300 {
+  background: linear-gradient(to right, transparent, rgba(209, 213, 219, 0.5), transparent);
+}
+
+/* Custom styles for course hover and selected */
+.course-item {
+  transition: background-color 0.3s;
+}
+
+.course-item:hover {
+  background-color: rgba(128, 128, 128, 0.3); /* Light gray background on hover */
+}
+
+.course-item.selected {
+  background-color: rgba(128, 128, 128, 0.5); /* Slightly darker gray background when selected */
+}
+
+.taperedline {
+  background: linear-gradient(to right, transparent, white, transparent);
+}
