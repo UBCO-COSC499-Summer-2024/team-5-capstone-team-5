@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const NotificationBell = (props) => {
     const { userId, notifications, fetchNotifications  } = props;
     const [showNotifications, setShowNotifications] = useState(false);
+    const [searchInput, setSearchInput] = useState("");
+    const [filteredNotifications, setFilteredNotifications] = useState(notifications);
 
     const handleBellClick = async () => {
         setShowNotifications((show) => !show);
@@ -23,6 +25,20 @@ const NotificationBell = (props) => {
         fetchNotifications();
     }
 
+    useEffect(() => {
+        setFilteredNotifications(
+            notifications.filter(
+                (flag) =>
+                    (flag.question_num && flag.question_num.toString().includes(searchInput)) ||
+                    (flag.user_id && flag.user_id.toString().includes(searchInput))
+            )
+        );
+    }, [searchInput, notifications]);
+
+    const handleSearchChange = (e) => {
+        setSearchInput(e.target.value);
+    };
+
     return (
         <div>
             <div className="flex m-4 cursor-pointer" onClick={handleBellClick}>
@@ -31,7 +47,16 @@ const NotificationBell = (props) => {
             </div>
             {showNotifications && (
                 <div className="bg-gray-900 h-[600px] w-[480px] absolute -translate-x-[440px] rounded-lg drop-shadow overflow-hidden">
-                    <h1 className="text-xl p-4 border-b-[0.5px] border-white">Notifications</h1>
+                    <div className="flex justify-evenly border-b-[0.5px] border-white">
+                        <h1 className="text-xl w-1/2 p-4">Notifications</h1>
+                        <input
+                            type="text"
+                            placeholder="Search by Question / Student ID"
+                            value={searchInput}
+                            onChange={handleSearchChange}
+                            className="w-3/5 m-2 px-2 rounded bg-gray-800"
+                        />
+                    </div>
                     <div className="p-4 overflow-y-auto h-[calc(600px-72px)]">
                         {notifications.length > 0 ? (
                             notifications.map((flag, index) => (
