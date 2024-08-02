@@ -97,10 +97,14 @@ const InstNavbar = (props) => {
   };
 
   const handleAddCourse = async (data) => {
-    const name = `${data.courseDept} ${data.courseCode}-${data.courseSection}`;
+    const department = data.courseDept;
+    const code = data.courseCode;
+    const section = data.courseSection;
     const description = data.description;
+    const startDate = data.startDate;
     const endDate = data.endDate;
-    const newCourse = { name, description, end_date: endDate, user_id: props.id };
+    const newCourse = { department, code, section, description, start_date: startDate, end_date: endDate, user_id: props.id };
+    console.log("New Course:",newCourse)
 
     try {
       const response = await fetch('http://localhost/api/courses/add', {

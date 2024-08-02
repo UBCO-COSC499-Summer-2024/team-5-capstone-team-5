@@ -5,7 +5,7 @@ const addCourse = async (user_id, department, code, section, description, start_
   try {
       const dateRegex = /^\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$/;
       if(dateRegex.test(end_date) && dateRegex.test(start_date)) {
-          const response = await db.none(
+          const response = await db.oneOrNone(
               'INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id', [department, code, section, description, start_date, end_date]
           );
           await register(user_id, response.id);
@@ -16,7 +16,7 @@ const addCourse = async (user_id, department, code, section, description, start_
           return null;
       };
   } catch(error) {
-      console.error(`Error adding course ${department + " " + code + "-" + section}`);
+      console.error(`Error adding course ${department + " " + code + "-" + section}`,error);
   };
 };
 
