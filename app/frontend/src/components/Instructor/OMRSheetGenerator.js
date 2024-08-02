@@ -1,42 +1,28 @@
 // app/frontend/src/components/Instructor/OMRSheetGenerator.js
-import React, { useState } from 'react';
+
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { saveAs } from 'file-saver';
-import { generateDetailedOMRSheet } from '../../utils/generateOMRSheet';
 
 const OMRSheetGenerator = () => {
-  const [totalQuestions, setTotalQuestions] = useState(100);
-  const [optionsCount, setOptionsCount] = useState(4);
+  const { type } = useParams();
+  const navigate = useNavigate();
 
-  const handleGenerateClick = async () => {
-    const pdfBytes = await generateDetailedOMRSheet(totalQuestions, optionsCount);
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    saveAs(blob, 'OMR_Sheet.pdf');
+  const downloadFile = () => {
+    const fileUrl = type === '100' ? '/100bubble.pdf' : '/200bubble.pdf';
+    saveAs(process.env.PUBLIC_URL + fileUrl, fileUrl.split('/').pop());
   };
 
-  return (
-    <div>
-      <h2 className="text-xl mb-4">Generate OMR Sheet</h2>
-      <label className="block mb-2">Total Questions (1-200):</label>
-      <input
-        type="number"
-        value={totalQuestions}
-        onChange={(e) => setTotalQuestions(Number(e.target.value))}
-        min={1}
-        max={200}
-        className="input mb-4"
-      />
-      <label className="block mb-2">Options (1-4):</label>
-      <input
-        type="number"
-        value={optionsCount}
-        onChange={(e) => setOptionsCount(Number(e.target.value))}
-        min={1}
-        max={4}
-        className="input mb-4"
-      />
-      <button onClick={handleGenerateClick} className="btn btn-primary mr-2">Generate</button>
-    </div>
-  );
+  React.useEffect(() => {
+    downloadFile();
+    const timer = setTimeout(() => {
+      navigate(-1); // Navigate back to the previous page
+    }, 3000); // 3 seconds delay before redirecting
+
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
+  }, [type, navigate]);
+
+  return <div>Your file is downloaded. You will be redirected shortly...</div>;
 };
 
 export default OMRSheetGenerator;
