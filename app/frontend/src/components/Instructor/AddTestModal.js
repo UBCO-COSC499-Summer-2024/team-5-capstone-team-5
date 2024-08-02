@@ -7,6 +7,7 @@ import { useTheme } from '../../App';
 const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
   const [questions, setQuestions] = useState([]);
   const [examName, setExamName] = useState('');
+  const [visibility, setVisibility] = useState(true);
   const { theme } = useTheme();
 
   const handleAddQuestion = () => {
@@ -46,7 +47,9 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
         correctAnswer: q.correctAnswer.map(a => letterMap[a]), // Ensure correctAnswer is an array of integers
       })),
       courseId,
+      visibility
     };
+    console.log((visibility ? "Course can be seen" : "Course cannot be seen"))
     console.log("New Test Questions:", newTest.questions)
     console.log("New Test:", newTest);
 
@@ -92,34 +95,9 @@ const AddTestModal = ({ isOpen, onClose, courseId, onAddTest }) => {
             className={`w-full p-2 border rounded ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-500' : 'bg-gray-200 text-black border-gray-300'}`}
           />
         </div>
-        <div className="mb-4">
-          <p className="mb-2">Number of Questions Added: {questions.length}</p>
-          <button
-            onClick={handleAddQuestion}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
-          >
-            Add Question
-          </button>
-        </div>
-        <div className="overflow-y-auto max-h-64 mb-4">
-          {questions.map((question, index) => (
-            <div key={index} className="mb-4">
-              <div className="flex justify-between items-center">
-                <p className="font-bold">Question {index + 1}</p>
-                <button
-                  onClick={() => handleDeleteQuestion(index)}
-                  className="text-white hover:text-red-500 transition duration-200"
-                  title="Delete Question"
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </div>
-              <InstBubble
-                question={question}
-                onSelect={(answer) => handleAnswerSelection(index, answer)}
-              />
-            </div>
-          ))}
+        <div>
+          <label htmlFor="visibility" className="mr-2">Allow Students To View Answers?</label>
+          <input type="checkbox" id="visibility" name="visibility" defaultChecked onClick={() => setVisibility(value => !value)} />
         </div>
         <div className="flex justify-end mt-4">
           <button

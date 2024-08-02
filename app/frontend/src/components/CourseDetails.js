@@ -42,6 +42,7 @@ const CourseDetails = () => {
           </thead>
           <tbody>
             {tests.map((test, index) => (
+              test.visibility &&
               <tr key={index} className="cursor-pointer" onClick={() => handleRowClick(test.id)}>
                 <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{test.name}</td>
                 <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{test.mean}</td>

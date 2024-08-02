@@ -6,12 +6,12 @@ const { flagExam, flagResponse } = require('./flagController');
 const { addResponse } = require('./responseController');
 
 const addTest = async (req, res) => {
-  const { name, questions, courseId } = req.body;
+  const { name, questions, courseId, visibility } = req.body;
 
   try {
     const result = await db.one(
-      'INSERT INTO exams (name, course_id) VALUES ($1, $2) RETURNING id',
-      [name, courseId]
+      'INSERT INTO exams (name, course_id, visibility) VALUES ($1, $2, $3) RETURNING id',
+      [name, courseId, visibility]
     );
     const examId = result.id;
 
@@ -61,15 +61,45 @@ const deleteTest = async (testId) => {
 };
 
 const getTestsByCourseId = async (id) => {
-  try {
-      const response = await db.manyOrNone(
-          'SELECT exams.id, date_marked, exams.name, courses.department, courses.code, courses.section FROM exams JOIN courses ON exams.course_id = courses.id WHERE course_id = $1 ORDER BY date_marked DESC', [id]
-      );
-      return response;
-  } catch(error) {
-      console.error(`Error getting course data for id ${id}`,error);
+    try {
+        const response = await db.manyOrNone(
+            'SELECT exams.id, date_marked, exams.name, courses.department, courses.code, courses.section, visibility FROM exams JOIN courses ON exams.course_id = courses.id WHERE course_id = $1 ORDER BY date_marked DESC', [id]
+        );
+        
+        const testStatsPromises = response.map(async (exam, index) => {
+          const meanGrade = await getTestStatistics(exam.id);
+          response[index].mean = meanGrade;
+        });
+  
+        await Promise.all(testStatsPromises);
+  
+        return response;
+    } catch(error) {
+        console.error(`Error getting course data for id ${id}`, error);
+    }
   };
-};
+  
+  const getTestStatistics = async (testId) => {
+    try {
+        const result = await db.oneOrNone(
+            `SELECT AVG(
+                 CASE 
+                   WHEN responses.response = questions.correct_answer
+                   THEN questions.weight
+                   ELSE 0 
+                 END
+             ) as mean_grade
+             FROM responses 
+             JOIN questions ON responses.question_id = questions.id 
+             WHERE questions.exam_id = $1`, [testId]
+        );
+        return result ? result.mean_grade : null;
+    } catch (error) {
+        console.error(`Error getting mean grade for test id ${testId}`, error);
+        return null;
+    }
+  };
+  
 
 const getRecentExamsByUserId = async (id) => {
   try {
