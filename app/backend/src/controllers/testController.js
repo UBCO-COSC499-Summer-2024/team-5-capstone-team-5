@@ -188,6 +188,7 @@ const addStudentAnswers = async (jsonData, examId) => {
               flagExam(examId, `No student ID for scan on page ${page} / ${page+1}`);
           }
       };
+      setExamMarked(examId);
   }
   return flaggedQuestions;
 }
