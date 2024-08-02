@@ -9,6 +9,7 @@ const responseRoutes = require('./routes/responseRoutes');
 const flagRoutes = require('./routes/flagRoutes');
 const morgan = require("morgan");
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
 

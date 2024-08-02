@@ -33,6 +33,8 @@ import OMRSheetGenerator from './components/Instructor/OMRSheetGenerator';
 import './index.css';
 import ChangePass from './components/ChangePass';
 import NotificationBell from './components/Instructor/NotificationBell';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 
 const ThemeContext = createContext();
@@ -116,14 +118,16 @@ function AppRoutes() {
     <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {showNavbar && (isInstructor ? <InstNavbar id={userId} /> : <Navbar id={userId} />)}
       <div className={`flex-grow flex flex-col ${showNavbar ? 'ml-64' : ''}`}>
-        <div className="flex justify-end">
-          {role == 2 && <NotificationBell userId = {userId} fetchNotifications={fetchNotifications} notifications={notifications} />}
+        <div className="flex">
+         {showNavbar && <Header userId = {userId} fetchNotifications={fetchNotifications} notifications={notifications} role={role} />}
         </div>
-        <div className="flex-grow p-8">
+        <div className="flex-grow px-8">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
             {role === 1 && <Route path="/student/course/:courseId" element={<CourseDetails />} />}
             {role === 1 && <Route path="/student/exam/:examId" element={<ExamDetails id={userId} />} />}
             {role === 1 && <Route path="/student/dashboard" element={<StudentDashboard />} />}

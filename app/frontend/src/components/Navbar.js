@@ -30,7 +30,6 @@ const Navbar = (props) => {
     const checkSession = async () => {
       const session = await validateUser();
       if (!session) {
-        navigate("/login");
       } else {
         const userInfo = await getUserInfo();
         console.log(userInfo);

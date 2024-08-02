@@ -156,7 +156,7 @@ function InstResponseBubbles(props) {
       <>
         <div
           key={responseData[0].userId}
-          className="bg-gray-900 overflow-y-scroll absolute right-5 p-[5px] pr-[8px] m-5 h-[85%]"
+          className="bg-gray-900 overflow-y-scroll absolute right-5 top-14 p-[5px] pr-[8px] m-10 h-[75%] rounded-lg"
         >
           {responseData.map((responseItem) => {
             let response = [];
@@ -178,13 +178,16 @@ function InstResponseBubbles(props) {
             );
           })}
         </div>
-        <button
-          onClick={() => {
-            saveResponses(props.onClose);
-          }}
-        >
-          <p>Save!</p>
-        </button>
+        <div className="flex justify-end mx-48">
+          <button
+            className="bg-gray-900 p-2 rounded-lg"
+            onClick={() => {
+              saveResponses(props.onClose);
+            }}
+          >
+            <p>Save!</p>
+          </button>
+        </div>
       </>
     );
   } else {
