@@ -15,7 +15,8 @@ const CourseDetails = () => {
     const testData = await getTestData(courseId);
     console.log(testData);
     setTests(testData);
-    setCourseName(testData[0].course_name);
+    console.log(testData)
+    setCourseName(testData[0].department + " " + testData[0].code + "-" + String(testData[0].section).padStart(3, '0'));
   }, [courseId]);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const CourseDetails = () => {
   return (
     <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       <div className="flex justify-between mb-4">
-        <h2 className="text-2xl font-bold">{courseName} Courses</h2>
+        <h2 className="text-2xl font-bold">{courseName} Tests</h2>
       </div>
       <div className="flex-grow">
         <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>

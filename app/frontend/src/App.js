@@ -100,7 +100,7 @@ function AppRoutes() {
   }, [userId])
 
   const fetchNotifications = async () => {
-    const response = await fetch(`http://localhost/api/users/courses/flagged/${userId}`);
+    const response = await fetch(`http://localhost/api/flags/get/${userId}`);
     const notifications = await response.json();
     setNotifications(notifications);
 }

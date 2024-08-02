@@ -28,7 +28,7 @@ const InstructorCourseDetails = () => {
     const courseData = await getCourseInfo(courseId);
     setGradeList(await getGrades(courseId));
     setTests(testData);
-    setCourseName(courseData.name);
+    setCourseName(courseData.department + " " + courseData.code + "-" + String(courseData.section).padStart(3, '0'));
   }, [courseId, isAddTestModalOpen]);
 
   const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
@@ -47,7 +47,7 @@ const InstructorCourseDetails = () => {
 
   const handleDeleteTest = async (testId) => {
     try {
-      await fetch(`http://localhost/api/users/tests/delete/${testId}`, {
+      await fetch(`http://localhost/api/tests/delete/${testId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const InstructorCourseDetails = () => {
 
   const handleEditTest = async (testId, newName) => {
     try {
-      const response = await fetch(`http://localhost/api/users/tests/edit/${testId}`, {
+      const response = await fetch(`http://localhost/api/tests/edit/${testId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

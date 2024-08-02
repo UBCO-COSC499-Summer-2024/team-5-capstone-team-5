@@ -3,41 +3,67 @@ const { authUser, verifyUser, verifyPass } = require('../controllers/authControl
 
 const router = express.Router();
 
-router.post("/login", async (req,res) => {
-    const { email, password } = req.body;
-    try {
-        const auth = await authUser(email, password);   // Calls the authUser function in the authController file in authController.
-        if(auth) {
-            res.status(200).json(auth);     // Returns status code 200 (ok), also returns the auth variable as a json object.
-        } else {
-            res.status(401).json({message : "Incorrect Credentials" });     // Returns status code 401 (), also returns a message as a json object.
-        }
-    } catch(error) {
-        res.status(500).json({ message : "Internal Server Error" });
-    }
-  });
+// Login Route
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
 
-  router.get('/authenticate/:token', async (req, res) => {
-    if(req.params.token == null) {
-        res.status(404).json({ message: "Could not verify session. Token does not exist."});
-    }
-    const auth = await verifyUser(req.params.token);
-    if(auth) {
-        res.status(200).json(auth);
+  // Input validation
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required." });
+  }
+
+  try {
+    const auth = await authUser(email, password);
+    if (auth.token) {
+      res.status(200).json(auth);
     } else {
-        res.status(401).json({ message: "Could not verify session. Token is invalid." });
+      res.status(401).json(auth);
     }
-  });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
-  router.post("/change", async (req, res) => {
-    const {userId, oldPass, newPass} = req.body;
-    try {
-        await verifyPass(userId, oldPass, newPass);
-        res.status(200).json({message: "Password updated."});
-    } catch(error) {
-        res.status(500).json({message: "Internal Server Error"});
+// Authenticate Route
+router.get('/authenticate/:token', async (req, res) => {
+  const { token } = req.params;
+
+  // Input validation
+  if (!token) {
+    return res.status(400).json({ message: "Token is required." });
+  }
+
+  try {
+    const auth = await verifyUser(token);
+    if (auth) {
+      res.status(200).json(auth);
+    } else {
+      res.status(401).json({ message: "Invalid token." });
     }
-  })
-    
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
-  module.exports = router;
+// Change Password Route
+router.post("/change", async (req, res) => {
+  const { userId, oldPass, newPass } = req.body;
+
+  // Input validation
+  if (!userId || !oldPass || !newPass) {
+    return res.status(400).json({ message: "User ID, old password, and new password are required." });
+  }
+
+  try {
+    const result = await verifyPass(userId, oldPass, newPass);
+    if (result.message === "Password updated successfully") {
+      res.status(200).json(result);
+    } else {
+      res.status(401).json(result);
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+module.exports = router;

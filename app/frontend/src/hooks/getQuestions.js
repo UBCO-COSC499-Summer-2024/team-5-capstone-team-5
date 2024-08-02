@@ -1,6 +1,6 @@
 const getQuestions = async (exam_id, user_id) => {
   try {
-      const response = await fetch(`http://localhost/api/users/questions/${exam_id}&${user_id}`);
+      const response = await fetch(`http://localhost/api/questions/responses/${exam_id}&${user_id}`);
       if (response.ok) {
           const questions = await response.json();
           console.log(`Total questions fetched: ${questions.length}`); // Add this line for debugging

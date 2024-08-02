@@ -127,7 +127,9 @@ completed exams for the specifed course, but haven'y yet been registered
 to create columns dynamically. Columns are only created for exams which have been marked.*/
 function createHeaders(exams, theme) {
   if (exams) {
+    console.log("Exams", exams)
     const examColumns = exams.map((exam) => {
+      if(exam.examName && exam.examId) {
       return (
         <th
           key={exam.examId}
@@ -140,6 +142,7 @@ function createHeaders(exams, theme) {
           {exam.examName.length < 24 ? exam.examName : exam.examName.substring(0, 21) + "..."}
         </th>
       );
+    }
     });
     return (
       <>

@@ -80,3 +80,7 @@ input:checked + .slider:before {
   visibility: visible;
   opacity: 1;
 }
+
+.taperedline {
+  background: linear-gradient(to right, transparent, white, transparent);
+}
