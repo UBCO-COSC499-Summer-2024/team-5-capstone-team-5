@@ -113,7 +113,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
           <input
             name="endDate"
             type="date"
-            value={startDate.slice(0, 10)}
+            value={startDate.split("T")[0]}
             onChange={handleStartDateChange}
             className={`block w-full mt-2 p-2 rounded border ${inputStyle}`}
           />
@@ -123,7 +123,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
           <input
             name="endDate"
             type="date"
-            value={endDate.slice(0, 10)}
+            value={endDate.split("T")[0]}
             onChange={handleEndDateChange}
             className={`block w-full mt-2 p-2 rounded border ${inputStyle}`}
           />
