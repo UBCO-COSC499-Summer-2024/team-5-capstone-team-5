@@ -1,4 +1,5 @@
 // app/frontend/src/components/Instructor/InstNavbar.js
+
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../../hooks/getCourseData';
@@ -90,10 +91,8 @@ const InstNavbar = (props) => {
   };
 
   const handleCardClick = (courseId) => {
-    if (!flippedCourses[courseId]) {
-      setSelectedCourseId(courseId); // Set selected course ID
-      navigate(`/instructor/course/${courseId}`);
-    }
+    setSelectedCourseId(courseId);
+    navigate(`/instructor/course/${courseId}`);
   };
 
   const handleAddCourse = async (data) => {
@@ -125,9 +124,13 @@ const InstNavbar = (props) => {
   const headerStyle = theme === 'dark' ? 'bg-gray-900' : 'bg-gray-300';
   const linkActiveStyle = theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black';
   const linkInactiveStyle = theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black';
+<<<<<<< HEAD
   const cardStyle = theme === 'dark' ? 'text-white' : 'text-black';
   const iconStyle = theme === 'dark' ? 'text-gray-400' : 'text-gray-600';
   const borderStyle = theme === 'dark' ? 'border-white' : 'border-black';
+=======
+  const separatorStyle = theme === 'dark' ? 'border-gray-700' : 'border-gray-300';
+>>>>>>> origin/Styling
 
   return (
     <div className={`h-full w-64 ${containerStyle} flex flex-col fixed overflow-hidden`}>
@@ -137,7 +140,11 @@ const InstNavbar = (props) => {
       <div className={`my-4 flex justify-evenly ${headerStyle} sticky top-0`}>
         <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
         <li
+<<<<<<< HEAD
           className={`align-middle flex px-8 mr-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
+=======
+          className={`block p-4 mx-4 mt-2 rounded-lg ${theme === 'dark' ? 'bg-gray-900 text-white hover:bg-gray-700' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
+>>>>>>> origin/Styling
           onClick={() => setIsModalOpen(true)}
           title="Add Course"
         >
@@ -146,12 +153,18 @@ const InstNavbar = (props) => {
       </div>
       <div className="flex h-[0.5px] taperedline mx-4"></div>
       <div className="flex-grow overflow-y-auto">
-        <ul className="mt-4 space-y-4">
+        <ul className="mt-4">
           {courses.map((course) => (
+<<<<<<< HEAD
             <li key={course.course_id} className="relative">
               
               <div
                 className={`relative mb-4 mx-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-300'} ${selectedCourseId === course.course_id ? theme === 'dark' ? `bg-gray-800 ${borderStyle}` : `bg-gray-300 ${borderStyle}` : ''}`}
+=======
+            <li key={course.course_id} className={`relative ${separatorStyle}`}>
+              <div
+                className={`relative p-0 cursor-pointer w-full course-item ${selectedCourseId === course.course_id ? 'selected' : ''}`}
+>>>>>>> origin/Styling
                 onClick={() => handleCardClick(course.course_id)}
               >
                 <Flip
@@ -159,17 +172,24 @@ const InstNavbar = (props) => {
                   flipped={flippedCourses[course.course_id] || false}
                   onFlip={handleFlipClick}
                   onSave={handleSaveCourse}
+                  isSelected={selectedCourseId === course.course_id}
                 />
                 <FontAwesomeIcon
                   icon={faEllipsis}
-                  className={`absolute top-4 right-4 cursor-pointer ${iconStyle}`}
+                  className={`absolute top-4 right-4 cursor-pointer`}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleFlipClick(course.course_id);
                   }}
                 />
               </div>
+<<<<<<< HEAD
               <div className="flex h-[0.5px] taperedline"></div>
+=======
+              <div className="w-full mt-2 mb-2">
+                <div className={`separator-line ${separatorStyle}`}></div>
+              </div>
+>>>>>>> origin/Styling
             </li>
           ))}
         </ul>
@@ -197,7 +217,7 @@ const InstNavbar = (props) => {
         </NavLink>
         <button
           onClick={() => setIsProfileMenuOpen(true)}
-          className={`flex items-center mb-4 cursor-pointer p-2 rounded-lg w-full ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
+          className={`flex items-center mb-4 cursor-pointer p-2 rounded-lg w-full ${theme === 'dark' ? 'bg-gray-900 text-white hover:bg-gray-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
         >
           <Avatar options={avatarOptions} size={32} /> {/* Use Avatar component */}
           <div className="ml-2 flex-grow">

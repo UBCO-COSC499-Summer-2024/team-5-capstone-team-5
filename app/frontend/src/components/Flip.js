@@ -1,12 +1,19 @@
 // app/frontend/src/components/Flip.js
+
 import React, { useState } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import { useTheme } from '../App';
+import classNames from 'classnames';
 
+<<<<<<< HEAD
 const Flip = ({ course, flipped, onFlip, onSave }) => {
   const [department, setDepartment] = useState(course.department);
   const [code, setCode] = useState(course.code);
   const [section, setSection] = useState(course.section);
+=======
+const Flip = ({ course, flipped, onFlip, onSave, isSelected }) => {
+  const [name, setName] = useState(course.name);
+>>>>>>> origin/Styling
   const [description, setDescription] = useState(course.description);
   const [startDate, setStartDate] = useState(course.start_date);
   const [endDate, setEndDate] = useState(course.end_date);
@@ -55,6 +62,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
     onFlip(course.course_id);
   };
 
+<<<<<<< HEAD
   const frontCardStyle = theme === 'dark' ? 'text-white' : 'text-black';
   const backCardStyle = theme === 'dark' ? 'text-white' : 'text-black';
   const inputStyle = theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-white text-black';
@@ -64,10 +72,24 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
     <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
       <div className={`front p-4 rounded-lg shadow-lg ${frontCardStyle}`}>
         <h3 className="font-bold text-lg">{`${course.department} ${course.code}-${String(course.section).padStart(3, "0")}`}</h3>
+=======
+  const cardClass = classNames('transition-all duration-300 p-4 border-none', {
+    'bg-gray-900 text-white hover:bg-gray-700': theme === 'dark' && !isSelected,
+    'bg-gray-700': theme === 'dark' && isSelected,
+    'bg-gray-200 text-black hover:bg-gray-400': theme === 'light' && !isSelected,
+    'bg-gray-300': theme === 'light' && isSelected,
+  });
+
+  return (
+    <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
+      <div className={`front ${cardClass}`} style={{ minHeight: '150px', borderRadius: '0' }}>
+        <h3 className="font-bold text-lg">{course.department + " " + course.code + "-" + String(course.section).padStart(3, "0")}</h3>
+>>>>>>> origin/Styling
         <p className="mt-2">{course.description}</p>
         <p className="mt-2 text-gray-400">Ends: {course.end_date.slice(0, 10)}</p>
       </div>
 
+<<<<<<< HEAD
       <div className={`back p-4 rounded-lg shadow-lg ${backCardStyle}`} style={{ minHeight: '100px' }}>
         <div className="mb-2">
           <label className="font-bold text-lg" htmlFor="department">Edit Department</label>
@@ -128,9 +150,31 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
             className={`block w-full mt-2 p-2 rounded border ${inputStyle}`}
           />
         </div>
+=======
+      <div className={`back ${cardClass}`} style={{ minHeight: '150px', borderRadius: '0' }}>
+        <h3 className="font-bold text-lg">Edit Course Details</h3>
+        <input
+          type="text"
+          value={name}
+          onChange={handleNameChange}
+          className={`block w-full mt-2 p-2 rounded border ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'}`}
+        />
+        <textarea
+          value={description}
+          onChange={handleDescriptionChange}
+          className={`block w-full mt-2 p-2 rounded border ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'}`}
+          rows="4"
+        />
+        <input
+          type="date"
+          value={endDate.slice(0, 10)}
+          onChange={handleEndDateChange}
+          className={`block w-full mt-2 p-2 rounded border ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'}`}
+        />
+>>>>>>> origin/Styling
         <button
           onClick={handleSave}
-          className={`mt-4 px-4 py-2 rounded ${buttonStyle}`}
+          className={`mt-4 px-4 py-2 rounded ${theme === 'dark' ? 'bg-gray-600 text-white hover:bg-gray-500' : 'bg-gray-300 text-black hover:bg-gray-400'}`}
         >
           Save
         </button>
