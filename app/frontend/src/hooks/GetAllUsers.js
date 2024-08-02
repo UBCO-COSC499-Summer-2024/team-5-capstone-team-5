@@ -2,7 +2,7 @@ const getAllUsers = async () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const response = await fetch(`http://localhost/api/users/all`, {
+        const response = await fetch(`http://localhost/api/users/get/all`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
