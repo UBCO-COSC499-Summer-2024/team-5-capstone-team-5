@@ -1,9 +1,7 @@
 // app/frontend/src/components/Flip.js
-
 import React, { useState } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import { useTheme } from '../App';
-import classNames from 'classnames';
 
 const Flip = ({ course, flipped, onFlip, onSave }) => {
   const [department, setDepartment] = useState(course.department);
@@ -132,7 +130,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
         </div>
         <button
           onClick={handleSave}
-          className={`mt-4 px-4 py-2 rounded ${theme === 'dark' ? 'bg-gray-600 text-white hover:bg-gray-500' : 'bg-gray-300 text-black hover:bg-gray-400'}`}
+          className={`mt-4 px-4 py-2 rounded ${buttonStyle}`}
         >
           Save
         </button>

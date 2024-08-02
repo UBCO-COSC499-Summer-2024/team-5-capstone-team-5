@@ -1,5 +1,4 @@
 // app/frontend/src/components/Instructor/InstNavbar.js
-
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../../hooks/getCourseData';
@@ -91,8 +90,10 @@ const InstNavbar = (props) => {
   };
 
   const handleCardClick = (courseId) => {
-    setSelectedCourseId(courseId);
-    navigate(`/instructor/course/${courseId}`);
+    if (!flippedCourses[courseId]) {
+      setSelectedCourseId(courseId); // Set selected course ID
+      navigate(`/instructor/course/${courseId}`);
+    }
   };
 
   const handleAddCourse = async (data) => {
@@ -145,7 +146,7 @@ const InstNavbar = (props) => {
       </div>
       <div className="flex h-[0.5px] taperedline mx-4"></div>
       <div className="flex-grow overflow-y-auto">
-        <ul className="mt-4">
+        <ul className="mt-4 space-y-4">
           {courses.map((course) => (
             <li key={course.course_id} className="relative">
               
@@ -158,11 +159,10 @@ const InstNavbar = (props) => {
                   flipped={flippedCourses[course.course_id] || false}
                   onFlip={handleFlipClick}
                   onSave={handleSaveCourse}
-                  isSelected={selectedCourseId === course.course_id}
                 />
                 <FontAwesomeIcon
                   icon={faEllipsis}
-                  className={`absolute top-4 right-4 cursor-pointer`}
+                  className={`absolute top-4 right-4 cursor-pointer ${iconStyle}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleFlipClick(course.course_id);
@@ -197,7 +197,7 @@ const InstNavbar = (props) => {
         </NavLink>
         <button
           onClick={() => setIsProfileMenuOpen(true)}
-          className={`flex items-center mb-4 cursor-pointer p-2 rounded-lg w-full ${theme === 'dark' ? 'bg-gray-900 text-white hover:bg-gray-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
+          className={`flex items-center mb-4 cursor-pointer p-2 rounded-lg w-full ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-200 text-black hover:bg-gray-300'}`}
         >
           <Avatar options={avatarOptions} size={32} /> {/* Use Avatar component */}
           <div className="ml-2 flex-grow">
