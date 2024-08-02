@@ -152,6 +152,7 @@ const addStudentAnswers = async (jsonData, examId) => {
                       flagResponse(examId, studentId, question, "No answers were detected")
                   });
               }
+              addScan(examId, studentId, databasePath)
           } else {
               flaggedQuestions["NoStudentId"].push(`Page ${page} / ${page+1}`);
               flagExam(examId, `No student ID for scan on page ${page} / ${page+1}`);

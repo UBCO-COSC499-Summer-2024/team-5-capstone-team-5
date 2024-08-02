@@ -28,6 +28,10 @@ const ExamDetails = (props) => {
         fetchData();
     }, [examId, fetchData]);
 
+    useEffect(() => {
+        fetchImageUrl(examId, props.id).then((path) => displayImage(path));
+    }, [loading]);
+
     const handleFlagClick = (question) => {
         setSelectedQuestion(question);
         setShowModal(true);
@@ -56,6 +60,26 @@ const ExamDetails = (props) => {
         handleCloseModal();
     };
 
+    const fetchImageUrl = async (examId, userId) => {
+        const response = await fetch(`http://localhost/api/users/scans/${examId}/${userId}`);
+        const data = await response.json();
+        console.log(data.path);
+        return data.path;
+      };
+    
+      const displayImage = (path) => {
+        const imageContainer = document.getElementById('imageContainer');
+        if(imageContainer) {
+            imageContainer.innerHTML = '';
+            const imgElement = document.createElement('img');
+            imgElement.src = 'http://localhost' + path;
+            imgElement.alt = 'Scan Image';
+            imgElement.className = 'rounded-lg';
+            console.log('Displaying image from:' + imgElement.src);
+            imageContainer.appendChild(imgElement);
+        }
+      };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -74,6 +98,7 @@ const ExamDetails = (props) => {
                 <div className="text-center text-xl text-red-500">This Exam has not been checked by the instructor</div>
             ) : (
                 <div className="flex-grow overflow-x-auto">
+                    <div id="imageContainer"></div>
                     <table className="w-full min-w-[800px] text-left border-separate" style={{ borderSpacing: '0 10px' }}>
                         <thead>
                             <tr>

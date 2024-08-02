@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS flags (
 
 -- Partially AI-Generated Sample Data
 -- Role 1 = student, role 2 = instructor, role 3 = admin
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (18273645, 'Nic', 'Kouwen', 'nic.kouwen@gmail.com', '$2b$10$hBD1XoutbVf8.NENNQjLQOQTpVQJSO5StSf4kmAluo9wZV6Qe14em', 2);
 
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (12345678, 'Nic', 'Kouwen', 'nk@email.com', '$2b$10$zgmV/5pz1A.pQR.ZkvGBJOtja7Nesps3UTyLLiDeR7sOkH9yQoOyi', 1);  -- password = ilovecosc
 INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (23456789, 'Jane', 'Doe', 'janedoe@email.com', '$2b$10$WID77Xx2aHMAPFtcBqVOm.I3VuwyNx6PAp17l7nzeslxHwtVloLZy', 1); -- password = password123

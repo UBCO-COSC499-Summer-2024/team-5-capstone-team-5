@@ -17,6 +17,7 @@ const TestCorrectAnswers = (props) => {
   const [numQuestions, setNumQuestions] = useState(100);
   const [showingScan, setShowingScan] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -26,10 +27,10 @@ const TestCorrectAnswers = (props) => {
     const data = await fetch(`http://localhost/api/questions/answers/${testId}`);
     const results = await data.json();
     setQuestions(results);
-    console.log(questions)
+    console.log(questions);
     console.log(results);
     setLoading(false);
-  }
+  };
 
   const handleFileUpload = async (event) => {
     setFileUploaded(2);
@@ -68,7 +69,7 @@ const TestCorrectAnswers = (props) => {
       });
       const data = await response.json();
       console.log('File uploaded:', file);
-      console.log('userid in headers:',userId);
+      console.log('userid in headers:', userId);
       test.correctAnswers = data.correctAnswers;
       setAnswerKeyUploaded(3);
       setTimeout(fetchData, 500);
@@ -79,36 +80,36 @@ const TestCorrectAnswers = (props) => {
     const response = await fetch(`http://localhost/api/users/scans/${examId}/${userId}`);
     const data = await response.json();
     console.log(data.path);
-    return data.path
-  }
+    return data.path;
+  };
 
   const displayImage = (path) => {
     const imageContainer = document.getElementById('imageContainer');
     imageContainer.innerHTML = '';
     const imgElement = document.createElement('img');
-    imgElement.src = 'http://localhost'+path;
+    imgElement.src = 'http://localhost' + path;
     imgElement.alt = 'Scan Image';
     imgElement.className = 'rounded-lg';
-    console.log("Displaying image from:"+imgElement.src);
+    console.log('Displaying image from:' + imgElement.src);
     imageContainer.appendChild(imgElement);
-  }
+  };
 
   const handleScanClick = () => {
     setShowingScan(true);
-    fetchImageUrl(test.id, props.id).then(path => displayImage(path))
-  }
-  
+    fetchImageUrl(test.id, props.id).then((path) => displayImage(path));
+  };
+
   const handleScanClose = () => {
     const imageContainer = document.getElementById('imageContainer');
     imageContainer.innerHTML = '';
     setShowingScan(false);
-  }
+  };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredQuestions = questions.filter(question =>
+  const filteredQuestions = questions.filter((question) =>
     question.question_num.toString().includes(searchQuery)
   );
 
@@ -191,34 +192,35 @@ const TestCorrectAnswers = (props) => {
           </div>
         </div>
         <div className="bg-gray-800 rounded-lg shadow-lg p-6">
-        <input
-          type="text"
-          placeholder="Search by question #"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className="mb-4 p-2 rounded border text-black"
-        />
-        {!showingScan && <table className="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr>
-              <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Question Number</th>
-              <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Correct Answer</th>
-              <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Weight</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {filteredQuestions.map((question, index) => (
-              <tr key={index}>
-                <td className="px-6 py-2 whitespace-nowrap">{question.question_num}</td>
-                <td className="px-6 py-2 whitespace-nowrap"><EditBubble question={question} /></td>
-                <td className="px-6 py-2 whitespace-nowrap">{question.weight}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>}
-        <div id='imageContainer' className='mt-4'>
+          <input
+            type="text"
+            placeholder="Search by question #"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="mb-4 p-2 rounded border text-black"
+          />
+          {!showingScan && (
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Question Number</th>
+                  <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Correct Answer</th>
+                  <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Weight</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {filteredQuestions.map((question, index) => (
+                  <tr key={index}>
+                    <td className="px-6 py-2 whitespace-nowrap">{question.question_num}</td>
+                    <td className="px-6 py-2 whitespace-nowrap"><EditBubble question={question} isEditing={isEditing} /></td>
+                    <td className="px-6 py-2 whitespace-nowrap">{question.weight}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          <div id='imageContainer' className='mt-4'></div>
         </div>
-      </div>
       </div>
     </div>
   );
