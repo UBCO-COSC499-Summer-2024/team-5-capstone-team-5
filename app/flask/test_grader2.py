@@ -364,16 +364,16 @@ def process_second_page_bubbles(file_path):
         col, row = bubble[0], bubble[1]
     
         if col <= 4:
-            question_number = row + 1
+            question_number = row + 101
             letter_index = col
         elif col <= 9:
-            question_number = row + 26
+            question_number = row + 126
             letter_index = col - 5
         elif col <= 14:
-            question_number = row + 51
+            question_number = row + 151
             letter_index = col - 10
         elif col <= 19:
-            question_number = row + 76
+            question_number = row + 176
             letter_index = col - 15
     
         letter = bubble_options[letter_index]
