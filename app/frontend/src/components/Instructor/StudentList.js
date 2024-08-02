@@ -1,9 +1,9 @@
+// src/components/Instructor/StudentList.js
+
 import React, { useEffect, useState, useCallback } from 'react';
 import getStudentData from '../../hooks/getStudentData';
 import { useTheme } from '../../App';
 import StudentSpreadsheet from './StudentSpreadsheet';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons'; // Import specific icon
 
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
@@ -12,10 +12,10 @@ const StudentList = (props) => {
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
-    setLoading(true); // Set loading to true before starting the fetch
+    setLoading(true);
     const data = await getStudentData(props.courseId);
     setStudents(data);
-    setLoading(false); // Set loading to false after the data is fetched
+    setLoading(false);
   }, [props.courseId]);
 
   const handleRosterUpload = async (event) => {
@@ -39,7 +39,7 @@ const StudentList = (props) => {
           console.log('File uploaded successfully:', file.name);
           setFileUploaded(3);
           await new Promise(resolve => setTimeout(resolve, 1000));
-          await fetchData(); // Ensure fetchData is awaited
+          await fetchData();
         } else {
           console.error('File upload failed:', response.statusText);
           setFileUploaded(4);
@@ -73,13 +73,6 @@ const StudentList = (props) => {
               <h3 className="text-xl font-semibold">Instructor: {instructor.first_name} {instructor.last_name}</h3>
             </div>
           )}
-          <button
-            className={`mb-4 p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-300 text-black hover:bg-gray-400'} flex items-center`}
-            onClick={() => {/* Handle invite action here */}}
-          >
-            <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-            Invite
-          </button>
 
           <label className="block text-sm font-medium mb-2">
             Upload Student Data
@@ -101,7 +94,7 @@ const StudentList = (props) => {
             Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
           </p>
         </div>
-        <StudentSpreadsheet courseId = {props.courseId} students = {studentList} courseName = {props.courseName} asPercents = {props.asPercents}/>
+        <StudentSpreadsheet courseId={props.courseId} students={studentList} courseName={props.courseName} asPercents={props.asPercents} />
       </div>
     );
   }

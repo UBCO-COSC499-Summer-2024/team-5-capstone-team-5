@@ -1,3 +1,5 @@
+// app/frontend/src/components/Instructor/StudentSpreadsheet.jsx
+
 import React, { useEffect, useState } from "react";
 import { useTheme } from "../../App";
 import validateUser from "../../hooks/validateUser";
@@ -6,6 +8,8 @@ import getUserInfo from "../../hooks/getUserInfo";
 import ScanView from "./ScanView";
 import ParseStudentGrades from "./ParseStudentGrades.jsx";
 import getGrades from '../../hooks/getGrades';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
+import { faPercent } from '@fortawesome/free-solid-svg-icons'; // Import specific icon
 
 let courseName = "";
 
@@ -24,6 +28,7 @@ function StudentSpreadsheet(props) {
     lastName: "",
     isRegistered: false,
   });
+  const [asPercents, setAsPercents] = useState(true); // Added state for percentages
   courseName = props.courseName;
   //Stores information for the instructor which is currently signed in.
   const [userInfo, setUserInfo] = useState({
@@ -54,15 +59,6 @@ function StudentSpreadsheet(props) {
   }, [navigate, gradeList]);
 
   const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
-  /*
-    Output from the query is parsed into an object containg an array of grades and an array of exams.
-    Each grade element is an object containing student information, and all their scores in an attribute "scores"
-    This attribute is an array of objects specifying a grade to for each marked exam specific to the student
-    Any student who is missing tests should now have their scores padded with zero's in the "scores" attribute. 
-    Grades is ordered by studentId.
-    Exams is a smaller array which containing the distinct examID's (and their names) that have been marked.
-    This will be used to make the header in the spreadsheet component. 
-    */
   const grades = parsedGrades ? parsedGrades.grades : null;
   const exams = parsedGrades ? parsedGrades.exams : null;
 
@@ -79,10 +75,19 @@ function StudentSpreadsheet(props) {
     });
     setGradeList(await getGrades(props.courseId));
   };
-  
+
   return (
     <>
-      <table className = "overflow-x-scroll">
+      <div className={`mb-4 text-center ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'}`}>
+        <button
+          className={`w-full text-center p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'}`}
+          onClick={() => { setAsPercents(!asPercents) }}
+        >
+          <FontAwesomeIcon icon={faPercent} className="mr-2" />
+          Toggle percents
+        </button>
+      </div>
+      <table className="overflow-x-scroll">
         <thead>{createHeaders(exams, theme)}</thead>
         <tbody>
           {createRows(
@@ -91,7 +96,7 @@ function StudentSpreadsheet(props) {
             props.courseId,
             scanViewInfo,
             setScanViewInfo,
-            props.asPercents,
+            asPercents,
           )}
         </tbody>
       </table>
@@ -108,26 +113,10 @@ function StudentSpreadsheet(props) {
   );
 }
 
-/*
-Returns an array of objects with the following structure:
-userId, lastName, firstName, isRegistered, examId, examName, studentScore.
-exams is an array of objects with the following structiure:
-Notes:
- - isRegistereed is a boolean which is used to identify any students who 
-completed exams for the specifed course, but haven'y yet been registered
- - studentScore currently SUMS the weights of questions for which the student's response
- matches the answer key.
- - Each element in this array should occupy one cell in the table, with the exception of the following case.
- - Any registered students which have failed to write any tests will show up with an examId of -1.
- Their scores for marked tests will later be paded with zeros by ParseStudentGrades.jsx
- - If a student writes some, but not all tests, only the tests they've written will be included.
-*/
-
 /* Creates the header row for the spreadsheet. By using exams as an argument, it is able
 to create columns dynamically. Columns are only created for exams which have been marked.*/
 function createHeaders(exams, theme) {
   if (exams) {
-    console.log("Exams", exams)
     const examColumns = exams.map((exam) => {
       if(exam.examName && exam.examId) {
       return (
@@ -200,7 +189,6 @@ function createRows(grades, theme, course, scanViewInfo, setScanViewInfo, asPerc
     }
     return rows;
   } else {
-    //console.log("Error creating rows");
     return null;
   }
 }
@@ -242,23 +230,23 @@ function createSingleRow(
     };
     const studentGradeList = studentGrades.scores.map((grade) => {
       return (
-          <td
-            key={grade.examId}
-            onClick={() =>
-              handleClick(
-                studentGrades.userId,
-                grade.examId,
-                grade.studentScore,
-                course,
-                studentGrades.firstName,
-                studentGrades.lastName,
-                grade.examName
-              )
-            }
-            className="p-4 hover:bg-black/10 cursor-pointer text-center"
-          >
-            {asPercents ? `${100*grade.studentScore/grade.maxScore}%`: grade.studentScore}
-          </td>
+        <td
+          key={grade.examId}
+          onClick={() =>
+            handleClick(
+              studentGrades.userId,
+              grade.examId,
+              grade.studentScore,
+              course,
+              studentGrades.firstName,
+              studentGrades.lastName,
+              grade.examName
+            )
+          }
+          className="p-4 hover:bg-black/10 cursor-pointer text-center"
+        >
+          {asPercents ? `${100 * grade.studentScore / grade.maxScore}%` : grade.studentScore}
+        </td>
       );
     });
 

@@ -1,5 +1,3 @@
-// app/frontend/src/components/Instructor/TestDescription.js
-
 import React, { useState } from 'react';
 import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers';
@@ -27,6 +25,12 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleGenerateSheetType = (type) => {
+    setShowModal(false);
+    // Implement your logic for generating the sheet based on the type (100 or 200)
+    console.log(`Generating a ${type} bubble sheet`);
   };
 
   if (!test) return null;
@@ -65,7 +69,7 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
           Delete Test
         </button>
       </div>
-      <GenerateSheetModal showModal={showModal} onClose={handleCloseModal} />
+      <GenerateSheetModal showModal={showModal} onClose={handleCloseModal} onGenerateSheet={handleGenerateSheetType} />
     </div>
   );
 };
