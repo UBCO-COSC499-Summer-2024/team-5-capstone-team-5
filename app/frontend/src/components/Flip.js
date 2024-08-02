@@ -65,7 +65,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
       <div className={`front p-4 rounded-lg shadow-lg ${frontCardStyle}`}>
         <h3 className="font-bold text-lg">{`${course.department} ${course.code}-${String(course.section).padStart(3, "0")}`}</h3>
         <p className="mt-2">{course.description}</p>
-        <p className="mt-2 text-gray-400">Ends: {course.end_date.slice(0, 10)}</p>
+        <p className="mt-2 text-gray-400">Ends: {course.end_date.split("T")[0]}</p>
       </div>
 
       <div className={`back p-4 rounded-lg shadow-lg ${backCardStyle}`} style={{ minHeight: '100px' }}>

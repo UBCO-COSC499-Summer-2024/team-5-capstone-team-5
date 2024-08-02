@@ -2,35 +2,33 @@
 
 import React from 'react';
 import Bubble from '../BubbleSheet/Bubbles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFlag } from '@fortawesome/free-solid-svg-icons';
 
 const Exam = (props) => {
-    const question = props.question;
+    const { question, theme, handleFlagClick, examKey } = props;
 
-    const compareAnswers = (correct_answer, responses, weight) => {
-        let count = 0;
-        for(let i = 0; i < correct_answer.length; i++) {
-            if(responses[i] in correct_answer) {
-                count+= 1/weight;
-            }
+    const arraysEqual = (arr1, arr2) => {
+        if (arr1.length !== arr2.length) return false;
+        for (let i = 0; i < arr1.length; i++) {
+          if (arr1[i] !== arr2[i]) return false;
         }
-        return (count / correct_answer.length) * weight;
-    };
-
-    const grade = compareAnswers(question.correct_answer, question.response, question.weight);
+        return true;
+      };
 
     return (
-        <li key={props.examKey} className="bg-gray-700 m-4 p-2 rounded-lg">
-            <h2>Question: {question.question_num}</h2>
-            <h2>Number of options: {question.num_options}</h2>
-            <h2>Weight: {question.weight}</h2>
-            <h2>Correct answers:</h2>
-            <Bubble question={question} />
-            {grade === null ? (
-                <h2 className="text-red-500">This Exam is not being checked by the instructor</h2>
-            ) : (
-                <h2>Grade: {grade}</h2>
-            )}
-        </li>
+        <tr key={examKey} className="cursor-pointer">
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.question_num}</td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.num_options}</td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.weight}</td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>
+                <Bubble question={question} theme={theme} />
+            </td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{arraysEqual(question.correct_answer, question.response) ? question.weight : 0}</td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white justify-center' : 'bg-gray-300 text-black justify-center'}`}>
+                {question.issue ? question.issue : <FontAwesomeIcon icon={faFlag} onClick={() => handleFlagClick(question)} />}
+            </td>
+        </tr>
     );
 }
 
