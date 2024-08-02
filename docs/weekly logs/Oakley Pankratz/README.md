@@ -1,3 +1,47 @@
+## Friday (7/31 - 8/1) Oakley Pankratz
+Total Hours: 6
+
+Update clockify log
+![alt text](ClockifyLogAug1.png)
+
+## Current Tasks:
+* Reviewing Code and discussing the completion of ou project with teammates.
+* Implementing a modal view to display year-by-year statistics for an assessment to the instructor. 
+
+### Progress Update (since 8/1/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <td> Create Add Student button
+        </td>
+        <!-- Status -->
+        <td> Will not complete (the related requirement has been met by another feature) (Issue #97)
+        </td>
+    </tr>
+    <td> Display Year By Year statistics for an assessment to the instructor
+        </td>
+        <!-- Status -->
+        <td> In progress (Issue #245)
+        </td>
+    </tr>
+    <td> Create an option for instructors to give part marks or not, towards multi-responses questions
+        </td>
+        <!-- Status -->
+        <td> Will not complete (this feature is not a requirement) (Issue #147)
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+ * This cycles I did not have enough time to work on the project as I had to prioritize another course. I did my best to stay involved in the development process and communicate wth teammates. I was able to do a few code reviews and discuss our plans for project completion with teammates. I began working on a final issue. 
+ 
+### Next Cycle Goals:
+* I would really like to implement the feature in which we display year-by-year statistics for a particular assessment to the instructore as this feature seems to be esspecially important. I will be wokring on this feature ober the weekend.
+
 ## Wednesday (7/26 - 7/31) Oakley Pankratz
 Total Hours: 20
 
