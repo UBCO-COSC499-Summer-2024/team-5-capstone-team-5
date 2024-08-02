@@ -1,3 +1,71 @@
+# Friday (7/31 - 8/2)
+## Date: August 2, 12:12AM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportAug2.png)
+
+### Task tldr:
+- Worked on styling with Jay
+- Implemented student-end statistics using Oakley's stats work
+- Made visibility boolean in backend actually toggle visibility for a student
+
+### Current Tasks:
+  * Add ability to edit weights of questions
+  * Make exam information editable
+  * Styling changes
+  * Show more statistics (maybe)
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #1: Add ability to edit weights of questions
+        </td>
+        <!-- Status -->
+        <td>wip
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #2: Make exam information editable
+        </td>
+        <!-- Status -->
+        <td>wip
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #3: Styling changes
+        </td>
+        <!-- Status -->
+        <td>wip
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #4: Show more statistics
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+I managed to get only one task finished, and it was my (maybe) task. I am glad I got some stuff done in preparation for our Test-O-Rama.
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+  * Add ability to edit weights of questions
+  * Make exam information editable
+  * Styling changes
+
 # Wednesday (7/26 - 7/31)
 ## Date: July 30, 11:30PM
 
