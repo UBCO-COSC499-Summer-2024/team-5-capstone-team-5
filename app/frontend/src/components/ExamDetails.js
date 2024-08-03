@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../App'; // Assuming useTheme is available at this path
-import Bubble from './BubbleSheet/Bubbles'; // Ensure this path is correct
 import getQuestions from '../hooks/getQuestions';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFlag } from '@fortawesome/free-solid-svg-icons';
 import Modal from './issueModal'; // Ensure this path is correct
+import Exam from './Modules/ExamModule';
 
 const ExamDetails = (props) => {
     const { examId } = useParams();
@@ -112,18 +110,7 @@ const ExamDetails = (props) => {
                         </thead>
                         <tbody>
                             {questions.map((question, index) => (
-                                <tr key={index} className="cursor-pointer">
-                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.question_num}</td>
-                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.num_options}</td>
-                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.weight}</td>
-                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>
-                                        <Bubble question={question} theme={theme} />
-                                    </td>
-                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.grade}</td>
-                                    <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white justify-center' : 'bg-gray-300 text-black justify-center'}`}>
-                                        {question.issue ? question.issue : <FontAwesomeIcon icon={faFlag} onClick={() => handleFlagClick(question)} />}
-                                    </td>
-                                </tr>
+                                <Exam question={question} examKey={index} theme={theme} handleFlagClick={handleFlagClick} />
                             ))}
                         </tbody>
                     </table>

@@ -1,86 +1,45 @@
-// app/frontend/src/components/Instructor/GenerateSheetModal.js
-
-import React, { useState } from 'react';
-import Modal from 'react-modal';
+import React from 'react';
 import { useTheme } from '../../App';
-import { generateDetailedOMRSheet } from '../../utils/generateOMRSheet';
-
-Modal.setAppElement('#root'); // Replace with the root element ID
+import { useNavigate } from 'react-router-dom';
 
 const GenerateSheetModal = ({ showModal, onClose }) => {
   const { theme } = useTheme();
-  const [totalQuestions, setTotalQuestions] = useState('');
-  const [options, setOptions] = useState('');
+  const navigate = useNavigate();
 
-  const handleGenerateClick = async () => {
-    if (totalQuestions < 1 || totalQuestions > 200) {
-      alert('Total Questions should be between 1 and 200');
-      return;
-    }
-    if (options < 1 || options > 4) {
-      alert('Options should be between 1 and 4');
-      return;
-    }
+  if (!showModal) return null;
 
-    try {
-      const pdfBytes = await generateDetailedOMRSheet(totalQuestions, options);
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'OMR_Sheet.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      onClose();
-    } catch (error) {
-      console.error('Error generating OMR sheet:', error);
-    }
+  const handleGenerateSheet = (type) => {
+    navigate(`/instructor/omr-sheet-generator/${type}`);
+    onClose();
   };
 
   return (
-    <Modal
-      isOpen={showModal}
-      onRequestClose={onClose}
-      contentLabel="Generate Sheet Modal"
-      className={`bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg`}
-      overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-    >
-      <div className={`p-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-        <h2 className="text-2xl font-bold mb-4">Generate OMR Sheet</h2>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Total Questions (1-200):</label>
-          <input
-            type="number"
-            value={totalQuestions}
-            onChange={(e) => setTotalQuestions(e.target.value)}
-            className={`p-2 border rounded w-full ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-500' : 'bg-gray-200 text-black border-gray-300'}`}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Options per Question (1-4):</label>
-          <input
-            type="number"
-            value={options}
-            onChange={(e) => setOptions(e.target.value)}
-            className={`p-2 border rounded w-full ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-500' : 'bg-gray-200 text-black border-gray-300'}`}
-          />
-        </div>
-        <div className="flex justify-end">
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
+      <div className={`rounded-lg p-6 z-50 shadow-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+        <h2 className="text-xl font-bold mb-4">Select Sheet Type</h2>
+        <div className="flex flex-col space-y-4">
           <button
-            onClick={handleGenerateClick}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+            onClick={() => handleGenerateSheet(100)}
+            className={`px-4 py-2 rounded transition duration-200 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-green-600' : 'bg-gray-300 text-black hover:bg-green-400'}`}
           >
-            Generate
+            100 Bubble Sheet
+          </button>
+          <button
+            onClick={() => handleGenerateSheet(200)}
+            className={`px-4 py-2 rounded transition duration-200 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-green-600' : 'bg-gray-300 text-black hover:bg-green-400'}`}
+          >
+            200 Bubble Sheet
           </button>
           <button
             onClick={onClose}
-            className="ml-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200"
+            className={`px-4 py-2 rounded transition duration-200 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-red-600' : 'bg-gray-300 text-black hover:bg-red-400'}`}
           >
-            Close
+            Cancel
           </button>
         </div>
       </div>
-    </Modal>
+    </div>
   );
 };
 

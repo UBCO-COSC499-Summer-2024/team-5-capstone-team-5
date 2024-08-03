@@ -1,4 +1,5 @@
 // app/frontend/src/components/Instructor/InstNavbar.js
+
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import getCourseData from '../../hooks/getCourseData';
@@ -97,10 +98,14 @@ const InstNavbar = (props) => {
   };
 
   const handleAddCourse = async (data) => {
-    const name = `${data.courseDept} ${data.courseCode}-${data.courseSection}`;
+    const department = data.courseDept;
+    const code = data.courseCode;
+    const section = data.courseSection;
     const description = data.description;
+    const startDate = data.startDate;
     const endDate = data.endDate;
-    const newCourse = { name, description, end_date: endDate, user_id: props.id };
+    const newCourse = { department, code, section, description, start_date: startDate, end_date: endDate, user_id: props.id };
+    console.log("New Course:",newCourse)
 
     try {
       const response = await fetch('http://localhost/api/courses/add', {
@@ -137,11 +142,21 @@ const InstNavbar = (props) => {
       <div className={`my-4 flex justify-evenly ${headerStyle} sticky top-0`}>
         <h2 className={`ml-4 text-lg font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-black'}`}>Courses</h2>
         <li
-          className={`align-middle flex px-8 mr-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
+          className={`relative align-middle flex px-8 mr-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'} font-bold text-center cursor-pointer`}
           onClick={() => setIsModalOpen(true)}
-          title="Add Course"
+          onMouseOver={(e) => {
+            const tooltip = e.currentTarget.querySelector('.tooltip');
+            tooltip.style.visibility = 'visible';
+            tooltip.style.opacity = '1';
+          }}
+          onMouseOut={(e) => {
+            const tooltip = e.currentTarget.querySelector('.tooltip');
+            tooltip.style.visibility = 'hidden';
+            tooltip.style.opacity = '0';
+          }}
         >
           <span className="align-middle inline-block">+</span>
+          <span className="tooltip absolute bg-gray-700 text-white text-xs rounded py-1 px-2 top-full left-1/2 transform -translate-x-1/2 mt-2">Add Course</span>
         </li>
       </div>
       <div className="flex h-[0.5px] taperedline mx-4"></div>
@@ -149,7 +164,6 @@ const InstNavbar = (props) => {
         <ul className="mt-4 space-y-4">
           {courses.map((course) => (
             <li key={course.course_id} className="relative">
-              
               <div
                 className={`relative mb-4 mx-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-300'} ${selectedCourseId === course.course_id ? theme === 'dark' ? `bg-gray-800 ${borderStyle}` : `bg-gray-300 ${borderStyle}` : ''}`}
                 onClick={() => handleCardClick(course.course_id)}

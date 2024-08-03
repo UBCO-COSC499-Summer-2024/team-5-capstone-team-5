@@ -43,7 +43,7 @@ const TestCorrectAnswers = (props) => {
         body: formData,
         headers: {
           'testid': test.id,
-          'numquestions': numQuestions
+          'numquestions': numQuestions,
         },
       });
       console.log('File uploaded:', file);

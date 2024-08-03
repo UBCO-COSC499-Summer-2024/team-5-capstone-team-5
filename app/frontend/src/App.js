@@ -1,5 +1,3 @@
-// app/frontend/src/App.js
-
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './components/Home';
@@ -35,7 +33,6 @@ import ChangePass from './components/ChangePass';
 import NotificationBell from './components/Instructor/NotificationBell';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
-
 
 const ThemeContext = createContext();
 
@@ -79,7 +76,7 @@ function AppRoutes() {
   const location = useLocation();
   const hideNavbarPaths = ['/login'];
   const { theme } = useTheme();
-  const [notifications, setNotifications] = useState([])
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,16 +93,16 @@ function AppRoutes() {
   }, [location]);
 
   useEffect(() => {
-    if(userId && role === 2) {
+    if (userId && role === 2) {
       fetchNotifications();
     }
-  }, [userId])
+  }, [userId]);
 
   const fetchNotifications = async () => {
     const response = await fetch(`http://localhost/api/flags/get/${userId}`);
     const notifications = await response.json();
     setNotifications(notifications);
-}
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -119,7 +116,7 @@ function AppRoutes() {
       {showNavbar && (isInstructor ? <InstNavbar id={userId} /> : <Navbar id={userId} />)}
       <div className={`flex-grow flex flex-col ${showNavbar ? 'ml-64' : ''}`}>
         <div className="flex">
-         {showNavbar && <Header userId = {userId} fetchNotifications={fetchNotifications} notifications={notifications} role={role} />}
+          {showNavbar && <Header userId={userId} fetchNotifications={fetchNotifications} notifications={notifications} role={role} />}
         </div>
         <div className="flex-grow px-8">
           <Routes>
@@ -134,19 +131,18 @@ function AppRoutes() {
             {role === 2 && <Route path="/instructor/course" element={<InstructorCourseList />} />}
             {role === 2 && <Route path="/instructor/dashboard" element={<InstructorDashboard />} />}
             {role === 2 && <Route path="/instructor/course/:courseId/*" element={<InstructorCourseDetails />} />}
-           
             <Route path="/contact" element={<Contact />} />
             {role === 1 && <Route path="/student" element={<StudentHome />} />}
             <Route path="/recent" element={<RecentTests id={userId} />} />
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
             <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers id={userId} />} />
-            <Route path="/instructor/omr-sheet-generator" element={<OMRSheetGenerator />} />
+            <Route path="/instructor/omr-sheet-generator/:type" element={<OMRSheetGenerator />} />
             <Route path="/changePassword" element={<ChangePass id={userId} />} />
             <Route path="/course/:courseId" element={<CourseDetails />} />
-            {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard/>} />}
-            {role === 3 && <Route path="/admin/user" element={<UserList/>} />}
-            {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges/>} />}
-            {role === 3 && <Route path="/admin/sitestatistics" element={<SiteStatistics/>}/>} 
+            {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard />} />}
+            {role === 3 && <Route path="/admin/user" element={<UserList />} />}
+            {role === 3 && <Route path="/admin/recentchanges" element={<RecentChanges />} />}
+            {role === 3 && <Route path="/admin/sitestatistics" element={<SiteStatistics />} />}
           </Routes>
         </div>
       </div>
