@@ -10,6 +10,7 @@ const {
     editTest,
     addAnswerKey,
     addStudentAnswers,
+    getTestGrades,
 } = require('../controllers/testController');
 
 // URL = localhost/api/users/tests/course_id
@@ -81,5 +82,17 @@ router.post('/upload/answers', upload.single('file'), async (req, res) => {
     const flags = await addStudentAnswers(data, testid);
     res.status(200).json(flags);
   });
+
+  router.get('/grades/:testId', async (req, res) => {
+    try {
+        const { testId } = req.params;
+        const grades = await getTestGrades(testId);
+        console.log(grades);
+        res.status(200).json(grades);
+    } catch (error) {
+        console.error('Error fetching grades:', error);
+        res.status(500).json({ error: 'Failed to fetch grades' });
+    }
+});
 
   module.exports = router;

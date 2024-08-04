@@ -3,6 +3,7 @@ import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers';
 import GenerateSheetModal from './GenerateSheetModal';
 import { useNavigate } from 'react-router-dom';
+import GradesExport from './GradesExport';
 
 const TestDescription = ({ test, onBack, onDeleteTest }) => {
   const { theme } = useTheme();
@@ -68,6 +69,7 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
         >
           Delete Test
         </button>
+        <GradesExport testId={test.id}/>
       </div>
       <GenerateSheetModal showModal={showModal} onClose={handleCloseModal} onGenerateSheet={handleGenerateSheetType} />
     </div>
