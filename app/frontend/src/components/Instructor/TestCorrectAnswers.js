@@ -19,7 +19,7 @@ const TestCorrectAnswers = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [answerKeyProgress, setAnswerKeyProgress] = useState(0);
-  const [fileProgress, setFileProgress] = useState(0);
+  const [fileUploadProgress, setFileUploadProgress] = useState(0);
 
   useEffect(() => {
     fetchData();
@@ -32,54 +32,66 @@ const TestCorrectAnswers = (props) => {
     setLoading(false);
   };
 
-  const handleFileUpload = async (event) => {
+  const handleFileUpload = (event) => {
     setFileUploaded(2);
     const file = event.target.files[0];
-    if (file) {
+    if (file && test && test.id) {
       const formData = new FormData();
       formData.append('file', file);
-      await fetch('http://localhost/api/tests/upload/responses', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'testid': test.id,
-          'numquestions': numQuestions,
-        },
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          setFileProgress(percentCompleted);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost/api/tests/upload/responses', true);
+
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percentComplete = (event.loaded / event.total) * 100;
+          setFileUploadProgress(percentComplete);
         }
-      });
-      setFileUploaded(3);
-      setFileProgress(0);
-      setTimeout(fetchData, 500);
+      };
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          setFileUploaded(3);
+          setTimeout(fetchData, 500);
+        }
+      };
+
+      xhr.setRequestHeader('testid', test.id);
+      xhr.setRequestHeader('numquestions', numQuestions);
+      xhr.send(formData);
     }
   };
 
-  const handleAnswerKeyUpload = async (event) => {
+  const handleAnswerKeyUpload = (event) => {
     setAnswerKeyUploaded(2);
     const file = event.target.files[0];
-    if (file) {
+    if (file && test && test.id) {
       const formData = new FormData();
       formData.append('file', file);
-      const response = await fetch('http://localhost/api/tests/upload/answers', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'testid': test.id,
-          'numquestions': numQuestions,
-          'userid': userId,
-        },
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          setAnswerKeyProgress(percentCompleted);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost/api/tests/upload/answers', true);
+
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percentComplete = (event.loaded / event.total) * 100;
+          setAnswerKeyProgress(percentComplete);
         }
-      });
-      const data = await response.json();
-      test.correctAnswers = data.correctAnswers;
-      setAnswerKeyUploaded(3);
-      setAnswerKeyProgress(0);
-      setTimeout(fetchData, 500);
+      };
+
+      xhr.onload = async () => {
+        if (xhr.status === 200) {
+          const data = JSON.parse(xhr.responseText);
+          test.correctAnswers = data.correctAnswers;
+          setAnswerKeyUploaded(3);
+          setTimeout(fetchData, 500);
+        }
+      };
+
+      xhr.setRequestHeader('testid', test.id);
+      xhr.setRequestHeader('numquestions', numQuestions);
+      xhr.setRequestHeader('userid', userId);
+      xhr.send(formData);
     }
   };
 
@@ -159,14 +171,19 @@ const TestCorrectAnswers = (props) => {
                   `}
                 />
                 {answerKeyUploaded === 2 && (
-                  <>
-                    <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
-                      File upload in progress!
-                    </p>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                      <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${answerKeyProgress}%` }}></div>
-                    </div>
-                  </>
+                  <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
+                    File upload in progress!
+                  </p>
+                )}
+                {answerKeyUploaded === 3 && (
+                  <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
+                    Answer key uploaded successfully!
+                  </p>
+                )}
+                {answerKeyProgress > 0 && answerKeyProgress < 100 && (
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${answerKeyProgress}%` }}></div>
+                  </div>
                 )}
               </div>
               <div>
@@ -184,19 +201,19 @@ const TestCorrectAnswers = (props) => {
                   `}
                 />
                 {fileUploaded === 2 && (
-                  <>
-                    <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
-                      File upload in progress!
-                    </p>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                      <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${fileProgress}%` }}></div>
-                    </div>
-                  </>
+                  <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-700'}`}>
+                    File upload in progress!
+                  </p>
                 )}
                 {fileUploaded === 3 && (
                   <p className={`mt-2 text-sm font-medium ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
                     Student tests uploaded successfully!
                   </p>
+                )}
+                {fileUploadProgress > 0 && fileUploadProgress < 100 && (
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${fileUploadProgress}%` }}></div>
+                  </div>
                 )}
               </div>
             </div>
