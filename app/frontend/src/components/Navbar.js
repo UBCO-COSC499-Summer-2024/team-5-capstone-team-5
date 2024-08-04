@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import getCourseData from '../hooks/getCourseData';
 import validateUser from '../hooks/validateUser';
 import ProfileMenuModal from './ProfileMenuModal';
@@ -31,9 +29,9 @@ const Navbar = (props) => {
     const checkSession = async () => {
       const session = await validateUser();
       if (!session) {
+        // Handle session invalid
       } else {
         const userInfo = await getUserInfo();
-        console.log(userInfo);
         setUser({
           name: userInfo.name,
           email: userInfo.userEmail,
@@ -47,9 +45,7 @@ const Navbar = (props) => {
   }, [navigate]);
 
   const Logout = () => {
-    console.log("Before logout: ", localStorage.getItem("token"));
     localStorage.removeItem("token");
-    console.log("After logout: ", localStorage.getItem("token"));
     navigate("/login");
   };
 
@@ -57,7 +53,6 @@ const Navbar = (props) => {
     const fetchData = async () => {
       if (props.id) {
         const courseData = await getCourseData(props.id);
-        console.log(courseData);
         setCourses(courseData);
       }
     };
@@ -102,7 +97,6 @@ const Navbar = (props) => {
   const linkActiveStyle = theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-400 text-black';
   const linkInactiveStyle = theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black';
   const cardStyle = theme === 'dark' ? 'text-white' : 'text-black';
-  const iconStyle = theme === 'dark' ? 'text-gray-400' : 'text-gray-600';
   const borderStyle = theme === 'dark' ? 'border-white' : 'border-black';
 
   if (props.id) {
@@ -128,14 +122,6 @@ const Navbar = (props) => {
                     flipped={flippedCourses[course.course_id] || false}
                     onFlip={handleFlipClick}
                     onSave={handleSaveCourse}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEllipsis}
-                    className={`absolute top-4 right-4 cursor-pointer ${iconStyle}`}
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent triggering the card click event
-                      handleFlipClick(course.course_id);
-                    }}
                   />
                 </div>
                 <div className="flex h-[0.5px] taperedline"></div>
