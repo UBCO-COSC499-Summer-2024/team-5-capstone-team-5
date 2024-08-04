@@ -1,3 +1,5 @@
+// app/frontend/src/components/Instructor/AddCourseModal.js
+
 import React, { useState } from 'react';
 import { useTheme } from '../../App'; // Adjust the path as needed
 
@@ -9,9 +11,26 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
   const [startDate, setStartDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState('');
   const { theme } = useTheme();
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const currentDate = new Date().toISOString().split('T')[0];
+    if (startDate < currentDate) {
+      alert('Start date cannot be before the current date.');
+      return;
+    }
+
+    if (endDate < startDate) {
+      alert('End date cannot be before the start date.');
+      return;
+    }
+
+    if (endDate === startDate) {
+      alert('Start date and end date cannot be the same.');
+      return;
+    }
+
     onAddCourse({
       courseDept,
       courseCode,

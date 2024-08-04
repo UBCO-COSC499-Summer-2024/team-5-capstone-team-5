@@ -75,7 +75,7 @@ const StudentList = (props) => {
           )}
 
           <label className="block text-sm font-medium mb-2">
-            Upload Student Data
+            Enroll Students into Course
           </label>
           <input 
             type="file" 
