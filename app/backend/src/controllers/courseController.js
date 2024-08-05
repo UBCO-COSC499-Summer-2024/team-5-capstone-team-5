@@ -62,7 +62,8 @@ const getCourseInfo = async (id) => {
   }
 }
 
-const calculateGrades = async (courseId) => {
+const calculateGrades = async (courseId, examId = null) => {
+  let examCondition = examId ? `AND exams.id = ${examId}` : ``;
   try {
       const grades = await db.manyOrNone(
          `WITH
@@ -81,7 +82,7 @@ const calculateGrades = async (courseId) => {
                 FROM users
             JOIN responses ON users.id = responses.user_id
             JOIN questions ON questions.id = question_id
-            JOIN exams ON exams.id = exam_id
+            JOIN exams ON exams.id = exam_id ${examCondition}
             LEFT JOIN registration ON 
               responses.user_id = registration.user_id
               AND registration.course_id = ${courseId}
@@ -106,18 +107,49 @@ const calculateGrades = async (courseId) => {
       if (grades.length > 0) {
           return grades;
       } else  {
+        if(examId) {
+          return("noExams")
+        } else {
           //maybe should be using getStudentsByCourseId?
           const courseStudents = await db.manyOrNone(
              `SELECT user_id AS "userId", users.last_name AS "lastName", users.first_name AS "firstName"
               FROM users JOIN registration ON id = user_id
-              WHERE course_id = ${courseId};`
+              WHERE course_id = ${courseId} AND role = 1;`
           );
           return courseStudents;
+        }
       }
   } catch(error) {
       console.error(`Error calculating grades`);
   };
 };
+
+const examsByYear = async(department, code, name) => {
+  try {
+    const exams = await db.manyOrNone( 
+       `SELECT exams.id AS "examId", course_id AS "courseId", start_date AS "startDate", section
+        FROM exams JOIN courses ON course_id = courses.id
+        WHERE department = '${department}' AND code ='${code}' AND exams.name = '${name}'
+        `
+      );
+      if(exams.length > 0) {
+        let examGradeLists = [];
+        for(let i = 0; i < exams.length; i++) {
+          examGradeLists.push({
+            gradeList: await calculateGrades(exams[i].courseId, exams[i].examId),
+            courseId: exams[i].courseId,
+            section: exams[i].section,
+            startDate: exams[i].startDate
+          });
+        }
+        return examGradeLists;
+      } else {
+        console.error(`Error calculating grades`);
+      }
+    } catch {
+      console.error(`Error calculating grades`);
+    }
+}
 
 module.exports = {
   getAllCourses,
@@ -125,5 +157,6 @@ module.exports = {
   getCoursesByUserId,
   getCourseInfo,
   calculateGrades,
-  editCourse
+  editCourse,
+  examsByYear
 };

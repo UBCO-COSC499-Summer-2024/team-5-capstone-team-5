@@ -4,6 +4,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import getStudentData from '../../hooks/getStudentData';
 import { useTheme } from '../../App';
 import StudentSpreadsheet from './StudentSpreadsheet';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
+import { faPercent } from '@fortawesome/free-solid-svg-icons'; // Import specific icon
 
 const StudentList = (props) => {
   const [students, setStudents] = useState([]);
@@ -65,7 +67,16 @@ const StudentList = (props) => {
   if (loading) {
     return <div>Loading...</div>
   } else {
-    return (
+    return (<>
+      <div className={`mb-4 mt-[10px] w-[200px] rounded-lg text-center ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'}`}>
+        <button
+          className={`w-full text-center p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'}`}
+          onClick={() => { props.setAsPercents(!props.asPercents) }}
+        >
+          <FontAwesomeIcon icon={faPercent} className="mr-2" />
+          Toggle percents
+        </button>
+      </div>
       <div className="p-4 flex flex-col min-h-screen">
         <div className="flex-grow">
           {instructor && (
@@ -93,9 +104,10 @@ const StudentList = (props) => {
           <p className={`mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
             Please upload a CSV file containing student data. The file should have columns for Student ID, Last Name, First Name, and Role.
           </p>
+          <StudentSpreadsheet courseId={props.courseId} students={studentList} courseName={props.courseName} asPercents={props.asPercents}/>
         </div>
-        <StudentSpreadsheet courseId={props.courseId} students={studentList} courseName={props.courseName} asPercents={props.asPercents} />
       </div>
+      </>
     );
   }
 };
