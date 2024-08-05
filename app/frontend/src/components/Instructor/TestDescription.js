@@ -61,7 +61,7 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
       <div className={`rounded-lg p-6 shadow-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
         <h2 className="text-2xl font-bold mb-4">{test.name}</h2>
         {test.date_marked && <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>}
-        {<p className="mb-2"><strong>Visibility:</strong> {visibility ? 'Viewable' : 'Hidden'} <span className='mx-2 px-2 py-1 bg-gray-700 rounded cursor-pointer' onClick={changeVisibility} title="Click to change visbility"><FontAwesomeIcon icon={visibility ? faEyeSlash : faEye} /> Toggle Visibility</span></p>}
+        {<p className="mb-2"><strong>Visibility:</strong> {visibility ? 'Viewable' : 'Hidden'} <span className='mx-2 px-2 py-1 bg-gray-700 rounded cursor-pointer hover:bg-yellow-600 transition duration-200' onClick={changeVisibility} title="Click to change visbility"><FontAwesomeIcon icon={visibility ? faEyeSlash : faEye} /> Toggle Visibility</span></p>}
         {test.mean_score && <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>}
         <button
           onClick={handleViewCorrectAnswers}
