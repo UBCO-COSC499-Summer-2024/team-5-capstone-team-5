@@ -164,7 +164,7 @@ const InstNavbar = (props) => {
           {courses.map((course) => (
             <li key={course.course_id} className="relative">
               <div
-                className={`relative mb-4 mx-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-300'} ${selectedCourseId === course.course_id ? theme === 'dark' ? `bg-gray-800 ${borderStyle}` : `bg-gray-300 ${borderStyle}` : ''}`}
+                className={`relative mb-4 mx-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-300'} ${selectedCourseId === course.course_id ? theme === 'dark' ? `bg-gray-800` : `bg-gray-300` : ''}`}
                 onClick={() => handleCardClick(course.course_id)}
               >
                 <Flip
