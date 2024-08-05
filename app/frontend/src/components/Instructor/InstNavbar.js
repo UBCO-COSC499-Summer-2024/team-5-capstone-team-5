@@ -100,7 +100,7 @@ const InstNavbar = (props) => {
   const handleAddCourse = async (data) => {
     const department = data.courseDept;
     const code = data.courseCode;
-    const section = data.courseSection;
+    const section = data.courseSection; 
     const description = data.description;
     const startDate = data.startDate;
     const endDate = data.endDate;
