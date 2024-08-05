@@ -16,12 +16,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const lowerCaseEmail = email.toLowerCase();
+      const lowerCasePassword = password.toLowerCase();
+
       const response = await fetch('http://localhost/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: lowerCaseEmail, password: lowerCasePassword }),
         credentials: 'include'
       });
 
@@ -81,12 +84,14 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button type="button" onClick={() => {setShowPassword((prev => !prev))}} className="absolute right-2 top-1/2 transform -translate-y-1/5"><FontAwesomeIcon icon={showPassword? faEyeSlash : faEye} className={`${theme === 'dark' ? 'text-[#32556F]' : 'text-gray-500'}`} /></button>
+              <button type="button" onClick={() => {setShowPassword((prev => !prev))}} className="absolute right-2 top-1/2 transform -translate-y-1/5">
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className={`${theme === 'dark' ? 'text-[#32556F]' : 'text-black'}`} />
+              </button>
               </div>
               <div className="flex flex-row justify-center">
                 <button type="submit" className={`w-full h-10 mt-6 rounded-md mb-2 ${theme === 'dark' ? 'bg-[#293C4A] text-white hover:bg-[#32556F]' : 'bg-gray-300 text-black hover:bg-gray-400'} font-semibold`}>Login</button>
               </div>
-              <p className="text-sm text-white/80">Forgot password? <a href="/forgot-password" className="underline hover:text-white">Click here</a></p>
+              <p className={`${theme === 'dark' ? 'text-white/80' : 'text-gray-800'} text-sm`}>Forgot password? <a href="/forgot-password" className="underline hover:text-blue-600">Click here</a></p>
             </div>
           </div>
         </form>

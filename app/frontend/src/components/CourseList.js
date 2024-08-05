@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const courses = [
   { id: 1, name: "Math 101", details: ["Lecture 1", "Lecture 2", "Lecture 3"] },
