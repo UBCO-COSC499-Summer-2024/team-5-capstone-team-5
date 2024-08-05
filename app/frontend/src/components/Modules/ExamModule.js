@@ -1,34 +1,35 @@
+// app/frontend/src/components/Modules/ExamModule.js
+
 import React from 'react';
 import Bubble from '../BubbleSheet/Bubbles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFlag } from '@fortawesome/free-solid-svg-icons';
 
-const ExamModule = ({ question, id }) => {
-  const compareAnswers = (correct_answer, responses, weight) => {
-    if (correct_answer.length !== responses.length) {
-      throw new Error('Arrays must be the same length (answers and responses)');
-    }
-    let count = 0;
-    for (let i = 0; i < correct_answer.length; i++) {
-      if (correct_answer[i] === responses[i]) {
-        count += 1 / weight;
-      }
-    }
-    return count;
-  };
+const Exam = (props) => {
+    const { question, theme, handleFlagClick, examKey } = props;
 
-  return (
-    <li className="bg-gray-700 m-4 p-2 rounded-lg">
-      <h2>Question: {question.question_num}</h2>
-      <h2>Number of options: {question.num_options}</h2>
-      <h2>Weight: {question.weight}</h2>
-      <h2>Correct answers:</h2>
-      <Bubble question={question} />
-      <h2>
-        Grade:{' '}
-        {compareAnswers(question.correct_answer, question.response, question.weight) *
-          question.weight}
-      </h2>
-    </li>
-  );
-};
+    const arraysEqual = (arr1, arr2) => {
+        if (arr1.length !== arr2.length) return false;
+        for (let i = 0; i < arr1.length; i++) {
+          if (arr1[i] !== arr2[i]) return false;
+        }
+        return true;
+      };
 
-export default ExamModule;
+    return (
+        <tr key={examKey} className="cursor-pointer">
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.question_num}</td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.num_options}</td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{question.weight}</td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>
+                <Bubble question={question} theme={theme} />
+            </td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>{arraysEqual(question.correct_answer, question.response) ? question.weight : 0}</td>
+            <td className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white justify-center' : 'bg-gray-300 text-black justify-center'}`}>
+                {question.issue ? question.issue : <FontAwesomeIcon icon={faFlag} onClick={() => handleFlagClick(question)} />}
+            </td>
+        </tr>
+    );
+}
+
+export default Exam;

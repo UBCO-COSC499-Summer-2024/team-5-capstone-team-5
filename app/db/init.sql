@@ -58,8 +58,11 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS courses (
     id serial PRIMARY KEY,
-    name text,
+    department text,
+    code text,
+    section integer,
     description text,
+    start_date date,
     end_date date
 );
 
@@ -80,15 +83,15 @@ CREATE TABLE IF NOT EXISTS exams (
 );
 
 
-CREATE TABLE IF NOT EXISTS questions ( 
+CREATE TABLE IF NOT EXISTS questions (
     id serial PRIMARY KEY,
     question_num integer,
     exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
     num_options integer,
     correct_answer integer[],
-    weight float
+    weight float,
+    CONSTRAINT unique_exam_question UNIQUE (exam_id, question_num)
 );
-
 
 CREATE TABLE IF NOT EXISTS responses (
     question_id integer REFERENCES questions(id) ON DELETE CASCADE,
@@ -96,53 +99,68 @@ CREATE TABLE IF NOT EXISTS responses (
     question_num integer,
     response integer[],
     grade float,
+    was_modified boolean,
     PRIMARY KEY (question_id, user_id)
 );
 
+CREATE TABLE IF NOT EXISTS scans (
+    exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
+    user_id integer REFERENCES users(id) ON DELETE CASCADE,
+    scan text,
+    PRIMARY KEY (exam_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS flags (
+    id serial PRIMARY KEY,
+    exam_id integer REFERENCES exams(id) ON DELETE CASCADE,
+    question_id integer REFERENCES questions(id) ON DELETE CASCADE,
+    user_id integer REFERENCES users(id) ON DELETE CASCADE,
+    issue text
+);
+
 -- Partially AI-Generated Sample Data
+-- Role 1 = student, role 2 = instructor, role 3 = admin
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (18273645, 'Nic', 'Kouwen', 'nic.kouwen@gmail.com', '$2b$10$hBD1XoutbVf8.NENNQjLQOQTpVQJSO5StSf4kmAluo9wZV6Qe14em', 2);
 
--- User Sample Data
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (12345678, 'Nic', 'Kouwen', 'nk@email.com', 'ilovecosc', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (23456789, 'Jane', 'Doe', 'janedoe@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (34567890, 'John', 'Smith', 'johnsmith@email.com', 'securepass456', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (45678901, 'Alice', 'Johnson', 'alicejohnson@email.com', 'mypassword789', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (56789012, 'Bob', 'Brown', 'bobbrown@email.com', 'qwerty987', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (67890123, 'Jay', 'Bhullar', 'jb@email.com', 'ilovecapstone', 2);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (78901234, 'Nathan', 'Jacinto', 'nj@email.com', 'scottsthebest', 2);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (89012345, 'Jack', 'Mathisen', 'jm@email.com', 'ilovecosc499', 2);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (90123456, 'Oakley', 'Pankratz', 'op@email.com', 'math>cosc', 2);
-
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (28102810, 'Alexander', 'Grischuk', 'alexander.grischuk@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000069, 'Mia', 'Khalifa', 'mia.khalifa@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (22211111, 'Bob', 'Liu', 'bob.liu@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000013, 'Tony', 'Stark', 'tony.stark@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000002, 'Nathan', 'Jacinto', 'nathan.jacinto1@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000004, 'Scott', 'Fazackerly', 'scott.fazackerly@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (18897231, 'Arthur', 'Duncan', 'arthur.duncan@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (22111111, 'Paul', 'Smith', 'paul.smith@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (69696969, 'Jonny', 'Sins', 'jonny.sins@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000012, 'Suyash', 'Shingare', 'suyash.shingare@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000011, 'Chinny', 'Wong', 'chinny.wong@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000010, 'Nic', 'Kouwenhov', 'nic.kouwenhov@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000009, 'Fran', 'Perellak', 'fran.perellak@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000005, 'Kevin', 'Wang', 'kevin.wang@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000022, 'Nathan', 'Jacinto', 'nathan.jacinto2@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000008, 'Jay', 'Bhullar', 'jay.bhullar@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000007, 'Jack', 'Mathisen', 'jack.mathisen@email.com', 'password123', 1);
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (00000006, 'Mqhamad', 'Khejezade', 'mqhamad.khejezade@email.com', 'password123', 1);
-
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (12345678, 'Nic', 'Kouwen', 'nk@email.com', '$2b$10$zgmV/5pz1A.pQR.ZkvGBJOtja7Nesps3UTyLLiDeR7sOkH9yQoOyi', 1);  -- password = ilovecosc
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (23456789, 'Jane', 'Doe', 'janedoe@email.com', '$2b$10$WID77Xx2aHMAPFtcBqVOm.I3VuwyNx6PAp17l7nzeslxHwtVloLZy', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (34567890, 'John', 'Smith', 'johnsmith@email.com', '$2b$10$/uhFrwKaTNGQZN1Po2pNuelter83Rs84VPMwj695kFozWradgLqN.', 1); -- password = securepass456
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (45678901, 'Alice', 'Johnson', 'alicejohnson@email.com', '$2b$10$ry6nNIHvWhFtsIio8btkDOsnD2bVD9oVVkJ95hRXXgRkiXbNPBP/W', 1); -- password = mypassword789
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (56789012, 'Bob', 'Brown', 'bobbrown@email.com', '$2b$10$PaMJ55YBo1Mm0JjJ9OU2zulgG7MxRuAem40oXZ/g5TUwf8K1N0iE6', 1); -- password = qwerty987
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (67890123, 'Jay', 'Bhullar', 'jb@email.com', '$2b$10$JKwKbfpH9HxXopjIjnaKCOaaRybnIlvTf9.gmPWu9YJfMrV9M8HzC', 2); -- password = ilovecapstone
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (78901234, 'Nathan', 'Jacinto', 'nj@email.com', '$2b$10$qbrLrBzBUCBttMMjgOjuwOsqGaMoPwPExFRuFchZUdl9ZsEIiQwD2', 2); -- password = scottsthebest
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (89012345, 'Jack', 'Mathisen', 'jm@email.com', '$2b$10$mkUz7iEI8lDquXyt7SL0QucIdIqOiKIW.6qAN4W6XdxrET7k9tdDC', 2); -- password = ilovecosc499
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (90123456, 'Oakley', 'Pankratz', 'op@email.com', '$2b$10$HhPMom1A0ybSHLWOv.Ku3.z0Hzc8IDFz7FKkq6qJBcPElBT2Fs.IO', 2); -- password = math>cosc
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (28102810, 'Alexander', 'Grischuk', 'alexander.grischuk@email.com', '$2b$10$yxPMlM5nvqRcKsFy.G0VhOiuQxtoPPgKSzWDWCvxAVLQbSQ/OZPcm', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (69, 'Mia', 'Khalifa', 'mia.khalifa@email.com', '$2b$10$YbCwXUwSRmOti5UWYmlyquqdgi71DwILOzjBrDWEt54eu0PzRVz/W', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (22211111, 'Bob', 'Liu', 'bob.liu@email.com', '$2b$10$cm5R8rUtqwGogyizLGBRSu7EycVIBhHnDEVlkof3lVwwWK3/t6wWC', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (13, 'Tony', 'Stark', 'tony.stark@email.com', '$2b$10$hB56GqIYeOdUbfjUiefcKOpevXCYbc5HKJNCvbFkFsMXZn4J6H6nK', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (2, 'Nathan', 'Jacinto', 'nathan.jacinto1@email.com', '$2b$10$/7QJ8wQwI6Hzb2RxWULxq.9Od1FphBARcjIpKj06Pd4GFOEyy18JC', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (4, 'Scott', 'Fazackerly', 'scott.fazackerly@email.com', '$2b$10$H4ChWIuoDtJZlQXT5K8u..fa3eT.BSw8MS4ytQ3mHPI0Imp/Zy7em', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (18897231, 'Arthur', 'Duncan', 'arthur.duncan@email.com', '$2b$10$C0J5z5lHDg5cnYW6.TBkweBiOhOFwRo5dBliS8Vu947W2IbSv8aVK', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (22111111, 'Paul', 'Smith', 'paul.smith@email.com', '$2b$10$qhzGpM6Pk2m/zJSsIdR3heqZee/Mfe5D0aRNvm1lNvNy4rGiMxsim', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (69696969, 'Jonny', 'Sins', 'jonny.sins@email.com', '$2b$10$TvRBvD4sgPhaWKmgJWVuvO5vPdXRV/SiZcWtMUrasxX1.tbO2T0Fm', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (12, 'Suyash', 'Shingare', 'suyash.shingare@email.com', '$2b$10$8v1sWDlFX4cmX2ywWh/ZuO0TcQiYTbAju.rPczIRI8RzBKTvzLPS2', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (11, 'Chinny', 'Wong', 'chinny.wong@email.com', '$2b$10$KOd2lTaFgt8S8MSzA4EEnOySs/LSHaafhLA2u3xhrJc4V5URyFpwK', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (10, 'Nic', 'Kouwenhov', 'nic.kouwenhov@email.com', '$2b$10$nAU1XH8RB48RMxqcQVqFUOBhAtqFsuctyju6u6ZpvJio3ALpl/QG2', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (9, 'Fran', 'Perellak', 'fran.perellak@email.com', '$2b$10$rH1I6nGCT3uXoBM/f5GG9u6PGOw5fvkrQXHCjpceE9gC74sqnCsWi', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (5, 'Kevin', 'Wang', 'kevin.wang@email.com', '$2b$10$aQvftDFRqGurr3FWbUwj2enGaT7rYANf6awZwB3Ap6Fq3XDxZzHay', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (22, 'Nathan', 'Jacinto', 'nathan.jacinto2@email.com', '$2b$10$wurjfy9R.I8ERhDni8DxhuEv6lvDlk.1AAUHJ9FmxYQZ1cc2FI5hK', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (8, 'Jay', 'Bhullar', 'jay.bhullar@email.com', '$2b$10$c.K82jp6C8rQJOlp5lnuyuLVRdjVEeFiNgR6NhVmf65XTVGYVV8tq', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (6, 'Mqhamad', 'Khejezade', 'mqhamad.khejezade@email.com', '$2b$10$lii1neOhWIBsUXNFSyJqmOLiG0S/QfDVyCbSPU9iWkaukJuht0Yfe', 1); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (7, 'Jack', 'Mathisen', 'jack.mathisen@email.com', '$2b$10$UjCUgbrrKrN6ytvkZSkhA.Trbvf/UM6TcyieWjjSoCwzsKCk3YkuK', 3); -- password = password123
 
 
 -- Course Sample Data
-INSERT INTO courses (name, description, end_date) VALUES ('MATH 100-001', 'Differential Calculus with Applications to Physical Sciences and Engineering', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('PHYS 101-001', 'Introduction to Physics', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('CHEM 101-001', 'General Chemistry', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('BIOL 101-001', 'Introduction to Biology', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('COMP 101-001', 'Introduction to Computer Science', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('ECON 101-001', 'Principles of Microeconomics', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('HIST 101-001', 'World History', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('PSYC 101-001', 'Introduction to Psychology', '2025-01-01');
-INSERT INTO courses (name, description, end_date) VALUES ('ENGL 101-001', 'English Composition', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('MATH', '100', '001', 'Differential Calculus with Applications to Physical Sciences and Engineering', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('PHYS', '101', '001', 'Introduction to Physics', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('CHEM', '101', '001', 'General Chemistry', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('BIOL', '101', '001', 'Introduction to Biology', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('COMP', '101', '001', 'Introduction to Computer Science', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('ECON', '101', '001', 'Principles of Microeconomics', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('HIST', '101', '001', 'World History', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('PSYC', '101', '001', 'Introduction to Psychology', '2024-09-04', '2025-01-01');
+INSERT INTO courses (department, code, section, description, start_date, end_date) VALUES ('ENGL', '101', '001', 'English Composition', '2024-09-04', '2025-01-01');
 
 -- Registration Sample Data
 -- Users 1-5 registered in 5 courses each

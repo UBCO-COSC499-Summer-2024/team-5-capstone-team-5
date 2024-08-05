@@ -68,15 +68,28 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(20px);
 }
-
 /* Tooltip styles */
 .tooltip {
-  transition: opacity 0.3s;
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px 10px;
+  z-index: 10;
   visibility: hidden;
   opacity: 0;
+  transition: visibility 0s, opacity 0.2s linear;
+  white-space: nowrap;
 }
 
-.relative:hover .tooltip {
+.button-wrapper:hover .tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+
+
+.taperedline {
+  background: linear-gradient(to right, transparent, white, transparent);
 }

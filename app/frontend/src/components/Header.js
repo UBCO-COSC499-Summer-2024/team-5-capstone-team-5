@@ -1,28 +1,14 @@
 // src/components/Header.js
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import NotificationBell from './Instructor/NotificationBell';
 
-const Header = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    // Implement your logout logic here
-    navigate('/login'); // Redirect to login page after logout
-  };
-
+const Header = (props) => {
   return (
-    <div className="fixed top-0 left-0 w-full bg-gray-900 text-white flex justify-between items-center p-4 z-50">
-      <div className="flex items-center">
-        <img src={`${process.env.PUBLIC_URL}/gradeit.svg`} alt="Logo" className="w-32" />
-      </div>
-        <div className="flex items-center">
-          <button onClick={handleLogout} className="text-red-500 hover:text-red-700 mr-4">
-            Logout
-          </button>
-        </div>
+    <div className="border-b border-white text-white justify-end space-x-8 flex my-8 mt-8 m-12 w-full">
+      {props.role === 2 && <NotificationBell userId={props.userId} notifications={props.notifications} fetchNotifications={props.fetchNotifications}/>}
     </div>
   );
-};
+}
 
 export default Header;

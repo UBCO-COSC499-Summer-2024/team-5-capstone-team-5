@@ -1,6 +1,6 @@
 const getRecentTests = async (user_id) => {
     try {
-      const response = await fetch(`http://localhost/api/users/tests/recent/${user_id}`);
+      const response = await fetch(`http://localhost/api/tests/recent/${user_id}`);
       if(response.ok) {
         const tests = await response.json();
         return tests;

@@ -33,7 +33,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
         <h2 className="text-2xl font-bold mb-6">Add New Course</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="courseDept" className="block text-sm font-bold mb-2">Department</label>
+            <label className="block text-sm font-bold mb-2">Department</label>
             <select
               id="courseDept"
               name="courseDept"
@@ -55,7 +55,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             </select>
           </div>
           <div className="mb-4">
-            <label htmlFor="courseCode" className="block text-sm font-bold mb-2">Course Code</label>
+            <label className="block text-sm font-bold mb-2">Course Code</label>
             <input
               type="text"
               id="courseCode"
@@ -68,24 +68,23 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="courseSection" className="block text-sm font-bold mb-2">Course Section</label>
-            <select
+            <label className="block text-sm font-bold mb-2" htmlFor="courseSection">Course Section</label>
+            <input
+              type="number"
               id="courseSection"
               name="courseSection"
               className={`w-full p-3 rounded-lg border focus:outline-none focus:ring-2 ${theme === 'dark' ? 'bg-gray-700 text-white border-gray-300 focus:ring-blue-500' : 'bg-gray-200 text-black border-gray-400 focus:ring-blue-500'}`}
               value={courseSection}
               onChange={(e) => setCourseSection(e.target.value)}
+              placeholder="0-999"
+              max={999}
+              min={0}
               required
-            >
-              <option value="">--Please choose a section--</option>
-              <option value="001">001</option>
-              <option value="002">002</option>
-              <option value="003">003</option>
-              <option value="004">004</option>
-            </select>
+            />
           </div>
+
           <div className="mb-4">
-            <label htmlFor="description" className="block text-sm font-bold mb-2">Course Description</label>
+            <label className="block text-sm font-bold mb-2">Course Description</label>
             <input
               type="text"
               id="description"
@@ -98,7 +97,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="startDate" className="block text-sm font-bold mb-2">Start Date</label>
+            <label className="block text-sm font-bold mb-2">Start Date</label>
             <input
               type="date"
               id="startDate"
@@ -110,7 +109,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="endDate" className="block text-sm font-bold mb-2">End Date</label>
+            <label className="block text-sm font-bold mb-2">End Date</label>
             <input
               type="date"
               id="endDate"

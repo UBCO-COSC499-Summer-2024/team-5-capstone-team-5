@@ -1,59 +1,7 @@
 const { db } = require('../database');
-
-const getCoursesByUserId = async (id) => {
-    try {
-        const response = await db.manyOrNone(
-            'SELECT course_id, name, description, end_date FROM users JOIN registration ON registration.user_id = users.id JOIN courses ON registration.course_id = courses.id WHERE users.id = $1', [id]
-        );
-        return response;
-    } catch(error) {
-        console.log(`Error getting course data for id ${id}`,error);
-    };
-};
-
-const getTestsByCourseId = async (id) => {
-    try {
-        const response = await db.manyOrNone(
-            'SELECT exams.id, date_marked, exams.name, courses.name AS course_name FROM exams JOIN courses ON exams.course_id = courses.id WHERE course_id = $1 ORDER BY date_marked DESC', [id]
-        );
-        return response;
-    } catch(error) {
-        console.error(`Error getting course data for id ${id}`,error);
-    };
-};
-
-const getRecentExamsByUserId = async (id) => {
-    try {
-        const response = await db.manyOrNone(
-            'SELECT exams.id, date_marked, exams.name, courses.name AS course_name FROM users INNER JOIN registration ON users.id = registration.user_id INNER JOIN courses ON registration.course_id = courses.id INNER JOIN exams ON courses.id = exams.course_id WHERE users.id = $1 ORDER BY date_marked DESC', [id]
-        );
-        return response;
-    } catch(error) {
-        console.log(`Error getting recent courses for user id ${id}`,error);
-    }
-}
-
-const getQuestionData = async (userId, examId) => {
-    try {
-        const response = await db.manyOrNone(
-            'SELECT question_id, user_id, response, grade, num_options, correct_answer, q.question_num, weight, c.name AS course_name, e.name AS exam_name FROM responses r JOIN questions q ON r.question_id = q.id JOIN exams e ON e.id = q.exam_id JOIN courses c ON e.course_id = c.id WHERE e.id = $1 AND r.user_id = $2 ORDER BY q.question_num', [examId, userId]
-        );
-        return response;
-    } catch(error) {
-        console.log('Error getting responses for exam',examId,'and user',userId);
-    }
-}
-
-const getExamAnswers = async (examId) => {
-    try {
-        const response = await db.manyOrNone(
-            'SELECT id AS question_id, correct_answer, weight, question_num, num_options FROM questions WHERE exam_id = $1 ORDER BY question_num', [examId]
-        );
-        return response;
-    } catch(error) {
-        console.log('Error getting questions for exam', examId, error);
-    }
-}
+const fs = require('fs');
+const path = require('path');
+const bcrypt = require('bcrypt');
 
 const getStudentsByCourseId = async (courseId) => {
     try {
@@ -68,8 +16,9 @@ const getStudentsByCourseId = async (courseId) => {
 
 const addStudent = async (id, first, last, email, password, courseId) => {
     try {
+        const hashedPassword = await bcrypt.hash(password, 10)
         await db.none(
-            'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING', [id, first, last, email, password]
+            'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, 1) ON CONFLICT (email) DO NOTHING', [id, first, last, email, hashedPassword]
         );
         if(courseId) {
             register(id, courseId)
@@ -79,193 +28,75 @@ const addStudent = async (id, first, last, email, password, courseId) => {
     };
 };
 
-const addCourse = async (user_id, name, description, end_date) => {
+const addScan = async (exam_id, user_id, path) => {
     try {
-        const dateRegex = /^\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$/;
-        if(dateRegex.test(end_date)) {
-            await db.none(
-                'INSERT INTO courses (name, description, end_date) VALUES ($1, $2, $3)', [name, description, end_date]
-            );
-            const response = await db.oneOrNone(
-                'SELECT id FROM courses WHERE name = $1 AND description = $2 AND end_date = $3', [name, description, end_date]
-            )
-            await register(user_id, response.id);
-            const newCourse = { user_id, name, description, end_date, course_id: response.id };
-            return newCourse;
-        } else {
-            console.error('Invalid date. Please use yyyy-mm-dd');
-            return null;
-        };
+        await db.none(
+            'INSERT INTO scans (exam_id, user_id, scan) VALUES ($1, $2, $3)', [exam_id, user_id, path]
+        );
     } catch(error) {
-        console.error(`Error adding course ${name}`);
-    };
+        console.error('Error adding scan for user',user_id);
+    }
 };
 
-const register = async (userId, courseId) => {
+const getScan = async (exam_id, user_id) => {
+    try {
+        response = await db.oneOrNone(
+            'SELECT scan FROM scans WHERE exam_id = $1 AND user_id = $2', [exam_id, user_id]
+        );
+        return response;
+    } catch(error) {
+        console.error('Error getting scan for user',user_id,'and exam',exam_id);
+        throw error;
+    }
+};
+
+const getAllUsers = async() =>  { 
+    try{
+        const users = await db.manyOrNone('SELECT id, first_name, last_name, email, role FROM users ORDER BY role DESC, last_name');
+        return users;
+
+    }catch(error){
+        console.error('Error Fetching Users:', error);
+        throw error;
+    }
+}
+
+const changeUserRole = async(userId, role) => {
+    try{
+        await db.none('UPDATE users SET role = $1 WHERE id = $2', [role, userId]);
+        return true;
+    }catch(error){
+        console.log('Error when updating role', error);
+        throw error;
+    }
+}
+const getUserStatistics = async () => {
+    try {
+      const statistics = await db.any('SELECT role, COUNT(*) as count FROM users GROUP BY role');
+      return statistics;
+    } catch (error) {
+      console.error('Error fetching user statistics:', error);
+      throw error;
+    }
+  };
+
+  const register = async (userId, courseId) => {
     try {
         await db.none(
             'INSERT INTO registration (user_id, course_id) VALUES ($1, $2) ON CONFLICT (user_id, course_id) DO NOTHING', [userId, courseId]
         )
     } catch(error) {
-        console.error('Error registering user with ID ',userId,"into course with ID",courseId)
+        console.error('Error registering user with ID ', userId, "into course with ID", courseId)
     }
 }
-
-const addExam = async (course_id, name) => {
-    try {
-        const id = await db.any(
-            'INSERT INTO exams (course_id, name) VALUES ($1, $2) RETURNING id', [course_id, name]
-        );
-        return id;
-    } catch(error) {
-        console.error(`Error adding the exam ${name}`);
-    };
-};
-
-const addQuestion = async (exam_id, num_options, correct_answer, weight, question_num) => {
-    try {
-        await db.none(
-            'INSERT INTO questions (exam_id, num_options, correct_answer, weight, question_num) VALUES ($1, $2, $3, $4, $5)', [exam_id, num_options, correct_answer, weight, question_num]
-        );
-    } catch(error) {
-        console.error(`Error adding question`);
-    };
-};
-
-const calculateGrades = async (course_id) => {
-    try {
-        const grades = await db.manyOrNone(
-            `SELECT exams.id AS exam_id, exams.course_id, exams.name AS exam_name, 
-	            user_id, users.last_name, users.first_name,
-	            SUM(weight*(CASE WHEN response=correct_answer THEN 1 ELSE 0 END))
-                AS student_score
-            FROM exams 
-	            JOIN questions ON exams.id = exam_id
-	            JOIN responses ON questions.id = responses.question_id
-	            JOIN users ON users.id = responses.user_id
-            WHERE course_id = ${course_id}
-            GROUP BY exams.id, exams.course_id, exams.name, user_id, users.last_name, users.first_name
-            ORDER BY user_id ASC, exams.id ASC;`
-        );
-        return grades;
-    } catch(error) {
-        console.error(`Error calculating grades`);
-    };
-};
-
-const addResponse = async (exam_id, question_num, user_id, response) => {
-    try {
-        questionId = await db.oneOrNone(
-            'SELECT id FROM questions WHERE exam_id = $1 AND question_num = $2', [exam_id, question_num]
-        );
-        if(questionId.id) {
-            await db.none(
-                'INSERT INTO responses (question_id, user_id, response, question_num) VALUES ($1, $2, $3, $4) ON CONFLICT (question_id, user_id) DO UPDATE SET response = excluded.response', [questionId.id, user_id, response, question_num] 
-            )
-        } else {
-
-        }
-    } catch(error) {
-        console.error('Error adding response')
-    }
-}
-
-const addStudentAnswers = async (jsonData, examId) => {
-    for (const key in jsonData) {
-        if(jsonData.hasOwnProperty(key)) {
-            const answerKey = jsonData[key];
-            const studentId = answerKey.stnum
-            const responses = answerKey.answers[0]
-            const noResponse = answerKey.answers[1];
-            const multiResponse = answerKey.answers[2];
-            responses.forEach((response) => {
-                console.log(response.LetterPos);
-                const recordedAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
-                console.log(response);
-                addResponse(examId, questionNum, studentId, [recordedAnswer])
-            });
-        };
-    }
-}
-
-
-const addAnswerKey = async (jsonData, examId) => {
-    for (const key in jsonData) {
-        if(jsonData.hasOwnProperty(key)) {
-            const answerKey = jsonData[key];
-            const responses = answerKey.answers[0]
-            const noResponse = answerKey.answers[1];
-            const multiResponse = answerKey.answers[2];
-            responses.forEach((response) => {
-                console.log(response.LetterPos);
-                const correctAnswer = Number(response.LetterPos);
-                const questionNum = Number(response.Question)
-                console.log(response);
-                addQuestion(examId, 5, [correctAnswer], 1, questionNum);
-            })
-        };
-    }
-}
-
-const deleteTest = async (testId) => {
-    try {
-        await db.none('DELETE FROM exams WHERE id = $1', [testId]);
-    } catch (error) {
-        console.error(`Error deleting test with id ${testId}:`, error);
-        throw error;
-    }
-};
-
-const editTest = async (testId, newName) => {
-    try {
-        await db.none('UPDATE exams SET name = $1 WHERE id = $2', [newName, testId]);
-    } catch (error) {
-        console.error(`Error editing test with id ${testId}:`, error);
-        throw error;
-    }
-};
-
-const editResponse = async (questionId, userId, response) => {
-    try {
-        if(response.isArray()) {
-            await db.none('UPDATE responses SET response = $1 WHERE question_id = $2 AND user_id = $3', [response, questionId, userId]);
-        }
-    } catch(error) {
-        console.error('Error editing response for question',questionId,"and user",userId);
-        throw error;
-    };
-};
-
-const editQuestion = async(questionId, correctAnswer) => {
-    try {
-        if(correctAnswer.isArray()) {
-            await db.none('UPDATE questions SET correct_answer = $1 WHERE id = $2', [correctAnswer, questionId]);
-        }
-    } catch(error) {
-        console.error('Error editing question with id',questionId);
-        throw error;
-    };
-};
 
 module.exports = {
-    getCoursesByUserId,
-    getTestsByCourseId,
-    getRecentExamsByUserId,
-    getQuestionData,
     getStudentsByCourseId,
     addStudent,
-    addCourse,
-    addExam,
-    addQuestion,
-    register,
-    addStudentAnswers,
-    addAnswerKey,
-    deleteTest,
-    editTest,
-    calculateGrades,
-    getExamAnswers,
-    addResponse,
-    editResponse,
-    editQuestion,
+    addScan,
+    getScan,
+    getAllUsers,
+    changeUserRole,
+    getUserStatistics,
+    register
 }

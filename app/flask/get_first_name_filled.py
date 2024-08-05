@@ -27,9 +27,6 @@ def get_first_name_filled(image_path):
     # Apply Median Blur to reduce noise
     median_blurred = cv2.medianBlur(gray, 5)
 
-    # Apply Gaussian blur
-    blurred = cv2.GaussianBlur(median_blurred, (5, 5), 0)
-
     # Apply Bilateral Filtering to reduce noise while preserving edges
     bilateral_filtered = cv2.bilateralFilter(median_blurred, 9, 75, 75)
 
