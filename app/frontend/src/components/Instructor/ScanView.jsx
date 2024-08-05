@@ -144,8 +144,8 @@ function ScanView(props) {
 
     return (
       <div className="bg-[rgba(0,_0,_0,_0.6)] fixed top-[0%] left-[0%] w-[100%] h-[100%]">
-        <div className="bg-gray-800 fixed top-[5%] left-[5%] w-[90%] h-[90%] text-left">
-          <button onClick={props.onClose} className="float-right mx-2">
+        <div className="bg-gray-800 fixed top-[5%] left-[5%] w-[90%] h-[90%] text-left border-[2px] border-[solid] border-gray-500">
+          <button onClick={props.onClose} className="float-right m-4">
             Close
           </button>
           <div className="flex space-x-2 flex-right">

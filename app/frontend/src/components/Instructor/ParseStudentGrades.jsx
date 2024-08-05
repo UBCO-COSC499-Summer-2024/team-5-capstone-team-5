@@ -1,6 +1,6 @@
 //Main for parsing the backend query which returns the data nessecary for cells in the spreadSheet component.
 function ParseStudentGrades(grades) {
-  if (grades) {
+  if (grades && grades.length > 0) {
     let exams = getExams(grades);
     let appendedGrades = [];
     appendedGrades.push(appendSingleGrade(grades, exams, 0));
@@ -73,7 +73,7 @@ function appendSingleGrade(grades, exams, user) {
         singleUserGrades.scores.push({
           examId: exams[i].examId,
           examName: exams[i].examName,
-          studentScore: 0,
+          studentScore: `-`,
           maxScore: 1,
         });
       }
@@ -98,7 +98,7 @@ function appendSingleGrade(grades, exams, user) {
           singleUserGrades.scores.push({
             examId: exams[examsIdx].examId,
             examName: exams[examsIdx].examName,
-            studentScore: 0,
+            studentScore: `-`,
             maxScore: 1,
           });
           examsIdx++;
@@ -117,7 +117,7 @@ function appendSingleGrade(grades, exams, user) {
         singleUserGrades.scores.push({
           examId: exams[examsIdx].examId,
           examName: exams[examsIdx].examName,
-          studentScore: 0,
+          studentScore: `-`,
           maxScore: 1
         });
       }
