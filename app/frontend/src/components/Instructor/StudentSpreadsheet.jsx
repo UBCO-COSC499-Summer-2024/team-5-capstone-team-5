@@ -1,3 +1,5 @@
+// app/frontend/src/components/Instructor/StudentSpreadsheet.jsx
+
 import React, { useEffect, useState } from "react";
 import { useTheme } from "../../App";
 import validateUser from "../../hooks/validateUser";
@@ -52,7 +54,9 @@ function StudentSpreadsheet(props) {
     };
 
     checkSession();
-  }, [navigate, gradeList]);
+  }, [navigate, gradeList, props.courseId]);
+
+  console.log(gradeList);
 
   const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
   const grades = parsedGrades ? parsedGrades.grades : null;
@@ -74,16 +78,7 @@ function StudentSpreadsheet(props) {
 
   return (
     <>
-      <div className={`mb-4 text-center ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'}`}>
-        <button
-          className={`w-full text-center p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'}`}
-          onClick={() => { setAsPercents(!asPercents) }}
-        >
-          <FontAwesomeIcon icon={faPercent} className="mr-2" />
-          Toggle percents
-        </button>
-      </div>
-      <table className="overflow-x-scroll">
+      <table className="overflow-x-scroll min-w-full">
         <thead>{createHeaders(exams, theme)}</thead>
         <tbody>
           {createRows(
@@ -231,7 +226,7 @@ function createSingleRow(
           }
           className="p-4 hover:bg-black/10 cursor-pointer text-center"
         >
-          {asPercents ? `${100 * grade.studentScore / grade.maxScore}%` : grade.studentScore}
+          {asPercents ? `${grade.studentScore === `-`? `-` : 100 * grade.studentScore / grade.maxScore + `%`}` : grade.studentScore}
         </td>
       );
     });
