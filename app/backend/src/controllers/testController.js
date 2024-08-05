@@ -236,6 +236,18 @@ const getTestGrades = async (testId) => {
     }
 }
 
+const updateVisibility = async (testId, visibility) => {
+    try {
+        await db.none(
+            'UPDATE exams SET visibility = $1 WHERE id = $2', [visibility, testId]
+        );
+        return true;
+    } catch(error) {
+        console.error('Error updating test with id',testId)
+        return false;
+    }
+}
+
 module.exports = {
   addTest,
   addExam,
@@ -246,5 +258,6 @@ module.exports = {
   setExamMarked,
   addStudentAnswers,
   addAnswerKey,
-  getTestGrades
+  getTestGrades,
+  updateVisibility
 };

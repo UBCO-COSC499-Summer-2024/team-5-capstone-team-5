@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 import { useTheme } from '../../App';
 import TestCorrectAnswers from './TestCorrectAnswers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import GenerateSheetModal from './GenerateSheetModal';
 import { useNavigate } from 'react-router-dom';
 import GradesExport from './GradesExport';
+
 
 const TestDescription = ({ test, onBack, onDeleteTest }) => {
   const { theme } = useTheme();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [visibility, setVisibility] = useState(test.visibility)
+
+  const changeVisibility = async () => {
+    const response = await fetch(`http://localhost/api/tests/set/visibility/${test.id}/${!test.visibility}`);
+    if(response.ok) {
+      setVisibility(value => !value);
+    }
+  }
 
   const handleDeleteTest = () => {
     if (window.confirm("Are you sure you want to delete this test?")) {
@@ -50,6 +61,7 @@ const TestDescription = ({ test, onBack, onDeleteTest }) => {
       <div className={`rounded-lg p-6 shadow-lg ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
         <h2 className="text-2xl font-bold mb-4">{test.name}</h2>
         {test.date_marked && <p className="mb-2"><strong>Date Marked:</strong> {test.date_marked.slice(0, 10)}</p>}
+        {<p className="mb-2"><strong>Visibility:</strong> {visibility ? 'Viewable' : 'Hidden'} <span className='mx-2 px-2 py-1 bg-gray-700 rounded cursor-pointer' onClick={changeVisibility} title="Click to change visbility"><FontAwesomeIcon icon={visibility ? faEyeSlash : faEye} /> Toggle Visibility</span></p>}
         {test.mean_score && <p className="mb-4"><strong>Mean Score:</strong> {test.mean_score}</p>}
         <button
           onClick={handleViewCorrectAnswers}
