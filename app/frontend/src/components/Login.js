@@ -41,7 +41,8 @@ const Login = () => {
         setToast({ show: true, message: 'Login request unsuccessful', type: 'error' });
       }
     } catch (error) {
-      setToast({ show: true, message: 'Internal Server Error', type: 'error' });
+      console.error("Login error:", error);
+      setToast({ show: true, message: 'Network error. Please try again later.', type: 'error' });
     }
   };
 

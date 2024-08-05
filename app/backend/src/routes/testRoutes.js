@@ -10,6 +10,8 @@ const {
     editTest,
     addAnswerKey,
     addStudentAnswers,
+    getTestGrades,
+    updateVisibility,
 } = require('../controllers/testController');
 
 // URL = localhost/api/users/tests/course_id
@@ -81,5 +83,33 @@ router.post('/upload/answers', upload.single('file'), async (req, res) => {
     const flags = await addStudentAnswers(data, testid);
     res.status(200).json(flags);
   });
+
+  router.get('/grades/:testId', async (req, res) => {
+    try {
+        const { testId } = req.params;
+        const grades = await getTestGrades(testId);
+        console.log(grades);
+        res.status(200).json(grades);
+    } catch (error) {
+        console.error('Error fetching grades:', error);
+        res.status(500).json({ error: 'Failed to fetch grades' });
+    }
+});
+
+router.get('/set/visibility/:testId/:visibility', async (req, res) => {
+    try {
+        const { testId, visibility } = req.params
+        const response = await updateVisibility(testId, visibility)
+        if(response) {
+            res.status(200).json({message: 'Updated visibility successfully'})
+        } else {
+            res.status(400).json({error: 'Error occured. Response not ok from updateVisibility'})
+        }
+        
+    } catch(error) {
+        console.error('Error changing visibility',error);
+        res.status(500).json({error: 'Failed to change visibility',error});
+    }
+})
 
   module.exports = router;
