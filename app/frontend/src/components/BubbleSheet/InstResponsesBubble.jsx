@@ -83,18 +83,23 @@ function Bubble(props) {
     }
   };
   let color = "bg-gray-700";
+  let hoverTitle = "";
   if (isCorrect) {
     if (isSelected) {
       color = "bg-green-500";
+      hoverTitle = "Correct answer (selected)";
     } else {
       color = "bg-yellow-600";
+      hoverTitle = "Correct answer (not selected)";
     }
   } else if (isSelected) {
     color = "bg-red-700";
+    hoverTitle = "Incorrect answer (selected)";
   }
   return (
     <div
       key={props.option}
+      title= {hoverTitle}
       className={`w-8 h-8 flex items-center justify-center rounded-full border cursor-pointer
          ${color} text-white mx-1 my-0.5`}
       onClick={() => {
