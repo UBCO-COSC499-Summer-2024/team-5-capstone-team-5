@@ -78,10 +78,20 @@ const getExamAnswers = async (examId) => {
     }
 }
 
+const deleteAnswer = async (questionId) => {
+    try {
+        await db.none('DELETE FROM questions WHERE id = $1', [questionId])
+    } catch(error) {
+        console.error('Error deleting answer for question',questionId);
+        throw error;
+    }
+}
+
 module.exports = {
     addQuestion,
     editAnswer,
     getQuestionData,
-    getExamAnswers
+    getExamAnswers,
+    deleteAnswer
 }
 

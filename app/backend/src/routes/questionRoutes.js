@@ -4,7 +4,8 @@ const {
     addQuestion,
     editAnswer,
     getQuestionData,
-    getExamAnswers
+    getExamAnswers,
+    deleteAnswer
 } = require('../controllers/questionController');
 
 
@@ -42,6 +43,16 @@ router.post('/edit/:questionId', async (req, res) => {
         res.status(200).json({message: 'Answer added successfully'})
     } catch(error) {
         res.status(400).json({error: error.message});
+    }
+});
+
+router.delete('/delete/:questionId', async (req, res) => {
+    try {
+        const questionId = req.params.questionId;
+        await deleteAnswer(questionId);
+        res.status(200).json({message: `Deleted question with ID ${questionId}`});
+    } catch(error) {
+        res.status(500).json({error: error});
     }
 });
 
