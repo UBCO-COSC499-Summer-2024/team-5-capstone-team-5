@@ -118,6 +118,10 @@ const TestCorrectAnswers = (props) => {
     question.question_num.toString().includes(searchQuery)
   );
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       <button
@@ -145,8 +149,9 @@ const TestCorrectAnswers = (props) => {
             </div>
             <div className="flex items-center space-x-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Upload Answer Key</label>
+                <label htmlFor="answerKeyUpload" className="block text-sm font-medium mb-2">Upload Answer Key</label>
                 <input
+                  id="answerKeyUpload"
                   type="file"
                   accept="application/pdf"
                   onChange={handleAnswerKeyUpload}
@@ -170,8 +175,9 @@ const TestCorrectAnswers = (props) => {
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Upload Student Tests</label>
+                <label htmlFor="studentTestUpload" className="block text-sm font-medium mb-2">Upload Student Tests</label>
                 <input
+                  id="studentTestUpload"
                   type="file"
                   accept="application/pdf"
                   onChange={handleFileUpload}

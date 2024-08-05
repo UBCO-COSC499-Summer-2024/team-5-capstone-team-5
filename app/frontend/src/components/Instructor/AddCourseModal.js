@@ -1,5 +1,3 @@
-// app/frontend/src/components/Instructor/AddCourseModal.js
-
 import React, { useState } from 'react';
 import { useTheme } from '../../App'; // Adjust the path as needed
 
@@ -52,7 +50,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
         <h2 className="text-2xl font-bold mb-6">Add New Course</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">Department</label>
+            <label htmlFor="courseDept" className="block text-sm font-bold mb-2">Department</label>
             <select
               id="courseDept"
               name="courseDept"
@@ -74,7 +72,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             </select>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">Course Code</label>
+            <label htmlFor="courseCode" className="block text-sm font-bold mb-2">Course Code</label>
             <input
               type="text"
               id="courseCode"
@@ -87,7 +85,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2" htmlFor="courseSection">Course Section</label>
+            <label htmlFor="courseSection" className="block text-sm font-bold mb-2">Course Section</label>
             <input
               type="number"
               id="courseSection"
@@ -103,7 +101,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">Course Description</label>
+            <label htmlFor="description" className="block text-sm font-bold mb-2">Course Description</label>
             <input
               type="text"
               id="description"
@@ -116,7 +114,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2">Start Date</label>
+            <label htmlFor="startDate" className="block text-sm font-bold mb-2">Start Date</label>
             <input
               type="date"
               id="startDate"
@@ -128,7 +126,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse }) => {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-sm font-bold mb-2">End Date</label>
+            <label htmlFor="endDate" className="block text-sm font-bold mb-2">End Date</label>
             <input
               type="date"
               id="endDate"
