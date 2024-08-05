@@ -63,7 +63,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     }   
 });
 
-router.get('/all', async(req, res) =>{
+router.get('/get/all', async(req, res) =>{
   try{
       const users = await getAllUsers();
       res.status(200).json(users);
@@ -87,7 +87,7 @@ router.put('/changerole/:userId', async(req,res) =>{
     }
   });
 
-router.get('/sitestatistics', async (req, res) => {
+router.get('/get/sitestatistics', async (req, res) => {
     try {
       const users = await getAllUsers(); 
       const statistics = users.reduce((acc, user) => {

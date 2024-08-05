@@ -8,7 +8,7 @@ const SiteStatistics = () => {
 
   const fetchStatistics = async () => {
     try {
-      const response = await fetch('http://localhost:80/api/users/sitestatistics', {
+      const response = await fetch('http://localhost:80/api/users/get/sitestatistics', {
         headers: {
           'Content-Type': 'application/json',
         },

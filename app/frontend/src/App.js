@@ -110,10 +110,19 @@ function AppRoutes() {
 
   const showNavbar = !hideNavbarPaths.includes(location.pathname);
   const isInstructor = role === 2;
+const isAdmin = role === 3;
 
-  return (
-    <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      {showNavbar && (isInstructor ? <InstNavbar id={userId} /> : <Navbar id={userId} />)}
+return (
+  <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      {showNavbar && (
+        isAdmin ? (
+          <AdminNavbar id={userId} />
+        ) : isInstructor ? (
+          <InstNavbar id={userId} />
+        ) : (
+          <Navbar id={userId} />
+        )
+      )}
       <div className={`flex-grow flex flex-col ${showNavbar ? 'ml-64' : ''}`}>
         <div className="flex">
           {showNavbar && <Header userId={userId} fetchNotifications={fetchNotifications} notifications={notifications} role={role} />}
