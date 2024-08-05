@@ -132,7 +132,6 @@ const InstNavbar = (props) => {
   const linkInactiveStyle = theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black';
   const cardStyle = theme === 'dark' ? 'text-white' : 'text-black';
   const iconStyle = theme === 'dark' ? 'text-gray-400' : 'text-gray-600';
-  const borderStyle = theme === 'dark' ? 'border-white' : 'border-black';
 
   return (
     <div className={`h-full w-64 ${containerStyle} flex flex-col fixed overflow-hidden`}>
