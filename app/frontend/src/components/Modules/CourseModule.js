@@ -26,6 +26,7 @@ const StudentTest = ({ test, parsedGrades, asPercents, studentId }) => {
     if(questions) {
         scores = computeSingleGrade(questions);
         let gradeCategory = Math.ceil(10*scores.studentScore/scores.maxScore + 0.00001);
+        if(scores.maxScore !== 0) {
         switch (gradeCategory) {
             case 11: color = "text-[rgba(86,195,164,1.0)]"; break;
             case 10: color = "text-[rgba(86,195,164,1.0)]"; break;
@@ -36,6 +37,7 @@ const StudentTest = ({ test, parsedGrades, asPercents, studentId }) => {
             default: color = "text-[rgba(237,62,51,1.0)]"; break;
         }
       }
+    }
 
     console.log("Parsed Grades:", parsedGrades)
     let examGrades = [];
@@ -59,7 +61,7 @@ const StudentTest = ({ test, parsedGrades, asPercents, studentId }) => {
           onClick={() => navigate(`/student/exam/${test.id}`)}
         >
           <td className="p-4">{test.name.length < 32 ? test.name : test.name.substring(0, 29) + "..."}</td>
-          <td className={`p-4 ${color}`}>{scores.studentScore}/{scores.maxScore}</td>
+          <td className={`p-4 ${color}`}>{scores.maxScore === 0 ? '-' : `${scores.studentScore}/${scores.maxScore}`}</td>
           <td className="p-4 text-center">{examMean}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
           <td className="p-4 text-center">{examStdev}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
           <td className="p-4 text-center">{min}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
