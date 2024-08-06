@@ -1,3 +1,5 @@
+// app/frontend/src/App.js
+
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './components/Home';
@@ -110,10 +112,10 @@ function AppRoutes() {
 
   const showNavbar = !hideNavbarPaths.includes(location.pathname);
   const isInstructor = role === 2;
-const isAdmin = role === 3;
+  const isAdmin = role === 3;
 
-return (
-  <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
+  return (
+    <div className={`flex min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {showNavbar && (
         isAdmin ? (
           <AdminNavbar id={userId} />
@@ -146,7 +148,7 @@ return (
             <Route path="/instructor/course/:courseId/test/:testId" element={<TestDescription />} />
             <Route path="/instructor/course/:courseId/test/:testId/correct-answers" element={<TestCorrectAnswers id={userId} />} />
             <Route path="/instructor/omr-sheet-generator/:type" element={<OMRSheetGenerator />} />
-            <Route path="/changePassword" element={<ChangePass id={userId} />} />
+            <Route path="/change-password" element={<ChangePass id={userId} />} />
             <Route path="/course/:courseId" element={<CourseDetails />} />
             {role === 3 && <Route path="/admin/dashboard" element={<AdminDashboard />} />}
             {role === 3 && <Route path="/admin/user" element={<UserList />} />}
