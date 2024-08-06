@@ -1,4 +1,3 @@
-// app/frontend/src/components/CourseDetails.js
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import getTestData from '../hooks/getTestData';
@@ -20,7 +19,9 @@ const CourseDetails = () => {
     setTests(testData);
     setGradeList(await getGrades(courseId))
     console.log(testData)
-    setCourseName(testData[0].department + " " + testData[0].code + "-" + String(testData[0].section).padStart(3, '0'));
+    if (testData.length > 0) {
+      setCourseName(testData[0].department + " " + testData[0].code + "-" + String(testData[0].section).padStart(3, '0'));
+    }
   }, [courseId]);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const CourseDetails = () => {
   const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
 
   return (
-    <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`} data-testid="course-details-container">
       <div className="flex justify-between mb-4">
         <h2 className="text-2xl font-bold">{courseName} Tests</h2>
       </div>
@@ -39,6 +40,7 @@ const CourseDetails = () => {
           <thead>
             <tr>
               <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Test</th>
+              <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Your score</th>
               <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Mean</th>
               <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Stdev</th>
               <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Min</th>
@@ -51,7 +53,7 @@ const CourseDetails = () => {
           <tbody>
             {tests.map((test, index) => (
               test.visibility && parsedGrades &&
-              <StudentTest parsedGrades={parsedGrades} test={test} key={index} asPercents={true} />
+              <StudentTest parsedGrades={parsedGrades} test={test} key={index} asPercents={true} studentId = {2} />
             ))}
           </tbody>
         </table>

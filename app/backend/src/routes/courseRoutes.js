@@ -7,7 +7,8 @@ const {
     getCoursesByUserId,
     getCourseInfo,
     calculateGrades,
-    editCourse
+    editCourse,
+    examsByYear
 } = require('../controllers/courseController');
 
 // URL Begins With: localhost/api/courses
@@ -65,13 +66,28 @@ router.get('/grades/:id', async (req, res) => {
     const id = req.params.id;
     if(id) {
         try {
-            const grades = await calculateGrades(req.params.id);
+            const grades = await calculateGrades([req.params.id]);
             res.status(200).json(grades);
         } catch(error) {
             res.status(400).json({error: error.message});
         }
     } else {
         res.status(400).json({error: "id is not sent"});
+    }
+});
+
+router.get('/yearByYearGrades/:department/:code/:name', async (req, res) => {
+    const department = req.params.department;
+    const code = req.params.code;
+    const name = req.params.name;
+    if(department && code && name) {
+        try {
+            const exams = await examsByYear(department, code, name);
+            console.log(exams);
+            res.status(200).json(exams)
+        } catch {
+            res.status(400).json({error: "Error retrieving year by year exams"});
+        }
     }
 });
 

@@ -123,8 +123,6 @@ const setExamMarked = async (examId) => {
   }
 }
 
-
-
 const addStudentAnswers = async (jsonData, examId) => {
   const flaggedQuestions = {
       "NoStudentId": [],
@@ -221,6 +219,35 @@ const addAnswerKey = async (jsonData, examId, userId) => {
   }
 }
 
+const getTestGrades = async (testId) => {
+    try {
+        const grades = await db.manyOrNone(
+            `SELECT users.id AS user_id, first_name, last_name, exams.id AS exam_id, exams.name, SUM(weight*(CASE WHEN response=correct_answer THEN 1 ELSE 0 END)) AS student_score, SUM(weight) AS max_score FROM users
+             JOIN responses ON responses.user_id = users.id
+             JOIN questions ON questions.id = responses.question_id
+             JOIN exams ON exams.id = questions.exam_id
+             WHERE exams.id = $1
+             GROUP BY users.id, exams.id`, [testId]
+        )
+        return grades;
+    } catch(error) {
+        console.log(`Error getting test grades for test ID ${testId}: ${error}`);
+        throw error;
+    }
+}
+
+const updateVisibility = async (testId, visibility) => {
+    try {
+        await db.none(
+            'UPDATE exams SET visibility = $1 WHERE id = $2', [visibility, testId]
+        );
+        return true;
+    } catch(error) {
+        console.error('Error updating test with id',testId)
+        return false;
+    }
+}
+
 module.exports = {
   addTest,
   addExam,
@@ -230,5 +257,7 @@ module.exports = {
   getRecentExamsByUserId,
   setExamMarked,
   addStudentAnswers,
-  addAnswerKey
+  addAnswerKey,
+  getTestGrades,
+  updateVisibility
 };

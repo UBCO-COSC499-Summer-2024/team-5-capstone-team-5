@@ -100,7 +100,7 @@ const InstNavbar = (props) => {
   const handleAddCourse = async (data) => {
     const department = data.courseDept;
     const code = data.courseCode;
-    const section = data.courseSection;
+    const section = data.courseSection; 
     const description = data.description;
     const startDate = data.startDate;
     const endDate = data.endDate;
@@ -132,7 +132,6 @@ const InstNavbar = (props) => {
   const linkInactiveStyle = theme === 'dark' ? 'text-gray-300 hover:bg-gray-600 hover:text-white' : 'text-black hover:bg-gray-400 hover:text-black';
   const cardStyle = theme === 'dark' ? 'text-white' : 'text-black';
   const iconStyle = theme === 'dark' ? 'text-gray-400' : 'text-gray-600';
-  const borderStyle = theme === 'dark' ? 'border-white' : 'border-black';
 
   return (
     <div className={`h-full w-64 ${containerStyle} flex flex-col fixed overflow-hidden`}>
@@ -165,7 +164,7 @@ const InstNavbar = (props) => {
           {courses.map((course) => (
             <li key={course.course_id} className="relative">
               <div
-                className={`relative mb-4 mx-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-300'} ${selectedCourseId === course.course_id ? theme === 'dark' ? `bg-gray-800 ${borderStyle}` : `bg-gray-300 ${borderStyle}` : ''}`}
+                className={`relative mb-4 mx-4 rounded-lg ${cardStyle} shadow-md cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-300'} ${selectedCourseId === course.course_id ? theme === 'dark' ? `bg-gray-800` : `bg-gray-300` : ''}`}
                 onClick={() => handleCardClick(course.course_id)}
               >
                 <Flip
