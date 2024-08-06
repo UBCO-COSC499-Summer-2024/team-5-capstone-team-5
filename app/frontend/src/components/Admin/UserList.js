@@ -1,12 +1,12 @@
+// app/frontend/src/components/Admin/UserList.js
+
 import React, { useEffect, useState, useCallback } from 'react';
-import getUserInfo from '../../hooks/getUserInfo';
 import getAllUsers from '../../hooks/GetAllUsers';
 import { useTheme } from '../../App';
-import SearchBar from './AdminSearchBar'; // Ensure the path is correct
+import SearchBar from './AdminSearchBar'; 
 import changeUserRole from '../../hooks/changeUserRole';
 
 const UserList = () => {
-
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const { theme } = useTheme();
@@ -21,13 +21,12 @@ const UserList = () => {
   }, [fetchData]);
 
   const handleRoleChange = async (userId, newRole) => {
-    console.log(`User ID: ${userId}, New Role: ${newRole}`);
-    const success = await changeUserRole(userId, newRole);
+    const { success, error } = await changeUserRole(userId, newRole);
     if (success) {
       setUsers(users.map(user => (user.id === userId ? { ...user, role: newRole } : user)));
       logChange(userId, users.find(user => user.id === userId).role, newRole);
     } else {
-      console.error('Failed to update role');
+      console.error('Failed to update role:', error);
     }
   };
 
@@ -46,15 +45,13 @@ const UserList = () => {
     localStorage.setItem('changes', JSON.stringify(changes));
   };
 
-  
-
   const filteredUsers = users.filter(user =>
     user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-return (
+  return (
     <div className="p-4 flex flex-col min-h-screen">
       <SearchBar onSearch={setSearchQuery} />
       <div className="flex-grow mt-4">
@@ -72,17 +69,17 @@ return (
           <tbody>
             {filteredUsers.map((user, index) => (
               <tr key={index} className={`rounded-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
-                <td className="p-4">{String(user.id).padStart(8, "0")}</td>
-                <td className="p-4">{user.last_name}</td>
-                <td className="p-4">{user.first_name}</td>
-                <td className="p-4">{user.email}</td>
-                <td className="p-4">{user.role === 1 ? "Student" : user.role === 2 ? "Instructor" :user.role === 3 ? "Admin": ""}</td>
-                <td className="p-4">
-                  
+                <td role="cell" className="p-4">{String(user.id).padStart(8, "0")}</td>
+                <td role="cell" className="p-4">{user.last_name}</td>
+                <td role="cell" className="p-4">{user.first_name}</td>
+                <td role="cell" className="p-4">{user.email}</td>
+                <td role="cell" className="p-4">{user.role === 1 ? "Student" : user.role === 2 ? "Instructor" : user.role === 3 ? "Admin" : ""}</td>
+                <td role="cell" className="p-4">
                   <select
                     value={user.role}
                     onChange={(e) => handleRoleChange(user.id, parseInt(e.target.value))}
                     className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}
+                    role="combobox"
                   >
                     <option value="1">Student</option>
                     <option value="2">Instructor</option>
