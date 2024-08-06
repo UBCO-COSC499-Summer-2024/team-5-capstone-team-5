@@ -3,6 +3,7 @@ import updateAnswer from '../../hooks/UpdateAnswer';
 
 const EditBubble = (props) => {
   const correctAnswer = props.question.correct_answer;
+  const { isEditing } = props
   const [options, setOptions] = useState(Array(props.question.num_options).fill(''));
 
   useEffect(() => {
@@ -30,10 +31,17 @@ const EditBubble = (props) => {
   return (
     <div>
       {options.map((color, index) => (
-        <div
+        isEditing ? <div
           key={index}
           className={`${color === 'green' ? "bg-green-700" : ""} w-6 h-6 rounded-full border-white border-[0.5px] inline-block mx-1 hover:cursor-pointer`}
           onClick={() => handleBubbleClick(index)}
+        >
+          <div className='text-center text-sm'>
+            {String.fromCharCode(65 + index)}
+          </div>
+        </div> : <div
+          key={index}
+          className={`${color === 'green' ? "bg-green-700" : ""} w-6 h-6 rounded-full border-white border-[0.5px] inline-block mx-1 cursor-default`}
         >
           <div className='text-center text-sm'>
             {String.fromCharCode(65 + index)}

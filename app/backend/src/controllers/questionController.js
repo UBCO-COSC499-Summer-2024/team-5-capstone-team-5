@@ -26,6 +26,15 @@ const editAnswer = async (questionId, correctAnswer) => {
     }
 };
 
+const editWeight = async (questionId, weight) => {
+    try {
+        await db.none('UPDATE questions SET weight = $1 WHERE id = $2', [weight, questionId]);
+    } catch(error) {
+        console.error('Error updating weight for quesiton',questionId);
+        throw error;
+    }
+}
+
 const getQuestionData = async (userId, examId) => {
     try {
         const response = await db.manyOrNone(
@@ -78,10 +87,21 @@ const getExamAnswers = async (examId) => {
     }
 }
 
+const deleteAnswer = async (questionId) => {
+    try {
+        await db.none('DELETE FROM questions WHERE id = $1', [questionId])
+    } catch(error) {
+        console.error('Error deleting answer for question',questionId);
+        throw error;
+    }
+}
+
 module.exports = {
     addQuestion,
     editAnswer,
     getQuestionData,
-    getExamAnswers
+    getExamAnswers,
+    deleteAnswer,
+    editWeight
 }
 

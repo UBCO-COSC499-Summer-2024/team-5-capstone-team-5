@@ -10,6 +10,7 @@ const {
     register, 
     getAllUsers,
     getScan,
+    addUser,
     changeUserRole
  } = require('../controllers/userController');
 
@@ -33,6 +34,17 @@ router.get('/:courseId', async (req, res) => {
         res.status(400).json({error: error.message});
     }
 });
+
+router.post('/add', async (req, res) => {
+    try {
+        const { studentId, firstName, lastName, email, role } = req.body;
+        console.log(studentId, firstName, lastName, email, role)
+        await addUser(studentId, firstName, lastName, email, role);
+        res.status(200).json({message: 'Student was added'});
+    } catch(error) {
+        res.status(500).json({error: error.message});
+    }
+})
 
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
@@ -112,5 +124,14 @@ router.get('/scans/:examId/:userId', async (req, res) => {
         res.status(400).json({error: error.message});
     }
 });
+
+router.post('/tests/edit', async (req, res) => {
+    try {
+        console.log(req.body);
+        console.log(req.headers['testid']);
+    } catch(error) {
+        res.status(400).json({error: error.message});
+    }
+})
 
 module.exports = router;

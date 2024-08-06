@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import getUserInfo from '../../hooks/getUserInfo';
 import getAllUsers from '../../hooks/GetAllUsers';
-import { useTheme } from '../../App';
-import SearchBar from './AdminSearchBar'; // Ensure the path is correct
 import changeUserRole from '../../hooks/changeUserRole';
+import { useTheme } from '../../App';
+import SearchBar from './AdminSearchBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import AddUserModal from './AddUserModal';
 
 const UserList = () => {
-
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme } = useTheme();
 
   const fetchData = useCallback(async () => {
@@ -21,7 +23,6 @@ const UserList = () => {
   }, [fetchData]);
 
   const handleRoleChange = async (userId, newRole) => {
-    console.log(`User ID: ${userId}, New Role: ${newRole}`);
     const success = await changeUserRole(userId, newRole);
     if (success) {
       setUsers(users.map(user => (user.id === userId ? { ...user, role: newRole } : user)));
@@ -46,17 +47,31 @@ const UserList = () => {
     localStorage.setItem('changes', JSON.stringify(changes));
   };
 
-  
-
   const filteredUsers = users.filter(user =>
     user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-return (
-    <div className="p-4 flex flex-col min-h-screen">
-      <SearchBar onSearch={setSearchQuery} />
+  const handleAddUser = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
+    <div className="p-4">
+      <div className="flex justify-between">
+        <SearchBar onSearch={setSearchQuery} />
+        <button
+          onClick={handleAddUser}
+          className={`flex items-center pl-4 pr-2 py-2 rounded-md ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-200 text-black hover:bg-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}>
+          <FontAwesomeIcon icon={faPlus} className='mr-3' />
+          <span className="mr-2">Add User</span>
+        </button>
+      </div>
       <div className="flex-grow mt-4">
         <table className="w-full text-left border-separate" style={{ borderSpacing: '0 10px' }}>
           <thead>
@@ -76,9 +91,8 @@ return (
                 <td className="p-4">{user.last_name}</td>
                 <td className="p-4">{user.first_name}</td>
                 <td className="p-4">{user.email}</td>
-                <td className="p-4">{user.role === 1 ? "Student" : user.role === 2 ? "Instructor" :user.role === 3 ? "Admin": ""}</td>
+                <td className="p-4">{user.role === 1 ? "Student" : user.role === 2 ? "Instructor" : user.role === 3 ? "Admin" : ""}</td>
                 <td className="p-4">
-                  
                   <select
                     value={user.role}
                     onChange={(e) => handleRoleChange(user.id, parseInt(e.target.value))}
@@ -94,6 +108,7 @@ return (
           </tbody>
         </table>
       </div>
+      {isModalOpen && <AddUserModal onClose={closeModal} fetchData={fetchData} />}
     </div>
   );
 };

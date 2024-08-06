@@ -28,6 +28,18 @@ const addStudent = async (id, first, last, email, password, courseId) => {
     };
 };
 
+const addUser = async (id, first, last, email, role) => {
+    try {
+        console.log(id, first, last, email, role)
+        const hashedPassword = await bcrypt.hash('changeme', 10);
+        await db.none(
+            'INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (email) DO NOTHING', [id, first, last, email, hashedPassword, role]
+        );
+    } catch(error) {
+        console.error('Error adding user',first,last, error)
+    }
+}
+
 const addScan = async (exam_id, user_id, path) => {
     try {
         await db.none(
@@ -99,5 +111,6 @@ module.exports = {
     getAllUsers,
     changeUserRole,
     getUserStatistics,
-    register
+    register,
+    addUser
 }

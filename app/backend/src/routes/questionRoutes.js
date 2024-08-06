@@ -4,7 +4,9 @@ const {
     addQuestion,
     editAnswer,
     getQuestionData,
-    getExamAnswers
+    getExamAnswers,
+    deleteAnswer,
+    editWeight
 } = require('../controllers/questionController');
 
 
@@ -36,12 +38,31 @@ router.post('/edit/:questionId', async (req, res) => {
     try {
         const questionId = req.params.questionId;
         const correctAnswer = req.body.correct_answer;
+        const weight = req.body.weight;
         console.log("Question ID:",questionId)
         console.log("Correct Answers:",correctAnswer);
-        await editAnswer(questionId, correctAnswer);
-        res.status(200).json({message: 'Answer added successfully'})
+        if(weight) {
+            await editWeight(questionId, weight)
+            res.status(200).json({message: 'Weight edited successfully'})
+        }
+        else if(answer) {
+            await editAnswer(questionId, correctAnswer);
+            res.status(200).json({message: 'Answer edited successfully'})
+        } else {
+            res.status(400).json({error: 'Error editing question', questionId})
+        }
     } catch(error) {
         res.status(400).json({error: error.message});
+    }
+});
+
+router.delete('/delete/:questionId', async (req, res) => {
+    try {
+        const questionId = req.params.questionId;
+        await deleteAnswer(questionId);
+        res.status(200).json({message: `Deleted question with ID ${questionId}`});
+    } catch(error) {
+        res.status(500).json({error: error});
     }
 });
 
