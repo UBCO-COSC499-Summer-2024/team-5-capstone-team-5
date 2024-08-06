@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../App';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import EditBubble from '../BubbleSheet/EditableBubbles';
+import Answer from '../Modules/TestAnswer';
 
 const TestCorrectAnswers = (props) => {
   const userId = props.id;
@@ -206,15 +207,12 @@ const TestCorrectAnswers = (props) => {
                   <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Question Number</th>
                   <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Correct Answer</th>
                   <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Weight</th>
+                  <th className="px-6 py-2 text-left text-xs font-medium uppercase tracking-wider">Functions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {filteredQuestions.map((question, index) => (
-                  <tr key={index}>
-                    <td className="px-6 py-2 whitespace-nowrap">{question.question_num}</td>
-                    <td className="px-6 py-2 whitespace-nowrap"><EditBubble question={question} isEditing={isEditing} /></td>
-                    <td className="px-6 py-2 whitespace-nowrap">{question.weight}</td>
-                  </tr>
+                  <Answer question={question} key={index} fetchData={fetchData}/>
                 ))}
               </tbody>
             </table>
