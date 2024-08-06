@@ -10,7 +10,7 @@ function Home() {
     <div className={`h-full content-center ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       <div className="flex flex-col gap-16">
         <img src="/gradeit.svg" alt="Logo" className="w-2/5 flex self-center mb-12" />
-        <h1 className='flex self-center'>You are viewing the Home page</h1>
+        <h1 className='flex self-center'>You are viewing the home page</h1>
       </div>
     </div>
   );

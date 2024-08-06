@@ -7,10 +7,14 @@ const StudentTest = ({ test, parsedGrades, asPercents }) => {
     console.log("Parsed Grades:", parsedGrades)
     const navigate = useNavigate();
     const { theme } = useTheme();
+    let examMean = "-";
+    let examStdev = "-";
+    let [min, Q1, median, Q3, max] = ["-","-","-","-","-"];
     let examGrades = [];
+    if (parsedGrades) {
     for(let i = 0; i < parsedGrades.grades.length; i ++) {
       for(let j = 0; j < parsedGrades.grades[i].scores.length; j++)
-        if(parsedGrades.grades[i].scores[j].examId === test.id) {
+        if(parsedGrades.grades[i].scores[j].examId === test.id && parsedGrades.grades[i].scores[j].studentScore !== `-`) {
           if(!asPercents) {
             examGrades.push(parsedGrades.grades[i].scores[j].studentScore/1.0);
           } else {
@@ -19,9 +23,10 @@ const StudentTest = ({ test, parsedGrades, asPercents }) => {
           break;
         }
     }
-    const examMean = examGrades.length > 0 ? mean(examGrades).toFixed(3) : '-';
-    const examStdev = examGrades.length > 0 ? stdev(examGrades).toFixed(3) : '-';
-    const [min, Q1, median, Q3, max] = examGrades.length > 0 ? fiveNumSummary(examGrades) : ['-', '-', '-', '-', '-'];
+    examMean = examGrades.length > 0 ? mean(examGrades).toFixed(3) : '-';
+    examStdev = examGrades.length > 0 ? stdev(examGrades).toFixed(3) : '-';
+    [min, Q1, median, Q3, max] = examGrades.length > 0 ? fiveNumSummary(examGrades) : ['-', '-', '-', '-', '-'];
+  }
     return(
         <tr
           className={`cursor-pointer ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
