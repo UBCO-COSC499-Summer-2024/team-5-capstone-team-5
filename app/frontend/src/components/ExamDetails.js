@@ -4,6 +4,7 @@ import { useTheme } from '../App'; // Assuming useTheme is available at this pat
 import getQuestions from '../hooks/getQuestions';
 import Modal from './issueModal'; // Ensure this path is correct
 import Exam from './Modules/ExamModule';
+import computeSingleGrade from './computeSingleGrade';
 
 const ExamDetails = (props) => {
     const { examId } = useParams();
@@ -81,10 +82,30 @@ const ExamDetails = (props) => {
     if (loading) {
         return <div>Loading...</div>;
     }
+    
+    let scores;
+    let color = "";
+    if(questions) {
+        scores = computeSingleGrade(questions);
+        let gradeCategory = Math.ceil(10*scores.studentScore/scores.maxScore + 0.00001);
+        if(scores.maxScore !== 0) {
+        switch (gradeCategory) {
+            case 11: color = "text-[rgba(86,195,164,1.0)]"; break;
+            case 10: color = "text-[rgba(86,195,164,1.0)]"; break;
+            case 9: color = "text-[rgba(116,155,191,1.0)]"; break;
+            case 8: color = "text-[rgba(128,181,76,1.0)]"; break;
+            case 7: color = "text-[rgba(247,198,70,1.0)]"; break;
+            case 6: color = "text-[rgba(244,163,88,1.0)]"; break;
+            default: color = "text-[rgba(237,62,51,1.0)]"; break;
+        }
+    }
+
+    }
 
     return (
         <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
             <h1 className="text-3xl font-bold mb-4">Exam Details</h1>
+            <h1 className={`text-3xl font-bold mb-4 ${color}`}>{scores.maxScore !== 0 ? `Your Score ${scores.studentScore}/${scores.maxScore}` : ``}</h1>
             <button
                 onClick={() => navigate(-1)} // Navigate back to the previous page
                 className={`w-full px-4 py-2 rounded transition duration-200 mb-4 ${theme === 'dark' ? 'bg-gray-700 text-white hover:bg-blue-600' : 'bg-gray-300 text-black hover:bg-blue-400'}`}

@@ -10,7 +10,8 @@ const {
     register, 
     getAllUsers,
     getScan,
-    addUser
+    addUser,
+    changeUserRole
  } = require('../controllers/userController');
 
 router.post('/register', async (req, res) => {
@@ -91,7 +92,7 @@ router.put('/changerole/:userId', async(req,res) =>{
     console.log(role);
     console.log(userId)
     try{
-    await changeUserRole(userId,role);
+    await changeUserRole(userId, role);
     res.status(200).json({message: 'role updated succesfully'});
 
     }catch(error){

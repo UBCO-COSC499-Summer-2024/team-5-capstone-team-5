@@ -74,6 +74,7 @@ const getAllUsers = async() =>  {
 }
 
 const changeUserRole = async(userId, role) => {
+    console.log(userId, role)
     try{
         await db.none('UPDATE users SET role = $1 WHERE id = $2', [role, userId]);
         return true;
