@@ -40,6 +40,7 @@ const CourseDetails = () => {
           <thead>
             <tr>
               <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Test</th>
+              <th className={`p-4 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Your score</th>
               <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Mean</th>
               <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Stdev</th>
               <th className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}>Min</th>
@@ -52,7 +53,7 @@ const CourseDetails = () => {
           <tbody>
             {tests.map((test, index) => (
               test.visibility && parsedGrades &&
-              <StudentTest parsedGrades={parsedGrades} test={test} key={index} asPercents={true} />
+              <StudentTest parsedGrades={parsedGrades} test={test} key={index} asPercents={true} studentId = {2} />
             ))}
           </tbody>
         </table>
