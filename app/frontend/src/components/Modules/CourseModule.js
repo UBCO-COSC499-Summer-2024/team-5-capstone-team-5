@@ -1,42 +1,15 @@
-import React from "react";
-import { useTheme } from '../../App';
-import { fiveNumSummary, mean, stdev, } from "../Instructor/stats.jsx";
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-const StudentTest = ({ test, parsedGrades, asPercents }) => {
-    console.log("Parsed Grades:", parsedGrades)
-    const navigate = useNavigate();
-    const { theme } = useTheme();
-    let examGrades = [];
-    for(let i = 0; i < parsedGrades.grades.length; i ++) {
-      for(let j = 0; j < parsedGrades.grades[i].scores.length; j++)
-        if(parsedGrades.grades[i].scores[j].examId === test.id) {
-          if(!asPercents) {
-            examGrades.push(parsedGrades.grades[i].scores[j].studentScore/1.0);
-          } else {
-            examGrades.push(100*parsedGrades.grades[i].scores[j].studentScore/parsedGrades.grades[i].scores[j].maxScore);
-          }
-          break;
-        }
-    }
-    const examMean = examGrades.length > 0 ? mean(examGrades).toFixed(3) : '-';
-    const examStdev = examGrades.length > 0 ? stdev(examGrades).toFixed(3) : '-';
-    const [min, Q1, median, Q3, max] = examGrades.length > 0 ? fiveNumSummary(examGrades) : ['-', '-', '-', '-', '-'];
+const Course = (props) => {
+    const test = props.test;
     return(
-        <tr
-          className={`cursor-pointer ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
-          onClick={() => navigate(`/student/exam/${test.id}`)}
-        >
-          <td className="p-4">{test.name.length < 32 ? test.name : test.name.substring(0, 29) + "..."}</td>
-          <td className="p-4 text-center">{examMean}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
-          <td className="p-4 text-center">{examStdev}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
-          <td className="p-4 text-center">{min}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
-          <td className="p-4 text-center">{Q1}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
-          <td className="p-4 text-center">{median}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
-          <td className="p-4 text-center">{Q3}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
-          <td className="p-4 text-center">{max}{asPercents&&examGrades.length > 0 ? '%' :''}</td>
-        </tr>
-    )
+    <div className="p-4 mb-4 rounded-lg bg-gray-700 text-white">
+        <NavLink to={`../../student/exam/${test.id}`}>
+          <h3 className="text-xl font-bold">{test.name}</h3>
+          {test.date_marked && <p className="text-lg">Date Marked: {test.date_marked.slice(0,10)}</p> }        </NavLink> 
+    </div>
+    );
 }
 
-export default StudentTest;
+export default Course;
