@@ -10,6 +10,7 @@ const {
     register, 
     getAllUsers,
     getScan,
+    addUser
  } = require('../controllers/userController');
 
 router.post('/register', async (req, res) => {
@@ -32,6 +33,17 @@ router.get('/:courseId', async (req, res) => {
         res.status(400).json({error: error.message});
     }
 });
+
+router.post('/add', async (req, res) => {
+    try {
+        const { studentId, firstName, lastName, email, role } = req.body;
+        console.log(studentId, firstName, lastName, email, role)
+        await addUser(studentId, firstName, lastName, email, role);
+        res.status(200).json({message: 'Student was added'});
+    } catch(error) {
+        res.status(500).json({error: error.message});
+    }
+})
 
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
