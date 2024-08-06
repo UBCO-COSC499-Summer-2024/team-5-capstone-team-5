@@ -1,5 +1,6 @@
 module.exports = {
   testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['jest-fetch-mock'],
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
   },
