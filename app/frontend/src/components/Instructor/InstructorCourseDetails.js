@@ -1,3 +1,5 @@
+// app/frontend/src/components/Instructor/InstructorCourseDetails.js
+
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import MenuBar from "./MenuBar";
@@ -135,162 +137,162 @@ const InstructorCourseDetails = () => {
                 setAsPercents={setAsPercents}
               />
             ) : (
-              <table
-                className="w-full text-left border-separate"
-                style={{ borderSpacing: "0 10px" }}
-              >
-                <thead>
-                  <tr>
-                      <button
-                        className={`w-[200px] text-center p-4 rounded-lg ${
+              <div>
+                <button
+                  className={`w-[200px] text-center p-4 rounded-lg ${
+                    theme === "dark"
+                      ? "bg-gray-800 text-white hover:bg-gray-600"
+                      : "bg-gray-300 text-black hover:bg-gray-400"
+                  }`}
+                  onClick={() => {
+                    setAsPercents(!asPercents);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faPercent} className="mr-2" />
+                  Toggle percents
+                </button>
+                <table
+                  className="w-full text-left border-separate"
+                  style={{ borderSpacing: "0 10px" }}
+                >
+                  <thead>
+                    <tr style={{ height: "6rem" }}>
+                      <th colSpan="9" style={{ padding: 0 }}>
+                        <button
+                          title="Add Test"
+                          className={`w-full h-full text-center text-2xl p-2 rounded-lg ${
+                            theme === "dark"
+                              ? "bg-gray-800 text-white hover:bg-gray-600"
+                              : "bg-gray-300 text-black hover:bg-gray-400"
+                          } cursor-pointer`}
+                          onClick={handleAddClick}
+                          style={{
+                            margin: 0,
+                            padding: 0,
+                            border: "none",
+                            height: "4rem",
+                          }}
+                        >
+                          +
+                        </button>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th
+                        className={`p-4 ${
                           theme === "dark"
-                            ? "bg-gray-800 text-white hover:bg-gray-600"
-                            : "bg-gray-300 text-black hover:bg-gray-400"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-300 text-black"
                         }`}
-                        onClick={() => {
-                          setAsPercents(!asPercents);
-                        }}
                       >
-                        <FontAwesomeIcon icon={faPercent} className="mr-2" />
-                        Toggle percents
-                      </button>
-                  </tr>
-                  <tr style={{ height: "6rem" }}>
-                    <th colSpan="9" style={{ padding: 0 }}>
-                      <button
-                        title="Add Test"
-                        className={`w-full h-full text-center text-2xl p-2 rounded-lg ${
+                        Test
+                      </th>
+                      <th
+                        className={`p-4 text-center ${
                           theme === "dark"
-                            ? "bg-gray-800 text-white hover:bg-gray-600"
-                            : "bg-gray-300 text-black hover:bg-gray-400"
-                        } cursor-pointer`}
-                        onClick={handleAddClick}
-                        style={{
-                          margin: 0,
-                          padding: 0,
-                          border: "none",
-                          height: "4rem",
-                        }}
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-300 text-black"
+                        }`}
                       >
-                        +
-                      </button>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th
-                      className={`p-4 ${
-                        theme === "dark"
-                          ? "bg-gray-800 text-white"
-                          : "bg-gray-300 text-black"
-                      }`}
-                    >
-                      Test
-                    </th>
-                    <th
-                      className={`p-4 text-center ${
-                        theme === "dark"
-                          ? "bg-gray-800 text-white"
-                          : "bg-gray-300 text-black"
-                      }`}
-                    >
-                      Mean
-                    </th>
-                    <th
-                      className={`p-4 text-center ${
-                        theme === "dark"
-                          ? "bg-gray-800 text-white"
-                          : "bg-gray-300 text-black"
-                      }`}
-                    >
-                      Stdev
-                    </th>
-                    <th
-                      className={`p-4 text-center ${
-                        theme === "dark"
-                          ? "bg-gray-800 text-white"
-                          : "bg-gray-300 text-black"
-                      }`}
-                    >
-                      Min
-                    </th>
-                    <th
-                      className={`p-4 text-center ${
-                        theme === "dark"
-                          ? "bg-gray-800 text-white"
-                          : "bg-gray-300 text-black"
-                      }`}
-                    >
-                      Q1
-                    </th>
-                    <th
-                      className={`p-4 text-center ${
-                        theme === "dark"
-                          ? "bg-gray-800 text-white"
-                          : "bg-gray-300 text-black"
-                      }`}
-                    >
-                      Median
-                    </th>
-                    <th
-                      className={`p-4 text-center ${
-                        theme === "dark"
-                          ? "bg-gray-800 text-white"
-                          : "bg-gray-300 text-black"
-                      }`}
-                    >
-                      Q3
-                    </th>
-                    <th
-                      className={`p-4 text-center ${
-                        theme === "dark"
-                          ? "bg-gray-800 text-white"
-                          : "bg-gray-300 text-black"
-                      }`}
-                    >
-                      Max
-                    </th>
-                    <th
-                      className={`p-4 text-center ${
-                        theme === "dark"
-                          ? "bg-gray-800 text-white"
-                          : "bg-gray-300 text-black"
-                      }`}
-                    >
-                      Count
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tests.map((test, index) => (
-                    <InstructorTest
-                      test={test}
-                      key={index}
-                      state={selectedTest}
-                      setState={setSelectedTest}
-                      parsedGrades={parsedGrades}
-                      asPercents={asPercents}
-                    />
-                  ))}
-                  <tr
-                    className="cursor-pointer items-center justify-center"
-                    onClick={handleAddClick}
-                    style={{
-                      height: "4.5rem",
-                      backgroundColor:
-                        theme === "dark"
-                          ? "rgba(255, 255, 255, 0.1)"
-                          : "rgba(0, 0, 0, 0.1)",
-                      color: theme === "dark" ? "white" : "black",
-                      border:
-                        theme === "dark"
-                          ? "1px solid rgba(255, 255, 255, 0.2)"
-                          : "1px solid rgba(0, 0, 0, 0.2)",
-                      width: "100%",
-                      textAlign: "center",
-                    }}
-                  ></tr>
-                </tbody>
-              </table>
+                        Mean
+                      </th>
+                      <th
+                        className={`p-4 text-center ${
+                          theme === "dark"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-300 text-black"
+                        }`}
+                      >
+                        Stdev
+                      </th>
+                      <th
+                        className={`p-4 text-center ${
+                          theme === "dark"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-300 text-black"
+                        }`}
+                      >
+                        Min
+                      </th>
+                      <th
+                        className={`p-4 text-center ${
+                          theme === "dark"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-300 text-black"
+                        }`}
+                      >
+                        Q1
+                      </th>
+                      <th
+                        className={`p-4 text-center ${
+                          theme === "dark"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-300 text-black"
+                        }`}
+                      >
+                        Median
+                      </th>
+                      <th
+                        className={`p-4 text-center ${
+                          theme === "dark"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-300 text-black"
+                        }`}
+                      >
+                        Q3
+                      </th>
+                      <th
+                        className={`p-4 text-center ${
+                          theme === "dark"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-300 text-black"
+                        }`}
+                      >
+                        Max
+                      </th>
+                      <th
+                        className={`p-4 text-center ${
+                          theme === "dark"
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-300 text-black"
+                        }`}
+                      >
+                        Count
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tests.map((test, index) => (
+                      <InstructorTest
+                        test={test}
+                        key={index}
+                        state={selectedTest}
+                        setState={setSelectedTest}
+                        parsedGrades={parsedGrades}
+                        asPercents={asPercents}
+                      />
+                    ))}
+                    <tr
+                      className="cursor-pointer items-center justify-center"
+                      onClick={handleAddClick}
+                      style={{
+                        height: "4.5rem",
+                        backgroundColor:
+                          theme === "dark"
+                            ? "rgba(255, 255, 255, 0.1)"
+                            : "rgba(0, 0, 0, 0.1)",
+                        color: theme === "dark" ? "white" : "black",
+                        border:
+                          theme === "dark"
+                            ? "1px solid rgba(255, 255, 255, 0.2)"
+                            : "1px solid rgba(0, 0, 0, 0.2)",
+                        width: "100%",
+                        textAlign: "center",
+                      }}
+                    ></tr>
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         </div>
