@@ -1,3 +1,4 @@
+// app/frontend/src/components/CourseDetails.js
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import getTestData from '../hooks/getTestData';
@@ -19,9 +20,7 @@ const CourseDetails = () => {
     setTests(testData);
     setGradeList(await getGrades(courseId))
     console.log(testData)
-    if (testData.length > 0) {
-      setCourseName(testData[0].department + " " + testData[0].code + "-" + String(testData[0].section).padStart(3, '0'));
-    }
+    setCourseName(testData[0].department + " " + testData[0].code + "-" + String(testData[0].section).padStart(3, '0'));
   }, [courseId]);
 
   useEffect(() => {
@@ -31,7 +30,7 @@ const CourseDetails = () => {
   const parsedGrades = gradeList ? ParseStudentGrades(gradeList) : null;
 
   return (
-    <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`} data-testid="course-details-container">
+    <div className={`p-4 flex flex-col min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       <div className="flex justify-between mb-4">
         <h2 className="text-2xl font-bold">{courseName} Tests</h2>
       </div>

@@ -36,11 +36,11 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
           end_date: endDate,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to update course');
       }
-  
+
       const data = await response.json();
       console.log('Course updated successfully:', data);
       return data;
@@ -72,6 +72,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
         <div className="mb-2">
           <label className="font-bold text-lg" htmlFor="department">Edit Department</label>
           <input
+            id="department"
             name="department"
             type="text"
             value={department}
@@ -82,6 +83,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
         <div className="mb-2">
           <label className="font-bold text-lg" htmlFor="code">Edit Code</label>
           <input
+            id="code"
             name="code"
             type="text"
             value={code}
@@ -92,6 +94,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
         <div className="mb-2">
           <label className="font-bold text-lg" htmlFor="section">Edit Section</label>
           <input
+            id="section"
             name="section"
             type="text"
             value={section}
@@ -102,6 +105,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
         <div className="mb-2">
           <label className="font-bold text-lg" htmlFor="description">Edit Description</label>
           <textarea
+            id="description"
             name="description"
             value={description}
             onChange={handleDescriptionChange}
@@ -109,9 +113,10 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
           />
         </div>
         <div className="mb-2">
-          <label className="font-bold text-lg" htmlFor="endDate">Edit Start Date</label>
+          <label className="font-bold text-lg" htmlFor="startDate">Edit Start Date</label>
           <input
-            name="endDate"
+            id="startDate"
+            name="startDate"
             type="date"
             value={startDate && startDate.split("T")[0]}
             onChange={handleStartDateChange}
@@ -121,6 +126,7 @@ const Flip = ({ course, flipped, onFlip, onSave }) => {
         <div className="mb-4">
           <label className="font-bold text-lg" htmlFor="endDate">Edit End Date</label>
           <input
+            id="endDate"
             name="endDate"
             type="date"
             value={endDate && endDate.split("T")[0]}
