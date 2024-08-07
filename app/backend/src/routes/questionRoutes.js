@@ -45,7 +45,7 @@ router.post('/edit/:questionId', async (req, res) => {
             await editWeight(questionId, weight)
             res.status(200).json({message: 'Weight edited successfully'})
         }
-        else if(answer) {
+        else if(correctAnswer) {
             await editAnswer(questionId, correctAnswer);
             res.status(200).json({message: 'Answer edited successfully'})
         } else {
