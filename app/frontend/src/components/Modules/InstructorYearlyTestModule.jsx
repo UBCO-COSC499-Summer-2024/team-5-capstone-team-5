@@ -24,13 +24,16 @@ function InstructorYearlyTest(props) {
       }
     }
     console.log(examGrades);
-    examMean = examGrades.length > 0 ? mean(examGrades).toFixed(3) : "-";
-    examStdev =
-      examGrades.length > 1 ? stdev(examGrades).toFixed(3) : "-";
-    [min, Q1, median, Q3, max] =
-      examGrades.length > 0
-        ? fiveNumSummary(examGrades)
-        : ["-", "-", "-", "-", "-"];
+    examMean = examGrades.length > 0 ? mean(examGrades).toFixed(2) : "-";
+    examStdev = examGrades.length > 1 ? stdev(examGrades).toFixed(2) : "-";
+    if(examGrades.length > 0) {
+      let sumarry =  fiveNumSummary(examGrades);
+      min = sumarry[0].toFixed(2);
+      Q1 = sumarry[1].toFixed(2);
+      median = sumarry[2].toFixed(2);
+      Q3 = sumarry[3].toFixed(2);
+      max = sumarry[4].toFixed(2);
+    }
   } 
   return (
     <tr
