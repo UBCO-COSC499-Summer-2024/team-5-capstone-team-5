@@ -71,7 +71,7 @@ const StudentList = (props) => {
       <div className={`mb-4 mt-[10px] w-[200px] rounded-lg text-center ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-300'}`}>
         <button
           className={`w-full text-center p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800 text-white hover:bg-gray-600' : 'bg-gray-300 text-black hover:bg-gray-400'}`}
-          onClick={() => { props.setAsPercents(!props.asPercents) }}
+          onClick={() => { props.setAsPercents(!props.asPercents); console.log("clicked!"); }}
         >
           <FontAwesomeIcon icon={faPercent} className="mr-2" />
           Toggle percents
