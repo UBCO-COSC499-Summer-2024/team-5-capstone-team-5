@@ -1,3 +1,63 @@
+# Wednesday (8/2 - 8/6)
+## Date: August 6, 10:42PM
+
+### Timesheet
+Clockify Report
+![Timesheet](./screenshots/clockifyReportAug6.png)
+
+### Task tldr:
+- Added a visibility toggle for exams on instructor end
+- Met with Oakley, did some styling work
+- Implemented editing and deletion of questions in backend and frontend
+- Implemented an add user button in admin view
+
+### Current Tasks:
+  * Add ability to edit weights of questions
+  * Make exam information editable
+  * Styling changes
+
+### Progress Update (since 6/21/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #1: Add ability to edit weights of questions
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #2: Make exam information editable
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+    <tr>
+        <!-- Task/Issue # -->
+        <td>Task #3: Styling changes
+        </td>
+        <!-- Status -->
+        <td>Completed
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)
+I managed to complete all of my tasks for last week and more, as I added an 'add user' button to the admin view.
+
+### Next Cycle Goals (What are you going to accomplish during the next cycle)
+- Testing
+- Client and Scott meetings
+- Presentation prep and presentation
+
 # Friday (7/31 - 8/2)
 ## Date: August 2, 12:12AM
 
