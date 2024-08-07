@@ -17,7 +17,7 @@ const EditBubble = (props) => {
   }, [correctAnswer, props.question.num_options]);
 
   const handleBubbleClick = (index) => {
-    const updatedOptions = [...options]; // Create a new copy of the options array
+    const updatedOptions = [...options];
     if(updatedOptions[index] === 'green') {
         updatedOptions[index] = '';
     } else {
