@@ -1,3 +1,56 @@
+## Wednesday (8/1 - 8/7) Oakley Pankratz
+Total Hours: 34
+
+Update clockify log
+![alt text](ClockifyLogAug7.png)
+
+## Current Tasks:
+* Fixing a bug in the student's statstics view.
+* Changing statstics to only consider students that wrote a given exam.
+* displaying a student's grade in their response view and statistics view.
+* Implementing a modal view to display year-by-year statistics for an assessment to the instructor.
+* Adding hover effects to the response-editing modal on the instructor view
+* Writing reports
+### Progress Update (since 8/7/2024) 
+<table>
+    <tr>
+        <td><strong>TASK/ISSUE #</strong>
+        </td>
+        <td><strong>STATUS</strong>
+        </td>
+    </tr>
+    <td> Display Year By Year statistics for an assessment to the instructor
+        </td>
+        <!-- Status -->
+        <td> Complete (Issue #245)
+        </td>
+    </tr>
+    <td>  Display a student's grade as a percent along with their responses in the student view
+        </td>
+        <!-- Status -->
+        <td> Complete (Issue #266)
+        </td>
+    </tr>
+    <td> Handling the NaN bug on the student's view for statstics
+        </td>
+        <!-- Status -->
+        <td> Complete (Issue #264)
+        </td>
+    </tr>
+    <td>  Display titles on hover in the Instructor view for editing a student's responses
+        </td>
+        <!-- Status -->
+        <td> Complete (Issue #263)
+        </td>
+    </tr>
+</table>
+
+### Cycle Goal Review:
+* A lot was completed in this issue, and I feel ready to focus on writing my report. Impleemting year by year statstics was a large and difficult feature to implement, I'm proud I was able to complete this issue.
+ 
+### Next Cycle Goals:
+* Writing my individual report.
+
 ## Friday (7/31 - 8/1) Oakley Pankratz
 Total Hours: 6
 
