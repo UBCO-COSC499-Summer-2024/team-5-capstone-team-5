@@ -1,3 +1,96 @@
+# Weekly Log - [Week 13: august 2-7]
+
+### Date: August 7 8:15am
+### Author: Jack Mathisen
+
+
+## Hour Breakdown
+
+**Approximate Hours: 8.25**
+
+*Troubleshooting Add user 1:25*
+*Individual Report 2.5*
+*Testing 3.5*
+*PostHog User traffic: 1hr* 
+
+
+**Timesheet** 
+Clockify report alt text
+
+![August 2-7](<August 2-7.png>)
+
+
+
+**Current Tasks (Provide sufficient detail)**
+
+#1: Have the Post Hog site statistics done
+#2: have testing backend finished 
+#3: Have individual report done 
+
+
+
+**Progress Update (since 26/8/2024)**
+TASK/ISSUE #STATUS
+
+Task A	Finished
+Task B  in progress
+Task C  in progress
+
+
+**Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)**
+Managed to get most of my stuff done. Had some issues with communication. I didnt respond quick enough to one of my other group members so he managed to most of the testing before I did on the front end. But Ill make it up by doing the backend testing. Just working on reporting and refreshing myself with the project and will figure out whats what, so as to do the report. 
+
+**Next Cycle Goals (What are you going to accomplish during the next cycle)**
+Goal 1: Have the Individual report finished
+Goal 2: Finish all the testing for the backend  
+
+# Weekly Log - [Week 12: July 31 - 2nd]
+
+### Date: August 7 8:15am
+### Author: Jack Mathisen
+
+
+## Hour Breakdown
+
+**Approximate Hours: 5**
+
+*Trouble shoot tests*
+*work on finishing student add*
+*work on finishing statistics*
+*work on prepping for individual report*
+
+
+**Timesheet** 
+Clockify report alt text
+
+
+
+**Current Tasks (Provide sufficient detail)**
+
+#1: Have the Post Hog site statistics done
+#2: have frontend testing finished
+#3: work on some documentation
+#4: Work on familiarizing myself with the individual report
+
+
+
+**Progress Update (since 26/8/2024)**
+TASK/ISSUE #STATUS
+
+Task A	in progress
+Task B  in progress
+Task C  in progress
+Task D	in progress
+
+**Cycle Goal Review (Reflection: what went well, what was done, what didn't; Retrospective: how is the process going and why?)**
+I know this is late just thought I would add it. Just basically worked on the stuff Ive finished this week and some of the stuff related to what im working on. 
+
+**Next Cycle Goals (What are you going to accomplish during the next cycle)**
+Goal 1: have frontend testing finished
+Goal 2: have the student add finished
+Goal 3: have the student statistics finished
+
+
 # Weekly Log - [Week 11: July 26-31]
 
 ### Date: July 31 8:5 am
