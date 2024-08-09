@@ -426,5 +426,5 @@ def process_second_page_bubbles(file_path):
 
     return bubble_coords, no_answer_questions, multiple_answer_questions
 
-process_first_page_bubbles('data/test_16_page_1 200.png')
-process_second_page_bubbles('data/test_16_page_2 200.png')
+#process_first_page_bubbles('data/test_16_page_1 200.png')
+#process_second_page_bubbles('data/test_16_page_2 200.png')
