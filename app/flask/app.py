@@ -10,6 +10,7 @@ from get_last_name import process_last_name
 from get_student_number import process_stnum
 from flask_cors import CORS
 from test_grader2 import process_first_page_bubbles, process_second_page_bubbles
+from get_student_number_200 import process_stnum200
 
 app = Flask(__name__)
 CORS(app, resources={
@@ -113,13 +114,12 @@ def upload_file():
                     }
             elif numquestions == "200":
                 if (i+1) % 2 == 1:
-                    stnum = process_stnum(png_path)
+                    stnum = process_stnum200(png_path)
                     answers = process_first_page_bubbles(png_path)
                     first_page = encoded_image
                     first_page_stnum = Image.open('/app/data_images/stnum_output.png')
                     first_page_image = Image.open('/app/data_images/output1.png')
                 if (i+1) % 2 == 0:
-                    stnum = process_stnum(png_path)
                     answers2 = process_second_page_bubbles(png_path)
                     second_page = encoded_image
                     second_page_image = Image.open('/app/data_images/output2.png')

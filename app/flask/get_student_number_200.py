@@ -3,7 +3,7 @@ import os
 import numpy as np
 from get_student_number_filled import get_student_number_filled
 
-def process_stnum(file_path):
+def process_stnum200(file_path):
     def find_bubble_position(bbox, grid):
         x, y, w, h = bbox
         for col_index, column in enumerate(grid):
@@ -115,7 +115,7 @@ def process_stnum(file_path):
             filled.append([col_index, row_index])
             # Draw a blue bounding box around the detected bubble
             x, y, w, h = bbox
-            cv2.rectangle(cropped_image, (x, y), (x + w, y + h), (255, 170, 0), 2)
+            cv2.rectangle(cropped_image, (x - 5, y - 5), (x + w + 5, y + h + 5), (255, 170, 0), 2)
 
     filled_sorted = sorted(filled, key=lambda y: y[1])
     
@@ -127,8 +127,8 @@ def process_stnum(file_path):
 
     print(id)
 
-    cv2.imshow("First Name", cropped_image)
-    cv2.waitKey(0)
+    #cv2.imshow("First Name", cropped_image)
+    #cv2.waitKey(0)
     cv2.imwrite('./data_images/stnum_output.png', cropped_image)
     return id
 

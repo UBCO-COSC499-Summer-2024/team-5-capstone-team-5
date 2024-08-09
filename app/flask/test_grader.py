@@ -137,7 +137,7 @@ def process_bubbles(file_path):
             filled.append([col_index, row_index])
             # Draw a blue bounding box around the detected bubble
             x, y, w, h = bbox
-            cv2.rectangle(cropped_image, (x, y), (x + w, y + h), (255, 170, 0), 2)
+            cv2.rectangle(cropped_image, (x - 5, y - 5), (x + w + 5, y + h + 5), (255, 170, 0), 2)
 
     filled_sorted = sorted(filled, key=lambda y: y[1])
     filled_sorted = sorted(filled_sorted, key=lambda x: x[0])
