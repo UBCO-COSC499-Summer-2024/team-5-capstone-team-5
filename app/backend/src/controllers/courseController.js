@@ -151,6 +151,44 @@ const examsByYear = async(department, code, name) => {
     }
 }
 
+const getTotalCourses = async (req, res) => {
+  try {
+    const totalCourses = await db.one('SELECT COUNT(*) AS total_courses FROM courses');
+    return totalCourses;
+  } catch (error) {
+    console.error('Error fetching total courses:', error);
+    return null;
+  }
+};
+
+const getActiveCourses = async (req, res) => {
+  try {
+    const activeCourses = await db.one('SELECT COUNT(*) AS active_courses FROM courses WHERE end_date >= CURRENT_DATE');
+    console.log(activeCourses)
+    return activeCourses;
+  } catch (error) {
+    console.error('Error fetching active courses:', error);
+    return null;
+  }
+};
+
+const getAverageStudentsPerCourse = async (req, res) => {
+  try {
+    const avgStudents = await db.one(`SELECT AVG(student_count) AS avgStudents
+FROM (
+  SELECT COUNT(user_id) AS student_count
+  FROM registration
+  GROUP BY course_id
+) AS course_student_counts `);
+      console.log(avgStudents)
+    return avgStudents;
+  } catch (error) {
+    console.error('Error fetching average students per course:', error);
+    return null;
+  }
+};
+
+
 module.exports = {
   getAllCourses,
   addCourse,
@@ -158,5 +196,9 @@ module.exports = {
   getCourseInfo,
   calculateGrades,
   editCourse,
-  examsByYear
+  examsByYear,
+  getTotalCourses,
+  getActiveCourses,
+  getAverageStudentsPerCourse
+ 
 };
