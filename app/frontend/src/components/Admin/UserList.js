@@ -6,15 +6,22 @@ import SearchBar from './AdminSearchBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AddUserModal from './AddUserModal';
+import getUserInfo from '../../hooks/getUserInfo';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const[userId, setUserRole] = useState('');
   const { theme } = useTheme();
 
   const fetchData = useCallback(async () => {
     const data = await getAllUsers();
+    const user = await getUserInfo();
+    if(user){
+      setUserRole(user.userId);
+    }
+
     setUsers(data);
   }, []);
 
@@ -93,15 +100,19 @@ const UserList = () => {
                 <td className="p-4">{user.email}</td>
                 <td className="p-4">{user.role === 1 ? "Student" : user.role === 2 ? "Instructor" : user.role === 3 ? "Admin" : ""}</td>
                 <td className="p-4">
-                  <select
-                    value={user.role}
-                    onChange={(e) => handleRoleChange(user.id, parseInt(e.target.value))}
-                    className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}
-                  >
-                    <option value="1">Student</option>
-                    <option value="2">Instructor</option>
-                    <option value="3">Admin</option>
-                  </select>
+                 {userId !== user.id? (
+                    <select
+                      value={user.role}
+                      onChange={(e) => handleRoleChange(user.id, parseInt(e.target.value))}
+                      className={`p-2 rounded ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-300 text-black'}`}
+                    >
+                      <option value="1">Student</option>
+                      <option value="2">Instructor</option>
+                      <option value="3">Admin</option>
+                    </select>
+                  ) : (
+                    <span>Cannot change own role</span>
+                  )}
                 </td>
               </tr>
             ))}
