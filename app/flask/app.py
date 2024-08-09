@@ -80,10 +80,13 @@ def upload_file():
                 if (i+1) % 2 == 0:
                     answers = process_bubbles(png_path)
                     second_page = encoded_image
-                    second_page_image = image
+                    second_page_image = Image.open('/app/data_images/output.png')
                     
                     # Combine the images vertically
-                    combined_height = first_page_image.height + second_page_image.height
+                    aspect_ratio = second_page_image.height / second_page_image.width # Since the second page is wider than the first page, we need to get an aspect ratio to shrink the second page to fit the width of the first page
+                    second_page_height = int(first_page_image.width * aspect_ratio) # Apply new aspect ratio
+                    second_page_image = second_page_image.resize((first_page_image.width, second_page_height), Image.LANCZOS)
+                    combined_height = first_page_image.height + second_page_height
                     combined_image = Image.new('RGB', (first_page_image.width, combined_height))
                     combined_image.paste(first_page_image, (0, 0))
                     combined_image.paste(second_page_image, (0, first_page_image.height))
@@ -113,12 +116,13 @@ def upload_file():
                     stnum = process_stnum(png_path)
                     answers = process_first_page_bubbles(png_path)
                     first_page = encoded_image
-                    first_page_image = image
+                    first_page_stnum = Image.open('/app/data_images/stnum_output.png')
+                    first_page_image = Image.open('/app/data_images/output1.png')
                 if (i+1) % 2 == 0:
                     stnum = process_stnum(png_path)
                     answers2 = process_second_page_bubbles(png_path)
                     second_page = encoded_image
-                    second_page_image = image
+                    second_page_image = Image.open('/app/data_images/output2.png')
                     
                     combined_answers = [[],[],[]]
                     combined_answers[0] = answers[0] + answers2[0]
@@ -126,10 +130,14 @@ def upload_file():
                     combined_answers[2] = answers[2] + answers2[2]
                     
                     # Combine the images vertically
-                    combined_height = first_page_image.height + second_page_image.height
+                    aspect_ratio = second_page_image.height / second_page_image.width # Since the second page is wider than the first page, we need to get an aspect ratio to shrink the second page to fit the width of the first page
+                    second_page_height = int(first_page_image.width * aspect_ratio) # Apply new aspect ratio
+                    second_page_image = second_page_image.resize((first_page_image.width, second_page_height), Image.LANCZOS)
+                    combined_height = first_page_stnum.height + first_page_image.height + second_page_height
                     combined_image = Image.new('RGB', (first_page_image.width, combined_height))
-                    combined_image.paste(first_page_image, (0, 0))
-                    combined_image.paste(second_page_image, (0, first_page_image.height))
+                    combined_image.paste(first_page_stnum, (0, 0))
+                    combined_image.paste(first_page_image, (0, first_page_stnum.height))
+                    combined_image.paste(second_page_image, (0, first_page_stnum.height + first_page_image.height))
                     
                     combined_image_path = os.path.join(OUTPUT_FOLDER, f'test_{testid}_combined.png')
                     combined_image.save(combined_image_path, 'png')

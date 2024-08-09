@@ -105,8 +105,6 @@ def process_stnum(file_path):
             color = (0, 255, 0) if row_index % 2 == 0 else (0, 0, 255)  # Alternate colors for visualization
             for cnt in group:
                 x, y, w, h = cv2.boundingRect(cnt)
-                cv2.drawContours(cropped_image, [cnt], -1, color, 2)
-                cv2.putText(cropped_image, f"C{col_index}R{row_index}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, color, 1)
 
     # Example usage of the find_bubble_position function
     values = get_student_number_filled(file_path)
@@ -117,7 +115,7 @@ def process_stnum(file_path):
             filled.append([col_index, row_index])
             # Draw a blue bounding box around the detected bubble
             x, y, w, h = bbox
-            cv2.rectangle(cropped_image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+            cv2.rectangle(cropped_image, (x, y), (x + w, y + h), (255, 170, 0), 2)
 
     filled_sorted = sorted(filled, key=lambda y: y[1])
     
@@ -129,8 +127,9 @@ def process_stnum(file_path):
 
     print(id)
 
-    #cv2.imshow("First Name", cropped_image)
-    #cv2.waitKey(0)
+    cv2.imshow("First Name", cropped_image)
+    cv2.waitKey(0)
+    cv2.imwrite('./data_images/stnum_output.png', cropped_image)
     return id
 
-#process_stnum('data_images/test_2_page_1.png')
+#process_stnum('data/test_16_page_1 200.png')
