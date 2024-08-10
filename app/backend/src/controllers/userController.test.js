@@ -1,22 +1,8 @@
 const { db } = require('../database');
 const {
-  getCoursesByUserId,
-  getTestsByCourseId,
-  getRecentExamsByUserId,
-  getQuestionData,
   getStudentsByCourseId,
   addStudent,
-  addCourse,
-  addExam,
-  addQuestion,
   register,
-  addStudentAnswers,
-  addAnswerKey,
-  deleteTest,
-  editTest,
-  calculateGrades,
-  getExamAnswers,
-  addResponse
 } = require('./userController');
 
 jest.mock('../database');

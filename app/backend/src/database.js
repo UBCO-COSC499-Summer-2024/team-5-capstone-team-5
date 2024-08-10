@@ -7,4 +7,12 @@ const db = pgp({
   password: 'cosc499rocks'
 });
 
-module.exports = { db };
+const testdb = pgp({
+  host: 'test-db',
+  port: 5433,
+  database: 'gradeit',
+  user: 'gradeit',
+  password: 'cosc499rocks'
+})
+
+module.exports = { db, testdb };
