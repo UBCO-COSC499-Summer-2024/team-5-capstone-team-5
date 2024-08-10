@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
         console.log(`registering ${studentId} in course ${courseId}`);
         res.status(200).json({ message: `student ${studentId} sucessfully registered in ${courseId}`});
     } catch {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: `Error registering student ${studentId}` });
     }
 });
 
@@ -82,7 +82,7 @@ router.get('/get/all', async(req, res) =>{
       res.status(200).json(users);
   }catch(error){
       console.error('heres the error', error);
-      res.status(500).send('an error occoured while getAllUsers')
+      res.status(500).send({error: 'an error occoured while getAllUsers'})
   }
 });
 
@@ -129,6 +129,7 @@ router.post('/tests/edit', async (req, res) => {
     try {
         console.log(req.body);
         console.log(req.headers['testid']);
+        res.status(200)
     } catch(error) {
         res.status(400).json({error: error.message});
     }

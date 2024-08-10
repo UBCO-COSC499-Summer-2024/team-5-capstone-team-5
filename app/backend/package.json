@@ -9,7 +9,7 @@
     "start": "node src/index.js",
     "start-watch": "nodemon src/index.js --inspect=0.0.0.0:9229",
     "start-wait-debuger": "nodemon src/index.js --inspect-brk=0.0.0.0:9229",
-    "test": "cross-env NODE_ENV=test PORT=8081 jest --testTimeout 10000",
+    "test": "cross-env NODE_ENV=test PORT=8081 jest --testTimeout 10000 --coverage",
     "test-watch": "nodemon --exec \"npm test\"",
     "test-wait-debuger": "cross-env NODE_ENV=test PORT=8081 jest"
   },

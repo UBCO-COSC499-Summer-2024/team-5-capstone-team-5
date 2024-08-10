@@ -108,7 +108,7 @@ router.get('/set/visibility/:testId/:visibility', async (req, res) => {
         
     } catch(error) {
         console.error('Error changing visibility',error);
-        res.status(500).json({error: 'Failed to change visibility',error});
+        res.status(500).json({error: 'Failed to change visibility'});
     }
 })
 

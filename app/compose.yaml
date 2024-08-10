@@ -42,6 +42,22 @@ services:
       - POSTGRES_DB=gradeit
       - POSTGRES_USER=gradeit
       - POSTGRES_PASSWORD=cosc499rocks
+  test-db:
+    image: postgres
+    restart: always
+    secrets:
+      - db-password
+    networks:
+      - private
+    expose:
+      - 5433
+    ports:
+      - 5433
+    environment:
+      - POSTGRES_DB=gradeit
+      - POSTGRES_USER=gradeit
+      - POSTGRES_PASSWORD=cosc499rocks
+    command: -p 5433
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin4_container
