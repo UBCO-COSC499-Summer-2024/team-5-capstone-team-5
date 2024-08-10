@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS flags (
 
 -- Partially AI-Generated Sample Data
 -- Role 1 = student, role 2 = instructor, role 3 = admin
-INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (7, 'Jack', 'Mathisen', 'admin@gradeit.com', '$2b$10$UjCUgbrrKrN6ytvkZSkhA.Trbvf/UM6TcyieWjjSoCwzsKCk3YkuK', 3); -- password = password123
+INSERT INTO users (id, first_name, last_name, email, password, role) VALUES (1, 'Gradeit', 'Admin', 'admin@gradeit.com', '$2b$10$UjCUgbrrKrN6ytvkZSkhA.Trbvf/UM6TcyieWjjSoCwzsKCk3YkuK', 3); -- password = password123
 
 
 -- Course Sample Data
