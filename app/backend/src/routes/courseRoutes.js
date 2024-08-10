@@ -8,7 +8,10 @@ const {
     getCourseInfo,
     calculateGrades,
     editCourse,
-    examsByYear
+    examsByYear,
+    getTotalCourses,
+    getActiveCourses,
+    getAverageStudentsPerCourse
 } = require('../controllers/courseController');
 
 // URL Begins With: localhost/api/courses
@@ -90,5 +93,33 @@ router.get('/yearByYearGrades/:department/:code/:name', async (req, res) => {
         }
     }
 });
+
+router.get('/metrics/total-courses', async (req, res) => {
+    try {
+      const totalCourses = await getTotalCourses();
+      res.status(200).json({ totalCourses });
+    } catch (error) {
+      res.status(500).json({ message: 'Error getting total courses', error });
+    }
+  });
+  
+  router.get('/metrics/active-courses', async (req, res) => {
+    try {
+      const activeCourses = await getActiveCourses();
+      res.status(200).json({ activeCourses });
+    } catch (error) {
+      res.status(500).json({ message: 'Error getting active courses', error });
+    }
+  });
+  
+  router.get('/metrics/average-students-per-course', async (req, res) => {
+    try {
+      const averageStudents = await getAverageStudentsPerCourse();
+      res.status(200).json({ averageStudents });
+    } catch (error) {
+      res.status(500).json({ message: 'Error getting average students per course', error });
+    }
+  });
+  
 
 module.exports = router;
